@@ -3,8 +3,9 @@
 Questions with exactly the same pattern tags fold into one group row (collapsed; expanded while searching).
 Opening a question emits select.generated(gid); the AI view shows it with answers still hidden.
 """
+import os, time
 import tkinter as tk
-from tkinter import ttk
+from tkinter import filedialog, ttk
 
 COLS = (("id", "#", 50), ("created", "时间", 130), ("difficulty", "难度", 120), ("section", "卷型", 50),
         ("marks", "分", 40), ("model", "模型", 130), ("stem", "题目开头", 460))
@@ -45,11 +46,12 @@ def setup(k):
         entry.pack(side="left", padx=6)
         count = ttk.Label(bar, style="Muted.TLabel")
         count.pack(side="left", padx=8)
-        ttk.Label(bar, text="同标签折叠为一组 · 双击打开 · 点表头排序", style="Muted.TLabel").pack(side="right")
+        ttk.Button(bar, text="导出练习卷 PDF", command=lambda: export()).pack(side="right")
+        ttk.Label(bar, text="同标签折叠为一组 · 双击打开 · 点表头排序 · Ctrl/Shift 多选", style="Muted.TLabel").pack(side="right", padx=8)
 
         body = ttk.Frame(page)
         body.pack(fill="both", expand=True, padx=10, pady=(0, 10))
-        table = ttk.Treeview(body, columns=[c for c, _, _ in COLS], show="tree headings", selectmode="browse")
+        table = ttk.Treeview(body, columns=[c for c, _, _ in COLS], show="tree headings", selectmode="extended")
         sb = ttk.Scrollbar(body, orient="vertical", command=table.yview)
         table.configure(yscrollcommand=sb.set)
         sb.pack(side="right", fill="y")
@@ -111,6 +113,28 @@ def setup(k):
         table.bind("<<TreeviewClose>>", lambda e: opened.discard(table.focus()))
         table.bind("<Double-1>", open_row)
         table.bind("<Return>", open_row)
+
+        def export():
+            """Selected questions (a selected group = all of it); nothing selected = everything currently listed."""
+            picked = []
+            for iid in table.selection() or table.get_children():
+                for one in ([iid] if iid.isdigit() else table.get_children(iid)):
+                    if int(one) not in picked:
+                        picked.append(int(one))
+            if not picked or not k.get("export.worksheet", None):
+                count.configure(text="没有可导出的题")
+                return
+            path = filedialog.asksaveasfilename(
+                title="导出练习卷", defaultextension=".pdf", filetypes=[("PDF", "*.pdf")],
+                initialfile=f"WTF练习卷_{time.strftime('%Y%m%d_%H%M')}.pdf")
+            if not path:
+                return
+            q, a = k.get("export.worksheet")(picked, path, f"WTF 练习卷 · {len(picked)} 题")
+            count.configure(text=f"已导出 {len(picked)} 题：{os.path.basename(q)} + {os.path.basename(a)}")
+            if hasattr(os, "startfile"):
+                os.startfile(q)
+
+        k.provide("mybank.export", export)
         query.trace_add("write", lambda *_: fill())
         fill()
         entry.focus_set()

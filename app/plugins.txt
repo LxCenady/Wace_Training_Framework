@@ -7,6 +7,7 @@ llm             # provider registry: chat(system, user) -> text
 llm_openai      # OpenAI chat-completions format (any compatible base_url)
 llm_anthropic   # Anthropic messages format
 llm_mock        # offline provider for testing the pipeline
+symcheck        # SymPy recomputes numeric answers in a sandboxed child process
 generator       # generate -> independent solve -> verify -> split into mark points
 ui_shell        # window, tabs, thread-safe post()
 ui_tree         # knowledge tree: subject -> topic -> pattern -> questions
@@ -16,5 +17,8 @@ ui_generate     # AI question view; mark points revealed only after verification
 ui_mybank       # 我的 AI 题库: searchable index of every generated question
 ui_mistakes     # self-marking: right-click a part to record lost marks; 错题本 + targeted drills
 ui_explain      # 一键讲解: AI explanation of one recorded mistake (cached)
+ui_exam         # 模拟考试: timed past or AI-assembled papers, marked with self-marking
+ui_mastery      # 掌握度地图: tile per pattern, colour = score rate, number = exam weight
+export_pdf      # worksheets: AI questions -> question paper + answer paper (PDF)
 ui_formula      # official formula sheet pinned on the right, resizable
 ui_settings     # provider / base_url / model / API key dialog

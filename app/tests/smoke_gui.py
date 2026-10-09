@@ -223,4 +223,47 @@ for src, ref, label in (("past", "MAM-2025A-Q12", "b"), ("gen", ctx["ref"], "b")
     assert "这一问考什么" in st.mistake(src, ref, label)["explain"], src
 shot("10_explain")
 print("explained:", [m["ref"] for m in st.mistakes() if m["explain"]])
+
+# 模拟考试: a real paper (timer, questions), submit, mark one part, score updates; then an AI-assembled paper
+k.get("exam.show")()
+pump()
+k.get("exam.start")("MAM", "CalcFree", "past", "2025", type("M", (), {"configure": lambda *a, **kw: None})())
+pump(1.5)
+shot("11_exam_sitting")
+exam = st.exams()[0]
+assert exam["source"] == "past:2025" and exam["total"] == 47 and len(exam["refs"]) == 7, exam
+k.get("exam.submit")()
+pump()
+first_q = exam["refs"][0][1]
+d = st.question(first_q)
+st.save_mistake("past", first_q, d["parts"][0][0], d["parts"][0][1] or 1, 1, d["parts"][0][2], [], "")
+k.emit("mistakes.changed")
+pump()
+shot("12_exam_marking")
+assert st.exam(exam["id"])["lost"] == 1, st.exam(exam["id"])
+k.get("exam.start")("MAM", "CalcAssumed", "ai", "", type("M", (), {"configure": lambda *a, **kw: None})())
+for _ in range(300):
+    pump(0.1)
+    if st.exams()[0]["source"] == "ai":
+        break
+ai_exam = st.exams()[0]
+assert ai_exam["source"] == "ai" and len(ai_exam["refs"]) == 10, ai_exam
+print("exams:", [(e["source"], e["total"], e["lost"], bool(e["submitted"])) for e in st.exams()])
+
+# 掌握度 + 间隔复习
+mastery = st.mastery()
+print("mastery D.6:", mastery.get("MAM.D.6"), " D.1:", mastery.get("MAM.D.1"))
+assert mastery["MAM.D.6"]["lost"] >= 3 and mastery["MAM.D.6"]["attempted"] >= mastery["MAM.D.6"]["lost"]
+k.get("mastery.show")()
+pump(1)
+shot("13_mastery")
+m = st.mistake("past", "MAM-2025A-Q12", "b")
+assert m["due"] and m["box"] == 0, m  # new mistakes are due tomorrow
+st.gen.execute("UPDATE mistakes SET due = '2000-01-01' WHERE id = ?", (m["id"],))
+assert any(x["id"] == m["id"] for x in st.due_mistakes())
+box, due = st.review(m["id"], True)
+assert box == 1 and due > m["due"], (box, due)
+box, due = st.review(m["id"], False)
+assert box == 0, box
+print("review: passed -> box 1, failed -> box 0, due", due)
 root.destroy()

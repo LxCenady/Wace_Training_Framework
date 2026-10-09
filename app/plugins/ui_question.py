@@ -30,7 +30,7 @@ def setup(k):
         def ctx(label):
             m, pats = parts.get(label, (None, []))
             pts = [t for l, t in d["points"] if l == label] if d["points_ok"] else []
-            return {"source": "past", "ref": qid, "label": label, "part_marks": m or len(pts) or d["marks"],
+            return {"source": "past", "ref": qid, "label": label, "part_marks": m or len(pts) or max(1, round(d["marks"] / max(1, len(parts)))),
                     "patterns": pats, "points": pts,
                     "title": f"{d['year']} {d['subject']} {'CF' if d['section'] == 'CalcFree' else 'CA'} "
                              f"Q{d['q']} ({label or '整题'})"}
@@ -55,6 +55,7 @@ def setup(k):
 
         def reveal():
             btn.destroy()
+            store.record_attempt("past", qid, [(label, ctx(label)["part_marks"], pats) for label, m, pats in d["parts"]])
             ttk.Label(box, text="评分标准（官方 marking key）· 右键小问或得分点可「此题扣分」", style="H.TLabel",
                       background=C["panel"]).pack(anchor="w", padx=12, pady=(6, 2))
             if d["points_ok"]:

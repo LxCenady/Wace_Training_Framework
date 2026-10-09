@@ -5,11 +5,11 @@ REPLIES = {
     "GENERATE": {"section": "CalcFree", "question": (
         "Let f(x) = x³ − 3x + 1.\n(a) Determine f′(x). (1 mark)\n"
         "(b) Determine the coordinates of the stationary points of f and state their nature. (4 marks)"),
-        "parts": [{"label": "a", "marks": 1, "answer": "f′(x) = 3x² − 3"},
-                  {"label": "b", "marks": 4, "answer": "(−1, 3) local maximum; (1, −1) local minimum"}]},
-    "SOLVE": {"parts": [{"label": "a", "working": "power rule", "answer": "3x² − 3"},
+        "parts": [{"label": "a", "marks": 1, "answer": "f′(x) = 3x² − 3", "value": "3*x**2 - 3"},
+                  {"label": "b", "marks": 4, "answer": "(−1, 3) local maximum; (1, −1) local minimum", "value": "[-1, 1]"}]},
+    "SOLVE": {"parts": [{"label": "a", "working": "power rule", "answer": "3x² − 3", "value": "3*x**2 - 3", "sympy": "diff(x**3 - 3*x + 1, x)"},
                         {"label": "b", "working": "3x² − 3 = 0 → x = ±1; f″(x) = 6x",
-                         "answer": "max (−1, 3), min (1, −1)"}]},
+                         "answer": "max (−1, 3), min (1, −1)", "value": "[-1, 1]", "sympy": "solve(diff(x**3 - 3*x + 1, x), x)"}]},
     "VERIFY": {"parts": [{"label": "a", "agree": True, "correct_answer": "f′(x) = 3x² − 3", "note": ""},
                          {"label": "b", "agree": True, "correct_answer": "(−1, 3) local max; (1, −1) local min",
                           "note": ""}], "well_posed": True, "verdict": "pass", "feedback": ""},

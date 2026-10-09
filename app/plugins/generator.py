@@ -114,7 +114,9 @@ class Pipeline:
                                                 else "") +
             "Past questions with these patterns:\n" + examples + "\n\n" + STYLE +
             '\nSchema: {"section": "CalcFree|CalcAssumed", "question": "full stem with (a), (b)(i)… and (n marks) '
-            'after each part", "parts": [{"label": "a", "marks": 2, "patterns": ["code"], "answer": "final answer"}]}')
+            'after each part", "parts": [{"label": "a", "marks": 2, "patterns": ["code"], "answer": "final answer", '
+            '"value": "the final answer as a SymPy expression (12*pi, [2, -3] for several values, 3*x**2 - 3 for '
+            'an expression) or null for explain / sketch / show-that parts"}]}')
         parts = g.get("parts") or []
         if not g.get("question") or not parts:
             raise Failed("setter returned no question/parts")
@@ -134,7 +136,11 @@ class Pipeline:
             f"You are an expert WACE {SUBJECT[subj]} student sitting the exam. Solve the question independently and "
             "carefully, checking each result."),
             f"{question}\n\n{STYLE}\nSchema: " + '{"parts": [{"label": "a", "working": "concise working", '
-            '"answer": "final answer"}]}' + f"\nUse exactly these part labels: {labels}.")
+            '"answer": "final answer", "value": "the final answer as a SymPy expression, or null", '
+            '"sympy": "ONE SymPy expression that computes this final answer directly from the data in the question, '
+            'e.g. solve(diff(pi*r**2 + 16*pi/r, r), r) or P(Normal(\'X\', 150, 10) > 155); only numbers, + - * / **, '
+            'and SymPy functions (diff, integrate, solve, sqrt, exp, log, sin, Matrix, cross, dot, P, Normal, '
+            'Binomial); null for explain / sketch parts"}]}' + f"\nUse exactly these part labels: {labels}.")
         solved = {label_of(p.get("label")): p for p in s.get("parts", [])}
         if set(solved) != set(labels):
             raise Failed(f"solver part labels {sorted(solved)} ≠ question parts {labels}")
@@ -154,6 +160,9 @@ class Pipeline:
         bad = [l for l in labels if not checked.get(l, {}).get("agree")]
         if v.get("verdict") != "pass" or not v.get("well_posed") or bad:
             raise Failed(f"verification failed (parts {bad or '—'}): {v.get('feedback', '')}")
+
+        # 3b SYMBOLIC CHECK — SymPy recomputes each numeric part; a disagreement sends the question back
+        checks = self.symbolic(parts, solved)
 
         # 4 MARKS — split the verified solution into one-mark behaviours
         total = sum(p["marks"] for p in parts)
@@ -175,11 +184,30 @@ class Pipeline:
             if not wrong and len(pts) == total and m.get("solution"):
                 return {"patterns": codes, "section": g.get("section", ""), "marks": total, "question": question,
                         "parts": [{"label": l, "marks": p["marks"], "patterns": p.get("patterns", []),
-                                   "answer": checked[l].get("correct_answer") or p.get("answer")}
+                                   "answer": checked[l].get("correct_answer") or p.get("answer"),
+                                   "symcheck": checks.get(l, ("skip", "no SymPy expression"))}
                                   for l, p in zip(labels, parts)],
                         "solution": m["solution"], "points": pts}
             last = f"point counts per part {wrong} do not match the marks"
         raise Failed("marking key could not be split into exactly one point per mark: " + last)
+
+    def symbolic(self, parts, solved):
+        check = self.k.get("symcheck", None)
+        if not check:
+            return {}
+        pairs = []
+        for p in parts:
+            expr = solved[p["label"]].get("sympy")
+            claims = [(who, str(v)) for who, v in (("setter", p.get("value")),
+                                                   ("solver", solved[p["label"]].get("value"))) if v not in (None, "")]
+            if expr and claims:
+                pairs.append((p["label"], str(expr), claims))
+        self.log("progress", f"SYMPY 验算 {len(pairs)} 个小问 …")
+        result = check(pairs)
+        bad = {l: d for l, (status, d) in result.items() if status == "mismatch"}
+        if bad:
+            raise Failed("symbolic check failed: " + "; ".join(f"({l}) {d}" for l, d in bad.items()))
+        return result
 
 
 def setup(k):

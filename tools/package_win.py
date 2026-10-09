@@ -11,6 +11,7 @@ import glob, os, shutil, subprocess, sys, zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP, TOOLS = os.path.join(ROOT, "app"), os.path.join(ROOT, "tools")
+EXCLUDE = ["scipy", "numpy", "matplotlib", "pandas", "IPython", "PIL", "pytest", "setuptools"]
 TOOL_MODULES = ["fetch", "paperid", "build_all", "segment", "build_docs", "build_bank", "build_db", "markpoints"]
 
 
@@ -43,6 +44,8 @@ def main(version):
            "--add-data", f"{os.path.join(APP, 'setup.txt')}{sep}."]
     for m in plugins + TOOL_MODULES:
         cmd += ["--hidden-import", m]
+    for m in EXCLUDE:  # optional extras SymPy would pull in; nothing in the app needs them (-75 MB)
+        cmd += ["--exclude-module", m]
     subprocess.run(cmd + [os.path.join(APP, "main.py")], check=True)
 
     out = os.path.join(dist, "WTF")

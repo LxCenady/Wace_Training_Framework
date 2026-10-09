@@ -7,6 +7,14 @@ import tkinter as tk
 from tkinter import ttk
 
 
+def symcheck_summary(item):
+    """'  ·  ✓ SymPy 验算 2/3 小问' for items generated with the symbolic check (older items: empty)."""
+    checks = [p.get("symcheck") for p in item.get("parts", []) if p.get("symcheck")]
+    if not checks:
+        return ""
+    return f"   ·   ✓ SymPy 验算 {sum(1 for s, _ in checks if s == 'ok')}/{len(item['parts'])} 小问"
+
+
 def setup(k):
     store = k.get("store")
     w, ui_text = k.get("ui.write"), k.get("ui.text")
@@ -62,7 +70,7 @@ def setup(k):
         sec = {"CalcFree": "计算器禁用", "CalcAssumed": "计算器允许"}.get(item.get("section"), item.get("section", ""))
         w(t, f"AI 题 #{item['id']} · {item['marks']} 分 · {sec} · {item.get('difficulty') or '标准'}\n", "h")
         w(t, "题型：" + "，".join(item["patterns"]) + f"   ·   {item.get('provider')} {item.get('model', '')}"
-             "   ·   ✓ 已通过独立解题与核对\n\n", "muted")
+             "   ·   ✓ 已通过独立解题与核对" + symcheck_summary(item) + "\n\n", "muted")
         w(t, item["question"] + "\n")
 
         if item.get("focus"):
@@ -78,11 +86,16 @@ def setup(k):
 
         def reveal():
             btn.destroy()
+            store.record_attempt("gen", item["id"], [(p["label"], p["marks"], p.get("patterns") or item["patterns"])
+                                                     for p in item["parts"]])
             w(t, "\n\n评分标准（每条 1 分）· 右键某个小问可「此题扣分」\n", "h")
             for p in item["parts"]:
                 tag = f"part:{p['label']}"
                 had = store.mistake("gen", item["id"], p["label"])
                 w(t, f"({p['label']})  {p['marks']} 分   答案：{p['answer']}\n", "sub", tag)
+                status, detail = p.get("symcheck") or ("skip", "")
+                w(t, f"    SymPy 验算 ✓ {detail}\n" if status == "ok" else "    SymPy 未验算（非数值小问或表达式无法计算）\n",
+                  "ok" if status == "ok" else "muted", tag)
                 w(t, "    题型：" + "；".join(store.pattern_name(c) for c in (p.get("patterns") or item["patterns"]))
                   + (f"   ✗ 已扣 {had['lost']} 分" if had else "") + "\n", "accent" if not had else "warn", tag)
                 for text in by.get(p["label"], []):

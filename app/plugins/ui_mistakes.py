@@ -10,10 +10,13 @@ import tkinter as tk
 from tkinter import ttk
 
 LEVELS = ["基础", "标准", "拔高"]
+INTERVALS = (1, 3, 7, 14, 30)
 
 
 def setup(k):
     store, C = k.get("store"), k.get("ui.colors")
+    from plugins.store import day as store_day
+    state = {}
     root = k.get("ui.root")
 
     # ---------- marking a sub-question
@@ -99,19 +102,35 @@ def setup(k):
         sec = "CF" if ys.endswith("F") else "CA"
         return f"{ys[:4]} {subj} {sec} {q} ({m['label'] or '整题'})"
 
-    def show():
+    def review_text(m):
+        if not m["due"]:
+            return "✓ 已掌握" if m["box"] >= 5 else ""
+        return "今天" if m["due"] <= store_day(0) else m["due"][5:]
+
+    def show(only_due=None):
+        if only_due is None:
+            only_due = state.get("only_due", False)
+        state["only_due"] = only_due
         page = k.get("ui.tab")("mistakes", "我的错题本")
         groups = weak()
         records = store.mistakes()
+        due_ids = {m["id"] for m in store.due_mistakes()}
+        if only_due:
+            groups = {c: dict(g, rows=[m for m in g["rows"] if m["id"] in due_ids]) for c, g in groups.items()}
+            groups = {c: g for c, g in groups.items() if g["rows"]}
         head = ttk.Frame(page)
         head.pack(fill="x", padx=10, pady=8)
         ttk.Label(head, text=f"错题 {len(records)} 小题 · 共扣 {sum(m['lost'] for m in records)} 分 · "
                              f"涉及 {len(groups)} 个题型", style="H.TLabel").pack(side="left")
-        ttk.Label(head, text="按扣分从多到少 · 双击打开原题 · 右键移除", style="Muted.TLabel").pack(side="right")
+        due = tk.BooleanVar(value=only_due)
+        ttk.Checkbutton(head, text=f"只看今日待复习（{len(due_ids)}）", variable=due,
+                        command=lambda: show(due.get())).pack(side="right")
+        ttk.Label(head, text="按扣分从多到少 · 双击打开原题 · 右键：讲解 / 复习 / 移除",
+                  style="Muted.TLabel").pack(side="right", padx=10)
 
         body = ttk.Frame(page)
         body.pack(fill="both", expand=True, padx=10)
-        cols = (("count", "次数", 50), ("lost", "扣分", 70), ("date", "时间", 130), ("missed", "没拿到的得分点 / 备注", 520))
+        cols = (("count", "次数", 50), ("lost", "扣分", 70), ("date", "时间", 130), ("review", "下次复习", 80), ("missed", "没拿到的得分点 / 备注", 520))
         table = ttk.Treeview(body, columns=[c for c, _, _ in cols], show="tree headings")
         sb = ttk.Scrollbar(body, orient="vertical", command=table.yview)
         table.configure(yscrollcommand=sb.set)
@@ -126,14 +145,14 @@ def setup(k):
         for code, g in sorted(groups.items(), key=lambda x: (-x[1]["lost"], -x[1]["count"])):
             gid = f"p:{code}"
             table.insert("", "end", iid=gid, text=store.pattern_name(code),
-                         values=(g["count"], f"{g['lost']} / {g['marks']}", "", ""), open=False)
+                         values=(g["count"], f"{g['lost']} / {g['marks']}", "", "", ""), open=only_due)
             for m in g["rows"]:
                 iid = f"{gid}|{m['id']}"
                 rows[iid] = m
                 detail = ("📖 已讲解 · " if m.get("explain") else "") + "；".join(m["missed"]) + (
                     f"  〔{m['note']}〕" if m["note"] else "")
                 table.insert(gid, "end", iid=iid, text=source_title(m),
-                             values=("", f"{m['lost']} / {m['part_marks']}", m["created"], detail or "—"))
+                             values=("", f"{m['lost']} / {m['part_marks']}", m["created"], review_text(m), detail or "—"))
         if not records:
             ttk.Label(body, text="还没有错题：在 AI 题「显示得分点」后或真题「显示评分标准」后，右键某个小问选择「此题扣分」。",
                       style="Muted.TLabel").place(x=20, y=60)
@@ -154,6 +173,14 @@ def setup(k):
                     menu.add_command(label="一键讲解" + ("（已讲解，直接查看）" if m.get("explain") else ""),
                                      command=lambda: k.get("mistakes.explain")(m))
                 menu.add_command(label="打开原题", command=open_row)
+                menu.add_separator()
+                menu.add_command(label="复习：做一道同题型新题", command=lambda: review_drill(m))
+                box = min(m["box"] + 1, 5)
+                menu.add_command(label="复习通过" + (f"（{INTERVALS[box]} 天后再复习）" if box < 5 else "（标记为已掌握）"),
+                                 command=lambda: (store.review(m["id"], True), k.emit("mistakes.changed")))
+                menu.add_command(label="又错了（明天再复习）",
+                                 command=lambda: (store.review(m["id"], False), k.emit("mistakes.changed")))
+                menu.add_separator()
                 menu.add_command(label="移出错题本（这题已掌握）",
                                  command=lambda: (store.delete_mistake(m["source"], m["ref"], m["label"]),
                                                   k.emit("mistakes.changed")))
@@ -216,6 +243,15 @@ def setup(k):
         ttk.Button(foot, text="一键讲解所选错题", command=explain_selected).pack(side="right", padx=6)
         k.provide("mistakes.table", table)
 
+    def review_drill(m):
+        """One fresh question on the same pattern(s), aimed at exactly the points missed here."""
+        focus = "\n".join(f"- {t}" for t in m["missed"]) or \
+            f"- lost {m['lost']} of {m['part_marks']} marks on this kind of part"
+        if m["note"]:
+            focus += f"\nStudent's own note on the error: {m['note']}"
+        subj = m["patterns"][0].split(".")[0]
+        k.get("generator.start")([c for c in m["patterns"] if c.startswith(subj + ".")], "any", 0, "标准", 1, focus)
+
     def refresh():
         if k.get("ui.tab.frame")("mistakes") is not None:
             current = k.get("ui.tabs").select() if k.get("ui.tabs", None) else None
@@ -224,6 +260,8 @@ def setup(k):
                 k.get("ui.tabs").select(current)
 
     k.on("mistakes.changed", refresh)
+    k.on("ui.ready", lambda: store.due_mistakes() and k.get("ui.status")(
+        f"今日待复习 {len(store.due_mistakes())} 道错题 —— Ctrl+E 打开错题本，勾选「只看今日待复习」"))
     menu = tk.Menu(k.get("ui.menu"), tearoff=False)
     menu.add_command(label="我的错题本", command=show, accelerator="Ctrl+E")
     k.get("ui.menu").add_cascade(label="错题", menu=menu)

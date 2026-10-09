@@ -7,8 +7,19 @@ CREATE TABLE IF NOT EXISTS generated (id INTEGER PRIMARY KEY, created TEXT, patt
     difficulty TEXT DEFAULT '标准', focus TEXT DEFAULT '');
 CREATE TABLE IF NOT EXISTS mistakes (id INTEGER PRIMARY KEY, created TEXT, source TEXT, ref TEXT, label TEXT,
     part_marks INT, lost INT, patterns TEXT, missed TEXT, note TEXT, explain TEXT DEFAULT '',
-    UNIQUE (source, ref, label));
+    box INT DEFAULT 0, due TEXT DEFAULT '', UNIQUE (source, ref, label));
+CREATE TABLE IF NOT EXISTS attempts (id INTEGER PRIMARY KEY, created TEXT, source TEXT, ref TEXT, label TEXT,
+    marks INT, patterns TEXT, UNIQUE (source, ref, label));
+CREATE TABLE IF NOT EXISTS exams (id INTEGER PRIMARY KEY, created TEXT, subject TEXT, section TEXT, source TEXT,
+    refs TEXT, total INT, started TEXT DEFAULT '', submitted TEXT DEFAULT '');
 """
+
+
+INTERVALS = (1, 3, 7, 14, 30)
+
+
+def day(offset):
+    return time.strftime("%Y-%m-%d", time.localtime(time.time() + offset * 86400))
 
 
 class Store:
@@ -20,8 +31,10 @@ class Store:
         for col, ddl in (("difficulty", "TEXT DEFAULT '标准'"), ("focus", "TEXT DEFAULT ''")):  # older databases
             if col not in cols:
                 self.gen.execute(f"ALTER TABLE generated ADD COLUMN {col} {ddl}")
-        if "explain" not in [r[1] for r in self.gen.execute("PRAGMA table_info(mistakes)")]:
-            self.gen.execute("ALTER TABLE mistakes ADD COLUMN explain TEXT DEFAULT ''")
+        mcols = [r[1] for r in self.gen.execute("PRAGMA table_info(mistakes)")]
+        for col, ddl in (("explain", "TEXT DEFAULT ''"), ("box", "INT DEFAULT 0"), ("due", "TEXT DEFAULT ''")):
+            if col not in mcols:
+                self.gen.execute(f"ALTER TABLE mistakes ADD COLUMN {col} {ddl}")
         self.gen.commit()
         self.lock = threading.Lock()
 
@@ -121,10 +134,56 @@ class Store:
                                 VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT (source, ref, label) DO UPDATE SET
                                 created=excluded.created, part_marks=excluded.part_marks, lost=excluded.lost,
                                 patterns=excluded.patterns, missed=excluded.missed, note=excluded.note,
-                                explain=''""",
+                                explain='', box=0, due=excluded.due""",
                              (time.strftime("%Y-%m-%d %H:%M"), source, str(ref), label, part_marks, lost,
                               json.dumps(patterns), json.dumps(missed, ensure_ascii=False), note))
+            self.gen.execute("UPDATE mistakes SET due = ? WHERE source=? AND ref=? AND label=?",
+                             (day(1), source, str(ref), label))
             self.gen.commit()
+        self.record_attempt(source, ref, [(label, part_marks, patterns)])  # a marked part was attempted
+
+    # ---- spaced review (Leitner boxes): review again after 1, 3, 7, 14, 30 days; passing the last box = mastered
+    def review(self, mistake_id, passed):
+        m = next(x for x in self.mistakes() if x["id"] == mistake_id)
+        box = m["box"] + 1 if passed else 0
+        due = "" if box >= len(INTERVALS) else day(INTERVALS[box])
+        with self.lock:
+            self.gen.execute("UPDATE mistakes SET box = ?, due = ? WHERE id = ?", (box, due, mistake_id))
+            self.gen.commit()
+        return box, due
+
+    def due_mistakes(self):
+        today = day(0)
+        return [m for m in self.mistakes() if m["due"] and m["due"] <= today]
+
+    # ---- attempts (a part whose answer the student revealed counts as attempted) and mastery
+    def record_attempt(self, source, ref, parts):
+        with self.lock:
+            for label, marks, patterns in parts:
+                self.gen.execute("""INSERT INTO attempts (created, source, ref, label, marks, patterns)
+                                    VALUES (?,?,?,?,?,?) ON CONFLICT (source, ref, label) DO NOTHING""",
+                                 (time.strftime("%Y-%m-%d %H:%M"), source, str(ref), label, marks or 0,
+                                  json.dumps(patterns)))
+            self.gen.commit()
+
+    def mastery(self):
+        """{pattern: {"attempted": marks, "lost": marks, "parts": n}} over everything the student has revealed."""
+        out = {}
+        for marks, pats in self.gen.execute("SELECT marks, patterns FROM attempts").fetchall():
+            for c in json.loads(pats):
+                g = out.setdefault(c, {"attempted": 0, "lost": 0, "parts": 0})
+                g["attempted"] += marks or 0
+                g["parts"] += 1
+        for m in self.mistakes():
+            for c in m["patterns"]:
+                out.setdefault(c, {"attempted": 0, "lost": 0, "parts": 0})["lost"] += m["lost"]
+        return out
+
+    def exam_weights(self, subj):
+        """Marks each pattern carried across all past papers of a subject (how much it matters)."""
+        return dict(self.q("""SELECT pp.pattern, SUM(COALESCE(p.marks, 1)) FROM part_patterns pp
+                              JOIN parts p ON p.qid = pp.qid AND p.label = pp.label JOIN questions q ON q.id = pp.qid
+                              WHERE q.subject = ? GROUP BY pp.pattern""", subj))
 
     def set_explanation(self, mistake_id, text):
         with self.lock:
@@ -148,6 +207,49 @@ class Store:
     def mistake(self, source, ref, label):
         return next((m for m in self.mistakes() if (m["source"], m["ref"], m["label"]) == (source, str(ref), label)),
                     None)
+
+    # ---- mock exams: refs = [["past", qid] | ["gen", id], …]; score = total − marks lost on them since start
+    def pattern_weights(self, subj, section):
+        """Historical marks per pattern in this subject+section (blueprint for AI-assembled papers)."""
+        return self.q("""SELECT pp.pattern, SUM(COALESCE(p.marks, 1)) FROM part_patterns pp
+                         JOIN parts p ON p.qid = pp.qid AND p.label = pp.label JOIN questions q ON q.id = pp.qid
+                         WHERE q.subject = ? AND q.section = ? GROUP BY pp.pattern""", subj, section)
+
+    def paper(self, subj, year, section):
+        return self.q("SELECT id, marks FROM questions WHERE subject = ? AND year = ? AND section = ? ORDER BY q",
+                      subj, int(year), section)
+
+    def save_exam(self, subject, section, source, refs, total):
+        with self.lock:
+            cur = self.gen.execute("INSERT INTO exams (created, subject, section, source, refs, total) "
+                                   "VALUES (?,?,?,?,?,?)", (time.strftime("%Y-%m-%d %H:%M"), subject, section,
+                                                            source, json.dumps(refs), total))
+            self.gen.commit()
+        return cur.lastrowid
+
+    def update_exam(self, eid, **fields):
+        with self.lock:
+            for col, val in fields.items():
+                if col in ("started", "submitted"):
+                    self.gen.execute(f"UPDATE exams SET {col} = ? WHERE id = ?", (val, eid))
+            self.gen.commit()
+
+    def exams(self):
+        cur = self.gen.execute("SELECT * FROM exams ORDER BY id DESC")
+        names = [c[0] for c in cur.description]
+        out = [dict(zip(names, r)) for r in cur.fetchall()]
+        for e in out:
+            e["refs"] = json.loads(e["refs"])
+            e["lost"] = self.exam_lost(e)
+        return out
+
+    def exam(self, eid):
+        return next(e for e in self.exams() if e["id"] == eid)
+
+    def exam_lost(self, e):
+        refs = {(s, str(r)) for s, r in e["refs"]}
+        since = e.get("started") or e["created"]
+        return sum(m["lost"] for m in self.mistakes() if (m["source"], m["ref"]) in refs and m["created"] >= since)
 
     def generated(self, gid):
         cur = self.gen.execute("SELECT * FROM generated WHERE id = ?", (gid,))

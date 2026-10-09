@@ -69,4 +69,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    if sys.argv[1:2] == ["--symcheck"]:  # child process of plugins/symcheck.py: no GUI, no data folder needed
+        from plugins.symcheck import worker
+        worker()
+    else:
+        main()
