@@ -79,6 +79,16 @@ def main(version):
                 z.write(full, os.path.join("WTF", os.path.relpath(full, out)))
     print(zpath, f"{os.path.getsize(zpath) / 1e6:.1f} MB")
 
+    # one-file installer carrying the zip: double-click, choose a folder, shortcuts, start (tools/installer.py)
+    setup = [sys.executable, "-m", "PyInstaller", "--noconfirm", "--clean", "--windowed", "--onefile",
+             "--name", f"WTF-Setup-v{version}", "--distpath", dist, "--workpath", os.path.join(build, "setup"),
+             "--specpath", build, "--add-data", f"{zpath}{sep}payload"]
+    for m in EXCLUDE + ["pymupdf", "fitz", "sympy", "mpmath", "ziamath", "ziaplot", "ziafont", "latex2mathml"]:
+        setup += ["--exclude-module", m]
+    subprocess.run(setup + [os.path.join(TOOLS, "installer.py")], check=True)
+    exe = os.path.join(dist, f"WTF-Setup-v{version}.exe")
+    print(exe, f"{os.path.getsize(exe) / 1e6:.1f} MB")
+
 
 if __name__ == "__main__":
     # app/version.txt is the single source of the version (the updater compares it with GitHub releases)

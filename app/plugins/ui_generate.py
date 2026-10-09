@@ -72,7 +72,7 @@ def setup(k):
         if not spec or not draw:
             return
         try:
-            png, problems = draw(spec, 520)
+            png, problems = draw(spec, int(520 * k.get("ui.scale", 1.0)))
         except Exception as e:  # a figure that cannot be drawn must not hide the question
             w(t, f"（配图无法绘制：{type(e).__name__}）\n", "warn", *tags)
             return

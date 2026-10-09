@@ -67,8 +67,9 @@ def setup(k):
             cache[key] = tk.PhotoImage(data=base64.b64encode(doc[0].get_pixmap(dpi=96, alpha=True).tobytes("png")))
         return cache[key]
 
-    def write(t, text, *tags, size=17):
+    def write(t, text, *tags, size=None):
         """Insert text with rendered maths into a read-only Text widget made by ui.text."""
+        size = size or int(17 * k.get("ui.scale", 1.0))  # maths keeps up with the text on scaled displays
         t.configure(state="normal")
         for kind, s in segments(repair(text)):
             if kind == "text":

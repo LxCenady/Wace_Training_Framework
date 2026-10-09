@@ -8,7 +8,7 @@ generated.db (AI questions, mistakes, exams) or WTF.log — removes wace.db and 
 wizard then sees every paper present and rebuilds the bank by itself (tags or tools may have changed).
 A source checkout is only told about the new release (update it with git).
 """
-import hashlib, json, os, shutil, subprocess, sys, threading, time, urllib.request, webbrowser, zipfile
+import hashlib, json, os, shutil, subprocess, sys, threading, time, urllib.error, urllib.request, webbrowser, zipfile
 import tkinter as tk
 from tkinter import ttk
 
@@ -50,17 +50,38 @@ def latest_release(timeout=15):
                                 "sha256": (asset.get("digest") or "").removeprefix("sha256:")}}
 
 
-def download(asset, dest, progress=lambda done, total: None):
-    """Stream the zip to dest; verify SHA-256 when known and that it is the WTF package."""
-    req = urllib.request.Request(asset["url"], headers={"user-agent": "WTF-updater"})
-    digest, done = hashlib.sha256(), 0
-    with urllib.request.urlopen(req, timeout=60) as r, open(dest, "wb") as f:
-        while chunk := r.read(1 << 16):
-            f.write(chunk)
+def download(asset, dest, progress=lambda done, total: None, tries=6, wait=time.sleep):
+    """Stream the zip to dest, resuming after a dropped connection (HTTP Range) with growing pauses;
+    then verify SHA-256 when known and that it is the WTF package."""
+    total = asset.get("size") or 0
+    for attempt in range(1, tries + 1):
+        have = os.path.getsize(dest) if os.path.exists(dest) else 0
+        if total and have >= total:
+            break
+        headers = {"user-agent": "WTF-updater"}
+        if have:
+            headers["range"] = f"bytes={have}-"
+        try:
+            with urllib.request.urlopen(urllib.request.Request(asset["url"], headers=headers), timeout=60) as r:
+                resumed = have and r.status == 206
+                with open(dest, "ab" if resumed else "wb") as f:
+                    done = have if resumed else 0
+                    while chunk := r.read(1 << 16):
+                        f.write(chunk)
+                        done += len(chunk)
+                        progress(done, total)
+            if not total or os.path.getsize(dest) >= total:
+                break
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError):
+            if attempt == tries:
+                raise
+        wait(min(2 ** attempt, 30))
+    digest = hashlib.sha256()
+    with open(dest, "rb") as f:
+        while chunk := f.read(1 << 20):
             digest.update(chunk)
-            done += len(chunk)
-            progress(done, asset.get("size") or 0)
     if asset.get("sha256") and digest.hexdigest() != asset["sha256"]:
+        os.remove(dest)
         raise ValueError("下载的文件校验失败（SHA-256 不一致），已放弃更新")
     with zipfile.ZipFile(dest) as z:
         if "WTF/WTF.exe" not in z.namelist():

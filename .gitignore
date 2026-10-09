@@ -19,3 +19,4 @@ dist/
 WTF.log
 app/i18n/missing.txt
 tools/i18n_cache.json
+generated_backup_*.db

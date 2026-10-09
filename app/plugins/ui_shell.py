@@ -11,16 +11,34 @@ C = dict(bg="#f3eee4", panel="#fbf8f2", ink="#1f1d1a", muted="#7a7368", accent="
 FONT = "Microsoft YaHei UI"
 
 
+def dpi_aware():
+    """Draw at the screen's real resolution instead of letting Windows stretch (blur) the window."""
+    try:
+        import ctypes
+        try:
+            ctypes.windll.shcore.SetProcessDpiAwareness(1)  # system DPI aware (Windows 8.1+)
+        except (AttributeError, OSError):
+            ctypes.windll.user32.SetProcessDPIAware()
+    except Exception:
+        pass  # not Windows / not allowed: Tk still works, just possibly scaled by the system
+
+
 def setup(k):
+    dpi_aware()
     root = tk.Tk()
     root.title("WACE Maths 学习系统")
-    root.geometry("1600x900")
+    scale = max(1.0, root.winfo_fpixels("1i") / 96)  # 1.0 at 100 %, 1.5 at 150 % display scaling …
+    sw, sh = root.winfo_screenwidth(), root.winfo_screenheight()
+    w, h = min(int(sw * 0.92), int(1700 * scale)), min(int(sh * 0.86), int(980 * scale))
+    root.geometry(f"{w}x{h}+{(sw - w) // 2}+{max(0, (sh - h) // 3)}")
+    root.minsize(min(w, int(900 * scale)), min(h, int(560 * scale)))
     root.configure(bg=C["bg"])
     st = ttk.Style(root)
     st.theme_use("clam")
     st.configure(".", background=C["bg"], foreground=C["ink"], font=(FONT, 10), bordercolor=C["line"],
                  lightcolor=C["bg"], darkcolor=C["line"], troughcolor=C["bg"])
-    st.configure("Treeview", background=C["panel"], fieldbackground=C["panel"], rowheight=25, borderwidth=0)
+    st.configure("Treeview", background=C["panel"], fieldbackground=C["panel"], rowheight=int(25 * scale),
+                 borderwidth=0)
     st.map("Treeview", background=[("selected", C["accent"])], foreground=[("selected", "#ffffff")])
     st.configure("TNotebook", background=C["bg"], borderwidth=0)
     st.configure("TNotebook.Tab", padding=(14, 5), background=C["bg"])
@@ -41,8 +59,8 @@ def setup(k):
     pane.add(tabs, weight=1)
 
     def first_layout(e):  # ttk.PanedWindow ignores child width; place the sashes once it has a real size
-        if e.width > 900:
-            pane.sashpos(0, 460)
+        if e.width > 400:
+            pane.sashpos(0, int(e.width * 0.27))  # proportions, so small and large screens both work
             pane.unbind("<Configure>")
             k.emit("ui.layout", pane, e.width)  # plugins that added panes (e.g. the formula sheet) place theirs
 
@@ -114,6 +132,7 @@ def setup(k):
         t.configure(state="disabled")
 
     k.provide("ui.root", root)
+    k.provide("ui.scale", scale)  # display scaling factor for pixel sizes (images, row heights)
     k.provide("ui.menu", menubar)
     k.provide("ui.left", left)
     k.provide("ui.tab.frame", lambda key: pages.get(key))

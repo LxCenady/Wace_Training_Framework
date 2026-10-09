@@ -7,7 +7,7 @@ The papers are © School Curriculum and Standards Authority and are not redistri
 The SCSA site sits behind bot protection, so direct downloads of 2020+ papers are usually refused (HTTP 403);
 open the printed URLs in a normal browser, save the PDFs, then import them with --from.
 """
-import os, re, shutil, sys, urllib.parse, urllib.request
+import os, re, shutil, sys, time, urllib.error, urllib.parse, urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from paperid import identify  # noqa: E402
@@ -41,13 +41,26 @@ def missing(root=None):
     return [s for s in sources(root) if not is_pdf(os.path.join(root, s[0]))]
 
 
-def download(rel, url, root=None, timeout=60):
-    """Fetch one file; raises on HTTP errors or a non-PDF reply."""
+def download(rel, url, root=None, timeout=60, tries=5, wait=lambda s: time.sleep(s)):
+    """Fetch one file, retrying dropped connections, timeouts and 429/5xx with growing pauses
+    (Retry-After honoured). Raises on a final failure, on 4xx refusals (e.g. 403) and on a non-PDF reply."""
     dest = os.path.join(root or ROOT, rel)
     os.makedirs(os.path.dirname(dest), exist_ok=True)
-    req = urllib.request.Request(url, headers={"user-agent": "Mozilla/5.0 (WTF fetch.py)"})
-    with urllib.request.urlopen(req, timeout=timeout) as r, open(dest + ".part", "wb") as f:
-        shutil.copyfileobj(r, f)
+    for attempt in range(1, tries + 1):
+        try:
+            req = urllib.request.Request(url, headers={"user-agent": "Mozilla/5.0 (WTF fetch.py)"})
+            with urllib.request.urlopen(req, timeout=timeout) as r, open(dest + ".part", "wb") as f:
+                shutil.copyfileobj(r, f)
+            break
+        except urllib.error.HTTPError as e:
+            if e.code not in (408, 429, 500, 502, 503, 504) or attempt == tries:
+                raise
+            pause = float(e.headers.get("Retry-After") or 0) or 2 ** attempt
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError):
+            if attempt == tries:
+                raise
+            pause = 2 ** attempt
+        wait(min(pause, 60))
     if not is_pdf(dest + ".part"):
         os.remove(dest + ".part")
         raise ValueError("reply was not a PDF")

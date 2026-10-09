@@ -288,7 +288,7 @@ def setup(k):
             d = store.question(ref)
             ttk.Label(parent, text=f"Question {n}  ({d['marks']} 分)", style="H.TLabel",
                       background=C["panel"]).pack(anchor="w", padx=12, pady=(12, 2))
-            for png in k.get("render.regions")(d["exam"], d["exam_regions"], 1.1):
+            for png in k.get("render.regions")(d["exam"], d["exam_regions"], 1.1 * k.get("ui.scale", 1.0)):
                 img = tk.PhotoImage(data=base64.b64encode(png))
                 keep.append(img)
                 tk.Label(parent, image=img, bg="#ffffff", bd=1, relief="solid").pack(anchor="w", padx=12, pady=2)
@@ -309,7 +309,7 @@ def setup(k):
             draw = k.get("figure.png", None)
             if it.get("figure") and draw:
                 try:
-                    img = tk.PhotoImage(data=base64.b64encode(draw(it["figure"], 480)[0]))
+                    img = tk.PhotoImage(data=base64.b64encode(draw(it["figure"], int(480 * k.get("ui.scale", 1.0)))[0]))
                     keep.append(img)
                     tk.Label(parent, image=img, bg="#ffffff").pack(anchor="w", padx=16, pady=4)
                 except Exception:

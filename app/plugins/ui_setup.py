@@ -4,11 +4,13 @@ The papers are © SCSA and are not shipped with the app. 2016-2019 come from the
 automatically; 2020-2025 the student opens in their own browser (the site refuses scripts) and saves
 anywhere in the watched folder — files are recognised by name or by content (tools/paperid.py).
 """
-import ctypes, os, subprocess, sys, threading, uuid, webbrowser
+import ctypes, os, subprocess, sys, threading, time, uuid, webbrowser
 import tkinter as tk
+from concurrent.futures import ThreadPoolExecutor
 from tkinter import filedialog, messagebox, ttk
 
 BATCH = 6  # links opened per click
+PARALLEL = 3  # archive downloads at the same time
 
 
 def downloads_folder():
@@ -60,7 +62,13 @@ def setup(k):
     box.bind("<<ComboboxSelected>>", switch_language)
 
     state = {"folder": downloads_folder(), "seen": {}, "opened": set(), "busy": False}
-    all_sources = fetch.sources(root)
+    def needed(items):  # the 2016 sample papers never enter the bank: the wizard ignores them
+        return [x for x in items if "Sample" not in x[0]]
+
+    def missing():
+        return needed(fetch.missing(root))
+
+    all_sources = needed(fetch.sources(root))
     archived = [s for s in all_sources if s[3]]
     browser = [s for s in all_sources if not s[3]]
 
@@ -122,7 +130,7 @@ def setup(k):
         log.see("end")
 
     def refresh():
-        miss = fetch.missing(root)
+        miss = missing()
         have = len(all_sources) - len(miss)
         count.configure(text=f"已导入 {have} / {len(all_sources)} 个文件")
         bar.configure(value=have)
@@ -134,7 +142,7 @@ def setup(k):
         miss_browser = sum(1 for m in miss if not m[3])
         s1_msg.configure(text="已全部下载 ✓" if not miss_arch else f"还缺 {miss_arch} 个")
         b2.state(["disabled"] if not miss_browser else ["!disabled"])
-        core = [m for m in miss if "Sample" not in m[0]]  # 2016 sample papers are optional
+        core = miss
         s3_msg.configure(text="全部就绪 ✓" if not core else f"还缺 {len(core)} 个必需文件（也可以先用已有的建库）")
         if not state["busy"]:
             b3.state(["!disabled"] if have else ["disabled"])
@@ -166,9 +174,13 @@ def setup(k):
 
     def tick():
         if not state["busy"]:
-            for rel in scan():
+            got = scan()
+            for rel in got:
                 say(f"✓ 导入 {rel}", "ok")
             refresh()
+            if got and not missing():  # the last paper arrived
+                say("所有真题都已就绪，自动建立题库…", "sub")
+                build()
         k.get("ui.root").after(2000, tick)
 
     def choose():
@@ -185,35 +197,58 @@ def setup(k):
             refresh()
 
     def open_batch():
-        todo = [m for m in fetch.missing(root) if not m[3] and m[0] not in state["opened"]]
+        todo = [m for m in missing() if not m[3] and m[0] not in state["opened"]]
         if not todo:  # everything was opened once already: start over with what is still missing
             state["opened"].clear()
-            todo = [m for m in fetch.missing(root) if not m[3]]
+            todo = [m for m in missing() if not m[3]]
         for rel, url, _, _ in todo[:BATCH]:
             state["opened"].add(rel)
             webbrowser.open(url)
         say(f"已在浏览器打开 {min(BATCH, len(todo))} 个链接；保存到「{state['folder']}」即可")
 
     def download_archived():
+        """Wayback copies, PARALLEL at a time (more makes the archive throttle harder); failures get a second
+        round after a pause; a live 'n / N · about X min left' line so a slow archive never looks stuck."""
         b1.state(["disabled"])
-        todo = [m for m in fetch.missing(root) if m[3]]
-        say(f"开始下载 {len(todo)} 个存档文件…")
+        todo = [m for m in missing() if m[3]]
+        say(f"开始下载 {len(todo)} 个存档文件（同时 {PARALLEL} 个）…")
+        t0, done = time.time(), []
+
+        def eta():
+            if not done:
+                return "估算剩余时间中…"
+            left = (time.time() - t0) / len(done) * (len(todo) - len(done))
+            return f"{len(done)} / {len(todo)} · 约 {max(1, round(left / 60))} 分钟" if left > 30 else                 f"{len(done)} / {len(todo)} · 马上完成"
+
+        def one(item):
+            rel, url, _, _ = item
+            try:
+                fetch.download(rel, url, root)
+                done.append(rel)
+                post(lambda r=rel: (say(f"✓ {r}", "ok"), refresh(), s1_msg.configure(text=eta())))
+                return None
+            except Exception as e:
+                post(lambda m=f"✗ {rel}：{type(e).__name__} {e}（稍后自动再试）": say(m, "warn"))
+                return item
 
         def work():
-            for rel, url, _, _ in todo:
-                try:
-                    fetch.download(rel, url, root)
-                    post(lambda r=rel: say(f"✓ {r}", "ok"))
-                except Exception as e:
-                    msg = f"✗ {rel}：{type(e).__name__} {e}"
-                    post(lambda m=msg: say(m, "warn"))
-                post(refresh)
-            post(lambda: (b1.state(["!disabled"]), say("存档下载结束。失败的可以再点一次重试。")))
+            failed = todo
+            for rnd in (1, 2):  # each file already retries itself; a second round catches longer outages
+                with ThreadPoolExecutor(PARALLEL) as pool:
+                    failed = [f for f in pool.map(one, failed) if f]
+                if not failed:
+                    break
+                post(lambda n=len(failed): say(f"{n} 个文件暂时失败，20 秒后再试一轮…", "warn"))
+                time.sleep(20)
+            took = f"{(time.time() - t0) / 60:.0f} 分钟"
+            post(lambda: (b1.state(["!disabled"]), refresh(),
+                          say(f"存档下载完成（用时 {took}）。" if not failed else
+                              f"存档下载结束，{len(failed)} 个仍失败：点「开始下载」再试。")))
 
         threading.Thread(target=work, daemon=True).start()
 
     def build():
-        miss = [m for m in fetch.missing(root) if "Sample" not in m[0]]
+        miss = missing()
         if miss and not messagebox.askyesno("还缺文件", f"还缺 {len(miss)} 个必需文件，对应年份的题目暂时不会出现。\n"
                                                           "现在先用已有文件建库吗？（之后补齐再重新建库即可）"):
             return
@@ -245,9 +280,12 @@ def setup(k):
     def ready():
         refresh()
         k.get("ui.root").after(500, tick)
-        if not [m for m in fetch.missing(root) if "Sample" not in m[0]]:  # e.g. right after an update
+        if not missing():  # e.g. right after an update
             say("所有真题都已就绪，自动重建题库…", "sub")
             k.get("ui.root").after(800, build)
+        elif [m for m in missing() if m[3]]:  # nothing to decide: start the archive downloads at once
+            say("自动开始下载 2016–2019 存档真题…", "sub")
+            k.get("ui.root").after(800, download_archived)
 
     k.on("ui.ready", ready)
     k.get("ui.status")("第一次使用：导入真题后自动进入学习系统")

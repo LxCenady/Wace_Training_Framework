@@ -20,6 +20,14 @@ _config.PATH = os.path.join(_tf.gettempdir(), "wtf-test-config.json")  # never t
 sys.path.insert(0, os.path.join(data, "tools"))
 from kernel import Kernel  # noqa: E402
 import plugins.ui_setup as ui_setup  # noqa: E402
+import fetch  # noqa: E402
+
+
+def offline(*a, **kw):  # the wizard starts archive downloads by itself: keep the test offline
+    raise OSError("offline test")
+
+
+fetch.download = offline
 
 restarted = []
 ui_setup.restart = lambda: restarted.append(True)
@@ -58,6 +66,14 @@ assert all("Sample_MAS_MarkingKey" in m[0] for m in left), left  # only the scan
 ui_setup.messagebox.askyesno = lambda *a, **kw: True
 
 
+def ui_setup_busy(r):
+    try:
+        b = find(r, "建立题库并启动")
+        return b is not None and b.instate(["disabled"])
+    except Exception:  # window already gone: the build finished and the app restarted
+        return True
+
+
 def find(w, text):
     for c in w.winfo_children():
         if c.winfo_class() == "TButton" and c.cget("text") == text:
@@ -67,7 +83,11 @@ def find(w, text):
             return r
 
 
-find(root, "建立题库并启动").invoke()
+# the last paper arriving starts the build by itself; press the button only if it has not
+auto = bool(restarted) or ui_setup_busy(root)
+if not auto:
+    find(root, "建立题库并启动").invoke()
+print("build started automatically:", auto)
 for _ in range(600):
     pump(0.5)
     if restarted:

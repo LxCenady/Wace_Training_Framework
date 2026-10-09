@@ -8,12 +8,12 @@ import tkinter as tk
 from tkinter import ttk
 import pymupdf
 
-WIDTH = 460  # initial pane width
+SHARE = 0.26  # initial share of the window width
 
 
 def setup(k):
     pane, C = k.get("ui.pane"), k.get("ui.colors")
-    frame = ttk.Frame(pane, width=WIDTH)
+    frame = ttk.Frame(pane)
     pane.add(frame, weight=0)
     state = {"subj": "MAM", "doc": None, "path": None, "width": 0, "job": None, "shown": True, "images": []}
 
@@ -100,12 +100,12 @@ def setup(k):
             pane.forget(frame)
         else:
             pane.add(frame, weight=0)
-            k.get("ui.root").after(50, lambda: pane.sashpos(len(pane.panes()) - 2, pane.winfo_width() - WIDTH))
+            k.get("ui.root").after(50, lambda: pane.sashpos(len(pane.panes()) - 2, int(pane.winfo_width() * (1 - SHARE))))
         state["shown"] = not state["shown"]
         shown.set(state["shown"])
 
     canvas.bind("<Configure>", on_resize)
-    k.on("ui.layout", lambda p, width: p.sashpos(len(p.panes()) - 2, width - WIDTH))
+    k.on("ui.layout", lambda p, width: p.sashpos(len(p.panes()) - 2, int(width * (1 - SHARE))))
     for event in ("select.pattern", "select.question", "select.generated"):
         k.on(event, follow)
     shown = tk.BooleanVar(value=True)

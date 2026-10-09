@@ -11,7 +11,8 @@ def setup(k):
     def images(parent, pdf, regs):
         tab = k.get("ui.tab.frame", lambda key: None)("question")
         width = tab.winfo_width() if tab is not None and tab.winfo_width() > 100 else 800
-        zoom = max(0.8, min(1.35, (width - 60) / 544))  # fit the centre pane; crops are 544 pt wide
+        s = k.get("ui.scale", 1.0)
+        zoom = max(0.8 * s, min(1.35 * s, (width - 60) / 544))  # fit the centre pane; crops are 544 pt wide
         for png in k.get("render.regions")(pdf, regs, zoom):
             img = tk.PhotoImage(data=base64.b64encode(png))
             keep.append(img)
