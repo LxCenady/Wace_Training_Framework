@@ -42,6 +42,7 @@ def main(version):
            "--paths", APP, "--paths", TOOLS,
            "--add-data", f"{os.path.join(APP, 'plugins.txt')}{sep}.",
            "--add-data", f"{os.path.join(APP, 'setup.txt')}{sep}.",
+           "--add-data", f"{os.path.join(APP, 'version.txt')}{sep}.",
            "--add-data", f"{os.path.join(APP, 'i18n', 'en.json')}{sep}i18n"]
     for m in plugins + TOOL_MODULES:
         cmd += ["--hidden-import", m]
@@ -80,4 +81,5 @@ def main(version):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1] if len(sys.argv) > 1 else "dev")
+    # app/version.txt is the single source of the version (the updater compares it with GitHub releases)
+    main(sys.argv[1] if len(sys.argv) > 1 else open(os.path.join(APP, "version.txt")).read().strip())

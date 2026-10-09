@@ -44,6 +44,10 @@ def setup(k):
         ttk.Label(f, text="验证失败重试次数").grid(row=row, column=0, sticky="w", pady=(12, 0))
         ttk.Spinbox(f, from_=0, to=5, textvariable=retries, width=4).grid(row=row, column=1, sticky="w", pady=(12, 0))
         row += 1
+        updates = tk.BooleanVar(value=cfg.get("update_check", True))
+        ttk.Checkbutton(f, text="启动时检查 GitHub 上的新版本（每天最多一次）", variable=updates).grid(
+            row=row, column=0, columnspan=2, sticky="w", pady=(8, 0))
+        row += 1
         languages = {"中文": "zh", "English": "en"}
         language = tk.StringVar(value=next(n for n, c in languages.items() if c == cfg.get("language", "zh")))
         ttk.Label(f, text="界面语言 / Language").grid(row=row, column=0, sticky="w", pady=(8, 0))
@@ -77,6 +81,7 @@ def setup(k):
                 cfg[name][field] = json.loads(text or "{}") if field == "extra_body" else text
             cfg["retries"] = retries.get()
             cfg["language"] = languages[language.get()]
+            cfg["update_check"] = updates.get()
             return True
 
         def save():

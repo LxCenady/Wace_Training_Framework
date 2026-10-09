@@ -24,4 +24,5 @@ ui_exam         # 模拟考试: timed past or AI-assembled papers, marked with s
 ui_mastery      # 掌握度地图: tile per pattern, colour = score rate, number = exam weight
 export_pdf      # worksheets: AI questions -> question paper + answer paper (PDF)
 ui_formula      # official formula sheet pinned on the right, resizable
+updater         # GitHub releases: tell about a newer version, download + install on request
 ui_settings     # provider / base_url / model / API key dialog

@@ -242,7 +242,14 @@ def setup(k):
     b3.configure(command=build)
     table.bind("<Double-1>", lambda e: table.focus() and webbrowser.open(
         next(s[2] for s in all_sources if s[0] == table.focus())))
-    k.on("ui.ready", lambda: (refresh(), k.get("ui.root").after(500, tick)))
+    def ready():
+        refresh()
+        k.get("ui.root").after(500, tick)
+        if not [m for m in fetch.missing(root) if "Sample" not in m[0]]:  # e.g. right after an update
+            say("所有真题都已就绪，自动重建题库…", "sub")
+            k.get("ui.root").after(800, build)
+
+    k.on("ui.ready", ready)
     k.get("ui.status")("第一次使用：导入真题后自动进入学习系统")
     k.provide("setup.watch", lambda folder: (state.update(folder=folder, seen={}), refresh()))
     k.provide("setup.scan", scan)
