@@ -4,7 +4,7 @@ A provider plugin registers fn(settings, system, user, timeout) -> str in k.get(
 """
 import json, os, urllib.error, urllib.request
 
-ENV_KEYS = {"openai": "OPENAI_API_KEY", "anthropic": "ANTHROPIC_API_KEY"}
+ENV_KEYS = {"openai": ("DEEPSEEK_API_KEY", "OPENAI_API_KEY"), "anthropic": ("ANTHROPIC_API_KEY",)}
 
 
 def post_json(url, headers, body, timeout):
@@ -26,7 +26,7 @@ def setup(k):
         name = cfg["provider"]
         settings = dict(cfg.get(name, {}))
         if name in ENV_KEYS and not settings.get("api_key"):
-            settings["api_key"] = os.environ.get(ENV_KEYS[name], "")
+            settings["api_key"] = next((os.environ[v] for v in ENV_KEYS[name] if os.environ.get(v)), "")
         if name in ENV_KEYS and not settings.get("api_key"):
             raise RuntimeError(f"未设置 {name} API key（设置 → 模型与 API key）")
         if name in ENV_KEYS and not settings.get("model"):

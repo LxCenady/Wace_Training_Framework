@@ -37,7 +37,8 @@ base = f"http://127.0.0.1:{srv.server_port}"
 k = Kernel(find_root())
 k.load(["config", "llm", "llm_openai", "llm_anthropic"])
 cfg = k.get("config")
-cfg["openai"].update(base_url=base + "/v1", model="test-model", api_key="test-key-openai")
+cfg["openai"].update(base_url=base + "/v1", model="test-model", api_key="test-key-openai",
+                     extra_body={"thinking": {"type": "enabled"}, "reasoning_effort": "max"})
 cfg["anthropic"].update(base_url=base, model="test-claude", api_key="test-key-anthropic")
 chat = k.get("llm.chat")
 
@@ -46,6 +47,7 @@ assert chat("SYS", "USER") == '{"ok": "openai"}'
 path, headers, body = seen[-1]
 assert path == "/v1/chat/completions" and headers["authorization"] == "Bearer test-key-openai"
 assert body["model"] == "test-model" and body["messages"][0] == {"role": "system", "content": "SYS"}
+assert body["reasoning_effort"] == "max" and body["thinking"] == {"type": "enabled"}
 
 cfg["provider"] = "anthropic"
 assert chat("SYS", "USER") == '{"ok": "anthropic"}'
@@ -62,6 +64,7 @@ except RuntimeError as e:
 
 cfg["openai"]["api_key"] = ""
 os.environ.pop("OPENAI_API_KEY", None)
+os.environ.pop("DEEPSEEK_API_KEY", None)
 cfg["provider"] = "openai"
 try:
     chat("SYS", "USER")

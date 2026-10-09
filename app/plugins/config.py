@@ -1,17 +1,21 @@
 """User settings. One job: load/save a JSON file in the user's profile.
 
 API keys are supplied by the user and stored only here (never in the shared data folder).
-If a key field is empty, the provider falls back to the OPENAI_API_KEY / ANTHROPIC_API_KEY env var.
+If a key field is empty, the provider falls back to the DEEPSEEK_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY env var.
 """
 import json, os
 
 PATH = os.path.join(os.environ.get("APPDATA") or os.path.expanduser("~"), "wace-maths", "config.json")
+# Default: DeepSeek through its OpenAI-compatible endpoint, thinking mode at max effort.
+# extra_body is merged into every request body (provider-specific switches such as reasoning effort).
 DEFAULTS = {
-    "provider": "mock",
-    "openai": {"base_url": "https://api.openai.com/v1", "model": "", "api_key": ""},
-    "anthropic": {"base_url": "https://api.anthropic.com", "model": "claude-sonnet-5-5", "api_key": ""},
+    "provider": "openai",
+    "openai": {"base_url": "https://api.deepseek.com", "model": "deepseek-flash", "api_key": "",
+               "extra_body": {"thinking": {"type": "enabled"}, "reasoning_effort": "max"}},
+    "anthropic": {"base_url": "https://api.anthropic.com", "model": "claude-sonnet-5-5", "api_key": "",
+                  "extra_body": {}},
     "retries": 2,
-    "timeout": 180,
+    "timeout": 900,
 }
 
 

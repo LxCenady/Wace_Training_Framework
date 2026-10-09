@@ -7,6 +7,7 @@ def setup(k):
     def chat(s, system, user, timeout):
         body = {"model": s["model"], "max_tokens": 8000, "system": system,
                 "messages": [{"role": "user", "content": user}]}
+        body.update(s.get("extra_body") or {})
         r = post(s["base_url"].rstrip("/") + "/v1/messages",
                  {"x-api-key": s["api_key"], "anthropic-version": "2023-06-01"}, body, timeout)
         return "".join(b.get("text", "") for b in r["content"] if b.get("type") == "text")

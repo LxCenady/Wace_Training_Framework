@@ -65,7 +65,7 @@ app/             GUI (below)
   4. *examiner* — splits the verified solution into exactly one behaviour per mark.
 
   The program checks part labels and mark counts between steps; any failure regenerates with the reason (2 retries by default). Nothing answer-like is shown until all steps pass; 「查看验证记录」 shows every raw reply.
-- **Settings** (设置 → 模型与 API key): Anthropic format (`/v1/messages`) or OpenAI format (`/chat/completions`) with your own base URL, model and key — any compatible service works. Keys are stored only in `%APPDATA%\wace-maths\config.json` (empty → `ANTHROPIC_API_KEY` / `OPENAI_API_KEY`). `mock` is an offline provider for trying the pipeline.
+- **Settings** (设置 → 模型与 API key): Anthropic format (`/v1/messages`) or OpenAI format (`/chat/completions`) with your own base URL, model and key — any compatible service works. **Default: DeepSeek** (`https://api.deepseek.com`, `deepseek-flash`, thinking mode at `reasoning_effort: max`); the per-provider 额外参数 JSON is merged into every request body. Keys are stored only in `%APPDATA%\wace-maths\config.json` (empty → `DEEPSEEK_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY`). `mock` is an offline provider for trying the pipeline.
 - **Architecture** (microkernel): `kernel.py` = service registry + events + plugin loader with no domain code; `main.py` = thin glue; `plugins.txt` lists the plugins; each `plugins/*.py` does one job (store, render, llm + one file per provider, generator, ui_shell / tree / pattern / question / generate / settings).
 - **Tests**: `app\tests\test_providers.py` (both adapters against a local fake server), `app\tests\smoke_gui.py <dir>` (drives the window with the mock provider and saves screenshots).
 
