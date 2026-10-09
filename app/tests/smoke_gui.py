@@ -130,9 +130,12 @@ table.item(groups[0], open=True)
 shot("7_mybank")
 first = table.get_children(groups[0])[0]
 table.selection_set(first)
-table.focus_force()
+table.see(first)
 pump(0.3)
-table.event_generate("<Return>")
+x, y, w, h = table.bbox(first)  # a double-click needs no keyboard focus (the desktop may be in use)
+for _ in range(2):  # two quick clicks = Tk's <Double-1>
+    table.event_generate("<ButtonPress-1>", x=x + w // 2, y=y + h // 2)
+    table.event_generate("<ButtonRelease-1>", x=x + w // 2, y=y + h // 2)
 pump()
 texts = []
 
@@ -266,6 +269,21 @@ for _ in range(300):
 ai_exam = st.exams()[0]
 assert ai_exam["source"] == "ai" and len(ai_exam["refs"]) == 10, ai_exam
 print("exams:", [(e["source"], e["total"], e["lost"], bool(e["submitted"])) for e in st.exams()])
+
+# export both kinds of paper (file dialogs replaced)
+import plugins.ui_exam as ui_exam  # noqa: E402
+ui_exam.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_ai_paper.pdf")
+ui_exam.filedialog.askdirectory = lambda **kw: out
+ui_exam.os.startfile = lambda p: None
+k.get("exam.export")(ai_exam)
+k.get("exam.export")(exam)
+import pymupdf  # noqa: E402
+ai_pdf = pymupdf.open(os.path.join(out, "smoke_ai_paper.pdf"))
+assert "阅读时间 10 分钟 + 作答时间 100 分钟" in ai_pdf[0].get_text().replace(chr(160), " "), ai_pdf[0].get_text()[:200]
+assert os.path.exists(os.path.join(out, "smoke_ai_paper_答案.pdf"))
+past = [f for f in os.listdir(out) if f.startswith("WTF_MAM_CalcFree_2025") and f.endswith(".pdf")]
+assert len(past) == 2, past
+print("exam export:", ai_pdf.page_count, "pages AI paper + answers;", sorted(past))
 
 # 掌握度 + 间隔复习
 mastery = st.mastery()

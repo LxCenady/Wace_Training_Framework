@@ -103,13 +103,13 @@ def render(body, path, assets):
     return n
 
 
-def worksheet(items, path, title, name, maths=None, figures=None):
+def worksheet(items, path, title, name, maths=None, figures=None, meta=None):
     """items: generated items (store.generated). Writes <path> (questions) and <path>_答案.pdf; returns both."""
     font = pymupdf.Font(fontfile=os.path.join(FONTS, "msyh.ttc"))
     qa, aa = Assets(maths, figures), Assets(maths, figures)
     marks = sum(i["marks"] for i in items)
-    meta = (f"{len(items)} 题 · 共 {marks} 分 · 建议用时约 {marks} 分钟（WACE 约每分钟 1 分）· "
-            f"{time.strftime('%Y-%m-%d')} · WTF — WACE Training Framework")
+    meta = meta or (f"{len(items)} 题 · 共 {marks} 分 · 建议用时约 {marks} 分钟（WACE 约每分钟 1 分）· "
+                    f"{time.strftime('%Y-%m-%d')} · WTF — WACE Training Framework")
     q, a = [f"<h1>{text(title, font)}</h1><p class='meta'>{text(meta, font)}</p>"], \
         [f"<h1>{text(title + ' — 答案与评分标准', font)}</h1><p class='meta'>{text(meta, font)}</p>"]
     for n, it in enumerate(items, 1):
@@ -137,6 +137,6 @@ def worksheet(items, path, title, name, maths=None, figures=None):
 
 def setup(k):
     store = k.get("store")
-    k.provide("export.worksheet", lambda gids, path, title: worksheet(
+    k.provide("export.worksheet", lambda gids, path, title, meta=None: worksheet(
         [store.generated(g) for g in gids], path, title, store.pattern_name,
-        k.get("math.svg", None), k.get("figure.svg", None)))
+        k.get("math.svg", None), k.get("figure.svg", None), meta))

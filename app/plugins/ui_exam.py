@@ -6,10 +6,10 @@ past papers of that subject and section, the median total and question count, di
 paper. Marking reuses self-marking (right-click a part in the opened question); the score is the paper total
 minus the marks recorded as lost since the exam started.
 """
-import base64, os, random, threading, time
+import base64, os, random, shutil, threading, time
 import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
-from tkinter import ttk
+from tkinter import filedialog, ttk
 
 TIMES = {"CalcFree": (5, 50), "CalcAssumed": (10, 100)}
 BLUEPRINT = {("MAM", "CalcFree"): (52, 7), ("MAM", "CalcAssumed"): (98, 10),  # median total marks, questions
@@ -120,6 +120,38 @@ def setup(k):
         if "未通过" in event:
             return "未通过，重新出题：" + event.split("：", 1)[-1][:70]
         return event[:80]
+
+    def export_exam(e):
+        """AI paper -> exam-style question paper + answer paper; past paper -> copies of the official exam + key."""
+        reading, working = TIMES[e["section"]]
+        name = f"WTF_{e['subject']}_{e['section']}_{paper_name(e).replace(' ', '')}_{e['created'][:10]}"
+        if e["source"] == "ai":
+            if not k.get("export.worksheet", None):
+                return
+            path = filedialog.asksaveasfilename(title="导出模拟卷", defaultextension=".pdf", initialfile=name + ".pdf",
+                                                filetypes=[("PDF", "*.pdf")])
+            if not path:
+                return
+            title = f"WACE {e['subject']} 模拟卷 · {SEC_NAME[e['section']]}"
+            meta = (f"{len(e['refs'])} 题 · 共 {e['total']} 分 · 阅读时间 {reading} 分钟 + 作答时间 {working} 分钟 · "
+                    f"{e['created'][:10]} · WTF — WACE Training Framework")
+            q, a = k.get("export.worksheet")([int(r) for _, r in e["refs"]], path, title, meta)
+            k.get("ui.status")(f"已导出：{os.path.basename(q)} + {os.path.basename(a)}")
+            if hasattr(os, "startfile"):
+                os.startfile(q)
+            return
+        folder = filedialog.askdirectory(title="导出真卷：选择保存的文件夹")
+        if not folder:
+            return
+        d = store.question(e["refs"][0][1])
+        out = []
+        for rel, suffix in ((d["exam"], ""), (d["key"], "_评分标准")):
+            dest = os.path.join(folder, name + suffix + ".pdf")
+            shutil.copyfile(os.path.join(k.root, rel), dest)
+            out.append(dest)
+        k.get("ui.status")(f"已导出官方原卷与评分标准到 {folder}")
+        if hasattr(os, "startfile"):
+            os.startfile(out[0])
 
     def paper_name(e):
         return f"{e['source'][5:]} 真卷" if e["source"].startswith("past:") else "AI 组卷"
@@ -232,6 +264,7 @@ def setup(k):
         ttk.Label(bar, text=f"{e['subject']} {SEC_NAME[e['section']]} · {paper_name(e)} · {e['total']} 分",
                   style="H.TLabel").pack(side="left")
         ttk.Button(bar, text="返回", command=show).pack(side="right")
+        ttk.Button(bar, text="导出 PDF", command=lambda: export_exam(e)).pack(side="right", padx=6)
         if e["submitted"]:
             return marking(page, e)
         row2 = ttk.Frame(page, padding=(12, 0, 12, 6))
@@ -348,4 +381,5 @@ def setup(k):
     k.provide("exam.show", show)
     k.provide("exam.start", start)
     k.provide("exam.open", open_exam)
+    k.provide("exam.export", export_exam)
     k.provide("exam.submit", lambda: state["exam"] and submit(state["exam"]))
