@@ -86,8 +86,16 @@ Use this when writing a set or a mock paper: **randomise** (vary question count,
 - Cross-topic questions: 5% of real questions combine two topics. How likely each topic is to pair, and with what (P(partner | topic) in real cross-topic questions):
 
   - **Rates of change & differential equations** — 75% of its questions are cross-topic; pairs with Integration techniques & applications 100%, Functions & sketching graphs 67%.
-  - **Integration techniques & applications** — 15% of its questions are cross-topic; pairs with Functions & sketching graphs 75%, Rates of change & differential equations 75%.
+  - **Integration techniques & applications** — 15% of its questions are cross-topic; pairs with Rates of change & differential equations 75%, Functions & sketching graphs 75%.
   - **Functions & sketching graphs** — 13% of its questions are cross-topic; pairs with Integration techniques & applications 100%, Rates of change & differential equations 67%.
+
+- **Marks one pattern carries within a question** (middle half of real questions, and the largest seen). A question is the sum of its patterns' parts: a 10-mark question is three or four patterns' parts, or one pattern that real papers really do run that long — never one routine step inflated to fill the marks:
+
+  - Complex numbers: `MAS.C.1` 3–7 (max 7), `MAS.C.2` 2–4 (max 5), `MAS.C.3` 5–6 (max 6), `MAS.C.4` 3 (max 3), `MAS.C.6` 2 (max 2), `MAS.C.8` 4 (max 6), `MAS.C.9` 3 (max 4)
+  - Rates of change & differential equations: `MAS.DE.1` 3–5 (max 5)
+  - Functions & sketching graphs: `MAS.F.1` 4–5 (max 7), `MAS.F.2` 2–5 (max 6), `MAS.F.3` 4–7 (max 7), `MAS.F.4` 2–5 (max 5), `MAS.F.5` 4–6 (max 6), `MAS.F.6` 2–6 (max 6)
+  - Integration techniques & applications: `MAS.I.1` 4–5 (max 7), `MAS.I.2` 3–4 (max 5), `MAS.I.3` 5–7 (max 8), `MAS.I.4` 4–6 (max 6), `MAS.I.5` 3–5 (max 5)
+  - Vectors in 3D, lines, planes, spheres, linear systems: `MAS.V.1` 6–7 (max 7), `MAS.V.2` 4–5 (max 5), `MAS.V.3` 3 (max 3), `MAS.V.4` 3 (max 3), `MAS.V.5` 3–5 (max 5)
 
 - Tag combinations real questions used (pattern codes, count), by topic pair — combine patterns like these; other patterns of the same two topics are fine when the pairing is natural:
 
@@ -107,6 +115,16 @@ Use this when writing a set or a mock paper: **randomise** (vary question count,
   - **Vectors in 3D, lines, planes, spheres, linear systems** — 21% of its questions are cross-topic; pairs with Vector calculus & motion 67%, Rates of change & differential equations 33%.
   - **Vector calculus & motion** — 17% of its questions are cross-topic; pairs with Vectors in 3D, lines, planes, spheres, linear systems 100%.
   - **Complex numbers** — 5% of its questions are cross-topic; pairs with Integration techniques & applications 100%.
+
+- **Marks one pattern carries within a question** (middle half of real questions, and the largest seen). A question is the sum of its patterns' parts: a 10-mark question is three or four patterns' parts, or one pattern that real papers really do run that long — never one routine step inflated to fill the marks:
+
+  - Complex numbers: `MAS.C.1` 1–4 (max 4), `MAS.C.2` 4–6 (max 7), `MAS.C.3` 4 (max 4), `MAS.C.4` 3–6 (max 7), `MAS.C.5` 3–5 (max 6), `MAS.C.6` 2–4 (max 5), `MAS.C.7` 3 (max 3), `MAS.C.8` 5–6 (max 6), `MAS.C.9` 3–4 (max 4)
+  - Rates of change & differential equations: `MAS.DE.1` 2–6 (max 8), `MAS.DE.2` 3–9 (max 16), `MAS.DE.3` 3–5 (max 6), `MAS.DE.4` 3–4 (max 9), `MAS.DE.5` 6–8 (max 8), `MAS.DE.6` 4–8 (max 8), `MAS.DE.7` 2–6 (max 9), `MAS.DE.8` 2–3 (max 3)
+  - Functions & sketching graphs: `MAS.F.3` 3–4 (max 4), `MAS.F.4` 5–6 (max 6), `MAS.F.5` 3–5 (max 5)
+  - Integration techniques & applications: `MAS.I.1` 5 (max 5), `MAS.I.3` 1–2 (max 2), `MAS.I.4` 3–4 (max 5), `MAS.I.5` 3–6 (max 7)
+  - Statistical inference (sample means): `MAS.S.1` 5–7 (max 9), `MAS.S.2` 3–4 (max 4), `MAS.S.3` 2–5 (max 7), `MAS.S.4` 2–4 (max 6), `MAS.S.5` 4 (max 4), `MAS.S.6` 2 (max 2)
+  - Vectors in 3D, lines, planes, spheres, linear systems: `MAS.V.1` 10 (max 10), `MAS.V.2` 3–6 (max 8), `MAS.V.3` 3–4 (max 5), `MAS.V.4` 3–6 (max 6), `MAS.V.5` 5–8 (max 8), `MAS.V.6` 3–7 (max 7)
+  - Vector calculus & motion: `MAS.VC.1` 2–6 (max 9), `MAS.VC.2` 3–5 (max 5), `MAS.VC.3` 2–3 (max 3), `MAS.VC.4` 2–5 (max 5), `MAS.VC.5` 4 (max 4)
 
 - Tag combinations real questions used (pattern codes, count), by topic pair — combine patterns like these; other patterns of the same two topics are fine when the pairing is natural:
 

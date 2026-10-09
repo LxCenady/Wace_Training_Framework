@@ -1,9 +1,10 @@
 """模拟考试. One job: sit a timed paper (a real past paper or an AI-assembled one), then mark it.
 
 Timing follows WACE: calculator-free 5 min reading + 50 min working; calculator-assumed 10 + 100.
-AI papers follow tools/blueprint.py: the median total, a question count and per-question marks drawn from
-recent papers, topics in proportion to their real share of marks, patterns by their weight within the topic,
-cross-topic questions as often as in real papers (pairings real questions used), difficulty rising with jitter. Marking reuses self-marking (right-click a part in the opened question); the score is the paper total
+AI papers follow tools/blueprint.py: the median total, every question built on the shape of a real question
+(its patterns and the marks each carried, with patterns swapped and marks moved by one inside what real
+questions show), topics in proportion to their real share of marks, cross-topic questions as in real papers,
+difficulty rising with jitter. Marking reuses self-marking (right-click a part in the opened question); the score is the paper total
 minus the marks recorded as lost since the exam started.
 """
 import base64, os, random, shutil, threading, time
@@ -85,8 +86,9 @@ def setup(k):
             rows.heading(c, text=h)
             rows.column(c, width=w, anchor="w", stretch=c == "status")
         rows.pack(fill="x", padx=14)
-        for i, (codes, marks, level) in enumerate(items):
-            rows.insert("", "end", iid=str(i), values=(f"Q{i + 1}", "；".join(store.pattern_name(c) for c in codes),
+        for i, (codes, marks, level, split) in enumerate(items):
+            rows.insert("", "end", iid=str(i), values=(f"Q{i + 1}", "；".join(f"{store.pattern_name(c)}（{split[c]}）"
+                                                                            for c in codes),
                                                          level, marks, "排队中", ""))
         return msg, rows, bar, clock
 
@@ -183,7 +185,7 @@ def setup(k):
         stop = {}  # the first error retrying cannot fix (no balance, bad key) skips the rest of the paper
 
         def one(i_spec):
-            i, (codes, marks, level) = i_spec
+            i, (codes, marks, level, split) = i_spec
             if stop:
                 failed.append(f"Q{i + 1} 已跳过：{stop['why']}")
                 row(i, "已跳过（API 错误，见上方）")
@@ -197,7 +199,7 @@ def setup(k):
                     row(i, stage_text(data), started)
 
             try:
-                item = k.get("generator.run")(codes, sec, marks, event, difficulty=level)
+                item = k.get("generator.run")(codes, sec, marks, event, difficulty=level, split=split)
                 done.append(item)
                 row(i, f"✓ 通过（{item['marks']} 分）", started)
                 post(progress)

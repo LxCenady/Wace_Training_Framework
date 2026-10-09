@@ -4,6 +4,8 @@
   question_marks  marks of every question since 2020 (the distribution new papers sample from)
   question_count  questions per paper since 2020
   cross_topic     pattern pairs from different topics that appear in the same past question, with counts
+  own_marks       marks each pattern carried within one real question (its parts' marks, shared over patterns)
+  skeletons       every real question as {pattern: marks it carried}: the shapes new papers are built from
 
 python tools/blueprint.py  rewrites the "Paper blueprint" block of both question-generation skills.
 """
@@ -14,18 +16,39 @@ from itertools import combinations
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+def round_split(own, total):
+    """{pattern: float marks} -> integers >= 1 summing to `total` (largest remainder)."""
+    scale = total / sum(own.values())
+    out = {p: max(1, int(v * scale)) for p, v in own.items()}
+    for p in sorted(own, key=lambda p: -(own[p] * scale - int(own[p] * scale))):
+        if sum(out.values()) >= total:
+            break
+        out[p] += 1
+    while sum(out.values()) > total and max(out.values()) > 1:
+        out[max(out, key=out.get)] -= 1
+    return out
+
+
 def blueprint(db, subj, section, since=2020):
     q = lambda sql, *a: db.execute(sql, a).fetchall()  # noqa: E731
     share, pattern_share, cross = defaultdict(float), defaultdict(float), Counter()
-    by_question = defaultdict(set)
-    rows = q("""SELECT pp.qid, pp.label, pp.pattern, COALESCE(p.marks, 1), q.year FROM part_patterns pp
+    by_question, own = defaultdict(set), defaultdict(lambda: defaultdict(float))
+    rows = q("""SELECT pp.qid, pp.label, pp.pattern, COALESCE(p.marks, 1), q.marks FROM part_patterns pp
                 JOIN parts p ON p.qid = pp.qid AND p.label = pp.label JOIN questions q ON q.id = pp.qid
                 WHERE q.subject = ? AND q.section = ?""", subj, section)
     per_part = Counter((qid, label) for qid, label, *_ in rows)
-    for qid, label, pattern, marks, year in rows:
+    q_marks = {}
+    for qid, label, pattern, marks, qm in rows:
         share[pattern.rsplit(".", 1)[0]] += marks / per_part[(qid, label)]
         pattern_share[pattern] += marks / per_part[(qid, label)]
+        own[qid][pattern] += marks / per_part[(qid, label)]
         by_question[qid].add(pattern)
+        q_marks[qid] = qm
+    skeletons = [round_split(o, q_marks[qid] or round(sum(o.values()))) for qid, o in own.items()]
+    own_marks = defaultdict(list)
+    for sk in skeletons:
+        for p, m in sk.items():
+            own_marks[p].append(m)
     for pats in by_question.values():
         for a, b in combinations(sorted(pats), 2):
             if a.rsplit(".", 1)[0] != b.rsplit(".", 1)[0]:
@@ -53,81 +76,101 @@ def blueprint(db, subj, section, since=2020):
         "question_count": [n for (n,) in q("""SELECT COUNT(*) FROM questions WHERE subject = ? AND section = ?
                                               AND year >= ? GROUP BY year""", subj, section, since)],
         "cross_topic": cross.most_common(),
+        "own_marks": {p: sorted(v) for p, v in own_marks.items()},
+        "skeletons": skeletons,
     }
+
+
+def pattern_marks(db, subj, section):
+    """{pattern: (low, high)} — the middle of the marks each pattern carried in one real question of that section
+    (all sections when section is not CalcFree/CalcAssumed)."""
+    secs = [section] if section in ("CalcFree", "CalcAssumed") else ["CalcFree", "CalcAssumed"]
+    pooled = defaultdict(list)
+    for sec in secs:
+        for p, v in blueprint(db, subj, sec)["own_marks"].items():
+            pooled[p] += v
+    out = {}
+    for p, v in pooled.items():
+        v = sorted(v)
+        out[p] = (v[len(v) // 4], v[(3 * len(v)) // 4])
+    return out
 
 
 LEVELS = ("基础", "标准", "拔高")
 
 
-def pick_partner(bp, primary, topic, by_topic, used, rng, direct=3.0):
-    """Partner pattern for a cross-topic question: real pattern pairings weigh `direct` times more than a
-    pattern merely drawn from an associated topic (P(B | A) x the pattern's weight within B)."""
-    weights = defaultdict(float)
-    for b, p_b in bp["topic_partner"].get(topic, {}).items():
-        free = {c: w for c, w in by_topic[b].items() if c not in used}
-        norm = sum(free.values())
-        for c, w in free.items():
-            weights[c] += p_b * w / norm
-    for (a, b), n in bp["cross_topic"]:
-        other = b if a == primary else a if b == primary else None
-        if other and other not in used:
-            weights[other] += direct * n / max(1, sum(n2 for (x, y), n2 in bp["cross_topic"] if primary in (x, y)))
-    if not weights:
-        return None
-    return rng.choices(list(weights), weights=list(weights.values()))[0]
+def topic(code):
+    return code.rsplit(".", 1)[0]
 
 
-def plan(bp, total, rng, boost=1.08):
-    """A random paper that follows the blueprint -> [(pattern codes, marks, difficulty)] in paper order.
+def plan(bp, total, rng, swap=0.35, tries=300):
+    """A random paper that follows the blueprint -> [(pattern codes, marks, difficulty, {pattern: marks})].
 
-    Question count and per-question marks are drawn from recent papers (then nudged to the exact total);
-    topics get questions in proportion to their historical share of marks; patterns are drawn by their
-    historical weight within the topic. Cross-topic questions follow the topic association of real papers:
-    a question on topic A becomes cross-topic with A's own real rate, its partner topic B is drawn with
-    P(B | A) from real multi-topic questions, and the partner pattern prefers pairings real questions used
-    (pattern pairs), else B's patterns by weight. Difficulty rises through the paper with some jitter."""
-    # each topic keeps its own relative tendency to pair, scaled so the paper as a whole matches the real rate
-    mean = sum(share * bp["topic_cross_rate"].get(t, 0) for t, share in bp["topic_share"].items())
-    scale = boost * bp["cross_rate"] / mean if mean else 0
-    count = rng.choice(bp["question_count"])
-    pool = [m for m in bp["question_marks"] if m >= 3]
-    lo, hi = min(pool), max(pool)
-    marks = [rng.choice(pool) for _ in range(count)]
-    while sum(marks) != total:  # nudge to the exact total, staying inside the observed range
-        i = rng.randrange(count)
-        step = 1 if sum(marks) < total else -1
-        if lo <= marks[i] + step <= hi:
-            marks[i] += step
-    marks.sort()
-    for i in range(count - 1):  # mostly small-to-large, like the papers, but not strictly
-        if rng.random() < 0.3:
-            marks[i], marks[i + 1] = marks[i + 1], marks[i]
-    deficit = {t: share * total for t, share in bp["topic_share"].items()}
+    Every question is built on the shape of a real question of the same section: its patterns and the marks
+    each carried. A big question is therefore several patterns' parts, never one pattern stretched to 12 marks.
+    Randomness: the shape is drawn from the topic the paper needs most (its historical share of marks), each
+    pattern may be swapped for another of the same topic that has carried about that many marks (within one) in a
+    real question,
+    and marks move by one inside each pattern's observed range. Cross-topic questions come from real
+    cross-topic shapes, so their rate and pairings follow the real papers. Question count stays inside the
+    real range; difficulty rises through the paper with some jitter."""
+    for _ in range(tries):
+        paper = attempt(bp, total, rng, swap)
+        if paper:
+            return paper
+    raise RuntimeError("no paper fits the blueprint")
+
+
+def attempt(bp, total, rng, swap):
+    own = bp["own_marks"]
+    rng_of = {p: (v[0], v[-1]) for p, v in own.items()}
+    cap = max(bp["question_marks"])
     by_topic = defaultdict(dict)
     for code, w in bp["pattern_share"].items():
-        by_topic[code.rsplit(".", 1)[0]][code] = w
-    used, out = set(), []
-    for pos, m in sorted(enumerate(marks), key=lambda x: -x[1]):  # big questions claim topics first
-        topic = max(deficit, key=lambda t: deficit[t] + rng.uniform(0, 0.3 * m) if by_topic[t].keys() - used else -1e9)
-        free = {c: w for c, w in by_topic[topic].items() if c not in used}
-        primary = rng.choices(list(free), weights=list(free.values()))[0]
-        codes = [primary]
-        partner = None
-        if m >= 4 and rng.random() < min(0.95, scale * bp["topic_cross_rate"].get(topic, 0)):
-            partner = pick_partner(bp, primary, topic, by_topic, used, rng)
-        if partner:
-            codes.append(partner)
-            deficit[partner.rsplit(".", 1)[0]] -= 0.4 * m
-            deficit[topic] -= 0.6 * m
-        else:
-            deficit[topic] -= m
-        used.update(codes)
-        out.append((pos, codes, m))
-    out.sort()
+        by_topic[topic(code)][code] = w
+    lead = lambda sk: max({topic(p) for p in sk}, key=lambda t: sum(m for p, m in sk.items() if topic(p) == t))  # noqa: E731
+    deficit = {t: share * total for t, share in bp["topic_share"].items()}
+    left, used, qs = total, set(), []
+    while left >= 3:
+        t = max(deficit, key=lambda t: deficit[t] + rng.uniform(0, 4))
+        cands = [sk for sk in bp["skeletons"] if sum(sk.values()) <= left and lead(sk) == t] or                 [sk for sk in bp["skeletons"] if sum(sk.values()) <= left]
+        if not cands:
+            break
+        sk = rng.choices(cands, weights=[1 / (1 + len(used & sk.keys())) ** 2 for sk in cands])[0]
+        split = {}
+        for p, m in sk.items():
+            alt = {c: w for c, w in by_topic[topic(p)].items()
+                   if c not in used and c not in sk and c not in split and any(abs(x - m) <= 1 for x in own[c])}
+            if alt and rng.random() < swap:
+                p = rng.choices(list(alt), weights=list(alt.values()))[0]
+            split[p] = split.get(p, 0) + m
+        if rng.random() < 0.3:  # one mark more or less on one pattern, inside what it has carried
+            p, d = rng.choice(list(split)), rng.choice((-1, 1))
+            if rng_of[p][0] <= split[p] + d <= rng_of[p][1] and 0 < sum(split.values()) + d <= min(cap, left):
+                split[p] += d
+        for p, m in split.items():
+            deficit[topic(p)] -= m
+        used |= split.keys()
+        left -= sum(split.values())
+        qs.append(split)
+    while left > 0:  # absorb the last marks inside each pattern's range and the largest real question
+        room = [(i, p) for i, sp in enumerate(qs) for p in sp if sp[p] < rng_of[p][1] and sum(sp.values()) < cap]
+        if not room:
+            return None
+        i, p = rng.choice(room)
+        qs[i][p] += 1
+        left -= 1
+    if not min(bp["question_count"]) <= len(qs) <= max(bp["question_count"]):
+        return None
+    qs.sort(key=lambda sp: sum(sp.values()))
+    for i in range(len(qs) - 1):  # mostly small-to-large, like the papers, but not strictly
+        if rng.random() < 0.3:
+            qs[i], qs[i + 1] = qs[i + 1], qs[i]
     paper = []
-    for pos, codes, m in out:
-        x = pos / max(1, count - 1) + rng.uniform(-0.12, 0.12)
-        paper.append((codes, m, LEVELS[0] if x < 0.3 else LEVELS[2] if x > 0.75 else LEVELS[1]))
+    for pos, sp in enumerate(qs):
+        x = pos / max(1, len(qs) - 1) + rng.uniform(-0.12, 0.12)
+        codes = sorted(sp, key=lambda p: -sp[p])
+        paper.append((codes, sum(sp.values()), LEVELS[0] if x < 0.3 else LEVELS[2] if x > 0.75 else LEVELS[1], sp))
     return paper
 
 
@@ -160,6 +203,17 @@ def markdown(db, subj):
                 out.append(f"  - **{names.get(t, t)}** — {rate:.0%} of its questions are cross-topic; pairs with "
                            + ", ".join(f"{names.get(b, b)} {p:.0%}" for b, p in
                                        sorted(partners.items(), key=lambda x: -x[1])) + ".")
+        own = bp["own_marks"]
+        by_t = defaultdict(list)
+        for c in sorted(own, key=lambda c: (topic(c), int(c.rsplit(".", 1)[1]))):
+            v = own[c]
+            lo, hi = v[len(v) // 4], v[(3 * len(v)) // 4]
+            by_t[topic(c)].append(f"`{c}` {lo}" + (f"–{hi}" if hi != lo else "") + f" (max {v[-1]})")
+        out += ["", "- **Marks one pattern carries within a question** (middle half of real questions, and the "
+                "largest seen). A question is the sum of its patterns' parts: a 10-mark question is three or four "
+                "patterns' parts, or one pattern that real papers really do run that long — never one routine "
+                "step inflated to fill the marks:", ""]
+        out += [f"  - {names.get(t, t)}: " + ", ".join(v) for t, v in by_t.items()]
         out += ["", "- Tag combinations real questions used (pattern codes, count), by topic pair — combine "
                 "patterns like these; other patterns of the same two topics are fine when the pairing is natural:", ""]
         by_pair = defaultdict(list)

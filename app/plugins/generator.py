@@ -104,7 +104,7 @@ class Pipeline:
         self.log("raw", {"stage": stage, "attempt": attempt, "reply": raw})
         return parse_json(raw, self.k.get("math.repair", lambda s: s))
 
-    def run(self, codes, section="any", marks=0, difficulty="标准", avoid=(), variant=(1, 1), focus=""):
+    def run(self, codes, section="any", marks=0, difficulty="标准", avoid=(), variant=(1, 1), focus="", split=None):
         store, cfg = self.k.get("store"), self.k.get("config")
         self.known = {r[0] for r in store.q("SELECT code FROM patterns")}
         pats = [store.pattern(c) for c in codes]
@@ -116,7 +116,7 @@ class Pipeline:
         examples = "\n\n".join(example_text(q) for q in store.examples(codes))
         want = (f"Section: {'calculator-free' if section == 'CalcFree' else 'calculator-assumed'}. "
                 if section in ("CalcFree", "CalcAssumed") else "Section: choose the more natural one. ")
-        want += f"Total marks: exactly {marks}. " if marks else "Total marks: 5-12, like the past questions. "
+        want += mark_guide(store, subj, section, codes, marks, split)
         want += "\n" + DIFFICULTY.get(difficulty, DIFFICULTY["标准"])
         if variant[1] > 1:
             want += (f"\nThis is question {variant[0]} of a batch of {variant[1]} on the same patterns: pick a context "
@@ -271,11 +271,40 @@ class Pipeline:
         return result
 
 
+def mark_guide(store, subj, section, codes, marks, split):
+    """How many marks the question and each pattern's parts carry. `split` (from a paper blueprint) fixes them;
+    otherwise each pattern gets the middle of what it carried in one real question, so one pattern is never
+    stretched over a whole long question."""
+    if split:
+        return (f"Total marks: exactly {marks}. Marks per pattern (taken from a real question of this shape): "
+                + ", ".join(f"{c} {m}" for c, m in split.items())
+                + ". Give each pattern its own part(s) carrying about those marks. ")
+    try:
+        import blueprint  # tools/: real-paper statistics
+        with store.lock:
+            usual = blueprint.pattern_marks(store.db, subj, section)
+    except Exception:  # no statistics (e.g. the bank is still being built): fall back to the plain rule
+        usual = {}
+    ranges = {c: usual[c] for c in codes if c in usual}
+    lo, hi = sum(r[0] for r in ranges.values()), sum(r[1] for r in ranges.values())
+    out = f"Total marks: exactly {marks}. " if marks else (
+        f"Total marks: {max(3, lo)}-{max(4, hi)}, the size real questions on these patterns have. " if ranges
+        else "Total marks: 5-12, like the past questions. ")
+    if ranges:
+        out += ("In real papers one pattern carries about " + ", ".join(f"{c} {a}-{b}" if a != b else f"{c} {a}"
+                for c, (a, b) in ranges.items()) + " marks within a question. ")
+        if marks and marks > hi + 2:
+            out += ("The total is larger than these patterns usually carry: reach it with more parts on the same "
+                    "patterns (a follow-on application, a 'hence' step, an interpretation), not by inflating one "
+                    "routine step. ")
+    return out
+
+
 def setup(k):
     store = k.get("store")
 
     def run(codes, section="any", marks=0, on_event=lambda kind, data: None, difficulty="标准", variant=(1, 1),
-            focus=""):
+            focus="", split=None):
         log = []
 
         def record(kind, data):
@@ -284,7 +313,7 @@ def setup(k):
             on_event(kind, data)
 
         avoid = store.generated_stems(codes)
-        item = Pipeline(k, record).run(codes, section, marks, difficulty, avoid, variant, focus)
+        item = Pipeline(k, record).run(codes, section, marks, difficulty, avoid, variant, focus, split)
         cfg = k.get("config")
         item.update(provider=cfg["provider"], model=cfg.get(cfg["provider"], {}).get("model", ""), log=log,
                     difficulty=difficulty, focus=focus)
