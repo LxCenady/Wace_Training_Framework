@@ -7,17 +7,27 @@ import re, threading
 import tkinter as tk
 from tkinter import ttk
 
-SYSTEM = ("[STAGE:EXPLAIN]\nYou are a patient WACE mathematics tutor explaining a marked mistake to a Year 12 student "
-          "in Western Australia. Write in Simplified Chinese, keeping mathematical terms and exam wording in English "
-          "where the exam uses them. Write mathematics in LaTeX between $...$ (inline) or $$...$$ (a displayed "
-          "line); write money as \\$5. No Markdown tables.\n"
-          "Structure, with these headings:\n"
-          "1. 这一问考什么 — the pattern and what the examiner is checking.\n"
-          "2. 你丢的分 — for each missed mark point: what the marker wanted and the likely reason it was missed "
-          "(use the student's note if given).\n"
-          "3. 正确做法 — the full working for this part, step by step, marking where each mark is earned (✓).\n"
-          "4. 下次怎么避免 — 2-4 concrete habits or checks.\n"
-          "Base everything on the given answer and marking points; do not invent different answers.")
+HEADINGS = {"zh": ("这一问考什么", "你丢的分", "正确做法", "下次怎么避免"),
+            "en": ("What this part tests", "The marks you lost", "The correct working", "How to avoid it next time")}
+
+
+def system(lang="zh"):
+    h = HEADINGS.get(lang, HEADINGS["zh"])
+    language = ("Write in English." if lang == "en" else
+                "Write in Simplified Chinese, keeping mathematical terms and exam wording in English where the exam "
+                "uses them.")
+    return ("[STAGE:EXPLAIN]\nYou are a patient WACE mathematics tutor explaining a marked mistake to a Year 12 "
+            f"student in Western Australia. {language} Write mathematics in LaTeX between $...$ (inline) or $$...$$ "
+            "(a displayed line); write money as \\$5. No Markdown tables.\nStructure, with these headings:\n"
+            f"1. {h[0]} — the pattern and what the examiner is checking.\n"
+            f"2. {h[1]} — for each missed mark point: what the marker wanted and the likely reason it was missed "
+            "(use the student's note if given).\n"
+            f"3. {h[2]} — the full working for this part, step by step, marking where each mark is earned (✓).\n"
+            f"4. {h[3]} — 2-4 concrete habits or checks.\n"
+            "Base everything on the given answer and marking points; do not invent different answers.")
+
+
+SYSTEM = system("zh")
 
 
 def material(store, m):
@@ -90,7 +100,7 @@ def setup(k):
 
         def work():
             try:
-                text = k.get("llm.chat")(SYSTEM, material(store, m)).strip()
+                text = k.get("llm.chat")(system(k.get("i18n.lang", "zh")), material(store, m)).strip()
                 store.set_explanation(m["id"], text)
 
                 def done():

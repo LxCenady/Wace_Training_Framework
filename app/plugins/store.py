@@ -23,8 +23,13 @@ def day(offset):
 
 
 class Store:
-    def __init__(self, root):
+    def __init__(self, root, lang="zh"):
+        self.en = lang == "en"  # English names and method notes where translated (falls back to Chinese)
         self.db = sqlite3.connect(os.path.join(root, "wace.db"), check_same_thread=False)
+        cols = {r[1] for r in self.db.execute("PRAGMA table_info(patterns)")}
+        self.title = "COALESCE(NULLIF(p.title_en, ''), p.title)" if self.en and "title_en" in cols else "p.title"
+        self.method = "COALESCE(NULLIF(p.method_en, ''), p.method)" if self.en and "method_en" in cols else "p.method"
+        self.topic = "t.en" if self.en else "t.zh"
         self.gen = sqlite3.connect(os.path.join(root, "generated.db"), check_same_thread=False)
         self.gen.executescript(GEN_SCHEMA)
         cols = [r[1] for r in self.gen.execute("PRAGMA table_info(generated)")]
@@ -48,23 +53,23 @@ class Store:
         return [r[0] for r in self.q("SELECT DISTINCT subject FROM topics ORDER BY subject")]
 
     def topics(self, subj):
-        return self.q("""SELECT t.code, t.zh, t.en, COUNT(DISTINCT pp.qid) FROM topics t
+        return self.q(f"""SELECT t.code, {self.topic}, t.en, COUNT(DISTINCT pp.qid) FROM topics t
                          LEFT JOIN patterns p ON p.topic = t.code LEFT JOIN part_patterns pp ON pp.pattern = p.code
                          WHERE t.subject = ? GROUP BY t.code ORDER BY t.ord""", subj)
 
     def patterns(self, topic):
-        return self.q("""SELECT p.code, p.n, p.title, COUNT(DISTINCT pp.qid) FROM patterns p
+        return self.q(f"""SELECT p.code, p.n, {self.title}, COUNT(DISTINCT pp.qid) FROM patterns p
                          LEFT JOIN part_patterns pp ON pp.pattern = p.code
                          WHERE p.topic = ? GROUP BY p.code ORDER BY p.n""", topic)
 
     def pattern(self, code):
-        r = self.q("""SELECT p.code, p.n, p.title, p.method, t.zh, t.en, t.subject, t.file
+        r = self.q(f"""SELECT p.code, p.n, {self.title}, {self.method}, {self.topic}, t.en, t.subject, t.file
                       FROM patterns p JOIN topics t ON t.code = p.topic WHERE p.code = ?""", code)[0]
         return dict(zip(("code", "n", "title", "method", "topic_zh", "topic_en", "subject", "file"), r))
 
     def pattern_name(self, code):
         """'MAM.D.6 优化' — code plus the short title (falls back to the bare code)."""
-        r = self.q("SELECT title FROM patterns WHERE code = ?", code)
+        r = self.q(f"SELECT {self.title} FROM patterns p WHERE code = ?", code)
         return f"{code} {r[0][0].split('★')[0].split('（')[0].strip()}" if r else code
 
     def questions_for(self, code):
@@ -262,4 +267,4 @@ class Store:
 
 
 def setup(k):
-    k.provide("store", Store(k.root))
+    k.provide("store", Store(k.root, k.get("config").get("language", "zh")))

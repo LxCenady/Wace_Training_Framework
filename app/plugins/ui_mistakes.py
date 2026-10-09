@@ -191,9 +191,10 @@ def setup(k):
 
         foot = ttk.Frame(page)
         foot.pack(fill="x", padx=10, pady=8)
-        level, count = tk.StringVar(value="标准"), tk.IntVar(value=3)
+        lvl_shown, lvl_code = k.get("i18n.choices", lambda v: (list(v), lambda s: s))(LEVELS)
+        level, count = tk.StringVar(value=lvl_shown[1]), tk.IntVar(value=3)
         ttk.Label(foot, text="难度").pack(side="left")
-        ttk.Combobox(foot, textvariable=level, values=LEVELS, state="readonly", width=6).pack(side="left", padx=4)
+        ttk.Combobox(foot, textvariable=level, values=lvl_shown, state="readonly", width=6).pack(side="left", padx=4)
         ttk.Label(foot, text="数量").pack(side="left", padx=(10, 0))
         ttk.Spinbox(foot, from_=1, to=20, textvariable=count, width=4).pack(side="left", padx=4)
         hint = ttk.Label(foot, style="Muted.TLabel")
@@ -228,7 +229,7 @@ def setup(k):
             focus = "\n".join(f"- {t}" for t in missed[:12]) + (
                 "\nStudent's own notes on the errors: " + "; ".join(notes[:6]) if notes else "")
             hint.configure(text="针对：" + "；".join(store.pattern_name(c) for c in codes))
-            k.get("generator.start")(codes, "any", 0, level.get(), max(1, min(20, count.get())), focus)
+            k.get("generator.start")(codes, "any", 0, lvl_code(level.get()), max(1, min(20, count.get())), focus)
 
         ttk.Button(foot, text="生成错题加强题（未选中时针对最弱题型）", style="Accent.TButton",
                    command=drill).pack(side="right")

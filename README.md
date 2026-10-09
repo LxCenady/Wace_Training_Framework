@@ -40,6 +40,13 @@ app\WACE学习系统.bat
 
 `fetch.py` downloads every missing paper. SCSA's site uses bot protection, so some direct downloads may be refused; the script then prints the URLs — open them in a browser, save the PDFs into one folder, and run `tools\fetch.py --from <that folder>`. `build_all.py` then produces `questions.json`, topic PDFs, question banks and `wace.db` (≈ 1 minute). Other platforms: the Python code is portable; the PDF renderers expect Microsoft YaHei (`msyh.ttc`) for CJK text.
 
+## English edition
+
+- **App**: 设置 (Settings) → 模型与 API key → 界面语言 / Language → English, then restart (the first-run wizard has the same switch). Pattern names, method notes and AI explanations switch to English too.
+- **Notes**: `MAM/methods_en/`, `MAS/methods_en/` (methods notes + review logs, md + pdf) and `cheatsheet/*_CheatSheet_EN.*`.
+- **How it is made**: `tools/translate.py docs` translates the Chinese notes chunk by chunk with the configured model (DeepSeek by default) and caches every chunk; `tools/translate.py ui` builds `app/i18n/en.json` from the Chinese fragments in the code plus any fragment the running app reported missing. The interface code stays single-language: the `i18n` plugin translates text where it reaches Tk. Glossary: 题型 = pattern, 知识点 = topic, 错题本 = mistake book, 得分点 = mark points, 评分标准 = marking key.
+- `app/tests/smoke_en.py` opens every main view in English and lists any Chinese still on screen (currently none).
+
 ## Layout
 
 ```

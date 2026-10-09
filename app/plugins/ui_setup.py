@@ -44,6 +44,21 @@ def setup(k):
         "之后所有功能（知识图谱、按小问标注的真题、每一分的评分标准、AI 出题）都在本机离线可用。\n\n"
         "全部文件约 75 MB，下载与建库只需做一次。")).pack(anchor="w", padx=12)
 
+    lang = tk.StringVar(value="English" if k.get("config").get("language") == "en" else "中文")
+
+    def switch_language(_=None):
+        k.get("config")["language"] = "en" if lang.get() == "English" else "zh"
+        k.get("config.save")()
+        restart()
+        k.get("ui.root").destroy()
+
+    row = ttk.Frame(left)
+    row.pack(anchor="w", padx=12, pady=(14, 0))
+    ttk.Label(row, text="界面语言 / Language").pack(side="left")
+    box = ttk.Combobox(row, textvariable=lang, values=["中文", "English"], state="readonly", width=9)
+    box.pack(side="left", padx=6)
+    box.bind("<<ComboboxSelected>>", switch_language)
+
     state = {"folder": downloads_folder(), "seen": {}, "opened": set(), "busy": False}
     all_sources = fetch.sources(root)
     archived = [s for s in all_sources if s[3]]

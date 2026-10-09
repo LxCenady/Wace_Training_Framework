@@ -41,7 +41,8 @@ def main(version):
            "--distpath", dist, "--workpath", build, "--specpath", build,
            "--paths", APP, "--paths", TOOLS,
            "--add-data", f"{os.path.join(APP, 'plugins.txt')}{sep}.",
-           "--add-data", f"{os.path.join(APP, 'setup.txt')}{sep}."]
+           "--add-data", f"{os.path.join(APP, 'setup.txt')}{sep}.",
+           "--add-data", f"{os.path.join(APP, 'i18n', 'en.json')}{sep}i18n"]
     for m in plugins + TOOL_MODULES:
         cmd += ["--hidden-import", m]
     for m in ("ziamath", "ziafont", "ziaplot", "latex2mathml"):  # fonts / symbol tables they read at run time
@@ -58,7 +59,17 @@ def main(version):
     with open(os.path.join(out, "先读我.txt"), "w", encoding="utf-8") as f:
         f.write("双击 WTF.exe 启动。第一次运行会带你导入 SCSA 真题（版权原因不随程序分发）并建立题库，约 10 分钟。\n"
                 "之后的一切都在本机离线运行；AI 出题需要在「设置」里填你自己的 API key（默认 DeepSeek）。\n"
-                "整个文件夹可以放在任何位置（包括 U 盘）；你的 AI 题和错题本保存在本文件夹的 generated.db。\n")
+                "整个文件夹可以放在任何位置（包括 U 盘）；你的 AI 题和错题本保存在本文件夹的 generated.db。\n"
+                "界面语言：设置 → 模型与 API key → 界面语言 / Language。\n")
+    with open(os.path.join(out, "Read me first.txt"), "w", encoding="utf-8") as f:
+        f.write("Double-click WTF.exe. The first run walks you through importing the SCSA past papers (not shipped "
+                "for copyright reasons) and builds the question bank, about 10 minutes.\n"
+                "Everything then runs offline on this computer; AI questions need your own API key in Settings "
+                "(DeepSeek by default).\n"
+                "For the English interface: 设置 (Settings) -> 模型与 API key -> 界面语言 / Language -> English, "
+                "then restart.\n"
+                "The folder can live anywhere (a USB stick works); your AI questions and mistakes are in generated.db "
+                "here.\n")
     zpath = os.path.join(dist, f"WTF-Windows-v{version}.zip")
     with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
         for base, _, files in os.walk(out):

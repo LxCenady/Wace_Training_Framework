@@ -1,4 +1,5 @@
 # First run (no wace.db yet): only what the import wizard needs.
 config
+i18n
 ui_shell
 ui_setup        # import the SCSA papers, build the question bank, restart into the full app

@@ -44,6 +44,15 @@ def setup(k):
         ttk.Label(f, text="验证失败重试次数").grid(row=row, column=0, sticky="w", pady=(12, 0))
         ttk.Spinbox(f, from_=0, to=5, textvariable=retries, width=4).grid(row=row, column=1, sticky="w", pady=(12, 0))
         row += 1
+        languages = {"中文": "zh", "English": "en"}
+        language = tk.StringVar(value=next(n for n, c in languages.items() if c == cfg.get("language", "zh")))
+        ttk.Label(f, text="界面语言 / Language").grid(row=row, column=0, sticky="w", pady=(8, 0))
+        ttk.Combobox(f, textvariable=language, values=list(languages), state="readonly", width=10).grid(
+            row=row, column=1, sticky="w", pady=(8, 0))
+        row += 1
+        ttk.Label(f, text="切换语言后重启生效 / restart to apply", style="Muted.TLabel").grid(
+            row=row, column=1, sticky="w")
+        row += 1
         ttk.Label(f, text=f"API key 只保存在本机：{k.get('config.path')}\n留空则读取环境变量 DEEPSEEK_API_KEY / OPENAI_API_KEY / "
                           "ANTHROPIC_API_KEY。Base URL 可改成任何兼容该格式的服务。\n"
                           "额外参数会并入每次请求，例如 DeepSeek 思考强度："
@@ -67,6 +76,7 @@ def setup(k):
                 text = v.get().strip()
                 cfg[name][field] = json.loads(text or "{}") if field == "extra_body" else text
             cfg["retries"] = retries.get()
+            cfg["language"] = languages[language.get()]
             return True
 
         def save():

@@ -32,15 +32,18 @@ def setup(k):
 
     foot = ttk.Frame(left)
     foot.pack(fill="x", padx=10, pady=8)
-    section, marks = tk.StringVar(value="任意"), tk.IntVar(value=0)
-    level, count = tk.StringVar(value="标准"), tk.IntVar(value=1)
+    pick = k.get("i18n.choices", lambda v: (list(v), lambda s: s))
+    sec_shown, sec_code = pick(list(SECTIONS))
+    lvl_shown, lvl_code = pick(LEVELS)
+    section, marks = tk.StringVar(value=sec_shown[0]), tk.IntVar(value=0)
+    level, count = tk.StringVar(value=lvl_shown[1]), tk.IntVar(value=1)
     ttk.Label(foot, text="卷型").grid(row=0, column=0, sticky="w")
-    ttk.Combobox(foot, textvariable=section, values=list(SECTIONS), state="readonly", width=16).grid(row=0, column=1,
+    ttk.Combobox(foot, textvariable=section, values=sec_shown, state="readonly", width=16).grid(row=0, column=1,
                                                                                                     padx=4)
     ttk.Label(foot, text="总分(0=自动)").grid(row=0, column=2, sticky="w", padx=(8, 0))
     ttk.Spinbox(foot, from_=0, to=20, textvariable=marks, width=4).grid(row=0, column=3, padx=4)
     ttk.Label(foot, text="难度").grid(row=1, column=0, sticky="w", pady=(6, 0))
-    ttk.Combobox(foot, textvariable=level, values=LEVELS, state="readonly", width=16).grid(row=1, column=1, padx=4,
+    ttk.Combobox(foot, textvariable=level, values=lvl_shown, state="readonly", width=16).grid(row=1, column=1, padx=4,
                                                                                            pady=(6, 0))
     ttk.Label(foot, text="数量").grid(row=1, column=2, sticky="w", padx=(8, 0), pady=(6, 0))
     ttk.Spinbox(foot, from_=1, to=20, textvariable=count, width=4).grid(row=1, column=3, padx=4, pady=(6, 0))
@@ -97,7 +100,7 @@ def setup(k):
             return
         go.state(["disabled"])
         n = max(1, min(20, count.get()))
-        k.get("generator.start")(c, SECTIONS[section.get()], marks.get(), level.get(), n)
+        k.get("generator.start")(c, SECTIONS[sec_code(section.get())], marks.get(), lvl_code(level.get()), n)
 
     go.configure(command=generate)
 

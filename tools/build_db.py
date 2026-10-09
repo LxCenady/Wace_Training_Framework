@@ -19,7 +19,8 @@ from markpoints import points  # noqa: E402
 SECTION = {"CalcAssumed": "A", "CalcFree": "F"}
 SCHEMA = """
 CREATE TABLE topics   (code TEXT PRIMARY KEY, subject TEXT, ord INT, file TEXT, zh TEXT, en TEXT);
-CREATE TABLE patterns (code TEXT PRIMARY KEY, topic TEXT, n INT, title TEXT, method TEXT);
+CREATE TABLE patterns (code TEXT PRIMARY KEY, topic TEXT, n INT, title TEXT, method TEXT,
+                       title_en TEXT DEFAULT '', method_en TEXT DEFAULT '');
 CREATE TABLE questions(id TEXT PRIMARY KEY, subject TEXT, year INT, section TEXT, q INT, marks INT,
                        exam TEXT, exam_regions TEXT, key TEXT, key_regions TEXT, stem TEXT, points_ok INT);
 CREATE TABLE parts    (qid TEXT, label TEXT, ord INT, marks INT, PRIMARY KEY (qid, label));
@@ -29,7 +30,7 @@ CREATE VIEW q_patterns AS SELECT DISTINCT qid, pattern FROM part_patterns;
 CREATE INDEX pp_pattern ON part_patterns(pattern);
 CREATE INDEX pt_qid ON points(qid);
 """
-HEAD = re.compile(r"^## 题型\s*(\d+)[：:]\s*(.+)$")
+HEAD = re.compile(r"^## (?:题型|Pattern)\s*(\d+)\s*[：:]\s*(.+)$")
 
 
 def method_sections(md_path):
@@ -82,8 +83,14 @@ def build(db_path):
             tcode = f"{subj}.{letter}"
             db.execute("INSERT INTO topics VALUES (?,?,?,?,?,?)", (tcode, subj, i, fname, zh, en))
             md = os.path.join(ROOT, subj, "methods", f"{fname}_解题思路.md")
+            md_en = os.path.join(ROOT, subj, "methods_en", f"{fname}_Methods.md")  # tools/translate.py docs
+            english = method_sections(md_en) if os.path.exists(md_en) else {}
             for n, (title, text) in method_sections(md).items():
-                db.execute("INSERT INTO patterns VALUES (?,?,?,?,?)", (f"{tcode}.{n}", tcode, n, title, text))
+                title_en, text_en = english.get(n, ("", ""))
+                db.execute("INSERT INTO patterns VALUES (?,?,?,?,?,?,?)",
+                           (f"{tcode}.{n}", tcode, n, title, text, title_en, text_en))
+            if english and set(english) != set(method_sections(md)):
+                problems.append(f"{subj} {fname}: English notes have patterns {sorted(english)}")
         known = {r[0] for r in db.execute("SELECT code FROM patterns WHERE topic LIKE ?", (subj + ".%",))}
         tags = read_parttags(subj)
         docs = {}

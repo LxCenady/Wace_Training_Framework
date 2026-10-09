@@ -69,8 +69,8 @@ def shrink(pdf_path):
 
 
 if __name__ == "__main__":
-    for s in sys.argv[1:]:
-        for md in sorted(glob.glob(f"{ROOT}/{s}/methods/*.md")):
+    for s in sys.argv[1:]:  # Chinese notes and their English edition (tools/translate.py docs)
+        for md in sorted(glob.glob(f"{ROOT}/{s}/methods/*.md") + glob.glob(f"{ROOT}/{s}/methods_en/*.md")):
             out = md[:-3] + ".pdf"
             render(md, out)
             shrink(out)

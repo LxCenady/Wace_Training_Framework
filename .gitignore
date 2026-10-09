@@ -17,3 +17,5 @@ tools/old_list.tsv
 build/
 dist/
 WTF.log
+app/i18n/missing.txt
+tools/i18n_cache.json

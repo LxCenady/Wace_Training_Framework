@@ -1,6 +1,7 @@
 # Load order matters only where a plugin uses another's service in setup().
 # Remove a line to drop a feature; add a module in plugins/ to extend.
 config          # user settings (API keys) in the user's profile, not in the shared folder
+i18n            # English interface: translates CJK runs at the Tk boundary (i18n/en.json)
 store           # read-only past-paper DB (wace.db) + generated-question DB
 render          # PDF region crops -> PNG
 llm             # provider registry: chat(system, user) -> text
