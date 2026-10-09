@@ -8,6 +8,7 @@ printed URLs in a browser, save them into one folder, and run --from on that fol
 """
 import os, shutil, sys, urllib.parse, urllib.request
 
+WAYBACK = "https://web.archive.org/web/2020id_/"
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -15,6 +16,8 @@ def sources():
     for line in open(os.path.join(ROOT, "sources.tsv"), encoding="utf-8"):
         if line.strip():
             path, url = line.rstrip("\n").split("\t")
+            if url.endswith(" (wayback)"):  # gone from the SCSA site: fetch the archived original bytes
+                url = WAYBACK + url[: -len(" (wayback)")]
             yield path, url
 
 
