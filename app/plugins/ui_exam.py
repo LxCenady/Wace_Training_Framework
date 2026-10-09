@@ -6,7 +6,7 @@ past papers of that subject and section, the median total and question count, di
 paper. Marking reuses self-marking (right-click a part in the opened question); the score is the paper total
 minus the marks recorded as lost since the exam started.
 """
-import base64, random, threading, time
+import base64, os, random, threading, time
 import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
 from tkinter import ttk
@@ -57,9 +57,9 @@ def setup(k):
         ttk.Radiobutton(f, text="历年真卷", value="past", variable=src).grid(row=2, column=0, sticky="w")
         ttk.Combobox(f, textvariable=year, values=[str(y) for y in years], state="readonly", width=6).grid(
             row=2, column=1)
-        ttk.Radiobutton(f, text="AI 组卷（按历年题型分值比例，难度前易后难；每题都经完整验证，约 2–4 分钟）",
+        ttk.Radiobutton(f, text="AI 组卷（按历年题型分值比例，难度前易后难；每题都经完整验证，约 5–10 分钟）",
                         value="ai", variable=src).grid(row=3, column=0, columnspan=6, sticky="w")
-        msg = ttk.Label(f, style="Muted.TLabel")
+        msg = ttk.Label(f, style="Muted.TLabel", wraplength=820, justify="left")
         msg.grid(row=5, column=0, columnspan=6, sticky="w", pady=(6, 0))
         ttk.Button(f, text="开始考试", style="Accent.TButton",
                    command=lambda: start(subj.get(), sec.get(), src.get(), year.get(), msg)).grid(
@@ -80,6 +80,47 @@ def setup(k):
                 f"{got} / {e['total']}" if e["submitted"] else "—", "已交卷" if e["submitted"] else "未交卷"))
         table.bind("<Double-1>", lambda ev: table.focus() and open_exam(store.exam(int(table.focus()))))
 
+    def progress_page(subj, sec, total, items):
+        """The exam tab while an AI paper is assembled: one row per question, live stage, overall bar."""
+        page = k.get("ui.tab")("exam", "模拟考试")
+        head = ttk.Frame(page, padding=(14, 12, 14, 4))
+        head.pack(fill="x")
+        ttk.Label(head, text=f"正在组卷：{subj} {SEC_NAME[sec]} · {len(items)} 题 · {total} 分",
+                  style="H.TLabel").pack(side="left")
+        ttk.Button(head, text="返回", command=show).pack(side="right")
+        clock = ttk.Label(head, style="Muted.TLabel")
+        clock.pack(side="right", padx=12)
+        bar = ttk.Progressbar(page, maximum=len(items))
+        bar.pack(fill="x", padx=14, pady=4)
+        msg = ttk.Label(page, style="Muted.TLabel", wraplength=900, justify="left",
+                        text="每道题依次：出题 → 独立解题 → 核对 → SymPy 验算 → 拆得分点；同时进行 "
+                             f"{int(k.get('config').get('parallel', 4))} 道。可以切到别的页面，完成后自动打开试卷。")
+        msg.pack(anchor="w", padx=14, pady=(0, 6))
+        rows = ttk.Treeview(page, columns=("n", "patterns", "level", "marks", "status", "time"), show="headings",
+                            height=len(items))
+        for c, h, w in (("n", "#", 40), ("patterns", "题型", 330), ("level", "难度", 60), ("marks", "分", 40),
+                        ("status", "状态", 380), ("time", "用时", 60)):
+            rows.heading(c, text=h)
+            rows.column(c, width=w, anchor="w", stretch=c == "status")
+        rows.pack(fill="x", padx=14)
+        for i, (codes, marks, level) in enumerate(items):
+            rows.insert("", "end", iid=str(i), values=(f"Q{i + 1}", "；".join(store.pattern_name(c) for c in codes),
+                                                         level, marks, "排队中", ""))
+        return msg, rows, bar, clock
+
+    def stage_text(event):
+        """Generator progress line ('[2] VERIFY …', '[1] 未通过：…', 'SYMPY 验算 3 个小问 …') -> short status."""
+        names = {"GENERATE": "出题", "SOLVE": "独立解题", "VERIFY": "核对", "MARKS": "拆得分点"}
+        for key, zh in names.items():
+            if key in event:
+                attempt = event[1:event.index("]")] if event.startswith("[") else "1"
+                return f"第 {attempt} 次 · {zh}中…"
+        if "SYMPY" in event:
+            return "SymPy 验算中…"
+        if "未通过" in event:
+            return "未通过，重新出题：" + event.split("：", 1)[-1][:70]
+        return event[:80]
+
     def paper_name(e):
         return f"{e['source'][5:]} 真卷" if e["source"].startswith("past:") else "AI 组卷"
 
@@ -94,27 +135,84 @@ def setup(k):
             return
         total, count = BLUEPRINT[(subj, sec)]
         items = plan(store.pattern_weights(subj, sec), total, count, random.Random())
-        msg.configure(text=f"正在组卷：{count} 题、{total} 分……")
-        post, done = k.get("ui.post"), []
+        post, done, failed = k.get("ui.post"), [], []
+        msg, rows, bar, clock = progress_page(subj, sec, total, items)
+        t0 = time.time()
 
-        def one(spec):
-            codes, marks, level = spec
+        def tick():
+            if len(done) + len(failed) < count and clock.winfo_exists():
+                clock.configure(text=f"已用 {int(time.time() - t0) // 60}:{int(time.time() - t0) % 60:02d}")
+                root.after(1000, tick)
+
+        tick()
+
+        def progress():
+            if bar.winfo_exists():
+                bar.configure(value=len(done) + len(failed))
+                msg.configure(text=f"已完成 {len(done)} / {count} 题" + (f"，{len(failed)} 题未通过" if failed else ""))
+            k.get("ui.status")(f"AI 组卷：已完成 {len(done)} / {count} 题" + (f"，{len(failed)} 题未通过" if failed else ""))
+
+        def row(i, status, started=None):
+            took = f"{time.time() - started:.0f}s" if started else ""
+
+            def apply():  # the page may have been left ("返回") while questions are still being made
+                if rows.winfo_exists() and rows.exists(str(i)):
+                    rows.set(str(i), "status", status)
+                    rows.set(str(i), "time", took)
+            post(apply)
+
+        fatal = k.get("llm.ProviderError", ())
+        stop = {}  # the first error retrying cannot fix (no balance, bad key) skips the rest of the paper
+
+        def one(i_spec):
+            i, (codes, marks, level) = i_spec
+            if stop:
+                failed.append(f"Q{i + 1} 已跳过：{stop['why']}")
+                row(i, "已跳过（API 错误，见上方）")
+                post(progress)
+                return None
+            started = time.time()
+            row(i, "出题中…", started)
+
+            def event(kind, data):
+                if kind == "progress":
+                    row(i, stage_text(data), started)
+
             try:
-                item = k.get("generator.run")(codes, sec, marks, difficulty=level)
+                item = k.get("generator.run")(codes, sec, marks, event, difficulty=level)
                 done.append(item)
-                post(lambda: msg.configure(text=f"正在组卷：已完成 {len(done)} / {count} 题"))
+                row(i, f"✓ 通过（{item['marks']} 分）", started)
+                post(progress)
                 return item
             except Exception as e:  # a failed question is dropped; the paper is assembled from the rest
-                post(lambda e=e: msg.configure(text=f"一题未通过验证（{str(e)[:60]}），继续组卷…"))
+                if isinstance(e, fatal):
+                    stop.setdefault("why", str(e))
+                    row(i, f"✗ API 错误：{str(e)[:90]}", started)
+                else:
+                    row(i, f"✗ 未通过验证：{str(e)[:90]}", started)
+                failed.append(f"Q{i + 1} {'+'.join(codes)}（{level}）：{type(e).__name__}: {e}")
+                post(progress)
                 return None
 
         def work():
             with ThreadPoolExecutor(int(k.get("config").get("parallel", 4))) as pool:
-                got = [it for it in pool.map(one, items) if it]
+                got = [it for it in pool.map(one, enumerate(items)) if it]
+            if failed:  # every reason, for the student and for a bug report
+                try:
+                    with open(os.path.join(k.root, "WTF.log"), "a", encoding="utf-8") as f:
+                        f.write("\n--- AI 组卷：未通过的题 ---\n" + "\n".join(failed) + "\n")
+                except OSError:
+                    pass
             if not got:
-                post(lambda: msg.configure(text="组卷失败：所有题都没有通过验证"))
+                reasons = "\n".join("· " + r[:160] for r in failed[:5])
+                text = (f"组卷失败：{stop['why']}" if stop else
+                        f"组卷失败：{count} 题都没有通过验证。原因（详见 WTF.log）：\n{reasons}")
+                post(lambda: (msg.winfo_exists() and msg.configure(text=text), k.get("ui.status")(text.split("\n")[0])))
                 return
-            eid = store.save_exam(subj, sec, "ai", [["gen", it["id"]] for it in got], sum(it["marks"] for it in got))
+            got_marks = sum(it["marks"] for it in got)
+            eid = store.save_exam(subj, sec, "ai", [["gen", it["id"]] for it in got], got_marks)
+            post(lambda: k.get("ui.status")(f"AI 组卷完成：{len(got)} 题、{got_marks} 分" + (
+                f"（{len(failed)} 题未通过，已略去，原因见 WTF.log）" if failed else "")))
             post(lambda: open_exam(store.exam(eid)))
 
         threading.Thread(target=work, daemon=True).start()

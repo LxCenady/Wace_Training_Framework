@@ -146,6 +146,13 @@ def all_text(w):
 
 all_text(root)
 assert any(f"AI 题 #{first}" in t for t in texts), "opening a bank row must show that item"
+if not button("显示得分点与解答"):
+    def all_buttons(w):
+        for c in w.winfo_children():
+            if c.winfo_class() == "TButton":
+                yield c.cget("text")
+            yield from all_buttons(c)
+    print("buttons now:", list(all_buttons(root)))
 assert button("显示得分点与解答"), "answers must still be hidden behind the button"
 print("mybank groups:", [(table.item(g, "text"), table.item(g, "values")[2], len(table.get_children(g)))
                          for g in groups])
@@ -250,6 +257,8 @@ pump()
 shot("12_exam_marking")
 assert st.exam(exam["id"])["lost"] == 1, st.exam(exam["id"])
 k.get("exam.start")("MAM", "CalcAssumed", "ai", "", type("M", (), {"configure": lambda *a, **kw: None})())
+pump(0.4)
+shot("12b_exam_progress")
 for _ in range(300):
     pump(0.1)
     if st.exams()[0]["source"] == "ai":

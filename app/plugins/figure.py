@@ -14,7 +14,10 @@ The model never writes plotting code. It writes data:
 Expressions go through the same whitelist as the SymPy check (plugins/symcheck.safe) and become plain
 math-module functions. Items that cannot be drawn are skipped and reported; the rest is still drawn.
 """
-import math
+import math, threading
+
+# ziaplot collects components in a module-level stack: two threads drawing at once mix their figures
+DRAW_LOCK = threading.Lock()
 
 CSS = """
 Graph { color: none; edge_width: 1.5; }
@@ -55,7 +58,11 @@ def setup(k):
         return (num(p[0]), num(p[1]))
 
     def draw(spec):
-        """-> (svg text, [problems])."""
+        """-> (svg text, [problems]). Serialised: batches and mock papers check figures from several threads."""
+        with DRAW_LOCK:
+            return draw_unlocked(spec)
+
+    def draw_unlocked(spec):
         import ziaplot as zp
         import ziamath as zm
         zp.config.svg2 = zm.config.svg2 = False  # MuPDF renders inline paths, not <use>/<marker>

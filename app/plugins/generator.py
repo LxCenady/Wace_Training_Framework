@@ -296,9 +296,14 @@ def setup(k):
         gen.error(msg) per failed question, gen.finished(ok, count) once at the end."""
         post = k.get("ui.post", lambda fn: fn())
         workers = max(1, min(count, int(k.get("config").get("parallel", 4))))
+        fatal = k.get("llm.ProviderError", ())
+        stop = {}  # set by the first error that retrying cannot fix (no balance, bad key)
 
         def one(i):
             tag = f"[第{i}/{count}题] " if count > 1 else ""
+            if stop:
+                post(lambda: k.emit("gen.error", tag + "已跳过：" + stop["why"]))
+                return False
             try:
                 item = run(codes, section, marks,
                            lambda kind, data: kind == "progress" and post(lambda d=tag + data: k.emit("gen.progress", d)),
@@ -306,7 +311,11 @@ def setup(k):
                 post(lambda: k.emit("gen.done", item))
                 return True
             except Exception as e:  # report every failure in the UI, never crash the worker silently
-                msg = tag + (str(e) if isinstance(e, Failed) else f"{type(e).__name__}: {e}")
+                if isinstance(e, fatal):
+                    stop.setdefault("why", str(e))
+                    msg = tag + "API 错误：" + str(e)
+                else:
+                    msg = tag + (str(e) if isinstance(e, Failed) else f"{type(e).__name__}: {e}")
                 post(lambda: k.emit("gen.error", msg))
                 return False
 
