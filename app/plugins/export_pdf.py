@@ -4,7 +4,7 @@ paper whose mark points carry tick boxes for marking on paper.
 Fonts come from the Windows font folder: Microsoft YaHei for text, Segoe UI Symbol for the glyphs YaHei
 lacks (⇒ ☐ ✓ …), chosen per character.
 """
-import html, io, os, time
+import html, io, os, re, time
 import pymupdf
 
 FONTS = os.path.join(os.environ.get("WINDIR", r"C:\Windows"), "Fonts")
@@ -114,7 +114,8 @@ def worksheet(items, path, title, name, maths=None, figures=None, meta=None):
         [f"<h1>{text(title + ' — 答案与评分标准', font)}</h1><p class='meta'>{text(meta, font)}</p>"]
     for n, it in enumerate(items, 1):
         head = f"Question {n}（{it['marks']} 分 · {SECTION.get(it.get('section'), '')} · AI #{it['id']}）"
-        q.append(f"<h2>{text(head, font)}</h2><p>{text(it['question'], font, qa)}</p>")
+        stem = re.sub(r"^\s*Question\s*\d*\s*\(\s*\d+\s*marks?\s*\)\s*", "", it["question"])  # models repeat it
+        q.append(f"<h2>{text(head, font)}</h2><p>{text(stem, font, qa)}</p>")
         q.append(qa.figure(it.get("figure")))
         q.append("<p class='space'>.</p>" * (3 * it["marks"] + 2))  # working space ~ 3 lines per mark
         a.append(f"<h2>{text(head, font)}</h2>")

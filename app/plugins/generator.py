@@ -166,7 +166,8 @@ class Pipeline:
         if len({p["label"] for p in parts}) != len(parts):
             raise Failed("duplicate part labels")
         labels = [p["label"] for p in parts]
-        stem = question = g["question"].strip()
+        # the app numbers questions itself; models often open with their own "Question 3 (10 marks)"
+        stem = question = re.sub(r"^\s*Question\s*\d*\s*\(\s*\d+\s*marks?\s*\)\s*", "", g["question"]).strip()
         figure = g.get("figure") or None
         if figure:
             problems = self.figure_problems(figure)
