@@ -1,0 +1,16 @@
+# question-topic pairs not cited in any methods-note pattern: subj year+sec qnum topic pattern-ordinal
+MAM 2016A 20 DRV 4
+MAM 2017A 12 DRV 4
+MAM 2017F 8 D 1
+MAM 2018A 14 D 1
+MAM 2019A 12 D 4
+MAM 2020F 3 I 6
+MAM 2021A 9 D 4
+MAM 2021A 10 CI 1
+MAM 2021A 16 D 6
+MAM 2022A 7 D 6
+MAM 2023A 6 D 1
+MAM 2023A 9 D 6
+MAM 2025F 1 I 1
+MAS 2021F 8 F 1
+MAS 2022A 13 DE 1

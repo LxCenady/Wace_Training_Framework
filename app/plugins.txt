@@ -1,0 +1,16 @@
+# Load order matters only where a plugin uses another's service in setup().
+# Remove a line to drop a feature; add a module in plugins/ to extend.
+config          # user settings (API keys) in the user's profile, not in the shared folder
+store           # read-only past-paper DB (wace.db) + generated-question DB
+render          # PDF region crops -> PNG
+llm             # provider registry: chat(system, user) -> text
+llm_openai      # OpenAI chat-completions format (any compatible base_url)
+llm_anthropic   # Anthropic messages format
+llm_mock        # offline provider for testing the pipeline
+generator       # generate -> independent solve -> verify -> split into mark points
+ui_shell        # window, tabs, thread-safe post()
+ui_tree         # knowledge tree: subject -> topic -> pattern -> questions
+ui_pattern      # pattern method notes
+ui_question     # past question crop + marking key revealed on demand
+ui_generate     # AI question view; mark points revealed only after verification
+ui_settings     # provider / base_url / model / API key dialog

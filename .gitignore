@@ -1,0 +1,16 @@
+# SCSA material (© School Curriculum and Standards Authority) and everything derived from its text/images:
+# rebuild locally with tools/fetch.py + tools/build_all.py
+*/papers/
+*/questions.json
+*/topics/
+*/题库/
+evidence/
+wace.db
+generated.db
+*.zip
+# local environment / one-off helpers
+.venv/
+__pycache__/
+*.pyc
+tools/unbundle.py
+tools/old_list.tsv

@@ -1,0 +1,32 @@
+"""Offline provider: canned replies per pipeline stage, for testing without an API key."""
+import json, re
+
+REPLIES = {
+    "GENERATE": {"section": "CalcFree", "question": (
+        "Let f(x) = x³ − 3x + 1.\n(a) Determine f′(x). (1 mark)\n"
+        "(b) Determine the coordinates of the stationary points of f and state their nature. (4 marks)"),
+        "parts": [{"label": "a", "marks": 1, "answer": "f′(x) = 3x² − 3"},
+                  {"label": "b", "marks": 4, "answer": "(−1, 3) local maximum; (1, −1) local minimum"}]},
+    "SOLVE": {"parts": [{"label": "a", "working": "power rule", "answer": "3x² − 3"},
+                        {"label": "b", "working": "3x² − 3 = 0 → x = ±1; f″(x) = 6x",
+                         "answer": "max (−1, 3), min (1, −1)"}]},
+    "VERIFY": {"parts": [{"label": "a", "agree": True, "correct_answer": "f′(x) = 3x² − 3", "note": ""},
+                         {"label": "b", "agree": True, "correct_answer": "(−1, 3) local max; (1, −1) local min",
+                          "note": ""}], "well_posed": True, "verdict": "pass", "feedback": ""},
+    "MARKS": {"solution": "(a) f′(x) = 3x² − 3\n(b) f′(x) = 0 ⇒ x = ±1. f(−1) = 3, f(1) = −1. "
+                          "f″(x) = 6x: f″(−1) = −6 < 0 so (−1, 3) is a local maximum; f″(1) = 6 > 0 so (1, −1) "
+                          "is a local minimum.",
+              "points": [{"label": "a", "text": "differentiates correctly"},
+                         {"label": "b", "text": "equates f′(x) to zero"},
+                         {"label": "b", "text": "solves for both x values"},
+                         {"label": "b", "text": "determines both y coordinates"},
+                         {"label": "b", "text": "justifies the nature of each point using f″ or a sign test"}]},
+}
+
+
+def setup(k):
+    def chat(settings, system, user, timeout):
+        stage = re.match(r"\[STAGE:(\w+)\]", system).group(1)
+        return "```json\n" + json.dumps(REPLIES.get(stage, {"ok": True}), ensure_ascii=False) + "\n```"
+
+    k.get("llm.providers")["mock"] = chat
