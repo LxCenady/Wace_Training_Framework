@@ -114,7 +114,7 @@ Use this when writing a set or a mock paper: **randomise** (vary question count,
 ### Calculator-assumed
 
 - Questions per paper (2020–2025): 9–10; marks per question: 4–21 (median 10).
-- Share of marks by topic: Sample proportions & confidence intervals 25%, Differentiation & applications 16%, Exponential & logarithmic functions 16%, Discrete random variables & binomial 16%, Continuous random variables & normal 13%, Rectilinear motion (kinematics) 8%, Integration & applications 6%.
+- Share of marks by topic: Sample proportions & confidence intervals 25%, Exponential & logarithmic functions 17%, Differentiation & applications 16%, Discrete random variables & binomial 16%, Continuous random variables & normal 13%, Rectilinear motion (kinematics) 8%, Integration & applications 6%.
 - Cross-topic questions: 36% of real questions combine two topics. How likely each topic is to pair, and with what (P(partner | topic) in real cross-topic questions):
 
   - **Integration & applications** — 77% of its questions are cross-topic; pairs with Differentiation & applications 90%, Exponential & logarithmic functions 20%, Continuous random variables & normal 20%.
@@ -129,10 +129,10 @@ Use this when writing a set or a mock paper: **randomise** (vary question count,
 
   - Sample proportions & confidence intervals: `MAM.CI.1` 3–6 (max 6), `MAM.CI.2` 2–4 (max 6), `MAM.CI.3` 2 (max 4), `MAM.CI.4` 2–5 (max 9), `MAM.CI.5` 2–4 (max 4), `MAM.CI.6` 4 (max 4), `MAM.CI.7` 2–6 (max 6)
   - Continuous random variables & normal: `MAM.CRV.1` 2 (max 2), `MAM.CRV.2` 3–7 (max 9), `MAM.CRV.3` 3–9 (max 9), `MAM.CRV.4` 2–7 (max 10), `MAM.CRV.5` 3–5 (max 5), `MAM.CRV.7` 2 (max 2)
-  - Differentiation & applications: `MAM.D.1` 1–2 (max 4), `MAM.D.4` 3–7 (max 13), `MAM.D.5` 5 (max 5), `MAM.D.6` 3–6 (max 10), `MAM.D.7` 3 (max 3), `MAM.D.8` 2–6 (max 6), `MAM.D.9` 4–5 (max 5), `MAM.D.10` 1–4 (max 4)
+  - Differentiation & applications: `MAM.D.1` 2 (max 4), `MAM.D.4` 3–7 (max 13), `MAM.D.5` 5 (max 5), `MAM.D.6` 3–6 (max 10), `MAM.D.7` 3 (max 3), `MAM.D.8` 2–6 (max 6), `MAM.D.9` 4–5 (max 5), `MAM.D.10` 1–4 (max 4)
   - Discrete random variables & binomial: `MAM.DRV.1` 2–4 (max 5), `MAM.DRV.2` 2–7 (max 8), `MAM.DRV.3` 2–6 (max 9), `MAM.DRV.4` 3–6 (max 9), `MAM.DRV.5` 2–3 (max 3), `MAM.DRV.6` 2–4 (max 4)
   - Integration & applications: `MAM.I.1` 4 (max 4), `MAM.I.4` 2–4 (max 4), `MAM.I.5` 4–5 (max 6), `MAM.I.6` 3 (max 3), `MAM.I.8` 4–5 (max 8)
-  - Exponential & logarithmic functions: `MAM.L.1` 1–3 (max 3), `MAM.L.2` 2–3 (max 3), `MAM.L.3` 1–6 (max 6), `MAM.L.4` 6–9 (max 10), `MAM.L.5` 7–10 (max 12), `MAM.L.6` 2–4 (max 4), `MAM.L.7` 1–2 (max 5)
+  - Exponential & logarithmic functions: `MAM.L.1` 2–3 (max 3), `MAM.L.2` 2–3 (max 3), `MAM.L.3` 2–6 (max 6), `MAM.L.4` 6–8 (max 10), `MAM.L.5` 7–10 (max 11), `MAM.L.6` 2–3 (max 3), `MAM.L.7` 1–2 (max 5)
   - Rectilinear motion (kinematics): `MAM.M.1` 2 (max 5), `MAM.M.2` 3–5 (max 6), `MAM.M.3` 2–5 (max 5), `MAM.M.4` 2–3 (max 4), `MAM.M.5` 2–4 (max 4), `MAM.M.6` 2–4 (max 4)
 
 - Tag combinations real questions used (pattern codes, count), by topic pair — combine patterns like these; other patterns of the same two topics are fine when the pairing is natural:

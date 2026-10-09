@@ -1,10 +1,11 @@
 """Paper blueprints from the past papers. One job: wace.db -> how real papers are built, per subject and section.
 
-  topic_share     share of marks per topic (a part's marks are split evenly over its patterns)
+  topic_share     share of marks per topic
   question_marks  marks of every question since 2020 (the distribution new papers sample from)
   question_count  questions per paper since 2020
   cross_topic     pattern pairs from different topics that appear in the same past question, with counts
-  own_marks       marks each pattern carried within one real question (its parts' marks, shared over patterns)
+  own_marks       marks each pattern carried within one real question (wace.db view pattern_marks: the parts'
+                  marks as printed on the paper, shared evenly when a part has several patterns)
   skeletons       every real question as {pattern: marks it carried}: the shapes new papers are built from
 
 python tools/blueprint.py  rewrites the "Paper blueprint" block of both question-generation skills.
@@ -33,18 +34,16 @@ def blueprint(db, subj, section, since=2020):
     q = lambda sql, *a: db.execute(sql, a).fetchall()  # noqa: E731
     share, pattern_share, cross = defaultdict(float), defaultdict(float), Counter()
     by_question, own = defaultdict(set), defaultdict(lambda: defaultdict(float))
-    rows = q("""SELECT pp.qid, pp.label, pp.pattern, COALESCE(p.marks, 1), q.marks FROM part_patterns pp
-                JOIN parts p ON p.qid = pp.qid AND p.label = pp.label JOIN questions q ON q.id = pp.qid
-                WHERE q.subject = ? AND q.section = ?""", subj, section)
-    per_part = Counter((qid, label) for qid, label, *_ in rows)
+    rows = q("""SELECT qid, pattern, topic, marks, question_marks FROM pattern_marks
+                WHERE subject = ? AND section = ?""", subj, section)  # wace.db: marks as printed on the paper
     q_marks = {}
-    for qid, label, pattern, marks, qm in rows:
-        share[pattern.rsplit(".", 1)[0]] += marks / per_part[(qid, label)]
-        pattern_share[pattern] += marks / per_part[(qid, label)]
-        own[qid][pattern] += marks / per_part[(qid, label)]
+    for qid, pattern, t, marks, qm in rows:
+        share[t] += marks
+        pattern_share[pattern] += marks
+        own[qid][pattern] += marks
         by_question[qid].add(pattern)
         q_marks[qid] = qm
-    skeletons = [round_split(o, q_marks[qid] or round(sum(o.values()))) for qid, o in own.items()]
+    skeletons = [round_split(o, q_marks[qid]) for qid, o in own.items()]
     own_marks = defaultdict(list)
     for sk in skeletons:
         for p, m in sk.items():

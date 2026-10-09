@@ -5,8 +5,11 @@ Sources (all under ROOT):
   tools/parttags_<subj>.txt      per-part (sub-question) topic+pattern tags
   <subj>/methods/*_解题思路.md    pattern titles + method text ("## 题型 N：...")
   marking-key PDFs               split into one row per mark (tools/markpoints.py)
+  "(n marks)" in the stems       marks of every part as printed on the paper (tools/partmarks.py); the key's
+                                 tick count per part is the fallback and the cross-check
 
-Question-level topics/patterns are the union of its part tags (view q_patterns).
+Question-level topics/patterns are the union of its part tags (view q_patterns). View pattern_marks maps every
+real question to the marks each pattern carried in it (parts with several patterns share their marks evenly).
 """
 import json, os, re, sqlite3, sys
 import pymupdf
@@ -15,6 +18,7 @@ ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.p
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 from build_docs import TOPICS  # noqa: E402
 from markpoints import points  # noqa: E402
+from partmarks import for_tags, split  # noqa: E402
 
 SECTION = {"CalcAssumed": "A", "CalcFree": "F"}
 SCHEMA = """
@@ -23,10 +27,17 @@ CREATE TABLE patterns (code TEXT PRIMARY KEY, topic TEXT, n INT, title TEXT, met
                        title_en TEXT DEFAULT '', method_en TEXT DEFAULT '');
 CREATE TABLE questions(id TEXT PRIMARY KEY, subject TEXT, year INT, section TEXT, q INT, marks INT,
                        exam TEXT, exam_regions TEXT, key TEXT, key_regions TEXT, stem TEXT, points_ok INT);
-CREATE TABLE parts    (qid TEXT, label TEXT, ord INT, marks INT, PRIMARY KEY (qid, label));
+CREATE TABLE parts    (qid TEXT, label TEXT, ord INT, marks INT, marks_src TEXT, PRIMARY KEY (qid, label));
 CREATE TABLE part_patterns (qid TEXT, label TEXT, pattern TEXT);
 CREATE TABLE points   (qid TEXT, label TEXT, ord INT, text TEXT);
 CREATE VIEW q_patterns AS SELECT DISTINCT qid, pattern FROM part_patterns;
+CREATE VIEW pattern_marks AS
+  SELECT q.id AS qid, q.subject, q.section, q.year, q.marks AS question_marks, pp.pattern,
+         rtrim(rtrim(pp.pattern, '0123456789'), '.') AS topic,
+         SUM(p.marks * 1.0 / (SELECT COUNT(*) FROM part_patterns x WHERE x.qid = pp.qid AND x.label = pp.label))
+           AS marks
+  FROM part_patterns pp JOIN parts p ON p.qid = pp.qid AND p.label = pp.label JOIN questions q ON q.id = pp.qid
+  WHERE p.marks IS NOT NULL GROUP BY q.id, pp.pattern;
 CREATE INDEX pp_pattern ON part_patterns(pattern);
 CREATE INDEX pt_qid ON points(qid);
 """
@@ -112,9 +123,16 @@ def build(db_path):
                         json.dumps(q["exam_regions"]), q["key"], json.dumps(q["key_regions"]), q["text"], ok))
             for j, (label, text) in enumerate(pts):
                 db.execute("INSERT INTO points VALUES (?,?,?,?)", (qid, label, j, text.strip()))
+            printed = split(q["text"], q["marks"])
+            paper = for_tags(printed, [l for l, _ in parts]) if printed else None
+            if printed and not paper:
+                problems.append(f"{qid}: paper has parts {sorted(printed)}, tags have {[l for l, _ in parts]}")
             for j, (label, pats) in enumerate(parts):
-                n = sum(1 for p in pts if p[0] == label) if ok else None
-                db.execute("INSERT INTO parts VALUES (?,?,?,?)", (qid, label, j, n))
+                ticks = sum(1 for p in pts if p[0] == label) if ok else None
+                if paper and ticks is not None and ticks != paper[label]:
+                    problems.append(f"{qid} ({label}): paper says {paper[label]} marks, key has {ticks} ticks")
+                n, src = (paper[label], "paper") if paper else (ticks, "key") if ticks is not None else (None, None)
+                db.execute("INSERT INTO parts VALUES (?,?,?,?,?)", (qid, label, j, n, src))
                 for p in pats:
                     if p not in known:
                         problems.append(f"{qid} {label}: unknown pattern {p}")
@@ -131,5 +149,6 @@ if __name__ == "__main__":
     for t in ("questions", "parts", "part_patterns", "points", "patterns"):
         print(t, db.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0])
     print("points_ok", db.execute("SELECT SUM(points_ok), COUNT(*) FROM questions").fetchone())
+    print("part marks by source", db.execute("SELECT marks_src, COUNT(*) FROM parts GROUP BY marks_src").fetchall())
     print(len(problems), "problems")
     print("\n".join(problems))

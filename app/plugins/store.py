@@ -188,9 +188,14 @@ class Store:
 
     def exam_weights(self, subj):
         """Marks each pattern carried across all past papers of a subject (how much it matters)."""
-        return dict(self.q("""SELECT pp.pattern, SUM(COALESCE(p.marks, 1)) FROM part_patterns pp
-                              JOIN parts p ON p.qid = pp.qid AND p.label = pp.label JOIN questions q ON q.id = pp.qid
-                              WHERE q.subject = ? GROUP BY pp.pattern""", subj))
+        return dict(self.q("SELECT pattern, SUM(marks) FROM pattern_marks WHERE subject = ? GROUP BY pattern", subj))
+
+    def pattern_marks(self, code):
+        """{section: sorted marks the pattern carried in each real question of that section} (as printed)."""
+        out = {}
+        for sec, m in self.q("SELECT section, marks FROM pattern_marks WHERE pattern = ? ORDER BY marks", code):
+            out.setdefault(sec, []).append(m)
+        return out
 
     def set_explanation(self, mistake_id, text):
         with self.lock:
@@ -216,12 +221,6 @@ class Store:
                     None)
 
     # ---- mock exams: refs = [["past", qid] | ["gen", id], …]; score = total − marks lost on them since start
-    def pattern_weights(self, subj, section):
-        """Historical marks per pattern in this subject+section (blueprint for AI-assembled papers)."""
-        return self.q("""SELECT pp.pattern, SUM(COALESCE(p.marks, 1)) FROM part_patterns pp
-                         JOIN parts p ON p.qid = pp.qid AND p.label = pp.label JOIN questions q ON q.id = pp.qid
-                         WHERE q.subject = ? AND q.section = ? GROUP BY pp.pattern""", subj, section)
-
     def paper(self, subj, year, section):
         return self.q("SELECT id, marks FROM questions WHERE subject = ? AND year = ? AND section = ? ORDER BY q",
                       subj, int(year), section)
