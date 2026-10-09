@@ -6,6 +6,7 @@ sys.path.insert(0, HERE)
 from main import Kernel, find_root, plugin_names  # noqa: E402
 import tempfile as _tf, plugins.config as _config  # noqa: E402
 _config.PATH = os.path.join(_tf.gettempdir(), "wtf-test-config.json")  # never touch the user's settings
+sys.path.insert(0, os.path.join(find_root(), "tools"))  # like main(): tools/ modules are importable
 from plugins.store import GEN_SCHEMA  # noqa: E402
 
 out = sys.argv[1]
@@ -269,7 +270,7 @@ for _ in range(300):
     if st.exams()[0]["source"] == "ai":
         break
 ai_exam = st.exams()[0]
-assert ai_exam["source"] == "ai" and len(ai_exam["refs"]) == 10, ai_exam
+assert ai_exam["source"] == "ai" and 9 <= len(ai_exam["refs"]) <= 10, ai_exam  # count follows real papers
 print("exams:", [(e["source"], e["total"], e["lost"], bool(e["submitted"])) for e in st.exams()])
 
 # export both kinds of paper (file dialogs replaced)

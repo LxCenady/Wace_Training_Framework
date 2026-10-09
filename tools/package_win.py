@@ -12,7 +12,7 @@ import glob, os, shutil, subprocess, sys, zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP, TOOLS = os.path.join(ROOT, "app"), os.path.join(ROOT, "tools")
 EXCLUDE = ["scipy", "numpy", "matplotlib", "pandas", "IPython", "PIL", "pytest", "setuptools"]
-TOOL_MODULES = ["fetch", "paperid", "build_all", "segment", "build_docs", "build_bank", "build_db", "markpoints"]
+TOOL_MODULES = ["fetch", "paperid", "blueprint", "build_all", "segment", "build_docs", "build_bank", "build_db", "markpoints"]
 
 
 def tracked():

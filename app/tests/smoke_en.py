@@ -6,6 +6,7 @@ sys.path.insert(0, HERE)
 from main import Kernel, find_root, plugin_names  # noqa: E402
 import tempfile as _tf, plugins.config as _config  # noqa: E402
 _config.PATH = os.path.join(_tf.gettempdir(), "wtf-test-config.json")  # never touch the user's settings
+sys.path.insert(0, os.path.join(find_root(), "tools"))  # like main(): tools/ modules are importable
 
 out = sys.argv[1]
 root_dir = find_root()

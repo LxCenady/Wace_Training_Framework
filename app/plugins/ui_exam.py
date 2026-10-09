@@ -1,9 +1,9 @@
 """模拟考试. One job: sit a timed paper (a real past paper or an AI-assembled one), then mark it.
 
 Timing follows WACE: calculator-free 5 min reading + 50 min working; calculator-assumed 10 + 100.
-AI papers follow the blueprint of the real ones: patterns drawn in proportion to the marks they carried in
-past papers of that subject and section, the median total and question count, difficulty rising through the
-paper. Marking reuses self-marking (right-click a part in the opened question); the score is the paper total
+AI papers follow tools/blueprint.py: the median total, a question count and per-question marks drawn from
+recent papers, topics in proportion to their real share of marks, patterns by their weight within the topic,
+cross-topic questions as often as in real papers (pairings real questions used), difficulty rising with jitter. Marking reuses self-marking (right-click a part in the opened question); the score is the paper total
 minus the marks recorded as lost since the exam started.
 """
 import base64, os, random, shutil, threading, time
@@ -15,24 +15,6 @@ TIMES = {"CalcFree": (5, 50), "CalcAssumed": (10, 100)}
 BLUEPRINT = {("MAM", "CalcFree"): (52, 7), ("MAM", "CalcAssumed"): (98, 10),  # median total marks, questions
              ("MAS", "CalcFree"): (48, 8), ("MAS", "CalcAssumed"): (89, 11)}
 SEC_NAME = {"CalcFree": "计算器禁用", "CalcAssumed": "计算器允许"}
-
-
-def plan(weights, total, count, rng):
-    """-> [(patterns, marks, difficulty)] for an AI paper; patterns sampled by historical weight, no repeats."""
-    pool = dict(weights)
-    marks = [total // count + (1 if i < total % count else 0) for i in range(count)]
-    out = []
-    for i, m in enumerate(marks):
-        codes = []
-        for _ in range(2 if rng.random() < 0.35 and len(pool) > 1 else 1):  # a third of questions combine two
-            pick = rng.choices(list(pool), weights=list(pool.values()))[0]
-            if codes and pick.split(".")[1] != codes[0].split(".")[1]:  # combine within one topic only
-                continue
-            codes.append(pick)
-            pool.pop(pick)
-        level = "基础" if i < count * 0.3 else "拔高" if i >= count * 0.75 else "标准"
-        out.append((codes, m, level))
-    return out
 
 
 def setup(k):
@@ -165,8 +147,12 @@ def setup(k):
             eid = store.save_exam(subj, sec, f"past:{year}", [["past", q] for q, _ in qs], sum(m for _, m in qs))
             open_exam(store.exam(eid))
             return
-        total, count = BLUEPRINT[(subj, sec)]
-        items = plan(store.pattern_weights(subj, sec), total, count, random.Random())
+        import blueprint  # tools/: real-paper statistics (topic share, marks per question, cross-topic pairs)
+        total = BLUEPRINT[(subj, sec)][0]
+        with store.lock:
+            bp = blueprint.blueprint(store.db, subj, sec)
+        items = blueprint.plan(bp, total, random.Random())
+        count = len(items)
         post, done, failed = k.get("ui.post"), [], []
         msg, rows, bar, clock = progress_page(subj, sec, total, items)
         t0 = time.time()
