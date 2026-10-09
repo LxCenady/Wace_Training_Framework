@@ -14,7 +14,7 @@ FONT = "Microsoft YaHei UI"
 def setup(k):
     root = tk.Tk()
     root.title("WACE Maths 学习系统")
-    root.geometry("1400x880")
+    root.geometry("1600x900")
     root.configure(bg=C["bg"])
     st = ttk.Style(root)
     st.theme_use("clam")
@@ -40,10 +40,11 @@ def setup(k):
     pane.add(left, weight=0)
     pane.add(tabs, weight=1)
 
-    def first_layout(e):  # ttk.PanedWindow ignores child width; place the sash once it has a real size
+    def first_layout(e):  # ttk.PanedWindow ignores child width; place the sashes once it has a real size
         if e.width > 900:
             pane.sashpos(0, 460)
             pane.unbind("<Configure>")
+            k.emit("ui.layout", pane, e.width)  # plugins that added panes (e.g. the formula sheet) place theirs
 
     pane.bind("<Configure>", first_layout)
     status = tk.StringVar()
@@ -115,6 +116,9 @@ def setup(k):
     k.provide("ui.root", root)
     k.provide("ui.menu", menubar)
     k.provide("ui.left", left)
+    k.provide("ui.tab.frame", lambda key: pages.get(key))
+    k.provide("ui.tabs", tabs)
+    k.provide("ui.pane", pane)  # horizontal PanedWindow: [left, tabs, …panes added by plugins]
     k.provide("ui.tab", tab)
     k.provide("ui.post", jobs.put)
     k.provide("ui.status", status.set)

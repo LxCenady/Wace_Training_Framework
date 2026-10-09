@@ -27,6 +27,8 @@ REPLIES = {
 def setup(k):
     def chat(settings, system, user, timeout):
         stage = re.match(r"\[STAGE:(\w+)\]", system).group(1)
+        if stage == "EXPLAIN":
+            return "1. 这一问考什么\n（离线 mock 讲解）\n2. 你丢的分\n…\n3. 正确做法\n…\n4. 下次怎么避免\n…"
         return "```json\n" + json.dumps(REPLIES.get(stage, {"ok": True}), ensure_ascii=False) + "\n```"
 
     k.get("llm.providers")["mock"] = chat

@@ -16,7 +16,19 @@ The past exams, marking keys and examination reports are © School Curriculum an
 
 Everything else (code, tags, method notes, cheat sheets, skills) is original work in this repo.
 
-## Quick start (Windows)
+## Quick start for students (Windows, nothing to install)
+
+1. Download `WTF-Windows-vX.Y.Z.zip` from the latest [release](../../releases) and extract it anywhere (a USB stick works).
+2. Double-click `WTF.exe`. The first run opens the **import wizard**:
+   - ① 2016–2019 papers download automatically from the Wayback Machine;
+   - ② 2020–2025: click 「打开下一批」 to open 6 official links at a time in your browser and save the PDFs (Ctrl+S in the PDF viewer) into your Downloads folder — any file names: the wizard watches the folder and recognises each paper from its first page;
+   - ③ 「建立题库并启动」 builds the question bank (~1 min) and restarts into the full app.
+3. For AI questions and explanations, add your own API key in 设置 (default: DeepSeek). Browsing past questions, marking keys and notes needs no key.
+
+Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teachers can prepare a copy without the GUI:
+`WTF.exe --import <folder of PDFs> --build` (log in `WTF.log`).
+
+## Quick start for developers
 
 ```bat
 py -3 -m venv .venv
@@ -39,7 +51,8 @@ cheatsheet/      MAM / MAS cheat sheets (md + pdf, 3 pages each)
 skills/          wace-mam-questions, wace-mas-questions (Claude Code skills; paths resolve live:
                  $WACE_MATHS_ROOT, else the folder above skills/)
 tools/
-  fetch.py         sources.tsv -> */papers
+  fetch.py         sources.tsv -> */papers; import any-named PDFs (paperid.py recognises a paper from its first page)
+  package_win.py   portable Windows release: PyInstaller exe + data files -> dist/WTF-Windows-<ver>.zip
   build_all.py     runs the steps below in order
   segment.py       papers -> questions.json (page regions of every question in exam + key)
   build_docs.py    questions.json + tags_*.txt -> topic PDFs (exam crop + key crop) and .md indexes
@@ -67,6 +80,10 @@ app/             GUI (below)
   The program checks part labels and mark counts between steps; any failure regenerates with the reason (2 retries by default). Nothing answer-like is shown until all steps pass; 「查看验证记录」 shows every raw reply.
 - **Batch generation**: choose 难度 (基础 / 标准 / 拔高 — calibrated in the prompt against the opening parts, the median past question, and the final parts of the hardest recent questions) and 数量 (1–20). Questions run 4 at a time (`parallel` in the config), each through the full four-step check; a failure only drops that question. The setter is shown the openings of the latest AI questions on the same patterns and told not to reuse their context, function or numbers.
 - **我的 AI 题库** (menu 题库, the button under the tree, or Ctrl+B): every generated question; questions with identical pattern tags fold into one group (count + difficulty mix), searching expands matching groups, sort by any column, double-click to open (answers still hidden until clicked).
+- **Formula sheet** pinned on the right (newest official sheet; follows the subject you are viewing; drag its edge to resize, re-rendered sharp at any width; F2 hides it).
+- **Self-marking (自批卷)**: every part of an AI answer and of a past question's key is labelled with its topic + 题型. Right-click a part → 「此题扣分」, tick the mark points you missed, add a note → it goes into **我的错题本** (Ctrl+E), grouped by pattern, weakest first.
+- **错题加强题**: from the 错题本, generate targeted questions for the selected (or weakest) pattern; the setter is told exactly which mark points you lost, so the new question requires those steps.
+- **一键讲解**: one click explains a recorded mistake in Chinese — what the part tests, why each missed mark was lost (using your note), the full correct working with every mark shown, and habits to avoid it next time. Cached; 「重新讲解」 asks again.
 - **Settings** (设置 → 模型与 API key): Anthropic format (`/v1/messages`) or OpenAI format (`/chat/completions`) with your own base URL, model and key — any compatible service works. **Default: DeepSeek** (`https://api.deepseek.com`, `deepseek-flash`, thinking mode at `reasoning_effort: max`); the per-provider 额外参数 JSON is merged into every request body. Keys are stored only in `%APPDATA%\wace-maths\config.json` (empty → `DEEPSEEK_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY`). `mock` is an offline provider for trying the pipeline.
 - **Architecture** (microkernel): `kernel.py` = service registry + events + plugin loader with no domain code; `main.py` = thin glue; `plugins.txt` lists the plugins; each `plugins/*.py` does one job (store, render, llm + one file per provider, generator, ui_shell / tree / pattern / question / generate / settings).
 - **Tests**: `app\tests\test_providers.py` (both adapters against a local fake server), `app\tests\smoke_gui.py <dir>` (drives the window with the mock provider and saves screenshots).

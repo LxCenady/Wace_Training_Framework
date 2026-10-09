@@ -69,8 +69,9 @@ class Pipeline:
         self.log("raw", {"stage": stage, "attempt": attempt, "reply": raw})
         return parse_json(raw)
 
-    def run(self, codes, section="any", marks=0, difficulty="标准", avoid=(), variant=(1, 1)):
+    def run(self, codes, section="any", marks=0, difficulty="标准", avoid=(), variant=(1, 1), focus=""):
         store, cfg = self.k.get("store"), self.k.get("config")
+        self.known = {r[0] for r in store.q("SELECT code FROM patterns")}
         pats = [store.pattern(c) for c in codes]
         subj = pats[0]["subject"]
         if any(p["subject"] != subj for p in pats):
@@ -88,6 +89,9 @@ class Pipeline:
         if avoid:
             want += ("\nAlready generated for these patterns — do NOT reuse their context, function or numbers:\n"
                      + "\n".join(f"- {a}" for a in avoid))
+        if focus:
+            want += ("\nTARGETED PRACTICE for a student who lost marks on these steps in earlier questions:\n" + focus +
+                     "\nBuild the question so that exactly these steps are required, each carrying at least one mark.")
         feedback = ""
         for attempt in range(1, 2 + int(cfg.get("retries", 2))):
             try:
@@ -116,6 +120,8 @@ class Pipeline:
             raise Failed("setter returned no question/parts")
         for p in parts:
             p["label"], p["marks"] = label_of(p.get("label")), int(p.get("marks", 0))
+            # per-part pattern tags: keep only real codes; fall back to the requested patterns
+            p["patterns"] = [c for c in (p.get("patterns") or []) if c in self.known] or list(codes)
             if p["marks"] < 1:
                 raise Failed(f"part ({p['label']}) has no marks")
         if len({p["label"] for p in parts}) != len(parts):
@@ -179,7 +185,8 @@ class Pipeline:
 def setup(k):
     store = k.get("store")
 
-    def run(codes, section="any", marks=0, on_event=lambda kind, data: None, difficulty="标准", variant=(1, 1)):
+    def run(codes, section="any", marks=0, on_event=lambda kind, data: None, difficulty="标准", variant=(1, 1),
+            focus=""):
         log = []
 
         def record(kind, data):
@@ -188,14 +195,14 @@ def setup(k):
             on_event(kind, data)
 
         avoid = store.generated_stems(codes)
-        item = Pipeline(k, record).run(codes, section, marks, difficulty, avoid, variant)
+        item = Pipeline(k, record).run(codes, section, marks, difficulty, avoid, variant, focus)
         cfg = k.get("config")
         item.update(provider=cfg["provider"], model=cfg.get(cfg["provider"], {}).get("model", ""), log=log,
-                    difficulty=difficulty)
+                    difficulty=difficulty, focus=focus)
         item["id"] = k.get("store").save_generated(item)
         return item
 
-    def start(codes, section="any", marks=0, difficulty="标准", count=1):
+    def start(codes, section="any", marks=0, difficulty="标准", count=1, focus=""):
         """Generate `count` questions in background threads (config["parallel"] at a time).
         Events: gen.started(codes, count), gen.progress(msg), gen.done(item) per question,
         gen.error(msg) per failed question, gen.finished(ok, count) once at the end."""
@@ -207,7 +214,7 @@ def setup(k):
             try:
                 item = run(codes, section, marks,
                            lambda kind, data: kind == "progress" and post(lambda d=tag + data: k.emit("gen.progress", d)),
-                           difficulty, (i, count))
+                           difficulty, (i, count), focus)
                 post(lambda: k.emit("gen.done", item))
                 return True
             except Exception as e:  # report every failure in the UI, never crash the worker silently

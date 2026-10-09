@@ -6,7 +6,7 @@ One job: questions.json + tags + PDFs -> evidence/<subj>_<topic>.txt and <subj>_
 import json, os, re, sys, glob
 import pymupdf
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 from build_docs import TOPICS, read_tags  # noqa: E402
 

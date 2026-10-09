@@ -3,7 +3,7 @@ import glob, os, sys
 import markdown
 import pymupdf
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONTS = r"C:\Windows\Fonts"
 CSS = """
 @font-face {font-family: yahei; src: url(msyh.ttc);}

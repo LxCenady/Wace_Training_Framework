@@ -37,7 +37,9 @@ def shot(name):
     pump()
     x, y, w, h = root.winfo_rootx(), root.winfo_rooty(), root.winfo_width(), root.winfo_height()
     path = os.path.join(out, name + ".png")
-    ps = (f"Add-Type -AssemblyName System.Drawing; $b=New-Object System.Drawing.Bitmap {w},{h}; "
+    ps = ("Add-Type -Name D -Namespace W -MemberDefinition '[DllImport(\"user32.dll\")] public static extern bool "
+          "SetProcessDPIAware();'; [W.D]::SetProcessDPIAware() | Out-Null; "
+          f"Add-Type -AssemblyName System.Drawing;$b=New-Object System.Drawing.Bitmap {w},{h}; "
           f"$g=[System.Drawing.Graphics]::FromImage($b); $g.CopyFromScreen({x},{y},0,0,$b.Size); "
           f"$b.Save('{path}'); $g.Dispose(); $b.Dispose()")
     subprocess.run(["powershell", "-NoProfile", "-Command", ps], check=True)
@@ -139,4 +141,86 @@ assert any(f"AI 题 #{first}" in t for t in texts), "opening a bank row must sho
 assert button("显示得分点与解答"), "answers must still be hidden behind the button"
 print("mybank groups:", [(table.item(g, "text"), table.item(g, "values")[2], len(table.get_children(g)))
                          for g in groups])
+
+# self-marking: right-click part (b) of the open AI item -> the popup gets that part's context
+button("显示得分点与解答").invoke()
+pump()
+hits = []
+real_popup = k.get("mistakes.popup")
+k.provide("mistakes.popup", lambda e, ctx: hits.append(ctx))  # tk_popup is modal on Windows: record instead
+text_widgets = []
+
+
+def find_texts(w):
+    for c in w.winfo_children():
+        if c.winfo_class() == "Text" and "part:b" in c.tag_names():
+            text_widgets.append(c)
+        find_texts(c)
+
+
+find_texts(root)
+t = text_widgets[0]
+t.see(t.tag_ranges("part:b")[0])
+pump(0.3)
+x, y, _, _ = t.bbox(t.tag_ranges("part:b")[0])
+t.event_generate("<Button-3>", x=x + 5, y=y + 3)
+pump(0.3)
+assert hits and hits[-1]["label"] == "b" and hits[-1]["part_marks"] == 4 and len(hits[-1]["points"]) == 4, hits
+k.provide("mistakes.popup", real_popup)
+ctx = hits[-1]
+
+# the marking dialog: tick two missed points, save
+k.get("mistakes.dialog")(ctx)
+pump(0.5)
+dlg = [w for w in root.winfo_children() if w.winfo_class() == "Toplevel"][-1]
+boxes = []
+
+
+def find_checks(w):
+    for c in w.winfo_children():
+        if c.winfo_class() == "TCheckbutton":
+            boxes.append(c)
+        find_checks(c)
+
+
+find_checks(dlg)
+boxes[1].invoke()
+boxes[3].invoke()
+pump(0.2)
+shot("8_marking")
+next(b for b in dlg.winfo_children()[0].winfo_children()[-1].winfo_children() if b.cget("text") == "记入错题本").invoke()
+pump()
+m = st.mistake("gen", ctx["ref"], "b")
+assert m and m["lost"] == 2 and len(m["missed"]) == 2, m
+
+# a past question too (no dialog: store directly), then the 错题本 and a targeted drill
+st.save_mistake("past", "MAM-2025A-Q12", "b", 4, 3, ["MAM.D.6"], [], "忘了验证最大值")
+k.get("mistakes.show")()
+pump()
+book = k.get("mistakes.table")
+top_group = book.get_children()[0]
+print("错题本:", [(book.item(g, "text"), book.item(g, "values")[:2]) for g in book.get_children()])
+assert top_group == "p:MAM.D.6", top_group  # D.6 has the most lost marks (2 + 3)
+shot("9_mistakes")
+before = len(finished)
+drill = button("生成错题加强题（未选中时针对最弱题型）")
+drill.invoke()
+for _ in range(300):
+    pump(0.1)
+    if len(finished) > before:
+        break
+newest = st.generated(st.generated_all()[0][0])
+assert newest["focus"] and newest["patterns"] == ["MAM.D.6"], (newest["focus"], newest["patterns"])
+print("drill focus:", newest["focus"].splitlines()[:3])
+
+# 一键讲解: one past-paper mistake and one AI-question mistake; the explanation is cached on the row
+for src, ref, label in (("past", "MAM-2025A-Q12", "b"), ("gen", ctx["ref"], "b")):
+    k.get("mistakes.explain")(st.mistake(src, ref, label))
+    for _ in range(100):
+        pump(0.1)
+        if st.mistake(src, ref, label)["explain"]:
+            break
+    assert "这一问考什么" in st.mistake(src, ref, label)["explain"], src
+shot("10_explain")
+print("explained:", [m["ref"] for m in st.mistakes() if m["explain"]])
 root.destroy()

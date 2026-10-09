@@ -65,18 +65,38 @@ def setup(k):
              "   ·   ✓ 已通过独立解题与核对\n\n", "muted")
         w(t, item["question"] + "\n")
 
+        if item.get("focus"):
+            w(t, "\n错题加强题，针对这些失分步骤：\n" + item["focus"] + "\n", "muted")
+        by = {}
+        for label, text in item["points"]:
+            by.setdefault(label, []).append(text)
+
+        def ctx(p):
+            return {"source": "gen", "ref": item["id"], "label": p["label"], "part_marks": p["marks"],
+                    "patterns": p.get("patterns") or item["patterns"], "points": by.get(p["label"], []),
+                    "title": f"AI #{item['id']} ({p['label']})"}
+
         def reveal():
             btn.destroy()
-            w(t, "\n\n评分标准（每条 1 分）\n", "h")
-            by = {}
-            for label, text in item["points"]:
-                by.setdefault(label, []).append(text)
+            w(t, "\n\n评分标准（每条 1 分）· 右键某个小问可「此题扣分」\n", "h")
             for p in item["parts"]:
-                w(t, f"({p['label']})  {p['marks']} 分   答案：{p['answer']}\n", "sub")
+                tag = f"part:{p['label']}"
+                had = store.mistake("gen", item["id"], p["label"])
+                w(t, f"({p['label']})  {p['marks']} 分   答案：{p['answer']}\n", "sub", tag)
+                w(t, "    题型：" + "；".join(store.pattern_name(c) for c in (p.get("patterns") or item["patterns"]))
+                  + (f"   ✗ 已扣 {had['lost']} 分" if had else "") + "\n", "accent" if not had else "warn", tag)
                 for text in by.get(p["label"], []):
-                    w(t, f"    ✓ {text}\n")
+                    w(t, f"    ✓ {text}\n", tag)
             w(t, "\n解答过程\n", "h")
             w(t, item["solution"] + "\n")
+
+        def right_click(e):
+            parts = {f"part:{p['label']}": p for p in item["parts"]}
+            hit = next((parts[n] for n in t.tag_names(t.index(f"@{e.x},{e.y}")) if n in parts), None)
+            if hit and k.get("mistakes.popup", None):
+                k.get("mistakes.popup")(e, ctx(hit))
+
+        t.bind("<Button-3>", right_click)
 
         btn = ttk.Button(bar, text="显示得分点与解答", style="Accent.TButton", command=reveal)
         btn.pack(side="left")

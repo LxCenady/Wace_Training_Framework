@@ -1,15 +1,26 @@
 """Rebuild every derived file from the papers. One job: run the pipeline steps in order.
 
 papers -> questions.json -> topic PDFs + question banks -> wace.db (methods notes and tags are hand-written inputs)
+Runs in-process (importable as build_all.run) so the packaged app can call it without a Python on PATH.
 """
-import os, subprocess, sys
+import os, sys
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-STEPS = ["segment.py", "build_docs.py", "build_bank.py", "build_db.py"]
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
+
+def run(subjects=("MAM", "MAS"), log=print):
+    import segment, build_docs, build_bank, build_db  # noqa: E401 (import late: ROOT is read at import time)
+    for name, step in (("segment", segment.main), ("topic PDFs", build_docs.build), ("question banks", build_bank.build)):
+        for s in subjects:
+            log(f"{name}: {s}")
+            step(s)
+    log("database")
+    db, problems = build_db.build(os.path.join(build_db.ROOT, "wace.db"))
+    db.close()
+    for p in problems:
+        log("  " + p)
+    return problems
+
 
 if __name__ == "__main__":
-    subjects = sys.argv[1:] or ["MAM", "MAS"]
-    for step in STEPS:
-        print(f"== {step}", flush=True)
-        args = [] if step == "build_db.py" else subjects
-        subprocess.run([sys.executable, os.path.join(HERE, step), *args], check=True)
+    run(sys.argv[1:] or ("MAM", "MAS"))

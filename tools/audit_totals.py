@@ -1,6 +1,6 @@
 """Compare summed question marks with the section total printed in each paper."""
 import json, re, sys, os, collections, pymupdf
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PAT = re.compile(r"Section (One|Two)\s*:?\s*Calculator[\s-]*(free|assumed).{0,40}?\((\d+)\s*Marks\)", re.I | re.S)
 bad = 0
 for s in sys.argv[1:]:

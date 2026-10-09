@@ -4,7 +4,10 @@ import json, os, sqlite3, threading, time
 GEN_SCHEMA = """
 CREATE TABLE IF NOT EXISTS generated (id INTEGER PRIMARY KEY, created TEXT, patterns TEXT, provider TEXT,
     model TEXT, section TEXT, marks INT, question TEXT, parts TEXT, solution TEXT, points TEXT, log TEXT,
-    difficulty TEXT DEFAULT '标准');
+    difficulty TEXT DEFAULT '标准', focus TEXT DEFAULT '');
+CREATE TABLE IF NOT EXISTS mistakes (id INTEGER PRIMARY KEY, created TEXT, source TEXT, ref TEXT, label TEXT,
+    part_marks INT, lost INT, patterns TEXT, missed TEXT, note TEXT, explain TEXT DEFAULT '',
+    UNIQUE (source, ref, label));
 """
 
 
@@ -13,9 +16,13 @@ class Store:
         self.db = sqlite3.connect(os.path.join(root, "wace.db"), check_same_thread=False)
         self.gen = sqlite3.connect(os.path.join(root, "generated.db"), check_same_thread=False)
         self.gen.executescript(GEN_SCHEMA)
-        if "difficulty" not in [r[1] for r in self.gen.execute("PRAGMA table_info(generated)")]:
-            self.gen.execute("ALTER TABLE generated ADD COLUMN difficulty TEXT DEFAULT '标准'")  # pre-1.2 databases
-            self.gen.commit()
+        cols = [r[1] for r in self.gen.execute("PRAGMA table_info(generated)")]
+        for col, ddl in (("difficulty", "TEXT DEFAULT '标准'"), ("focus", "TEXT DEFAULT ''")):  # older databases
+            if col not in cols:
+                self.gen.execute(f"ALTER TABLE generated ADD COLUMN {col} {ddl}")
+        if "explain" not in [r[1] for r in self.gen.execute("PRAGMA table_info(mistakes)")]:
+            self.gen.execute("ALTER TABLE mistakes ADD COLUMN explain TEXT DEFAULT ''")
+        self.gen.commit()
         self.lock = threading.Lock()
 
     def q(self, sql, *args, db=None):
@@ -40,6 +47,11 @@ class Store:
         r = self.q("""SELECT p.code, p.n, p.title, p.method, t.zh, t.en, t.subject, t.file
                       FROM patterns p JOIN topics t ON t.code = p.topic WHERE p.code = ?""", code)[0]
         return dict(zip(("code", "n", "title", "method", "topic_zh", "topic_en", "subject", "file"), r))
+
+    def pattern_name(self, code):
+        """'MAM.D.6 优化' — code plus the short title (falls back to the bare code)."""
+        r = self.q("SELECT title FROM patterns WHERE code = ?", code)
+        return f"{code} {r[0][0].split('★')[0].split('（')[0].strip()}" if r else code
 
     def questions_for(self, code):
         """Past questions with at least one part tagged `code`, newest first; labels = matching parts."""
@@ -70,9 +82,10 @@ class Store:
     # ---- generated items
     def save_generated(self, item):
         cols = ("created", "patterns", "provider", "model", "section", "marks", "question", "parts", "solution",
-                "points", "log", "difficulty")
+                "points", "log", "difficulty", "focus")
         row = dict(item, created=time.strftime("%Y-%m-%d %H:%M"))
         row.setdefault("difficulty", "标准")
+        row["focus"] = row.get("focus") or ""
         vals = [row[c] if isinstance(row[c], (str, int)) else json.dumps(row[c], ensure_ascii=False) for c in cols]
         with self.lock:
             cur = self.gen.execute(f"INSERT INTO generated ({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
@@ -86,8 +99,8 @@ class Store:
 
     def generated_all(self):
         """Every AI item, newest first: (id, created, [patterns], section, marks, provider, model, question,
-        difficulty)."""
-        rows = self.q("""SELECT id, created, patterns, section, marks, provider, model, question, difficulty
+        difficulty, focus)."""
+        rows = self.q("""SELECT id, created, patterns, section, marks, provider, model, question, difficulty, focus
                          FROM generated ORDER BY id DESC""", db=self.gen)
         return [(r[0], r[1], json.loads(r[2]), *r[3:]) for r in rows]
 
@@ -100,6 +113,41 @@ class Store:
                 if len(out) == n:
                     break
         return out
+
+    # ---- self-marking: mistakes (one row per sub-question; marking it again replaces the row)
+    def save_mistake(self, source, ref, label, part_marks, lost, patterns, missed, note=""):
+        with self.lock:
+            self.gen.execute("""INSERT INTO mistakes (created, source, ref, label, part_marks, lost, patterns, missed, note)
+                                VALUES (?,?,?,?,?,?,?,?,?) ON CONFLICT (source, ref, label) DO UPDATE SET
+                                created=excluded.created, part_marks=excluded.part_marks, lost=excluded.lost,
+                                patterns=excluded.patterns, missed=excluded.missed, note=excluded.note,
+                                explain=''""",
+                             (time.strftime("%Y-%m-%d %H:%M"), source, str(ref), label, part_marks, lost,
+                              json.dumps(patterns), json.dumps(missed, ensure_ascii=False), note))
+            self.gen.commit()
+
+    def set_explanation(self, mistake_id, text):
+        with self.lock:
+            self.gen.execute("UPDATE mistakes SET explain = ? WHERE id = ?", (text, mistake_id))
+            self.gen.commit()
+
+    def delete_mistake(self, source, ref, label):
+        with self.lock:
+            self.gen.execute("DELETE FROM mistakes WHERE source=? AND ref=? AND label=?", (source, str(ref), label))
+            self.gen.commit()
+
+    def mistakes(self):
+        """-> list of dicts, newest first."""
+        cur = self.gen.execute("SELECT * FROM mistakes ORDER BY id DESC")
+        names = [c[0] for c in cur.description]
+        out = [dict(zip(names, r)) for r in cur.fetchall()]
+        for d in out:
+            d["patterns"], d["missed"] = json.loads(d["patterns"]), json.loads(d["missed"])
+        return out
+
+    def mistake(self, source, ref, label):
+        return next((m for m in self.mistakes() if (m["source"], m["ref"], m["label"]) == (source, str(ref), label)),
+                    None)
 
     def generated(self, gid):
         cur = self.gen.execute("SELECT * FROM generated WHERE id = ?", (gid,))

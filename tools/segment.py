@@ -5,7 +5,7 @@ One job: PDFs -> question regions (page, y0, y1), marks, and plain stem text.
 import json, re, sys, glob, os
 import pymupdf
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HEAD = re.compile(r"^Question\s+(\d+)\s*(\(?continued\)?)?", re.I)
 MARKS = re.compile(r"\((\d+)\s*marks?\)", re.I)
 STOP = re.compile(r"End of questions|Supplementary page|Spare grid|Additional working space|"
@@ -95,6 +95,9 @@ def main(subj):
         name = os.path.basename(ex)
         year, sec = name.split("_")[0], name.split("_")[-1][:-4]
         key = ex.replace("_Exam_", "_MarkingKey_")
+        if not os.path.exists(key):  # partial import: questions without their key are left out until it arrives
+            print("skip (marking key not imported yet):", name)
+            continue
         edoc, eh, es, eb = scan(ex)
         er = regions(eh, es, eb, edoc.page_count)
         kdoc, kh, ks, kb = scan(key)

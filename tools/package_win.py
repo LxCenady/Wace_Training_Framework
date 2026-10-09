@@ -1,0 +1,67 @@
+"""Build the portable Windows release. One job: repo -> dist/WTF-Windows-<version>.zip (no Python needed).
+
+  python tools/package_win.py 1.3.0
+
+Layout of the zip (the folder next to WTF.exe is the data root):
+  WTF/WTF.exe, WTF/_internal/…           Python + PyMuPDF + Tk + app + build tools (PyInstaller --onedir)
+  WTF/sources.tsv, tools/*.txt, MAM/ MAS/ methods, skills/, cheatsheet/, README.md, LICENSE
+SCSA papers are NOT included; the first-run wizard fetches/imports them and builds the question bank.
+"""
+import glob, os, shutil, subprocess, sys, zipfile
+
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+APP, TOOLS = os.path.join(ROOT, "app"), os.path.join(ROOT, "tools")
+TOOL_MODULES = ["fetch", "paperid", "build_all", "segment", "build_docs", "build_bank", "build_db", "markpoints"]
+
+
+def tracked():
+    out = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", check=True)
+    return out.stdout.splitlines()
+
+
+def data_files():
+    """Everything the running app reads from the data root (no code: that lives inside the exe)."""
+    keep = []
+    for f in tracked():
+        if f.startswith("app/") or (f.startswith("tools/") and not f.endswith(".txt")) or f.startswith("."):
+            continue
+        if f in ("requirements.txt",):
+            continue
+        keep.append(f)
+    return keep
+
+
+def main(version):
+    build, dist = os.path.join(ROOT, "build"), os.path.join(ROOT, "dist")
+    plugins = [f"plugins.{os.path.basename(p)[:-3]}" for p in glob.glob(os.path.join(APP, "plugins", "*.py"))
+               if not p.endswith("__init__.py")]
+    sep = ";" if os.name == "nt" else ":"
+    cmd = [sys.executable, "-m", "PyInstaller", "--noconfirm", "--clean", "--windowed", "--onedir", "--name", "WTF",
+           "--distpath", dist, "--workpath", build, "--specpath", build,
+           "--paths", APP, "--paths", TOOLS,
+           "--add-data", f"{os.path.join(APP, 'plugins.txt')}{sep}.",
+           "--add-data", f"{os.path.join(APP, 'setup.txt')}{sep}."]
+    for m in plugins + TOOL_MODULES:
+        cmd += ["--hidden-import", m]
+    subprocess.run(cmd + [os.path.join(APP, "main.py")], check=True)
+
+    out = os.path.join(dist, "WTF")
+    for f in data_files():
+        dest = os.path.join(out, f)
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        shutil.copyfile(os.path.join(ROOT, f), dest)
+    with open(os.path.join(out, "先读我.txt"), "w", encoding="utf-8") as f:
+        f.write("双击 WTF.exe 启动。第一次运行会带你导入 SCSA 真题（版权原因不随程序分发）并建立题库，约 10 分钟。\n"
+                "之后的一切都在本机离线运行；AI 出题需要在「设置」里填你自己的 API key（默认 DeepSeek）。\n"
+                "整个文件夹可以放在任何位置（包括 U 盘）；你的 AI 题和错题本保存在本文件夹的 generated.db。\n")
+    zpath = os.path.join(dist, f"WTF-Windows-v{version}.zip")
+    with zipfile.ZipFile(zpath, "w", zipfile.ZIP_DEFLATED) as z:
+        for base, _, files in os.walk(out):
+            for name in files:
+                full = os.path.join(base, name)
+                z.write(full, os.path.join("WTF", os.path.relpath(full, out)))
+    print(zpath, f"{os.path.getsize(zpath) / 1e6:.1f} MB")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1] if len(sys.argv) > 1 else "dev")

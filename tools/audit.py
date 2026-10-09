@@ -1,6 +1,6 @@
 """Audit questions.json: marks per paper, key coverage, empty regions."""
 import json, sys, os, collections
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 for s in sys.argv[1:]:
     qs = json.load(open(f"{ROOT}/{s}/questions.json", encoding="utf-8"))
     by = collections.defaultdict(list)

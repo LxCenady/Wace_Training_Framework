@@ -27,11 +27,11 @@ def setup(k):
     def load():
         """-> list of (group key, row values, searchable text)."""
         out = []
-        for gid, created, pats, section, marks, provider, model, question, diff in store.generated_all():
+        for gid, created, pats, section, marks, provider, model, question, diff, focus in store.generated_all():
             key = tuple(sorted(pats))
             stem = " ".join(question.split())
-            row = (gid, created, diff or "标准", SECTION.get(section, section or ""), marks, model or provider,
-                   stem[:160])
+            row = (gid, created, (diff or "标准") + ("·错题加强" if focus else ""), SECTION.get(section, section or ""),
+                   marks, model or provider, stem[:160])
             out.append((key, row, " ".join(map(str, row)) + " " + " ".join(title(c) for c in key) + " " + stem))
         return out
 
@@ -63,7 +63,7 @@ def setup(k):
         def sort_key(row):
             i = [c for c, _, _ in COLS].index(order["col"])
             v = row[i]
-            return LEVEL_ORDER.get(v, v) if order["col"] == "difficulty" else (v is None, v)
+            return (LEVEL_ORDER.get(str(v)[:2], 9), str(v)) if order["col"] == "difficulty" else (v is None, v)
 
         def fill():
             q = query.get().strip().lower()
@@ -80,7 +80,7 @@ def setup(k):
                 levels = {}
                 for r in rows:
                     levels[r[2]] = levels.get(r[2], 0) + 1
-                mix = " ".join(f"{lv}×{n}" for lv, n in sorted(levels.items(), key=lambda x: LEVEL_ORDER.get(x[0], 9)))
+                mix = " ".join(f"{lv}×{n}" for lv, n in sorted(levels.items(), key=lambda x: (LEVEL_ORDER.get(x[0][:2], 9), x[0])))
                 gid = "grp:" + "|".join(key)
                 table.insert("", "end", iid=gid, text="；".join(title(c) for c in key),
                              values=("", rows[0][1], mix, "", "", "", f"{len(rows)} 道"),

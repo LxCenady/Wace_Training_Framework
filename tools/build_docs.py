@@ -5,7 +5,7 @@ One job: assemble topic documents. No classification logic lives here.
 import json, os, re, sys
 import pymupdf
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOPICS = {
     "MAM": {
         "D": ("01_Differentiation", "微分及其应用", "Differentiation & applications"),

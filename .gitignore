@@ -14,3 +14,5 @@ __pycache__/
 *.pyc
 tools/unbundle.py
 tools/old_list.tsv
+build/
+dist/
