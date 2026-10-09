@@ -3,7 +3,8 @@ import json, os, sqlite3, threading, time
 
 GEN_SCHEMA = """
 CREATE TABLE IF NOT EXISTS generated (id INTEGER PRIMARY KEY, created TEXT, patterns TEXT, provider TEXT,
-    model TEXT, section TEXT, marks INT, question TEXT, parts TEXT, solution TEXT, points TEXT, log TEXT);
+    model TEXT, section TEXT, marks INT, question TEXT, parts TEXT, solution TEXT, points TEXT, log TEXT,
+    difficulty TEXT DEFAULT '标准');
 """
 
 
@@ -12,6 +13,9 @@ class Store:
         self.db = sqlite3.connect(os.path.join(root, "wace.db"), check_same_thread=False)
         self.gen = sqlite3.connect(os.path.join(root, "generated.db"), check_same_thread=False)
         self.gen.executescript(GEN_SCHEMA)
+        if "difficulty" not in [r[1] for r in self.gen.execute("PRAGMA table_info(generated)")]:
+            self.gen.execute("ALTER TABLE generated ADD COLUMN difficulty TEXT DEFAULT '标准'")  # pre-1.2 databases
+            self.gen.commit()
         self.lock = threading.Lock()
 
     def q(self, sql, *args, db=None):
@@ -66,8 +70,9 @@ class Store:
     # ---- generated items
     def save_generated(self, item):
         cols = ("created", "patterns", "provider", "model", "section", "marks", "question", "parts", "solution",
-                "points", "log")
+                "points", "log", "difficulty")
         row = dict(item, created=time.strftime("%Y-%m-%d %H:%M"))
+        row.setdefault("difficulty", "标准")
         vals = [row[c] if isinstance(row[c], (str, int)) else json.dumps(row[c], ensure_ascii=False) for c in cols]
         with self.lock:
             cur = self.gen.execute(f"INSERT INTO generated ({','.join(cols)}) VALUES ({','.join('?' * len(cols))})",
@@ -76,14 +81,25 @@ class Store:
         return cur.lastrowid
 
     def generated_for(self, code):
-        return self.q("SELECT id, created, marks FROM generated WHERE patterns LIKE ? ORDER BY id DESC",
+        return self.q("SELECT id, created, marks, difficulty FROM generated WHERE patterns LIKE ? ORDER BY id DESC",
                       f'%"{code}"%', db=self.gen)
 
     def generated_all(self):
-        """Every AI item, newest first: (id, created, [patterns], section, marks, provider, model, question)."""
-        rows = self.q("""SELECT id, created, patterns, section, marks, provider, model, question
+        """Every AI item, newest first: (id, created, [patterns], section, marks, provider, model, question,
+        difficulty)."""
+        rows = self.q("""SELECT id, created, patterns, section, marks, provider, model, question, difficulty
                          FROM generated ORDER BY id DESC""", db=self.gen)
         return [(r[0], r[1], json.loads(r[2]), *r[3:]) for r in rows]
+
+    def generated_stems(self, codes, n=8, length=240):
+        """Openings of the newest AI questions sharing a pattern with `codes` (so new ones avoid repeating them)."""
+        out = []
+        for r in self.generated_all():
+            if set(r[2]) & set(codes):
+                out.append(" ".join(r[7].split())[:length])
+                if len(out) == n:
+                    break
+        return out
 
     def generated(self, gid):
         cur = self.gen.execute("SELECT * FROM generated WHERE id = ?", (gid,))

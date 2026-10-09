@@ -80,14 +80,29 @@ shot("4_generated")
 button("显示得分点与解答").invoke()
 shot("5_points")
 print("tree children of D.6:", tree.get_children("P:MAM.D.6")[:2])
-# 我的 AI 题库: second item, open the index, search, open a row
-button("AI 生成相似题").invoke()
-for _ in range(100):
-    pump(0.1)
-    if button("显示得分点与解答"):
-        break
+# batch: 3 hard questions on the same two patterns, then 2 on another pattern
+finished = []
+k.on("gen.finished", lambda ok, n: finished.append((ok, n)))
+
+
+def batch(codes, level, n):
+    k.get("generator.start")(codes, "any", 0, level, n)
+    for _ in range(300):
+        pump(0.1)
+        if len(finished) and finished[-1][1] == n and len(finished) == batch.calls + 1:
+            break
+    batch.calls += 1
+
+
+batch.calls = 0
+batch(["MAM.D.6", "MAM.D.4"], "拔高", 3)
+shot("6_batch_log")
+assert finished[-1] == (3, 3), finished
+batch(["MAM.D.1"], "基础", 2)
+assert finished[-1] == (2, 2), finished
+
+# 我的 AI 题库: same tags fold into one group
 k.get("mybank.show")()
-shot("6_mybank")
 
 
 def tables(w):
@@ -98,10 +113,30 @@ def tables(w):
 
 
 table = next(tables(root))
-assert len(table.get_children()) == 2, table.get_children()
-table.selection_set(table.get_children()[0])
+groups = table.get_children()
+sizes = sorted(len(table.get_children(g)) for g in groups)
+assert sizes == [2, 4], sizes  # D.4+D.6: 1 single + 3 batch; D.1: 2
+table.item(groups[0], open=True)
+shot("7_mybank")
+first = table.get_children(groups[0])[0]
+table.selection_set(first)
+table.focus_force()
+pump(0.3)
 table.event_generate("<Return>")
 pump()
-assert button("显示得分点与解答"), "opening a bank row must show the item with answers hidden"
-print("mybank rows:", [table.item(i, "values")[:2] for i in table.get_children()])
+texts = []
+
+
+def all_text(w):
+    for c in w.winfo_children():
+        if c.winfo_class() == "Text":
+            texts.append(c.get("1.0", "end"))
+        all_text(c)
+
+
+all_text(root)
+assert any(f"AI 题 #{first}" in t for t in texts), "opening a bank row must show that item"
+assert button("显示得分点与解答"), "answers must still be hidden behind the button"
+print("mybank groups:", [(table.item(g, "text"), table.item(g, "values")[2], len(table.get_children(g)))
+                         for g in groups])
 root.destroy()

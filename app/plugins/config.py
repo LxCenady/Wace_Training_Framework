@@ -16,6 +16,7 @@ DEFAULTS = {
                   "extra_body": {}},
     "retries": 2,
     "timeout": 900,
+    "parallel": 4,  # questions generated at the same time in a batch
 }
 
 

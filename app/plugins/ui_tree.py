@@ -8,6 +8,7 @@ from tkinter import ttk
 
 NAMES = {"MAM": "Mathematics Methods 数学方法", "MAS": "Mathematics Specialist 专业数学"}
 SECTIONS = {"任意": "any", "计算器禁用 (CF)": "CalcFree", "计算器允许 (CA)": "CalcAssumed"}
+LEVELS = ["基础", "标准", "拔高"]
 
 
 def short(title):
@@ -32,13 +33,19 @@ def setup(k):
     foot = ttk.Frame(left)
     foot.pack(fill="x", padx=10, pady=8)
     section, marks = tk.StringVar(value="任意"), tk.IntVar(value=0)
+    level, count = tk.StringVar(value="标准"), tk.IntVar(value=1)
     ttk.Label(foot, text="卷型").grid(row=0, column=0, sticky="w")
     ttk.Combobox(foot, textvariable=section, values=list(SECTIONS), state="readonly", width=16).grid(row=0, column=1,
                                                                                                     padx=4)
     ttk.Label(foot, text="总分(0=自动)").grid(row=0, column=2, sticky="w", padx=(8, 0))
     ttk.Spinbox(foot, from_=0, to=20, textvariable=marks, width=4).grid(row=0, column=3, padx=4)
+    ttk.Label(foot, text="难度").grid(row=1, column=0, sticky="w", pady=(6, 0))
+    ttk.Combobox(foot, textvariable=level, values=LEVELS, state="readonly", width=16).grid(row=1, column=1, padx=4,
+                                                                                           pady=(6, 0))
+    ttk.Label(foot, text="数量").grid(row=1, column=2, sticky="w", padx=(8, 0), pady=(6, 0))
+    ttk.Spinbox(foot, from_=1, to=20, textvariable=count, width=4).grid(row=1, column=3, padx=4, pady=(6, 0))
     go = ttk.Button(foot, text="AI 生成相似题", style="Accent.TButton")
-    go.grid(row=1, column=0, columnspan=4, sticky="ew", pady=(8, 0))
+    go.grid(row=2, column=0, columnspan=4, sticky="ew", pady=(8, 0))
     foot.columnconfigure(1, weight=1)
 
     for subj in store.subjects():
@@ -54,8 +61,8 @@ def setup(k):
         if not tree.exists(f"X:{pcode}"):
             return
         tree.delete(f"X:{pcode}")
-        for gid, created, m in store.generated_for(pcode):
-            tree.insert(node, "end", f"G:{pcode}|{gid}", text=f"★ AI #{gid}  [{m}分]  {created}")
+        for gid, created, m, diff in store.generated_for(pcode):
+            tree.insert(node, "end", f"G:{pcode}|{gid}", text=f"★ AI #{gid}  [{m}分 · {diff}]  {created}")
         for qid, year, sec, q, m, labels in store.questions_for(pcode):
             parts = "整题" if labels == "" else ",".join(f"({l})" for l in labels.split(","))
             tree.insert(node, "end", f"Q:{pcode}|{qid}",
@@ -89,16 +96,17 @@ def setup(k):
             k.get("ui.status")("先在知识图谱里选中至少一个题型")
             return
         go.state(["disabled"])
-        k.get("generator.start")(c, SECTIONS[section.get()], marks.get())
+        n = max(1, min(20, count.get()))
+        k.get("generator.start")(c, SECTIONS[section.get()], marks.get(), level.get(), n)
 
     go.configure(command=generate)
 
     def done(item):
-        go.state(["!disabled"])
         for code in item["patterns"]:
             node = f"P:{code}"
             if tree.exists(node) and not tree.exists(f"X:{code}"):
-                tree.insert(node, 0, f"G:{code}|{item['id']}", text=f"★ AI #{item['id']}  [{item['marks']}分]  新")
+                tree.insert(node, 0, f"G:{code}|{item['id']}",
+                            text=f"★ AI #{item['id']}  [{item['marks']}分 · {item.get('difficulty', '标准')}]  新")
 
     k.on("gen.done", done)
-    k.on("gen.error", lambda msg: go.state(["!disabled"]))
+    k.on("gen.finished", lambda ok, n: go.state(["!disabled"]))

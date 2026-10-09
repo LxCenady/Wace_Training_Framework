@@ -10,10 +10,21 @@ at any stage regenerates with the reason as feedback (config["retries"] times). 
 answer-like until stage 4 has passed; the full transcript is kept in the item's log for auditing.
 """
 import json, os, re, threading
+from concurrent.futures import ThreadPoolExecutor
 
 SUBJECT = {"MAM": "Mathematics Methods ATAR (Units 3-4)", "MAS": "Mathematics Specialist ATAR (Units 3-4)"}
 STYLE = ("Write all mathematics as plain Unicode text (x², √, ∫, π, ≤, θ, e^(2x), column vectors as (1, 2, 3)); "
          "no LaTeX, no Markdown. Reply with ONE JSON object only, no prose around it.")
+
+
+DIFFICULTY = {
+    "基础": "Difficulty: EASIER than a typical WACE question — routine, one or two steps per part, like the opening "
+            "parts (a)/(b) of the past questions; clean numbers.",
+    "标准": "Difficulty: TYPICAL WACE — comparable to the median past question shown below.",
+    "拔高": "Difficulty: the HARD end of WACE — like the final parts of the hardest recent questions: multi-step "
+            "reasoning, an unfamiliar context or a parameter, a 'show that' or a justification, ideas combined; still "
+            "strictly within the syllabus and doable in exam time.",
+}
 
 
 class Failed(Exception):
@@ -58,7 +69,7 @@ class Pipeline:
         self.log("raw", {"stage": stage, "attempt": attempt, "reply": raw})
         return parse_json(raw)
 
-    def run(self, codes, section="any", marks=0):
+    def run(self, codes, section="any", marks=0, difficulty="标准", avoid=(), variant=(1, 1)):
         store, cfg = self.k.get("store"), self.k.get("config")
         pats = [store.pattern(c) for c in codes]
         subj = pats[0]["subject"]
@@ -70,6 +81,13 @@ class Pipeline:
         want = (f"Section: {'calculator-free' if section == 'CalcFree' else 'calculator-assumed'}. "
                 if section in ("CalcFree", "CalcAssumed") else "Section: choose the more natural one. ")
         want += f"Total marks: exactly {marks}. " if marks else "Total marks: 5-12, like the past questions. "
+        want += "\n" + DIFFICULTY.get(difficulty, DIFFICULTY["标准"])
+        if variant[1] > 1:
+            want += (f"\nThis is question {variant[0]} of a batch of {variant[1]} on the same patterns: pick a context "
+                     "and function family of your own so it differs clearly from its siblings.")
+        if avoid:
+            want += ("\nAlready generated for these patterns — do NOT reuse their context, function or numbers:\n"
+                     + "\n".join(f"- {a}" for a in avoid))
         feedback = ""
         for attempt in range(1, 2 + int(cfg.get("retries", 2))):
             try:
@@ -159,7 +177,9 @@ class Pipeline:
 
 
 def setup(k):
-    def run(codes, section="any", marks=0, on_event=lambda kind, data: None):
+    store = k.get("store")
+
+    def run(codes, section="any", marks=0, on_event=lambda kind, data: None, difficulty="标准", variant=(1, 1)):
         log = []
 
         def record(kind, data):
@@ -167,25 +187,40 @@ def setup(k):
                 log.append(data)
             on_event(kind, data)
 
-        item = Pipeline(k, record).run(codes, section, marks)
+        avoid = store.generated_stems(codes)
+        item = Pipeline(k, record).run(codes, section, marks, difficulty, avoid, variant)
         cfg = k.get("config")
-        item.update(provider=cfg["provider"], model=cfg.get(cfg["provider"], {}).get("model", ""), log=log)
+        item.update(provider=cfg["provider"], model=cfg.get(cfg["provider"], {}).get("model", ""), log=log,
+                    difficulty=difficulty)
         item["id"] = k.get("store").save_generated(item)
         return item
 
-    def start(codes, section="any", marks=0):
+    def start(codes, section="any", marks=0, difficulty="标准", count=1):
+        """Generate `count` questions in background threads (config["parallel"] at a time).
+        Events: gen.started(codes, count), gen.progress(msg), gen.done(item) per question,
+        gen.error(msg) per failed question, gen.finished(ok, count) once at the end."""
         post = k.get("ui.post", lambda fn: fn())
+        workers = max(1, min(count, int(k.get("config").get("parallel", 4))))
 
-        def work():
+        def one(i):
+            tag = f"[第{i}/{count}题] " if count > 1 else ""
             try:
                 item = run(codes, section, marks,
-                           lambda kind, data: kind == "progress" and post(lambda: k.emit("gen.progress", data)))
+                           lambda kind, data: kind == "progress" and post(lambda d=tag + data: k.emit("gen.progress", d)),
+                           difficulty, (i, count))
                 post(lambda: k.emit("gen.done", item))
+                return True
             except Exception as e:  # report every failure in the UI, never crash the worker silently
-                msg = f"{type(e).__name__}: {e}" if not isinstance(e, Failed) else str(e)
+                msg = tag + (str(e) if isinstance(e, Failed) else f"{type(e).__name__}: {e}")
                 post(lambda: k.emit("gen.error", msg))
+                return False
 
-        k.emit("gen.started", codes)
+        def work():
+            with ThreadPoolExecutor(workers) as pool:
+                ok = sum(pool.map(one, range(1, count + 1)))
+            post(lambda: k.emit("gen.finished", ok, count))
+
+        k.emit("gen.started", codes, count)
         threading.Thread(target=work, daemon=True).start()
 
     k.provide("generator.run", run)
