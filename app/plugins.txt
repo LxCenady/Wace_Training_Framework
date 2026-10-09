@@ -13,4 +13,5 @@ ui_tree         # knowledge tree: subject -> topic -> pattern -> questions
 ui_pattern      # pattern method notes
 ui_question     # past question crop + marking key revealed on demand
 ui_generate     # AI question view; mark points revealed only after verification
+ui_mybank       # 我的 AI 题库: searchable index of every generated question
 ui_settings     # provider / base_url / model / API key dialog

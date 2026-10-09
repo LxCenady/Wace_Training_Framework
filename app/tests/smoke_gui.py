@@ -80,4 +80,28 @@ shot("4_generated")
 button("显示得分点与解答").invoke()
 shot("5_points")
 print("tree children of D.6:", tree.get_children("P:MAM.D.6")[:2])
+# 我的 AI 题库: second item, open the index, search, open a row
+button("AI 生成相似题").invoke()
+for _ in range(100):
+    pump(0.1)
+    if button("显示得分点与解答"):
+        break
+k.get("mybank.show")()
+shot("6_mybank")
+
+
+def tables(w):
+    for c in w.winfo_children():
+        if c.winfo_class() == "Treeview" and "headings" in str(c.cget("show")):
+            yield c
+        yield from tables(c)
+
+
+table = next(tables(root))
+assert len(table.get_children()) == 2, table.get_children()
+table.selection_set(table.get_children()[0])
+table.event_generate("<Return>")
+pump()
+assert button("显示得分点与解答"), "opening a bank row must show the item with answers hidden"
+print("mybank rows:", [table.item(i, "values")[:2] for i in table.get_children()])
 root.destroy()

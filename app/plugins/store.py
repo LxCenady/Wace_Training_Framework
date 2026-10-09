@@ -79,6 +79,12 @@ class Store:
         return self.q("SELECT id, created, marks FROM generated WHERE patterns LIKE ? ORDER BY id DESC",
                       f'%"{code}"%', db=self.gen)
 
+    def generated_all(self):
+        """Every AI item, newest first: (id, created, [patterns], section, marks, provider, model, question)."""
+        rows = self.q("""SELECT id, created, patterns, section, marks, provider, model, question
+                         FROM generated ORDER BY id DESC""", db=self.gen)
+        return [(r[0], r[1], json.loads(r[2]), *r[3:]) for r in rows]
+
     def generated(self, gid):
         cur = self.gen.execute("SELECT * FROM generated WHERE id = ?", (gid,))
         d = dict(zip([c[0] for c in cur.description], cur.fetchone()))
