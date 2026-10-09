@@ -9,7 +9,8 @@ from tkinter import ttk
 
 SYSTEM = ("[STAGE:EXPLAIN]\nYou are a patient WACE mathematics tutor explaining a marked mistake to a Year 12 student "
           "in Western Australia. Write in Simplified Chinese, keeping mathematical terms and exam wording in English "
-          "where the exam uses them. Use plain Unicode maths (x², √, ∫, π), no LaTeX, no Markdown tables.\n"
+          "where the exam uses them. Write mathematics in LaTeX between $...$ (inline) or $$...$$ (a displayed "
+          "line); write money as \\$5. No Markdown tables.\n"
           "Structure, with these headings:\n"
           "1. 这一问考什么 — the pattern and what the examiner is checking.\n"
           "2. 你丢的分 — for each missed mark point: what the marker wanted and the likely reason it was missed "
@@ -56,8 +57,17 @@ def setup(k):
     w, ui_text = k.get("ui.write"), k.get("ui.text")
 
     def show_text(t, text):
+        math = k.get("math.write", None)
+        pending = ""  # a $$…$$ block spanning several lines is rendered as one piece
         for line, heading in lines(text):
-            w(t, line + "\n", *(("sub",) if heading else ()))
+            pending += line + "\n"
+            if pending.count("$$") % 2:
+                continue
+            tags = ("sub",) if heading else ()
+            math(t, pending, *tags) if math else w(t, pending, *tags)
+            pending = ""
+        if pending:
+            w(t, pending)
 
     def explain(m, again=False):
         top = tk.Toplevel(root)

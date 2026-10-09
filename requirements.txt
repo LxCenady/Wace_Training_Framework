@@ -1,5 +1,7 @@
 pymupdf>=1.24
 markdown>=3.5
-# optional, for verifying generated questions by hand / in the skills
-sympy
+sympy>=1.13
+ziamath>=0.13
+ziaplot>=0.9
+# optional, for verifying questions by hand / in the skills
 scipy

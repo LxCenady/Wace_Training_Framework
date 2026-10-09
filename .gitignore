@@ -16,3 +16,4 @@ tools/unbundle.py
 tools/old_list.tsv
 build/
 dist/
+WTF.log

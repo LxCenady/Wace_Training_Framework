@@ -8,6 +8,8 @@ llm_openai      # OpenAI chat-completions format (any compatible base_url)
 llm_anthropic   # Anthropic messages format
 llm_mock        # offline provider for testing the pipeline
 symcheck        # SymPy recomputes numeric answers in a sandboxed child process
+mathtext        # LaTeX in text: $...$ rendered with ziamath (Tk images, PDF vectors)
+figure          # figure specs (data, not code) -> exam-style drawings via ziaplot
 generator       # generate -> independent solve -> verify -> split into mark points
 ui_shell        # window, tabs, thread-safe post()
 ui_tree         # knowledge tree: subject -> topic -> pattern -> questions

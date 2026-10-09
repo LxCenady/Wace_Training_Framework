@@ -3,6 +3,7 @@
 Answers only exist in a finished item, which the generator emits after the independent solve,
 verification and mark-point split have all passed.
 """
+import base64
 import tkinter as tk
 from tkinter import ttk
 
@@ -60,6 +61,31 @@ def setup(k):
                    command=lambda: k.get("mybank.show", lambda: None)()).pack(side="left")
         k.get("ui.status")(f"批量完成：{ok} / {count} 道通过验证")
 
+    def rich(t, text, *tags):
+        """Text with $LaTeX$ rendered (falls back to plain text without the mathtext plugin)."""
+        math = k.get("math.write", None)
+        math(t, text, *tags) if math else w(t, text, *tags)
+
+    def figure(t, spec, *tags, caption=""):
+        """Draw a figure spec into the Text widget (nothing if there is none or no figure plugin)."""
+        draw = k.get("figure.png", None)
+        if not spec or not draw:
+            return
+        try:
+            png, problems = draw(spec, 520)
+        except Exception as e:  # a figure that cannot be drawn must not hide the question
+            w(t, f"（配图无法绘制：{type(e).__name__}）\n", "warn", *tags)
+            return
+        img = tk.PhotoImage(data=base64.b64encode(png))
+        t.images = getattr(t, "images", []) + [img]  # Tk drops images without a Python reference
+        t.configure(state="normal")
+        if caption:
+            t.insert("end", "    " + caption + "\n", ("muted",) + tags)
+        t.insert("end", "    ", tags)
+        t.image_create("end", image=img)
+        t.insert("end", "\n", tags)
+        t.configure(state="disabled")
+
     def show(item):
         page = k.get("ui.tab")("gen", "AI 出题")
         state.pop("log", None)
@@ -71,7 +97,8 @@ def setup(k):
         w(t, f"AI 题 #{item['id']} · {item['marks']} 分 · {sec} · {item.get('difficulty') or '标准'}\n", "h")
         w(t, "题型：" + "，".join(item["patterns"]) + f"   ·   {item.get('provider')} {item.get('model', '')}"
              "   ·   ✓ 已通过独立解题与核对" + symcheck_summary(item) + "\n\n", "muted")
-        w(t, item["question"] + "\n")
+        rich(t, item["question"] + "\n")
+        figure(t, item.get("figure"))
 
         if item.get("focus"):
             w(t, "\n错题加强题，针对这些失分步骤：\n" + item["focus"] + "\n", "muted")
@@ -92,16 +119,17 @@ def setup(k):
             for p in item["parts"]:
                 tag = f"part:{p['label']}"
                 had = store.mistake("gen", item["id"], p["label"])
-                w(t, f"({p['label']})  {p['marks']} 分   答案：{p['answer']}\n", "sub", tag)
+                rich(t, f"({p['label']})  {p['marks']} 分   答案：{p['answer']}\n", "sub", tag)
+                figure(t, p.get("figure"), tag, caption=f"({p['label']}) 标准答案图")
                 status, detail = p.get("symcheck") or ("skip", "")
                 w(t, f"    SymPy 验算 ✓ {detail}\n" if status == "ok" else "    SymPy 未验算（非数值小问或表达式无法计算）\n",
                   "ok" if status == "ok" else "muted", tag)
                 w(t, "    题型：" + "；".join(store.pattern_name(c) for c in (p.get("patterns") or item["patterns"]))
                   + (f"   ✗ 已扣 {had['lost']} 分" if had else "") + "\n", "accent" if not had else "warn", tag)
                 for text in by.get(p["label"], []):
-                    w(t, f"    ✓ {text}\n", tag)
+                    rich(t, f"    ✓ {text}\n", tag)
             w(t, "\n解答过程\n", "h")
-            w(t, item["solution"] + "\n")
+            rich(t, item["solution"] + "\n")
 
         def right_click(e):
             parts = {f"part:{p['label']}": p for p in item["parts"]}

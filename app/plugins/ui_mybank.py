@@ -30,7 +30,7 @@ def setup(k):
         out = []
         for gid, created, pats, section, marks, provider, model, question, diff, focus in store.generated_all():
             key = tuple(sorted(pats))
-            stem = " ".join(question.split())
+            stem = " ".join(k.get("math.plain", lambda s: s)(question).split())
             row = (gid, created, (diff or "标准") + ("·错题加强" if focus else ""), SECTION.get(section, section or ""),
                    marks, model or provider, stem[:160])
             out.append((key, row, " ".join(map(str, row)) + " " + " ".join(title(c) for c in key) + " " + stem))

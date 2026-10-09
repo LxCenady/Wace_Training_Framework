@@ -44,6 +44,8 @@ def main(version):
            "--add-data", f"{os.path.join(APP, 'setup.txt')}{sep}."]
     for m in plugins + TOOL_MODULES:
         cmd += ["--hidden-import", m]
+    for m in ("ziamath", "ziafont", "ziaplot", "latex2mathml"):  # fonts / symbol tables they read at run time
+        cmd += ["--collect-data", m]
     for m in EXCLUDE:  # optional extras SymPy would pull in; nothing in the app needs them (-75 MB)
         cmd += ["--exclude-module", m]
     subprocess.run(cmd + [os.path.join(APP, "main.py")], check=True)

@@ -7,6 +7,14 @@ from main import Kernel, find_root, plugin_names  # noqa: E402
 from plugins.store import GEN_SCHEMA  # noqa: E402
 
 out = sys.argv[1]
+WORK_PDF = os.path.join(out, "smoke_export.pdf")
+
+
+def text_widgets_of(w):
+    for c in w.winfo_children():
+        if c.winfo_class() == "Text":
+            yield c
+        yield from text_widgets_of(c)
 k = Kernel(find_root())
 k.load(plugin_names())
 k.get("config")["provider"] = "mock"
@@ -266,4 +274,25 @@ assert box == 1 and due > m["due"], (box, due)
 box, due = st.review(m["id"], False)
 assert box == 0, box
 print("review: passed -> box 1, failed -> box 0, due", due)
+
+# LaTeX + figures: the mock question has $…$, $$…$$, money (\$2) and a figure; open it and reveal
+gid = st.generated_all()[0][0]
+item = st.generated(gid)
+assert item["figure"] and "$f(x) = x^3 - 3x + 1$" in item["question"], item["question"][:80]
+k.emit("select.generated", gid)
+pump()
+button("显示得分点与解答").invoke()
+pump()
+gen_text = next(w for w in text_widgets_of(root) if "AI 题 #" in w.get("1.0", "3.0"))
+images = gen_text.image_names()
+print("AI view: rendered images =", len(images), "| raw '$' left in text:", gen_text.get("1.0", "end").count("$"))
+assert len(images) >= 5, images  # 4 formulas in the stem + the figure (+ more in the key)
+assert "Entry costs $2" in gen_text.get("1.0", "end"), "money must show as $2, not as maths"
+shot("14_latex")
+q_pdf, a_pdf = k.get("export.worksheet")([gid], WORK_PDF, "LaTeX 导出测试")
+import pymupdf  # noqa: E402
+d = pymupdf.open(q_pdf)
+print("export:", d.page_count, "pages,", len(d[0].get_images()), "images on page 1")
+assert len(d[0].get_images()) >= 4
+d[0].get_pixmap(dpi=80).save(WORK_PDF[:-4] + "_p1.png")
 root.destroy()

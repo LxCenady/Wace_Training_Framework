@@ -26,22 +26,62 @@ p {margin: 2pt 0;}
 SECTION = {"CalcFree": "计算器禁用 (Calculator-free)", "CalcAssumed": "计算器允许 (Calculator-assumed)"}
 
 
-def text(s, font):
-    """HTML-escape, keep line breaks, and route glyphs YaHei lacks to the symbol font."""
+class Assets:
+    """Fonts + every formula / figure of one document, as an in-memory archive the Story reads images from."""
+
+    def __init__(self, maths=None, figures=None):
+        self.archive = pymupdf.Archive(FONTS)
+        self.maths, self.figures, self.n = maths, figures, 0
+
+    def add_svg(self, svg):
+        self.n += 1
+        name = f"a{self.n}.svg"
+        self.archive.add((svg.encode(), name))
+        w, h = pymupdf.open("svg", svg.encode())[0].rect[2:]
+        return name, w, h
+
+    def formula(self, tex, display):
+        name, w, h = self.add_svg(self.maths(tex, 20))
+        k = 0.56  # 20 px maths -> 10.5 pt text
+        img = f"<img src='{name}' width='{w * k:.1f}' height='{h * k:.1f}'/>"
+        return f"<br/>{img}<br/>" if display else img
+
+    def figure(self, spec, width=300):
+        if not spec or not self.figures:
+            return ""
+        try:
+            svg, _ = self.figures(spec)
+        except Exception:
+            return ""
+        name, w, h = self.add_svg(svg)
+        return f"<p><img src='{name}' width='{width}' height='{width * h / w:.1f}'/></p>"
+
+
+def text(s, font, assets=None):
+    """HTML-escape, keep line breaks, render $maths$ (when assets are given), and route glyphs YaHei lacks
+    to the symbol font."""
+    from plugins.mathtext import segments, repair
     out = []
-    for ch in s:
-        e = html.escape(ch)
-        if ch == "\n":
-            out.append("<br/>")
-        elif ord(ch) > 127 and not font.has_glyph(ord(ch)):
-            out.append(f'<span class="s">{e}</span>')
-        else:
-            out.append(e)
+    for kind, piece in segments(repair(s)) if assets and assets.maths else [("text", s)]:
+        if kind != "text":
+            try:
+                out.append(assets.formula(piece, kind == "display"))
+                continue
+            except Exception:  # unsupported LaTeX: print its source
+                piece = f"${piece}$"
+        for ch in piece:
+            e = html.escape(ch)
+            if ch == "\n":
+                out.append("<br/>")
+            elif ord(ch) > 127 and not font.has_glyph(ord(ch)):
+                out.append(f'<span class="s">{e}</span>')
+            else:
+                out.append(e)
     return "".join(out)
 
 
-def render(body, path):
-    story = pymupdf.Story(html=body, user_css=CSS, archive=pymupdf.Archive(FONTS))
+def render(body, path, assets):
+    story = pymupdf.Story(html=body, user_css=CSS, archive=assets.archive)
     buf = io.BytesIO()
     writer = pymupdf.DocumentWriter(buf)
     page = pymupdf.paper_rect("a4")
@@ -63,9 +103,10 @@ def render(body, path):
     return n
 
 
-def worksheet(items, path, title, name):
+def worksheet(items, path, title, name, maths=None, figures=None):
     """items: generated items (store.generated). Writes <path> (questions) and <path>_答案.pdf; returns both."""
     font = pymupdf.Font(fontfile=os.path.join(FONTS, "msyh.ttc"))
+    qa, aa = Assets(maths, figures), Assets(maths, figures)
     marks = sum(i["marks"] for i in items)
     meta = (f"{len(items)} 题 · 共 {marks} 分 · 建议用时约 {marks} 分钟（WACE 约每分钟 1 分）· "
             f"{time.strftime('%Y-%m-%d')} · WTF — WACE Training Framework")
@@ -73,7 +114,8 @@ def worksheet(items, path, title, name):
         [f"<h1>{text(title + ' — 答案与评分标准', font)}</h1><p class='meta'>{text(meta, font)}</p>"]
     for n, it in enumerate(items, 1):
         head = f"Question {n}（{it['marks']} 分 · {SECTION.get(it.get('section'), '')} · AI #{it['id']}）"
-        q.append(f"<h2>{text(head, font)}</h2><p>{text(it['question'], font)}</p>")
+        q.append(f"<h2>{text(head, font)}</h2><p>{text(it['question'], font, qa)}</p>")
+        q.append(qa.figure(it.get("figure")))
         q.append("<p class='space'>.</p>" * (3 * it["marks"] + 2))  # working space ~ 3 lines per mark
         a.append(f"<h2>{text(head, font)}</h2>")
         by = {}
@@ -82,17 +124,19 @@ def worksheet(items, path, title, name):
         for p in it["parts"]:
             tags = "；".join(name(c) for c in p.get("patterns") or it["patterns"])
             line = "({}) {} 分　答案：{}".format(p["label"], p["marks"], p["answer"])
-            a.append(f"<p class='part'>{text(line, font)} <span class='tag'>{text(tags, font)}</span></p>")
+            a.append(f"<p class='part'>{text(line, font, aa)} <span class='tag'>{text(tags, font)}</span></p>")
+            a.append(aa.figure(p.get("figure"), 240))
             for t in by.get(p["label"], []):
-                a.append(f"<p class='pt'>{text('☐ ' + t, font)}</p>")
-        a.append(f"<p class='sol'>{text('解答：' + chr(10) + it['solution'], font)}</p>")
+                a.append(f"<p class='pt'>{text('☐ ' + t, font, aa)}</p>")
+        a.append(f"<p class='sol'>{text('解答：' + chr(10) + it['solution'], font, aa)}</p>")
     answers = path[:-4] + "_答案.pdf"
-    render("".join(q), path)
-    render("".join(a), answers)
+    render("".join(q), path, qa)
+    render("".join(a), answers, aa)
     return path, answers
 
 
 def setup(k):
     store = k.get("store")
-    k.provide("export.worksheet",
-              lambda gids, path, title: worksheet([store.generated(g) for g in gids], path, title, store.pattern_name))
+    k.provide("export.worksheet", lambda gids, path, title: worksheet(
+        [store.generated(g) for g in gids], path, title, store.pattern_name,
+        k.get("math.svg", None), k.get("figure.svg", None)))

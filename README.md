@@ -93,7 +93,11 @@ app/             GUI (below)
 - **Architecture** (microkernel): `kernel.py` = service registry + events + plugin loader with no domain code; `main.py` = thin glue; `plugins.txt` lists the plugins; each `plugins/*.py` does one job (store, render, llm + one file per provider, generator, ui_shell / tree / pattern / question / generate / settings).
 - **Tests**: `app\tests\test_providers.py` (both adapters against a local fake server), `app\tests\smoke_gui.py <dir>` (drives the window with the mock provider and saves screenshots).
 
-Limits: the checker is itself a model (no symbolic re-computation yet); Tk can't render LaTeX, so generated maths is plain Unicode.
+**Maths and figures.** Generated questions, keys, solutions and explanations are written in LaTeX (`$…$`, `$$…$$`; money as `\$5`) and rendered with [ziamath](https://ziamath.readthedocs.io/) — pure Python, no TeX install — as images in the app and as vectors in exported PDFs. LaTeX that a model wrote with single backslashes inside JSON (`\frac` silently becoming a form feed, `\int` making the JSON invalid) is repaired before use. When a question needs a drawing — a graph to read from, a shape, an Argand diagram, a histogram — the setter gives a **figure spec as data, not code** (curves, shaded regions, implicit curves, points, segments, polygons, circles, vectors, labels, bars; expressions through the same whitelist as the SymPy check), drawn with [ziaplot](https://pypi.org/project/ziaplot/). The solver and checker read the spec, so a figure question is still solved independently; a spec that cannot be drawn sends the question back. Sketch parts can carry the expected graph in the marking key.
+
+`WTF.exe --selftest` (or `python app/main.py --selftest`) checks LaTeX, figures, the SymPy check and the question bank, and writes the result to `WTF.log`.
+
+Limits: parts whose answer is not a number or expression (inequalities, loci, explanations) are verified by the models only; some solver expressions merely restate the answer, which makes their SymPy check weak.
 
 ## Licence
 

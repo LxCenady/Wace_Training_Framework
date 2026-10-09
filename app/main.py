@@ -50,11 +50,37 @@ def log_errors(root):
     return write
 
 
+def selftest(root):
+    """WTF --selftest: check each renderer and checker once; results to stdout and WTF.log; exit 1 on failure."""
+    import sqlite3
+    results = []
+
+    def step(name, fn):
+        try:
+            results.append(f"ok    {name}: {fn()}")
+        except Exception as e:
+            results.append(f"FAIL  {name}: {type(e).__name__}: {e}")
+
+    from plugins import mathtext, symcheck, figure
+    step("LaTeX", lambda: f"{len(mathtext.svg(r'\int_0^1 \frac{x^2}{2}\,dx'))} bytes of SVG")
+    k = Kernel(root)
+    figure.setup(k)
+    step("figure", lambda: f"{len(k.get('figure.svg')({'items': [{'curve': 'x**2'}]})[0])} bytes of SVG")
+    step("SymPy check", lambda: symcheck.evaluate([("a", "integrate(x**2, (x, 0, 1))", [("s", "1/3")])])["a"][0])
+    step("question bank", lambda: f"{sqlite3.connect(os.path.join(root, 'wace.db')).execute('SELECT COUNT(*) FROM questions').fetchone()[0]} questions")
+    with open(os.path.join(root, "WTF.log"), "a", encoding="utf-8") as f:
+        f.write("\n--- selftest ---\n" + "\n".join(results) + "\n")
+    print("\n".join(results))
+    sys.exit(1 if any(r.startswith("FAIL") for r in results) else 0)
+
+
 def main():
     root = find_root()
     write = log_errors(root)
     os.environ["WACE_MATHS_ROOT"] = root  # tools/*.py read it at import time
     sys.path.insert(0, os.path.join(HERE, "tools") if FROZEN else os.path.join(root, "tools"))
+    if "--selftest" in sys.argv[1:]:
+        return selftest(root)
     if any(a in ("--import", "--build") for a in sys.argv[1:]):
         try:
             return headless(root, sys.argv[1:])

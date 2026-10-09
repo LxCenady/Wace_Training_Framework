@@ -179,8 +179,24 @@ def setup(k):
             it = store.generated(int(ref))
             ttk.Label(parent, text=f"Question {n}  ({it['marks']} 分)", style="H.TLabel",
                       background=C["panel"]).pack(anchor="w", padx=12, pady=(12, 2))
-            tk.Label(parent, text=it["question"], justify="left", anchor="w", wraplength=780, bg=C["panel"],
-                     font=("Microsoft YaHei UI", 11)).pack(anchor="w", padx=16)
+            text = tk.Text(parent, wrap="word", width=86, relief="flat", bg=C["panel"], fg=C["ink"],
+                           font=("Microsoft YaHei UI", 11), padx=4, pady=4, insertwidth=0,
+                           height=min(40, it["question"].count("\n") + len(it["question"]) // 80 + 3))
+            text.pack(anchor="w", padx=12)
+            math = k.get("math.write", None)
+            if math:
+                math(text, it["question"])
+            else:
+                text.insert("end", it["question"])
+            text.configure(state="disabled")
+            draw = k.get("figure.png", None)
+            if it.get("figure") and draw:
+                try:
+                    img = tk.PhotoImage(data=base64.b64encode(draw(it["figure"], 480)[0]))
+                    keep.append(img)
+                    tk.Label(parent, image=img, bg="#ffffff").pack(anchor="w", padx=16, pady=4)
+                except Exception:
+                    pass  # the question text is still there; the figure is shown in the AI view too
 
     def submit(e, auto=False):
         stop_timer()

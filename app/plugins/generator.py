@@ -13,8 +13,23 @@ import json, os, re, threading
 from concurrent.futures import ThreadPoolExecutor
 
 SUBJECT = {"MAM": "Mathematics Methods ATAR (Units 3-4)", "MAS": "Mathematics Specialist ATAR (Units 3-4)"}
-STYLE = ("Write all mathematics as plain Unicode text (x², √, ∫, π, ≤, θ, e^(2x), column vectors as (1, 2, 3)); "
-         "no LaTeX, no Markdown. Reply with ONE JSON object only, no prose around it.")
+STYLE = ("Write mathematics in LaTeX between $...$ (inline) or $$...$$ (a displayed line), e.g. $\\frac{dy}{dx}$, "
+         "$\\int_0^{\\pi} \\sin x\\,dx$, $\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$, vectors as $\\underset{\\sim}{a}$; "
+         "write money as \\$5 so it is not read as maths. Inside the JSON strings every backslash must be doubled "
+         "(\\\\frac). Fields named value or sympy are plain SymPy, never LaTeX. No Markdown. "
+         "Reply with ONE JSON object only, no prose around it.")
+FIGURE = ("A figure is DATA, not code: {\"x\": [xmin, xmax], \"y\": [ymin, ymax], \"axes\": true | \"box\" | false, "
+          "\"equal\": false, \"items\": [ … ]} where each item is one of "
+          "{\"curve\": \"SymPy expr in x\", \"domain\": [a, b], \"label\": \"$y=f(x)$\", \"dashed\": false}, "
+          "{\"fill\": \"upper expr in x\", \"to\": \"lower expr\", \"from_x\": a, \"to_x\": b} (shaded region), "
+          "{\"implicit\": \"expr in x and y equal to 0\"}, {\"param\": [\"x(t)\", \"y(t)\"], \"t\": [t0, t1]}, "
+          "{\"point\": [x, y], \"label\": \"$A$\", \"pos\": \"NE|NW|SE|SW\", \"open\": false}, "
+          "{\"segment\": [[x1, y1], [x2, y2]], \"dashed\": false}, {\"polygon\": [[x, y], …], \"shade\": false}, "
+          "{\"circle\": [cx, cy], \"r\": r}, {\"vline\": x} / {\"hline\": y} (dashed asymptotes), "
+          "{\"vector\": [[x1, y1], [x2, y2]], \"label\": \"$\\\\mathbf{a}$\"}, {\"text\": [x, y], \"s\": \"$10$ cm\"}, "
+          "{\"bars\": [[x, height], …], \"width\": w} (histograms, discrete distributions). "
+          "Numbers may be SymPy expressions such as \"pi/3\". Use axes false for geometric diagrams (shapes, "
+          "cross-sections), \"box\" for histograms, true for graphs and Argand diagrams (with equal true).")
 
 
 DIFFICULTY = {
@@ -36,11 +51,31 @@ def label_of(s):
     return s or "-"
 
 
-def parse_json(text):
+BAD_ESCAPE = re.compile(r'(?<!\\)\\(?![\\"/bfnrt]|u[0-9a-fA-F]{4})')  # LaTeX \int, \, \underset … in JSON
+
+
+def parse_json(text, repair=lambda s: s):
+    """The model's JSON object; LaTeX written with single backslashes is accepted and repaired."""
     try:
-        return json.loads(text[text.index("{"): text.rindex("}") + 1])
-    except ValueError as e:
-        raise Failed(f"reply was not valid JSON ({e})") from None
+        body = text[text.index("{"): text.rindex("}") + 1]
+    except ValueError:
+        raise Failed("reply contained no JSON object") from None
+    for attempt in (body, BAD_ESCAPE.sub(r"\\\\", body)):
+        try:
+            return fix_strings(json.loads(attempt), repair)
+        except ValueError as e:
+            err = e
+    raise Failed(f"reply was not valid JSON ({err})")
+
+
+def fix_strings(obj, repair):
+    if isinstance(obj, str):
+        return repair(obj)
+    if isinstance(obj, list):
+        return [fix_strings(x, repair) for x in obj]
+    if isinstance(obj, dict):
+        return {key: fix_strings(v, repair) for key, v in obj.items()}
+    return obj
 
 
 def skill_text(root, p):
@@ -67,7 +102,7 @@ class Pipeline:
         self.log("progress", f"[{attempt}] {stage} …")
         raw = self.chat(f"[STAGE:{stage}]\n{system}", user)
         self.log("raw", {"stage": stage, "attempt": attempt, "reply": raw})
-        return parse_json(raw)
+        return parse_json(raw, self.k.get("math.repair", lambda s: s))
 
     def run(self, codes, section="any", marks=0, difficulty="标准", avoid=(), variant=(1, 1), focus=""):
         store, cfg = self.k.get("store"), self.k.get("config")
@@ -112,11 +147,13 @@ class Pipeline:
             "every part has one checkable final answer; numbers chosen so that answers are exact or clearly rounded; "
             "do not copy a past question.\n" + (f"A previous attempt was rejected: {feedback}\nFix that.\n" if feedback
                                                 else "") +
-            "Past questions with these patterns:\n" + examples + "\n\n" + STYLE +
+            "Past questions with these patterns:\n" + examples + "\n\n" + STYLE + "\n\nIf the question needs a "
+            "drawing (a graph the student reads from, a diagram of a shape, an Argand diagram, a histogram), give it "
+            "as \"figure\"; otherwise null. " + FIGURE +
             '\nSchema: {"section": "CalcFree|CalcAssumed", "question": "full stem with (a), (b)(i)… and (n marks) '
-            'after each part", "parts": [{"label": "a", "marks": 2, "patterns": ["code"], "answer": "final answer", '
-            '"value": "the final answer as a SymPy expression (12*pi, [2, -3] for several values, 3*x**2 - 3 for '
-            'an expression) or null for explain / sketch / show-that parts"}]}')
+            'after each part", "figure": null, "parts": [{"label": "a", "marks": 2, "patterns": ["code"], '
+            '"answer": "final answer", "value": "the final answer as a SymPy expression (12*pi, [2, -3] for several '
+            'values, 3*x**2 - 3 for an expression) or null for explain / sketch / show-that parts"}]}')
         parts = g.get("parts") or []
         if not g.get("question") or not parts:
             raise Failed("setter returned no question/parts")
@@ -129,7 +166,14 @@ class Pipeline:
         if len({p["label"] for p in parts}) != len(parts):
             raise Failed("duplicate part labels")
         labels = [p["label"] for p in parts]
-        question = g["question"].strip()
+        stem = question = g["question"].strip()
+        figure = g.get("figure") or None
+        if figure:
+            problems = self.figure_problems(figure)
+            if problems:
+                raise Failed("the figure could not be drawn: " + "; ".join(problems[:3]))
+            # the solver and checker read the figure as data (it is exactly what the student sees drawn)
+            question += "\n\nFigure shown with the question (as data): " + json.dumps(figure, ensure_ascii=False)
 
         # 2 SOLVE — independent: sees only the question
         s = self.call("SOLVE", n, (
@@ -176,20 +220,36 @@ class Pipeline:
                 "step worth 1 mark (e.g. 'differentiates using the product rule', 'states x = 2'), in exam order."),
                 f"Question:\n{question}\n\nVerified answers:\n{key}\n" + (f"Previous key was wrong: {last}\n" if last
                                                                            else "") +
-                f"\n{STYLE}\nSchema: " + '{"solution": "full worked solution, part by part", '
-                '"points": [{"label": "a", "text": "behaviour"}]}')
+                f"\n{STYLE}\nFor a part that asks the student to sketch or draw, also give the expected drawing in "
+                "\"figures\" (keyed by part label). " + FIGURE + "\nSchema: " +
+                '{"solution": "full worked solution, part by part", "points": [{"label": "a", "text": "behaviour"}], '
+                '"figures": {}}')
             pts = [(label_of(p.get("label")), str(p.get("text", "")).strip()) for p in m.get("points", [])]
             counts = {l: sum(1 for x in pts if x[0] == l) for l in labels}
             wrong = {l: counts[l] for l, p in zip(labels, parts) if counts[l] != p["marks"]}
             if not wrong and len(pts) == total and m.get("solution"):
-                return {"patterns": codes, "section": g.get("section", ""), "marks": total, "question": question,
+                drawn = {label_of(l): f for l, f in (m.get("figures") or {}).items()
+                         if isinstance(f, dict) and not self.figure_problems(f)}  # a bad sketch key is dropped
+                return {"patterns": codes, "section": g.get("section", ""), "marks": total, "question": stem,
+                        "figure": figure,
                         "parts": [{"label": l, "marks": p["marks"], "patterns": p.get("patterns", []),
                                    "answer": checked[l].get("correct_answer") or p.get("answer"),
-                                   "symcheck": checks.get(l, ("skip", "no SymPy expression"))}
+                                   "symcheck": checks.get(l, ("skip", "no SymPy expression")),
+                                   "figure": drawn.get(l)}
                                   for l, p in zip(labels, parts)],
                         "solution": m["solution"], "points": pts}
             last = f"point counts per part {wrong} do not match the marks"
         raise Failed("marking key could not be split into exactly one point per mark: " + last)
+
+    def figure_problems(self, spec):
+        """[] if the figure draws cleanly (or no renderer is loaded), else what went wrong."""
+        draw = self.k.get("figure.svg", None)
+        if not draw:
+            return []
+        try:
+            return draw(spec)[1]
+        except Exception as e:
+            return [f"{type(e).__name__}: {str(e)[:100]}"]
 
     def symbolic(self, parts, solved):
         check = self.k.get("symcheck", None)

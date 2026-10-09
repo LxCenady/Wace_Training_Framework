@@ -4,7 +4,7 @@ import json, os, sqlite3, threading, time
 GEN_SCHEMA = """
 CREATE TABLE IF NOT EXISTS generated (id INTEGER PRIMARY KEY, created TEXT, patterns TEXT, provider TEXT,
     model TEXT, section TEXT, marks INT, question TEXT, parts TEXT, solution TEXT, points TEXT, log TEXT,
-    difficulty TEXT DEFAULT '标准', focus TEXT DEFAULT '');
+    difficulty TEXT DEFAULT '标准', focus TEXT DEFAULT '', figure TEXT DEFAULT 'null');
 CREATE TABLE IF NOT EXISTS mistakes (id INTEGER PRIMARY KEY, created TEXT, source TEXT, ref TEXT, label TEXT,
     part_marks INT, lost INT, patterns TEXT, missed TEXT, note TEXT, explain TEXT DEFAULT '',
     box INT DEFAULT 0, due TEXT DEFAULT '', UNIQUE (source, ref, label));
@@ -28,7 +28,8 @@ class Store:
         self.gen = sqlite3.connect(os.path.join(root, "generated.db"), check_same_thread=False)
         self.gen.executescript(GEN_SCHEMA)
         cols = [r[1] for r in self.gen.execute("PRAGMA table_info(generated)")]
-        for col, ddl in (("difficulty", "TEXT DEFAULT '标准'"), ("focus", "TEXT DEFAULT ''")):  # older databases
+        for col, ddl in (("difficulty", "TEXT DEFAULT '标准'"), ("focus", "TEXT DEFAULT ''"),
+                         ("figure", "TEXT DEFAULT 'null'")):  # older databases
             if col not in cols:
                 self.gen.execute(f"ALTER TABLE generated ADD COLUMN {col} {ddl}")
         mcols = [r[1] for r in self.gen.execute("PRAGMA table_info(mistakes)")]
@@ -95,9 +96,10 @@ class Store:
     # ---- generated items
     def save_generated(self, item):
         cols = ("created", "patterns", "provider", "model", "section", "marks", "question", "parts", "solution",
-                "points", "log", "difficulty", "focus")
+                "points", "log", "difficulty", "focus", "figure")
         row = dict(item, created=time.strftime("%Y-%m-%d %H:%M"))
         row.setdefault("difficulty", "标准")
+        row.setdefault("figure", None)
         row["focus"] = row.get("focus") or ""
         vals = [row[c] if isinstance(row[c], (str, int)) else json.dumps(row[c], ensure_ascii=False) for c in cols]
         with self.lock:
@@ -254,7 +256,7 @@ class Store:
     def generated(self, gid):
         cur = self.gen.execute("SELECT * FROM generated WHERE id = ?", (gid,))
         d = dict(zip([c[0] for c in cur.description], cur.fetchone()))
-        for c in ("patterns", "parts", "points", "log"):
+        for c in ("patterns", "parts", "points", "log", "figure"):
             d[c] = json.loads(d[c])
         return d
 
