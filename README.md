@@ -2,13 +2,22 @@
 
 > *Yes, the acronym is intentional. No, we will not be taking questions about it. Mostly because the app will generate them for you.*
 
-## ⬇ [Download WTF for Windows — WTF-Setup.exe](https://github.com/LxCenady/Wace_Training_Framework/releases/latest/download/WTF-Setup.exe)
+## ⬇ Download
 
-Double-click it. That is the whole installation. (Other files and release notes: [latest release](https://github.com/LxCenady/Wace_Training_Framework/releases/latest).)
+| | |
+|---|---|
+| **Windows** | [**WTF-Setup.exe**](https://github.com/LxCenady/Wace_Training_Framework/releases/latest/download/WTF-Setup.exe) — double-click it. That is the whole installation. |
+| **Mac, Apple silicon** (M1–M4) | [**WTF-macOS-arm64.dmg**](https://github.com/LxCenady/Wace_Training_Framework/releases/latest/download/WTF-macOS-arm64.dmg) |
+| **Mac, Intel** | [**WTF-macOS-x86_64.dmg**](https://github.com/LxCenady/Wace_Training_Framework/releases/latest/download/WTF-macOS-x86_64.dmg) |
+
+On a Mac: open the .dmg and drag WTF onto Applications. The app is not signed by Apple (that costs a yearly fee; this README remains free), so the first time **right-click WTF in Applications → Open → Open**. Not sure which Mac you have? Apple menu → About This Mac: "Apple M…" means Apple silicon, "Intel" means Intel. Your data lives in `~/Library/Application Support/WTF`.
+The Mac version is new: if something looks off, a screenshot in an [issue](https://github.com/LxCenady/Wace_Training_Framework/issues) is the fastest fix.
+
+(Other files and release notes: [latest release](https://github.com/LxCenady/Wace_Training_Framework/releases/latest).)
 
 > **Teachers and students: please do not attempt to run WTF by reading the code.** It does not run that way. We have checked, at length. Download the installer above and let the computer do the reading.
 >
-> **老师、同学们：请不要试图通过阅读代码来运行 WTF。** 读代码它是不会跑起来的，我们认真试过了。点上面的链接下载安装包，双击即可。
+> **老师、同学们：请不要试图通过阅读代码来运行 WTF。** 读代码它是不会跑起来的，我们认真试过了。点上面的链接下载安装包，双击即可（Mac：打开 dmg，把 WTF 拖进「应用程序」，第一次在「应用程序」里右键 WTF →「打开」）。
 
 **Only here for the notes?** Read the PDFs, not the `.md` files — GitHub's Markdown preview and maths are not on speaking terms:
 method notes [MAM](MAM/methods) · [MAS](MAS/methods) (English: [MAM](MAM/methods_en) · [MAS](MAS/methods_en)), cheat sheets [MAM](cheatsheet/MAM_CheatSheet.pdf) · [MAS](cheatsheet/MAS_CheatSheet.pdf) (English: [MAM](cheatsheet/MAM_CheatSheet_EN.pdf) · [MAS](cheatsheet/MAS_CheatSheet_EN.pdf)).
@@ -32,7 +41,9 @@ The past exams, marking keys and examination reports are © School Curriculum an
 
 Everything else (code, tags, method notes, cheat sheets, skills) is original work in this repo.
 
-## Quick start for students (Windows, nothing to install, allegedly)
+## Quick start for students (Windows or Mac, nothing to install, allegedly)
+
+On a Mac, step 1 is the .dmg above (drag to Applications, right-click → Open the first time); the rest is the same, with ⌘ where Windows says Ctrl, and a two-finger click (or Control-click) for right-click.
 
 1. Download **[WTF-Setup.exe](https://github.com/LxCenady/Wace_Training_Framework/releases/latest/download/WTF-Setup.exe)** (always the newest version) and double-click it. It installs for you only (no administrator rights, default `%LOCALAPPDATA%\Programs\WTF`), adds desktop and Start-menu shortcuts and starts the app. Running a newer setup over an old install upgrades it and keeps your papers, AI questions and mistakes, because deleting a student's 错题本 is how wars start. (Allergic to installers? `WTF-Windows-vX.Y.Z.zip` is the same app — extract anywhere, a USB stick works.)
    Windows SmartScreen will warn you because the app is not code-signed. Code signing costs money; this README is free. *More info → Run anyway.*
