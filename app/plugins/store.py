@@ -164,13 +164,12 @@ class Store:
         d["points"] = self.q("SELECT label, text FROM points WHERE qid = ? ORDER BY ord", qid)
         return d
 
-    def examples(self, codes, n=3):
-        """Most recent past questions covering the patterns (verified mark points preferred)."""
+    def example_pool(self, codes):
+        """Every past question using any of the patterns: [(qid, year, section, how many of them it uses)]."""
         marks = ",".join("?" * len(codes))
-        ids = [r[0] for r in self.q(f"""SELECT q.id FROM questions q JOIN part_patterns pp ON pp.qid = q.id
-                   WHERE pp.pattern IN ({marks}) GROUP BY q.id
-                   ORDER BY COUNT(DISTINCT pp.pattern) DESC, q.points_ok DESC, q.year DESC LIMIT ?""", *codes, n)]
-        return [self.question(i) for i in ids]
+        return self.q(f"""SELECT q.id, q.year, q.section, COUNT(DISTINCT pp.pattern) FROM questions q
+                          JOIN part_patterns pp ON pp.qid = q.id WHERE pp.pattern IN ({marks}) GROUP BY q.id""",
+                      *codes)
 
     # ---- generated items
     def save_generated(self, item):

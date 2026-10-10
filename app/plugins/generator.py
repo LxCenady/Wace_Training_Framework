@@ -89,10 +89,52 @@ def skill_text(root, p):
     return "\n\n".join(out)
 
 
-def example_text(q):
-    pts = "\n".join(f"  ({l}) {t}" for l, t in q["points"]) if q["points_ok"] else "  (marking key not split)"
-    parts = ", ".join(f"({l}) {','.join(p)}" for l, _, p in q["parts"])
-    return f"### {q['id']} [{q['marks']} marks; part patterns: {parts}]\n{q['stem'][:2500]}\nMarking key:\n{pts}"
+USED = {}  # past question id -> times shown as an example in this run (rotates examples across a batch)
+USED_LOCK = threading.Lock()
+
+
+def pick_examples(store, codes, section="any", n=5):
+    """Past questions to show the setter: those combining more of the requested patterns first; within that,
+    a weighted draw without replacement — newer papers, the requested section and examples shown less often in
+    this run weigh more — so a batch on the same patterns does not see the same few questions every time."""
+    pool = store.example_pool(codes)
+    with USED_LOCK:
+        weight = {qid: (year - 2014) * (2 if sec == section else 1) / (1 + USED.get(qid, 0))
+                  for qid, year, sec, _ in pool}
+    picked = []
+    for cover in sorted({c for *_, c in pool}, reverse=True):
+        group = [qid for qid, _, _, c in pool if c == cover]
+        while group and len(picked) < n:
+            qid = random.choices(group, weights=[weight[g] for g in group])[0]
+            group.remove(qid)
+            picked.append(qid)
+    with USED_LOCK:
+        for qid in picked:
+            USED[qid] = USED.get(qid, 0) + 1
+    return [store.question(q) for q in picked]
+
+
+def example_text(q, codes):
+    """A past question cut down to what the patterns use: the shared lead-in and every part up to the last one
+    tagged with them (earlier parts often set up what a later part needs), and the marking key of the tagged
+    parts only (the whole question when it has no parts or none match)."""
+    labels = [l for l, _, _ in q["parts"]]
+    keep = [label for label, _, pats in q["parts"] if set(pats) & set(codes)] or labels
+    upto = labels[:labels.index(keep[-1]) + 1]  # trailing parts on other patterns are left out
+    try:
+        import partmarks  # tools/
+        found = partmarks.texts(q["stem"])
+        body = q["stem"] if "" in upto or "" in found else partmarks.preamble(q["stem"]) + "".join(
+            partmarks.tagged_texts(found, upto).values())
+    except Exception:
+        body = q["stem"]
+    pts = ("\n".join(f"  ({l}) {t}" for l, t in q["points"] if l in keep or not l) if q["points_ok"]
+           else "  (marking key not split)")
+    parts = ", ".join(f"({l}) {','.join(p)}" for l, _, p in q["parts"] if l in upto)
+    shown = "" if len(upto) == len(labels) else "; later parts on other patterns left out"
+    shown += "" if keep == upto else f"; the patterns are in ({'), ('.join(keep)}) — key for those only"
+    return (f"### {q['id']} [{q['section']}, {q['marks']} marks; part patterns: {parts}{shown}]\n{body[:1800]}\n"
+            f"Marking key:\n{pts}")
 
 
 class Pipeline:
@@ -115,7 +157,7 @@ class Pipeline:
             raise Failed("所选题型必须属于同一科目")
         context = skill_text(self.k.root, pats[0]) + "\n\n" + "\n\n".join(
             f"## Pattern {p['code']} — {p['topic_zh']} / 题型 {p['n']}：{p['title']}\n{p['method']}" for p in pats)
-        examples = "\n\n".join(example_text(q) for q in store.examples(codes))
+        examples = "\n\n".join(example_text(q, codes) for q in pick_examples(store, codes, section))
         want = (f"Section: {'calculator-free' if section == 'CalcFree' else 'calculator-assumed'}. "
                 if section in ("CalcFree", "CalcAssumed") else "Section: choose the more natural one. ")
         want += mark_guide(store, subj, section, codes, marks, split)

@@ -65,6 +65,14 @@ def texts(stem):
     return out
 
 
+def preamble(stem):
+    """The lead-in every part shares: the text before (a) (the whole stem when there are no parts)."""
+    found = texts(stem)
+    if "" in found:
+        return stem
+    return stem[:min(stem.index(t) for t in found.values() if t)]
+
+
 def tagged_texts(found, labels):
     """Text for the tagged labels: a tag on "a" gets (a) and its (i), (ii)…; "" gets the whole stem."""
     return {label: "".join(v for k, v in found.items() if k[:1] == label) if label else "".join(found.values())
