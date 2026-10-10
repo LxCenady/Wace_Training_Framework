@@ -27,6 +27,8 @@ def dpi_aware():
 def setup(k):
     dpi_aware()
     root = tk.Tk()
+    if plat.MAC:  # Tk on macOS counts 72 points to the inch: the same font sizes would look a size smaller
+        root.tk.call("tk", "scaling", 96 / 72)
     root.title("WACE Maths 学习系统")
     scale = max(1.0, root.winfo_fpixels("1i") / 96)  # 1.0 at 100 %, 1.5 at 150 % display scaling …
     sw, sh = root.winfo_screenwidth(), root.winfo_screenheight()

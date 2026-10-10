@@ -7,8 +7,9 @@ REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 data, downloads = os.path.join(work, "data"), os.path.join(work, "Downloads")
 shutil.rmtree(work, ignore_errors=True)
 os.makedirs(downloads)
-for f in subprocess.run(["git", "ls-files"], cwd=REPO, capture_output=True, text=True, encoding="utf-8").stdout.split():
-    if not f.startswith("app/"):
+for f in subprocess.run(["git", "ls-files", "-z"], cwd=REPO, capture_output=True, text=True,
+                        encoding="utf-8").stdout.split("\0"):
+    if f and not f.startswith("app/"):
         os.makedirs(os.path.dirname(os.path.join(data, f)) or data, exist_ok=True)
         shutil.copyfile(os.path.join(REPO, f), os.path.join(data, f))
 os.environ["WACE_MATHS_ROOT"] = data

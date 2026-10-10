@@ -16,8 +16,10 @@ TOOL_MODULES = ["fetch", "paperid", "blueprint", "build_all", "segment", "build_
 
 
 def tracked():
-    out = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8", check=True)
-    return out.stdout.splitlines()
+    # -z: raw names (by default git quotes non-ASCII ones such as 01_Differentiation_解题思路.md)
+    out = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
+                         check=True)
+    return [f for f in out.stdout.split("\0") if f]
 
 
 def data_files():
