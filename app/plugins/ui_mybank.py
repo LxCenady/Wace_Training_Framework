@@ -8,7 +8,7 @@ shows it with answers still hidden.
 """
 import os, time
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import ttk
 import plat
 
 COLS = (("id", "#", 50), ("created", "时间", 130), ("difficulty", "难度", 120), ("section", "卷型", 50),
@@ -161,9 +161,7 @@ def setup(k):
             if not picked or not k.get("export.worksheet", None):
                 count.configure(text="没有可导出的题")
                 return
-            path = filedialog.asksaveasfilename(
-                title="导出练习卷", defaultextension=".pdf", filetypes=[("PDF", "*.pdf")],
-                initialfile=f"WTF练习卷_{time.strftime('%Y%m%d_%H%M')}.pdf")
+            path = k.get("export.target")(f"WTF练习卷_{time.strftime('%Y%m%d_%H%M')}.pdf", "导出练习卷")
             if not path:
                 return
             q, a = k.get("export.worksheet")(picked, path, f"WTF 练习卷 · {len(picked)} 题")

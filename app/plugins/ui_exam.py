@@ -10,7 +10,7 @@ minus the marks recorded as lost since the exam started.
 import base64, os, random, shutil, threading, time
 import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
-from tkinter import filedialog, ttk
+from tkinter import ttk
 import plat
 
 TIMES = {"CalcFree": (5, 50), "CalcAssumed": (10, 100)}
@@ -113,8 +113,7 @@ def setup(k):
         if e["source"] == "ai":
             if not k.get("export.worksheet", None):
                 return
-            path = filedialog.asksaveasfilename(title="导出模拟卷", defaultextension=".pdf", initialfile=name + ".pdf",
-                                                filetypes=[("PDF", "*.pdf")])
+            path = k.get("export.target")(name + ".pdf", "导出模拟卷")
             if not path:
                 return
             title = f"WACE {e['subject']} 模拟卷 · {SEC_NAME[e['section']]}"
@@ -124,7 +123,7 @@ def setup(k):
             k.get("ui.status")(f"已导出：{os.path.basename(q)} + {os.path.basename(a)}")
             plat.open_file(q)
             return
-        folder = filedialog.askdirectory(title="导出真卷：选择保存的文件夹")
+        folder = k.get("export.folder")("导出真卷：选择保存的文件夹")
         if not folder:
             return
         d = store.question(e["refs"][0][1])

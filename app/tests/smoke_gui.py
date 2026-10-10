@@ -163,17 +163,33 @@ assert rows and all("MAM.D.6" in hits.item(r, "values")[6] and "MAM.I.5" in hits
 shot("6d_search")
 import plugins.ui_search as ui_search, plugins.ui_generate as ui_generate, pymupdf  # noqa: E401,E402
 import plat  # noqa: E402
+import tkinter.filedialog  # noqa: E402
 plat.open_file = lambda p: None  # exports would open the PDF; one shared filedialog: set it before each
-ui_search.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_past.pdf")
+tkinter.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_past.pdf")
 k.get("search.export")()
 past_q, past_a = pymupdf.open(os.path.join(out, "smoke_past.pdf")), pymupdf.open(os.path.join(out, "smoke_past_评分标准.pdf"))
 print("past export:", past_q.page_count, "+", past_a.page_count, "pages")
 assert past_q.page_count >= len(rows) and past_a.page_count >= 1
-ui_generate.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_batch.pdf")
+tkinter.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_batch.pdf")
 k.get("gen.export_batch")([item["id"] for item in done_items[-3:]])
 batch_q = pymupdf.open(os.path.join(out, "smoke_batch.pdf"))
 print("batch export:", batch_q.page_count, "pages")
 assert batch_q.page_count >= 3
+
+
+def no_dialog(**kw):
+    raise AssertionError("with an export folder set, exporting must not ask")
+
+
+fixed = os.path.join(out, "fixed exports")  # 设置 → 导出文件夹: straight there, numbered instead of overwritten
+k.get("config")["export_dir"] = fixed
+tkinter.filedialog.asksaveasfilename = no_dialog
+k.get("search.export")()
+k.get("search.export")()
+saved = sorted(f for f in os.listdir(fixed) if not f.endswith("_评分标准.pdf"))
+print("fixed export folder:", saved)
+assert len(saved) == 2 and any(" (2)" in f for f in saved), saved
+k.get("config")["export_dir"] = ""
 hits.selection_set(rows[0])
 hits.event_generate("<Return>")
 pump(0.5)
@@ -351,8 +367,8 @@ print("exams:", [(e["source"], e["total"], e["lost"], bool(e["submitted"])) for 
 
 # export both kinds of paper (file dialogs replaced)
 import plugins.ui_exam as ui_exam  # noqa: E402
-ui_exam.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_ai_paper.pdf")
-ui_exam.filedialog.askdirectory = lambda **kw: out
+tkinter.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_ai_paper.pdf")
+tkinter.filedialog.askdirectory = lambda **kw: out
 plat.open_file = lambda p: None
 k.get("exam.export")(ai_exam)
 k.get("exam.export")(exam)

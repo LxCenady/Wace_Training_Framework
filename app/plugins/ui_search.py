@@ -6,9 +6,9 @@ Results list each question's patterns with the marks they carried; double-click 
 Below the list, the patterns and units that most often appear together with the chosen ones in the results:
 the cross-pattern index. 导出 PDF: the selected results (or all of them) cut from the papers, plus their keys.
 """
-import os, re, time
+import os, time
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import ttk
 import plat
 
 COLS = (("year", "年份", 60), ("section", "卷型", 50), ("q", "题号", 50), ("marks", "分", 40),
@@ -181,9 +181,7 @@ def setup(k):
                 count.configure(text="没有可导出的真题")
                 return
             name = paper_name(qids)
-            path = filedialog.asksaveasfilename(
-                title="导出真题", defaultextension=".pdf", filetypes=[("PDF", "*.pdf")],
-                initialfile=re.sub(r'[\\/:*?"<>|]+', "_", name)[:80] + f"_{time.strftime('%Y%m%d')}.pdf")
+            path = k.get("export.target")(name[:80] + f"_{time.strftime('%Y%m%d')}.pdf", "导出真题")
             if not path:
                 return
             q, a = k.get("export.past")(qids, path, f"{name} · 真题 {len(qids)} 题")

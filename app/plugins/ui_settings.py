@@ -1,7 +1,11 @@
-"""Settings dialog. One job: let the user plug in their own provider, base URL, model and API key."""
-import json, threading
+"""Settings dialog. One job: let the user plug in their own provider, base URL, model and API key — and the
+few app-wide choices (language, update check, where exported PDFs go).
+
+Provides export.target(file name, title) -> path and export.folder(title) -> folder: with an export folder set,
+exports go straight there (a number is added instead of overwriting); without one, the usual save dialog."""
+import json, os, re, threading
 import tkinter as tk
-from tkinter import ttk
+from tkinter import filedialog, ttk
 
 PROVIDERS = {"anthropic": "Anthropic 格式 (/v1/messages)", "openai": "OpenAI 格式 (/chat/completions，默认 DeepSeek)",
              "mock": "离线测试 (不调用 API)"}
@@ -9,6 +13,31 @@ PROVIDERS = {"anthropic": "Anthropic 格式 (/v1/messages)", "openai": "OpenAI �
 
 def setup(k):
     cfg = k.get("config")
+
+    def export_folder(title="选择保存的文件夹"):
+        fixed = cfg.get("export_dir", "")
+        if fixed:
+            os.makedirs(fixed, exist_ok=True)
+            return fixed
+        return filedialog.askdirectory(title=title) or None
+
+    def export_target(name, title="导出 PDF"):
+        """Where an export goes: <export folder>/<name> (never overwriting: "name (2).pdf" …), else ask."""
+        name = re.sub(r'[\\/:*?"<>|]+', "_", name)
+        fixed = cfg.get("export_dir", "")
+        if not fixed:
+            return filedialog.asksaveasfilename(title=title, defaultextension=".pdf", filetypes=[("PDF", "*.pdf")],
+                                                initialfile=name) or None
+        os.makedirs(fixed, exist_ok=True)
+        stem, ext = os.path.splitext(name)
+        path, n = os.path.join(fixed, name), 1
+        while os.path.exists(path):
+            n += 1
+            path = os.path.join(fixed, f"{stem} ({n}){ext}")
+        return path
+
+    k.provide("export.target", export_target)
+    k.provide("export.folder", export_folder)
 
     def describe():
         name = cfg["provider"]
@@ -57,6 +86,17 @@ def setup(k):
         ttk.Label(f, text="切换语言后重启生效 / restart to apply", style="Muted.TLabel").grid(
             row=row, column=1, sticky="w")
         row += 1
+        export_dir = tk.StringVar(value=cfg.get("export_dir", ""))
+        ttk.Label(f, text="导出文件夹").grid(row=row, column=0, sticky="w", pady=(8, 0))
+        pick = ttk.Frame(f)
+        pick.grid(row=row, column=1, sticky="w", pady=(8, 0))
+        ttk.Entry(pick, textvariable=export_dir, width=44).pack(side="left")
+        ttk.Button(pick, text="选择…", command=lambda: export_dir.set(
+            filedialog.askdirectory(title="导出的 PDF 存到哪里") or export_dir.get())).pack(side="left", padx=4)
+        row += 1
+        ttk.Label(f, text="设置后导出的 PDF 直接存进这个文件夹（重名自动加序号）；留空 = 每次导出时询问",
+                  style="Muted.TLabel").grid(row=row, column=1, sticky="w")
+        row += 1
         ttk.Label(f, text=f"API key 只保存在本机：{k.get('config.path')}\n留空则读取环境变量 DEEPSEEK_API_KEY / OPENAI_API_KEY / "
                           "ANTHROPIC_API_KEY。Base URL 可改成任何兼容该格式的服务。\n"
                           "额外参数会并入每次请求，例如 DeepSeek 思考强度："
@@ -82,6 +122,7 @@ def setup(k):
             cfg["retries"] = retries.get()
             cfg["language"] = languages[language.get()]
             cfg["update_check"] = updates.get()
+            cfg["export_dir"] = export_dir.get().strip()
             return True
 
         def save():

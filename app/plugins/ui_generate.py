@@ -5,7 +5,7 @@ verification and mark-point split have all passed.
 """
 import base64, os, time
 import tkinter as tk
-from tkinter import filedialog, ttk
+from tkinter import ttk
 import plat
 
 
@@ -75,8 +75,7 @@ def setup(k):
 
     def export(ids):
         """This batch -> question paper + answer paper (export_pdf), then open the question paper."""
-        path = filedialog.asksaveasfilename(title="导出本批题", defaultextension=".pdf", filetypes=[("PDF", "*.pdf")],
-                                            initialfile=f"WTF练习卷_{time.strftime('%Y%m%d_%H%M')}.pdf")
+        path = k.get("export.target")(f"WTF练习卷_{time.strftime('%Y%m%d_%H%M')}.pdf", "导出本批题")
         if not path:
             return
         q, a = k.get("export.worksheet")(ids, path, f"WTF 练习卷 · {len(ids)} 题")
