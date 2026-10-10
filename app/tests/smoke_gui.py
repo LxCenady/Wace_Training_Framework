@@ -50,6 +50,8 @@ def pump(sec=0.6):
 
 def shot(name):
     pump()
+    if os.name != "nt":  # the screenshot uses PowerShell
+        return
     x, y, w, h = root.winfo_rootx(), root.winfo_rooty(), root.winfo_width(), root.winfo_height()
     path = os.path.join(out, name + ".png")
     ps = ("Add-Type -Name D -Namespace W -MemberDefinition '[DllImport(\"user32.dll\")] public static extern bool "
@@ -160,7 +162,8 @@ print("search D.6 + I.5:", [hits.item(r, "values")[:4] for r in rows])
 assert rows and all("MAM.D.6" in hits.item(r, "values")[6] and "MAM.I.5" in hits.item(r, "values")[6] for r in rows)
 shot("6d_search")
 import plugins.ui_search as ui_search, plugins.ui_generate as ui_generate, pymupdf  # noqa: E401,E402
-ui_search.os.startfile = lambda p: None  # one shared os / filedialog module: set the name before each export
+import plat  # noqa: E402
+plat.open_file = lambda p: None  # exports would open the PDF; one shared filedialog: set it before each
 ui_search.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_past.pdf")
 k.get("search.export")()
 past_q, past_a = pymupdf.open(os.path.join(out, "smoke_past.pdf")), pymupdf.open(os.path.join(out, "smoke_past_评分标准.pdf"))
@@ -350,7 +353,7 @@ print("exams:", [(e["source"], e["total"], e["lost"], bool(e["submitted"])) for 
 import plugins.ui_exam as ui_exam  # noqa: E402
 ui_exam.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_ai_paper.pdf")
 ui_exam.filedialog.askdirectory = lambda **kw: out
-ui_exam.os.startfile = lambda p: None
+plat.open_file = lambda p: None
 k.get("exam.export")(ai_exam)
 k.get("exam.export")(exam)
 import pymupdf  # noqa: E402

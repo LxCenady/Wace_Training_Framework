@@ -10,6 +10,7 @@ A source checkout is only told about the new release (update it with git).
 """
 import hashlib, json, os, shutil, subprocess, sys, threading, time, urllib.error, urllib.request, webbrowser, zipfile
 import tkinter as tk
+import plat
 from tkinter import ttk
 
 REPO = "LxCenady/Wace_Training_Framework"
@@ -144,11 +145,14 @@ def setup(k):
         btns.pack(fill="x", pady=(8, 0))
         ttk.Button(btns, text="以后再说", command=top.destroy).pack(side="right")
         ttk.Button(btns, text="打开发布页", command=lambda: webbrowser.open(info["page"])).pack(side="right", padx=6)
-        if FROZEN and info["asset"]:
+        if FROZEN and plat.WINDOWS and info["asset"]:
             go = ttk.Button(btns, text="下载并安装", style="Accent.TButton")
             go.pack(side="right")
             status.configure(text="安装时会保留你的真题、AI 题库、错题本和设置；程序会自动重启，并在约 1 分钟内重建题库。")
             go.configure(command=lambda: install(info, go, bar, status))
+        elif FROZEN and plat.MAC:
+            status.configure(text="Mac 版：点「打开发布页」下载新的 WTF（Apple 芯片选 arm64，Intel 选 x86_64），把 WTF 拖进"
+                                  "「应用程序」替换旧版。你的真题、AI 题库、错题本和设置都会保留，题库会自动重建（约 1 分钟）。")
         elif not FROZEN:
             status.configure(text="你在用源码版：请用 git pull 更新（或从发布页下载免安装版）。")
 

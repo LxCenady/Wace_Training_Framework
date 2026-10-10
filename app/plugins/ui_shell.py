@@ -5,10 +5,11 @@ post(fn) is the only thread-safe entry: worker threads hand callables to the Tk 
 import queue
 import tkinter as tk
 from tkinter import ttk
+import plat
 
 C = dict(bg="#f3eee4", panel="#fbf8f2", ink="#1f1d1a", muted="#7a7368", accent="#1f3a73", line="#d8d0c2",
          warn="#8c2626", ok="#2f6b3a")
-FONT = "Microsoft YaHei UI"
+FONT = plat.UI_FONT
 
 
 def dpi_aware():

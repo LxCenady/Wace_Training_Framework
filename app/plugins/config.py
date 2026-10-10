@@ -4,8 +4,9 @@ API keys are supplied by the user and stored only here (never in the shared data
 If a key field is empty, the provider falls back to the DEEPSEEK_API_KEY / OPENAI_API_KEY / ANTHROPIC_API_KEY env var.
 """
 import json, os
+import plat
 
-PATH = os.path.join(os.environ.get("APPDATA") or os.path.expanduser("~"), "wace-maths", "config.json")
+PATH = os.path.join(plat.user_dir("wace-maths"), "config.json")
 # Default: DeepSeek through its OpenAI-compatible endpoint, thinking mode at max effort.
 # extra_body is merged into every request body (provider-specific switches such as reasoning effort).
 DEFAULTS = {

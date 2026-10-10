@@ -2,6 +2,7 @@
 import base64
 import tkinter as tk
 from tkinter import ttk
+import plat
 
 
 def setup(k):
@@ -38,7 +39,7 @@ def setup(k):
 
         def markable(widget, label):
             if label in parts and k.get("mistakes.popup", None):
-                widget.bind("<Button-3>", lambda e: k.get("mistakes.popup")(e, ctx(label)))
+                plat.on_right_click(widget, lambda e: k.get("mistakes.popup")(e, ctx(label)))
 
         for label, m, pats in d["parts"]:
             had = store.mistake("past", qid, label)

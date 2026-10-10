@@ -10,10 +10,11 @@ import ctypes, os, subprocess, sys, threading, time, uuid, webbrowser
 import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
 from tkinter import messagebox, ttk
+import plat
 
 BATCH = 6  # links opened per click
 PARALLEL = 3  # archive downloads at the same time
-FONT = "Microsoft YaHei UI"
+FONT = plat.UI_FONT
 DOWNLOADS = "{374DE290-123F-4565-9164-39C4925E467B}"  # Windows known folder: the browser's default save place
 
 

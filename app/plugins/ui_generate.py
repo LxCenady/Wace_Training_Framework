@@ -6,6 +6,7 @@ verification and mark-point split have all passed.
 import base64, os, time
 import tkinter as tk
 from tkinter import filedialog, ttk
+import plat
 
 
 def symcheck_summary(item):
@@ -80,8 +81,7 @@ def setup(k):
             return
         q, a = k.get("export.worksheet")(ids, path, f"WTF 练习卷 · {len(ids)} 题")
         k.get("ui.status")(f"已导出 {len(ids)} 题：{os.path.basename(q)} + {os.path.basename(a)}")
-        if hasattr(os, "startfile"):
-            os.startfile(q)
+        plat.open_file(q)
 
     k.provide("gen.export_batch", export)
 
@@ -161,7 +161,7 @@ def setup(k):
             if hit and k.get("mistakes.popup", None):
                 k.get("mistakes.popup")(e, ctx(hit))
 
-        t.bind("<Button-3>", right_click)
+        plat.on_right_click(t, right_click)
 
         btn = ttk.Button(bar, text="显示得分点与解答", style="Accent.TButton", command=reveal)
         btn.pack(side="left")

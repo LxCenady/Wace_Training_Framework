@@ -11,6 +11,7 @@ import base64, os, random, shutil, threading, time
 import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
 from tkinter import filedialog, ttk
+import plat
 
 TIMES = {"CalcFree": (5, 50), "CalcAssumed": (10, 100)}
 BLUEPRINT = {("MAM", "CalcFree"): (52, 7), ("MAM", "CalcAssumed"): (98, 10),  # median total marks, questions
@@ -121,8 +122,7 @@ def setup(k):
                     f"{e['created'][:10]} · WTF — WACE Training Framework")
             q, a = k.get("export.worksheet")([int(r) for _, r in e["refs"]], path, title, meta)
             k.get("ui.status")(f"已导出：{os.path.basename(q)} + {os.path.basename(a)}")
-            if hasattr(os, "startfile"):
-                os.startfile(q)
+            plat.open_file(q)
             return
         folder = filedialog.askdirectory(title="导出真卷：选择保存的文件夹")
         if not folder:
@@ -134,8 +134,7 @@ def setup(k):
             shutil.copyfile(os.path.join(k.root, rel), dest)
             out.append(dest)
         k.get("ui.status")(f"已导出官方原卷与评分标准到 {folder}")
-        if hasattr(os, "startfile"):
-            os.startfile(out[0])
+        plat.open_file(out[0])
 
     def paper_name(e):
         return f"{e['source'][5:]} 真卷" if e["source"].startswith("past:") else "AI 组卷"
@@ -299,7 +298,7 @@ def setup(k):
             ttk.Label(parent, text=f"Question {n}  ({it['marks']} 分)", style="H.TLabel",
                       background=C["panel"]).pack(anchor="w", padx=12, pady=(12, 2))
             text = tk.Text(parent, wrap="word", width=86, relief="flat", bg=C["panel"], fg=C["ink"],
-                           font=("Microsoft YaHei UI", 11), padx=4, pady=4, insertwidth=0,
+                           font=(plat.UI_FONT, 11), padx=4, pady=4, insertwidth=0,
                            height=min(40, it["question"].count("\n") + len(it["question"]) // 80 + 3))
             text.pack(anchor="w", padx=12)
             math = k.get("math.write", None)
@@ -365,7 +364,7 @@ def setup(k):
     menu = tk.Menu(k.get("ui.menu"), tearoff=False)
     menu.add_command(label="模拟考试…", command=show, accelerator="Ctrl+M")
     k.get("ui.menu").add_cascade(label="考试", menu=menu)
-    root.bind_all("<Control-m>", lambda ev: show())
+    plat.shortcut(root, "m", lambda ev: show())
     k.provide("exam.show", show)
     k.provide("exam.start", start)
     k.provide("exam.open", open_exam)

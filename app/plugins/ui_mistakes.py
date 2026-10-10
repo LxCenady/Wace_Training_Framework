@@ -8,6 +8,7 @@ exact mark points the student missed, so the new question requires those steps.
 """
 import tkinter as tk
 from tkinter import ttk
+import plat
 
 LEVELS = ["基础", "标准", "拔高"]
 INTERVALS = (1, 3, 7, 14, 30)
@@ -187,7 +188,7 @@ def setup(k):
                 menu.tk_popup(e.x_root, e.y_root)
 
         table.bind("<Double-1>", open_row)
-        table.bind("<Button-3>", context)
+        plat.on_right_click(table, context)
 
         foot = ttk.Frame(page)
         foot.pack(fill="x", padx=10, pady=8)
@@ -266,7 +267,7 @@ def setup(k):
     menu = tk.Menu(k.get("ui.menu"), tearoff=False)
     menu.add_command(label="我的错题本", command=show, accelerator="Ctrl+E")
     k.get("ui.menu").add_cascade(label="错题", menu=menu)
-    root.bind_all("<Control-e>", lambda e: show())
+    plat.shortcut(root, "e", lambda e: show())
     ttk.Button(k.get("ui.left"), text="我的错题本", command=show).pack(side="bottom", fill="x", padx=10, pady=(0, 4))
     k.provide("mistakes.popup", popup)
     k.provide("mistakes.dialog", dialog)

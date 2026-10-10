@@ -7,6 +7,7 @@ so weak-and-important patterns stand out. Click: method notes; right-click: prac
 import tkinter as tk
 import tkinter.font as tkfont
 from tkinter import ttk
+import plat
 
 TILE_W, TILE_H, GAP = 168, 54, 6
 
@@ -24,7 +25,7 @@ def colour(rate):
 def setup(k):
     store, root, C = k.get("store"), k.get("ui.root"), k.get("ui.colors")
 
-    tile_font = tkfont.Font(family="Microsoft YaHei UI", size=9)
+    tile_font = tkfont.Font(family=plat.UI_FONT, size=9)
 
     def fit(text, width):
         """Cut to one line of `width` pixels, with an ellipsis."""
@@ -61,7 +62,7 @@ def setup(k):
             per_row = max(1, (canvas.winfo_width() - 24) // (TILE_W + GAP))
             y = 10
             for tcode, zh, en, n in store.topics(subj.get()):
-                canvas.create_text(12, y, anchor="nw", text=f"{zh}", font=("Microsoft YaHei UI", 11, "bold"),
+                canvas.create_text(12, y, anchor="nw", text=f"{zh}", font=(plat.UI_FONT, 11, "bold"),
                                    fill=C["accent"])
                 y += 24
                 pats = sorted(store.patterns(tcode), key=lambda p: -weights.get(p[0], 0))
@@ -76,12 +77,12 @@ def setup(k):
                     canvas.create_rectangle(x0, y0, x0 + TILE_W, y0 + TILE_H, fill=fill, outline=C["line"], tags=tag)
                     label = fit(f"{num}. {title.split('★')[0].split('（')[0].strip()}", TILE_W - 12)
                     canvas.create_text(x0 + 6, y0 + 5, anchor="nw", tags=tag, text=label,
-                                       font=("Microsoft YaHei UI", 9), fill=C["ink"])
+                                       font=(plat.UI_FONT, 9), fill=C["ink"])
                     note = f"{rate:.0%} · 做过 {s['parts']} 问" if tried else "未做"
                     canvas.create_text(x0 + 6, y0 + TILE_H - 6, anchor="sw", tags=tag, text=note,
-                                       font=("Microsoft YaHei UI", 8), fill=C["ink"])
+                                       font=(plat.UI_FONT, 8), fill=C["ink"])
                     canvas.create_text(x0 + TILE_W - 6, y0 + TILE_H - 6, anchor="se", tags=tag,
-                                       text=f"{weights.get(code, 0)} 分", font=("Microsoft YaHei UI", 8, "bold"),
+                                       text=f"{weights.get(code, 0)} 分", font=(plat.UI_FONT, 8, "bold"),
                                        fill=C["accent"])
                     tiles[tag] = code
                 y += ((len(pats) + per_row - 1) // per_row) * (TILE_H + GAP) + 10
@@ -109,7 +110,7 @@ def setup(k):
 
         canvas.bind("<Configure>", draw)
         canvas.bind("<Button-1>", click)
-        canvas.bind("<Button-3>", menu)
+        plat.on_right_click(canvas, menu)
         wheel = lambda e: canvas.yview_scroll(int(-e.delta / 120), "units")  # noqa: E731
         canvas.bind("<Enter>", lambda e: canvas.bind_all("<MouseWheel>", wheel))
         canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
@@ -124,5 +125,5 @@ def setup(k):
     menu = tk.Menu(k.get("ui.menu"), tearoff=False)
     menu.add_command(label="掌握度地图", command=show, accelerator="Ctrl+G")
     k.get("ui.menu").add_cascade(label="掌握度", menu=menu)
-    root.bind_all("<Control-g>", lambda e: show())
+    plat.shortcut(root, "g", lambda e: show())
     k.provide("mastery.show", show)

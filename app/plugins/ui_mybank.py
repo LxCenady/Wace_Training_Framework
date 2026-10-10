@@ -9,6 +9,7 @@ shows it with answers still hidden.
 import os, time
 import tkinter as tk
 from tkinter import filedialog, ttk
+import plat
 
 COLS = (("id", "#", 50), ("created", "时间", 130), ("difficulty", "难度", 120), ("section", "卷型", 50),
         ("marks", "分", 40), ("also", "其他题型", 150), ("model", "模型", 120), ("stem", "题目开头", 420))
@@ -167,8 +168,7 @@ def setup(k):
                 return
             q, a = k.get("export.worksheet")(picked, path, f"WTF 练习卷 · {len(picked)} 题")
             count.configure(text=f"已导出 {len(picked)} 题：{os.path.basename(q)} + {os.path.basename(a)}")
-            if hasattr(os, "startfile"):
-                os.startfile(q)
+            plat.open_file(q)
 
         k.provide("mybank.export", export)
         query.trace_add("write", lambda *_: fill())
@@ -178,6 +178,6 @@ def setup(k):
     menu = tk.Menu(k.get("ui.menu"), tearoff=False)
     menu.add_command(label="我的 AI 题库", command=show, accelerator="Ctrl+B")
     k.get("ui.menu").add_cascade(label="题库", menu=menu)
-    k.get("ui.root").bind_all("<Control-b>", lambda e: show())
+    plat.shortcut(k.get("ui.root"), "b", lambda e: show())
     ttk.Button(k.get("ui.left"), text="我的 AI 题库", command=show).pack(side="bottom", fill="x", padx=10, pady=(0, 8))
     k.provide("mybank.show", show)

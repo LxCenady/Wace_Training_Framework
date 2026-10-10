@@ -35,6 +35,8 @@ def pump(sec=0.6):
 
 def shot(name):
     pump()
+    if os.name != "nt":  # the screenshot uses PowerShell
+        return
     x, y, w, h = root.winfo_rootx(), root.winfo_rooty(), root.winfo_width(), root.winfo_height()
     path = os.path.join(out, name + ".png")
     ps = ("Add-Type -Name D -Namespace W -MemberDefinition '[DllImport(\"user32.dll\")] public static extern bool "

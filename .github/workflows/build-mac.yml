@@ -1,0 +1,47 @@
+# macOS build: PyInstaller cannot cross-compile, so the Mac app is built on GitHub's Mac runners.
+# Runs by hand (Actions -> Build macOS -> Run workflow), on pushes to the `mac` branch, and for every published release, whose assets then
+# gain the two disk images (Apple silicon and Intel).
+name: Build macOS
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [mac]  # try a Mac build without touching main
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  mac:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15, macos-15-intel]  # arm64, x86_64 (the last Intel image, supported until 2027-08)
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: python -m pip install "pymupdf>=1.24" "markdown>=3.5" "sympy>=1.13" "ziamath>=0.13" "ziaplot>=0.9" pyinstaller
+      - name: Package
+        run: python tools/package_mac.py
+      - name: Self-test the packaged app (LaTeX, figures, SymPy; no papers here, so no question bank)
+        run: |
+          dist/WTF.app/Contents/MacOS/WTF --selftest || true
+          LOG="$HOME/Library/Application Support/WTF/WTF.log"
+          cat "$LOG"
+          grep -q "ok    LaTeX" "$LOG" && grep -q "ok    figure" "$LOG" && grep -q "ok    SymPy" "$LOG"
+          test -f "$HOME/Library/Application Support/WTF/sources.tsv"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: WTF-macOS-${{ matrix.os }}
+          path: dist/*.dmg
+      - name: Attach to the release
+        if: github.event_name == 'release'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/*.dmg --clobber

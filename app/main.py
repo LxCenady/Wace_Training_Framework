@@ -6,13 +6,14 @@ FROZEN = getattr(sys, "frozen", False)  # packaged by tools/package_win.py
 HERE = getattr(sys, "_MEIPASS", None) or os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 from kernel import Kernel  # noqa: E402
+import plat  # noqa: E402
 
 
 def find_root():
     env = os.environ.get("WACE_MATHS_ROOT")
     if env and os.path.isfile(os.path.join(env, "sources.tsv")):
         return env
-    return os.path.dirname(sys.executable) if FROZEN else os.path.dirname(HERE)
+    return plat.frozen_root(HERE) if FROZEN else os.path.dirname(HERE)
 
 
 def plugin_names(path=None):

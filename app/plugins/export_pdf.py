@@ -2,26 +2,28 @@
 the page is working space) and an answer paper whose mark points carry tick boxes for marking on paper (a
 question never split across pages unless it is longer than one).
 
-Fonts come from the Windows font folder: Microsoft YaHei for text, Segoe UI Symbol for the glyphs YaHei
-lacks (⇒ ☐ ✓ …), chosen per character.
+Fonts come from the system font folder (plat.pdf_fonts): Microsoft YaHei + Segoe UI Symbol on Windows,
+Hiragino Sans GB + Apple Symbols on macOS; the symbol font covers the glyphs the CJK font lacks (⇒ ☐ ✓ …),
+chosen per character.
 """
 import html, io, os, re, time
 import pymupdf
+import plat
 
-FONTS = os.path.join(os.environ.get("WINDIR", r"C:\Windows"), "Fonts")
-CSS = """
-@font-face {font-family: yahei; src: url(msyh.ttc);}
-@font-face {font-family: sym; src: url(seguisym.ttf);}
-* {font-family: yahei; font-size: 10.5pt; line-height: 1.5;}
-h1 {font-size: 16pt; color: #1f3a73; margin: 0 0 2pt 0;}
-.meta {color: #666; font-size: 9pt; margin-bottom: 10pt;}
-h2 {font-size: 12pt; margin: 14pt 0 4pt 0; border-bottom: 0.6pt solid #1f3a73; color: #1f3a73;}
-p {margin: 2pt 0;}
-.part {font-weight: bold; margin-top: 6pt;}
-.tag {color: #1f3a73; font-size: 8.5pt;}
-.pt {margin: 1pt 0 1pt 14pt;}
-.sol {color: #333; font-size: 9.5pt;}
-.s {font-family: sym;}
+FONTS, CJK, SYM = plat.pdf_fonts()
+CSS = f"""
+@font-face {{font-family: yahei; src: url("{CJK}");}}
+@font-face {{font-family: sym; src: url("{SYM}");}}
+* {{font-family: yahei; font-size: 10.5pt; line-height: 1.5;}}
+h1 {{font-size: 16pt; color: #1f3a73; margin: 0 0 2pt 0;}}
+.meta {{color: #666; font-size: 9pt; margin-bottom: 10pt;}}
+h2 {{font-size: 12pt; margin: 14pt 0 4pt 0; border-bottom: 0.6pt solid #1f3a73; color: #1f3a73;}}
+p {{margin: 2pt 0;}}
+.part {{font-weight: bold; margin-top: 6pt;}}
+.tag {{color: #1f3a73; font-size: 8.5pt;}}
+.pt {{margin: 1pt 0 1pt 14pt;}}
+.sol {{color: #333; font-size: 9.5pt;}}
+.s {{font-family: sym;}}
 """
 SECTION = {"CalcFree": "计算器禁用 (Calculator-free)", "CalcAssumed": "计算器允许 (Calculator-assumed)"}
 
@@ -129,7 +131,7 @@ def render(blocks, path, assets, own_page=False):
 
 def worksheet(items, path, title, name, maths=None, figures=None, meta=None):
     """items: generated items (store.generated). Writes <path> (questions) and <path>_答案.pdf; returns both."""
-    font = pymupdf.Font(fontfile=os.path.join(FONTS, "msyh.ttc"))
+    font = pymupdf.Font(fontfile=os.path.join(FONTS, CJK))
     qa, aa = Assets(maths, figures), Assets(maths, figures)
     marks = sum(i["marks"] for i in items)
     meta = meta or (f"{len(items)} 题 · 共 {marks} 分 · 建议用时约 {marks} 分钟（WACE 约每分钟 1 分）· "
@@ -168,7 +170,7 @@ def past_papers(items, root, path, title, name):
     """items: store.question dicts. Writes <path> (the questions, cut from the papers as vectors, one question per
     page) and <path>_评分标准.pdf (the marking keys; a question moves whole to the next page when it does not fit).
     Returns both paths."""
-    font = os.path.join(FONTS, "msyh.ttc")
+    font = os.path.join(FONTS, CJK)
     W, H = pymupdf.paper_size("a4")
     L, T, R, B = 40, 44, W - 40, H - 50
     scale = (R - L) / (CROP_X1 - CROP_X0)

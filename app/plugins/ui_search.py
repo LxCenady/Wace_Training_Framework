@@ -9,6 +9,7 @@ the cross-pattern index. 导出 PDF: the selected results (or all of them) cut f
 import os, re, time
 import tkinter as tk
 from tkinter import filedialog, ttk
+import plat
 
 COLS = (("year", "年份", 60), ("section", "卷型", 50), ("q", "题号", 50), ("marks", "分", 40),
         ("cross", "跨单元", 60), ("draw", "作图/配图", 80), ("patterns", "题型（分值）", 620))
@@ -94,7 +95,7 @@ def setup(k):
             table.column(col, width=width, stretch=col == "patterns", anchor="w")
         count = ttk.Label(page, style="Muted.TLabel")
         count.pack(anchor="w", padx=10)
-        together = tk.Text(page, height=5, wrap="word", relief="flat", bg=C["panel"], font=("Microsoft YaHei", 9))
+        together = tk.Text(page, height=5, wrap="word", relief="flat", bg=C["panel"], font=(plat.UI_FONT, 9))
         together.pack(fill="x", padx=10, pady=(0, 8))
 
         def matches(r):
@@ -187,8 +188,7 @@ def setup(k):
                 return
             q, a = k.get("export.past")(qids, path, f"{name} · 真题 {len(qids)} 题")
             count.configure(text=f"已导出 {len(qids)} 道真题：{os.path.basename(q)} + {os.path.basename(a)}")
-            if hasattr(os, "startfile"):
-                os.startfile(q)
+            plat.open_file(q)
 
         k.provide("search.export", export)
         for var in (subj, section, y0, y1, m0, m1, words, mode):
@@ -200,5 +200,5 @@ def setup(k):
     actions = k.get("ui.tree.actions", None)
     if actions is not None:
         ttk.Button(actions, text="真题搜索", command=show).pack(side="left", padx=(6, 0))
-    k.get("ui.root").bind_all("<Control-f>", lambda e: show())
+    plat.shortcut(k.get("ui.root"), "f", lambda e: show())
     k.provide("search.show", show)
