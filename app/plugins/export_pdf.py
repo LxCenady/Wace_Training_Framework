@@ -6,7 +6,7 @@ Fonts come from the system font folder (plat.pdf_fonts): Microsoft YaHei + Segoe
 Hiragino Sans GB + Apple Symbols on macOS; the symbol font covers the glyphs the CJK font lacks (⇒ ☐ ✓ …),
 chosen per character.
 """
-import html, io, os, re, time
+import html, io, os, re, shutil, tempfile, time
 import pymupdf
 import plat
 
@@ -82,7 +82,7 @@ def text(s, font, assets=None):
     return "".join(out)
 
 
-def render(blocks, path, assets, own_page=False):
+def render(blocks, path, assets, own_page=False, numbered=True):
     """blocks: [(html, working space in pt)], one per question. A question never starts where it would not fit:
     with own_page each one opens a new page (the rest of the page is its working space, plus a blank page
     when less than its space is left); otherwise questions share pages but one that does not fit in what is
@@ -120,24 +120,31 @@ def render(blocks, path, assets, own_page=False):
         writer.end_page()
     writer.close()
     doc = pymupdf.open("pdf", buf.getvalue())  # page numbers + subset fonts (a full YaHei is ~20 MB)
-    for i, pg in enumerate(doc):
-        pg.insert_text((page.width / 2 - 12, page.height - 28), f"{i + 1} / {doc.page_count}", fontsize=8,
-                       color=(.5, .5, .5))
+    if numbered:
+        number_pages(doc)
     doc.subset_fonts()
     doc.save(path, garbage=4, deflate=True)
     doc.close()
     return state["n"]
 
 
-def worksheet(items, path, title, name, maths=None, figures=None, meta=None):
-    """items: generated items (store.generated). Writes <path> (questions) and <path>_答案.pdf; returns both."""
+def number_pages(doc):
+    W, H = doc[0].rect.width, doc[0].rect.height
+    for i, pg in enumerate(doc):
+        pg.insert_text((W / 2 - 12, H - 28), f"{i + 1} / {doc.page_count}", fontsize=8, color=(.5, .5, .5))
+
+
+def worksheet(items, path, title, name, maths=None, figures=None, meta=None, first=1, header=True, numbered=True):
+    """items: generated items (store.generated). Writes <path> (questions) and <path>_答案.pdf; returns both.
+    first: number of the first question; header: title + meta on top; numbered: page numbers (combined() adds
+    its own after merging)."""
     font = pymupdf.Font(fontfile=os.path.join(FONTS, CJK))
     qa, aa = Assets(maths, figures), Assets(maths, figures)
     marks = sum(i["marks"] for i in items)
     meta = meta or (f"{len(items)} 题 · 共 {marks} 分 · 建议用时约 {marks} 分钟（WACE 约每分钟 1 分）· "
                     f"{time.strftime('%Y-%m-%d')} · WTF — WACE Training Framework")
     q, a = [], []
-    for n, it in enumerate(items, 1):
+    for n, it in enumerate(items, first):
         head = f"Question {n}（{it['marks']} 分 · {SECTION.get(it.get('section'), '')} · AI #{it['id']}）"
         stem = re.sub(r"^\s*Question\s*\d*\s*\(\s*\d+\s*marks?\s*\)\s*", "", it["question"])  # models repeat it
         q.append((f"<h2>{text(head, font)}</h2><p>{text(stem, font, qa)}</p>" + qa.figure(it.get("figure")),
@@ -155,21 +162,23 @@ def worksheet(items, path, title, name, maths=None, figures=None, meta=None):
                 ans.append(f"<p class='pt'>{text('☐ ' + t, font, aa)}</p>")
         ans.append(f"<p class='sol'>{text('解答：' + chr(10) + it['solution'], font, aa)}</p>")
         a.append(("".join(ans), 0))
-    q[0] = (f"<h1>{text(title, font)}</h1><p class='meta'>{text(meta, font)}</p>" + q[0][0], q[0][1])
-    a[0] = (f"<h1>{text(title + ' — 答案与评分标准', font)}</h1><p class='meta'>{text(meta, font)}</p>" + a[0][0], 0)
+    if header:
+        q[0] = (f"<h1>{text(title, font)}</h1><p class='meta'>{text(meta, font)}</p>" + q[0][0], q[0][1])
+        a[0] = (f"<h1>{text(title + ' — 答案与评分标准', font)}</h1><p class='meta'>{text(meta, font)}</p>" + a[0][0],
+                0)
     answers = path[:-4] + "_答案.pdf"
-    render(q, path, qa, own_page=True)
-    render(a, answers, aa)
+    render(q, path, qa, own_page=True, numbered=numbered)
+    render(a, answers, aa, numbered=numbered)
     return path, answers
 
 
 CROP_X0, CROP_X1 = 28, 572  # the exam crops' horizontal extent (as plugins/render.py)
 
 
-def past_papers(items, root, path, title, name):
+def past_papers(items, root, path, title, name, first=None, header=True, numbered=True, meta=""):
     """items: store.question dicts. Writes <path> (the questions, cut from the papers as vectors, one question per
     page) and <path>_评分标准.pdf (the marking keys; a question moves whole to the next page when it does not fit).
-    Returns both paths."""
+    Returns both paths. first: number them "Question n" in a combined paper (the original stays in brackets)."""
     font = os.path.join(FONTS, CJK)
     W, H = pymupdf.paper_size("a4")
     L, T, R, B = 40, 44, W - 40, H - 50
@@ -196,12 +205,15 @@ def past_papers(items, root, path, title, name):
             need = 24 + sum(h + 4 for h in heights)
             if state["page"] is None or own_page or (need > B - state["y"] and state["y"] > T + 40):
                 new_page()
-            if n == 0:
-                write(title + ("" if kind == "exam" else " — 评分标准"), 15, (0.12, 0.23, 0.45), 26)
+            if n == 0 and header:
+                write(title + ("" if kind == "exam" else " — 答案与评分标准"), 15, (0.12, 0.23, 0.45), 26)
+                if meta:
+                    write(meta, 8.5, (0.4, 0.4, 0.4), 20)
             sec = "CF" if d["section"] == "CalcFree" else "CA"
             pats = "；".join(name(p) for p in dict.fromkeys(c for _, _, cs in d["parts"] for c in cs))
-            write(f"{d['year']} {d['subject']} {sec} Question {d['q']} · {d['marks']} 分 · {pats}", 8.5,
-                  (0.12, 0.23, 0.45), 24)
+            origin = f"{d['year']} {d['subject']} {sec} Question {d['q']}"
+            head = f"Question {first + n} · {d['marks']} 分 · 真题 {origin}" if first else f"{origin} · {d['marks']} 分"
+            write(f"{head} · {pats}", 8.5, (0.12, 0.23, 0.45), 24)
             if not regs:
                 write("（本机没有这道题的评分标准）", 9, (0.6, 0.2, 0.2))
             file = d["exam"] if kind == "exam" else d["key"]
@@ -219,8 +231,8 @@ def past_papers(items, root, path, title, name):
                                                 clip=pymupdf.Rect(CROP_X0, y0, CROP_X1, cut))
                     state["y"] += h + 4
                     y0 = cut
-        for i, pg in enumerate(doc):
-            pg.insert_text((W / 2 - 12, H - 28), f"{i + 1} / {doc.page_count}", fontsize=8, color=(.5, .5, .5))
+        if numbered:
+            number_pages(doc)
         doc.subset_fonts()
         doc.save(out, garbage=4, deflate=True)
         return out
@@ -228,8 +240,52 @@ def past_papers(items, root, path, title, name):
     return build("exam", path, True), build("key", path[:-4] + "_评分标准.pdf", False)
 
 
+def combined(entries, root, path, title, name, maths=None, figures=None, meta=""):
+    """entries: [("past", store.question dict) | ("gen", store.generated item)] in paper order -> one question paper
+    <path> and one <path>_答案与评分标准.pdf, numbered Question 1… across both kinds. Runs of the same kind are
+    rendered by past_papers / worksheet (one question per page; answers kept together) and then joined."""
+    runs = []
+    for kind, item in entries:
+        if runs and runs[-1][0] == kind:
+            runs[-1][1].append(item)
+        else:
+            runs.append((kind, [item]))
+    marks = sum(item["marks"] for _, item in entries)
+    meta = meta or (f"{len(entries)} 题 · 共 {marks} 分 · 建议用时约 {marks} 分钟 · {time.strftime('%Y-%m-%d')} · "
+                    "WTF — WACE Training Framework")
+    work = tempfile.mkdtemp(prefix="wtf_combined_")
+    papers, keys, first = [], [], 1
+    try:
+        for i, (kind, items) in enumerate(runs):
+            part = os.path.join(work, f"part{i}.pdf")
+            if kind == "past":
+                q, a = past_papers(items, root, part, title, name, first=first, header=i == 0, numbered=False,
+                                   meta=meta)
+            else:
+                q, a = worksheet(items, part, title, name, maths, figures, meta, first=first, header=i == 0,
+                                 numbered=False)
+            papers.append(q)
+            keys.append(a)
+            first += len(items)
+        answers = path[:-4] + "_答案与评分标准.pdf"
+        for parts, out in ((papers, path), (keys, answers)):
+            doc = pymupdf.open()
+            for f in parts:
+                with pymupdf.open(f) as one:
+                    doc.insert_pdf(one)
+            number_pages(doc)
+            doc.save(out, garbage=4, deflate=True)
+            doc.close()
+    finally:
+        shutil.rmtree(work, ignore_errors=True)
+    return path, answers
+
+
 def setup(k):
     store = k.get("store")
+    k.provide("export.combined", lambda refs, path, title, meta="": combined(
+        [(kind, store.question(ref) if kind == "past" else store.generated(int(ref))) for kind, ref in refs],
+        k.root, path, title, store.pattern_name, k.get("math.svg", None), k.get("figure.svg", None), meta))
     k.provide("export.past", lambda qids, path, title: past_papers(
         [store.question(q) for q in qids], k.root, path, title, store.pattern_name))
     k.provide("export.worksheet", lambda gids, path, title, meta=None: worksheet(

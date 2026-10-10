@@ -79,9 +79,11 @@ def setup(k):
 
         ttk.Button(bar2, text="用左侧选中的单元/题型", command=take_tree).pack(side="left", padx=4)
         ttk.Button(bar2, text="清除题型条件", command=clear).pack(side="left", padx=4)
-        ttk.Button(bar2, text="导出 PDF", style="Accent.TButton", command=lambda: export()).pack(side="right")
+        bar3 = ttk.Frame(page)  # filters on their own row: the condition row above is long
+        bar3.pack(fill="x", padx=10, pady=(0, 2), after=bar2)
         for var, text in ((cross, "只看跨单元"), (draw, "含作图小问"), (fig, "有配图")):
-            ttk.Checkbutton(bar2, text=text, variable=var, command=lambda: fill()).pack(side="left", padx=6)
+            ttk.Checkbutton(bar3, text=text, variable=var, command=lambda: fill()).pack(side="left", padx=(0, 12))
+        ttk.Button(bar3, text="导出 PDF", style="Accent.TButton", command=lambda: export()).pack(side="right")
 
         body = ttk.Frame(page)
         body.pack(fill="both", expand=True, padx=10, pady=(4, 2))
@@ -192,6 +194,9 @@ def setup(k):
         for var in (subj, section, y0, y1, m0, m1, words, mode):
             var.trace_add("write", fill)
         table.bind("<Double-1>", lambda e: table.selection() and k.emit("select.question", table.selection()[0]))
+        drag = k.get("workspace.source", None)  # 工作区: drag the selected results down into it
+        if drag:
+            drag(table, lambda sel: [("past", q) for q in sel])
         table.bind("<Return>", lambda e: table.selection() and k.emit("select.question", table.selection()[0]))
         fill()
 

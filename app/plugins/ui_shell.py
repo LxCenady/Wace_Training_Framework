@@ -57,9 +57,12 @@ def setup(k):
     root.config(menu=menubar)
     pane = ttk.PanedWindow(root, orient="horizontal")
     pane.pack(fill="both", expand=True)
-    left, tabs = ttk.Frame(pane, width=440), ttk.Notebook(pane)
+    left = ttk.Frame(pane, width=440)
+    middle = ttk.PanedWindow(pane, orient="vertical")  # tabs on top; plugins may add a pane below (工作区)
+    tabs = ttk.Notebook(middle)
+    middle.add(tabs, weight=3)
     pane.add(left, weight=0)
-    pane.add(tabs, weight=1)
+    pane.add(middle, weight=1)
 
     def first_layout(e):  # ttk.PanedWindow ignores child width; place the sashes once it has a real size
         if e.width > 400:
@@ -140,7 +143,8 @@ def setup(k):
     k.provide("ui.left", left)
     k.provide("ui.tab.frame", lambda key: pages.get(key))
     k.provide("ui.tabs", tabs)
-    k.provide("ui.pane", pane)  # horizontal PanedWindow: [left, tabs, …panes added by plugins]
+    k.provide("ui.pane", pane)  # horizontal PanedWindow: [left, middle, …panes added by plugins]
+    k.provide("ui.middle", middle)  # vertical PanedWindow: [tabs, …panes added by plugins]
     k.provide("ui.tab", tab)
     k.provide("ui.post", jobs.put)
     k.provide("ui.status", status.set)

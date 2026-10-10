@@ -190,6 +190,75 @@ saved = sorted(f for f in os.listdir(fixed) if not f.endswith("_评分标准.pdf
 print("fixed export folder:", saved)
 assert len(saved) == 2 and any(" (2)" in f for f in saved), saved
 k.get("config")["export_dir"] = ""
+
+
+# 工作区: sweep-select the two search results, drag them down, reorder, delete, export, 出卷模式
+def mouse(widget, kind, row, dx=8):
+    """Synthesize a mouse event over `row` of a Treeview (or its centre when row is None), with screen coords."""
+    if row is None:
+        x, y = widget.winfo_width() // 2, widget.winfo_height() // 2
+    else:
+        bx, by, bw, bh = widget.bbox(row)
+        x, y = bx + dx, by + bh // 2
+    widget.event_generate(kind, x=x, y=y, rootx=widget.winfo_rootx() + x, rooty=widget.winfo_rooty() + y,
+                          time=int(time.time() * 1000) % 2**31)  # real times: equal times read as a double-click
+
+
+ws = next(t for t in find_all(root, "Treeview") if "kind" in t.cget("columns"))
+assert not k.get("workspace.items")(), "the test database starts with an empty 工作区"
+hits.selection_remove(*hits.selection())
+mouse(hits, "<ButtonPress-1>", rows[0])
+mouse(hits, "<B1-Motion>", rows[1], dx=40)  # sweep from row 1 to row 2
+mouse(hits, "<ButtonRelease-1>", rows[1], dx=40)
+assert set(hits.selection()) == set(rows), ("sweep select", hits.selection())
+pump(0.7)  # longer than a double-click: a second press on the same row would otherwise open the question
+mouse(hits, "<ButtonPress-1>", rows[0])  # press on a selected row and drag it onto the 工作区
+hits.event_generate("<B1-Motion>", x=10, y=10, rootx=ws.winfo_rootx() + 30, rooty=ws.winfo_rooty() + 40,
+                    time=int(time.time() * 1000) % 2**31)
+hits.event_generate("<ButtonRelease-1>", x=10, y=10, rootx=ws.winfo_rootx() + 30, rooty=ws.winfo_rooty() + 40,
+                    time=int(time.time() * 1000) % 2**31)
+pump(0.3)
+in_ws = k.get("workspace.items")()
+print("工作区 after drag:", in_ws)
+assert [r[1] for r in in_ws] == list(rows), in_ws
+first, second = ws.get_children()
+ws.selection_set(second)
+pump(0.7)
+mouse(ws, "<ButtonPress-1>", second)  # drag the second row above the first
+mouse(ws, "<B1-Motion>", first, dx=60)
+mouse(ws, "<ButtonRelease-1>", first, dx=60)
+pump(0.3)
+assert [r[1] for r in k.get("workspace.items")()] == [rows[1], rows[0]], k.get("workspace.items")()
+k.get("workspace.add")([("gen", str(done_items[-1]["id"]))])  # an AI question too
+tkinter.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_workspace.pdf")
+k.get("workspace.export")()
+ws_q = pymupdf.open(os.path.join(out, "smoke_workspace.pdf"))
+print("工作区 export:", ws_q.page_count, "pages,", len(k.get("workspace.items")()), "questions")
+k.get("workspace.paper_mode").set(True)
+pump(0.2)
+export_button = next(b for b in find_all(root, "TButton") if str(b.cget("text")).startswith("导出试卷"))
+print("出卷模式 export button style:", export_button.cget("style"))
+ws.selection_set(ws.get_children()[-1])
+ws.focus_force()
+pump(0.2)
+ws.event_generate("<Delete>")
+pump(0.2)
+assert len(k.get("workspace.items")()) == 2
+shot("6e_workspace")
+full = [("past", q) for sec in ("CalcFree", "CalcAssumed") for q, _ in st.paper("MAM", 2024, sec)]  # 51 + 100
+button("全部清空").invoke()
+k.get("workspace.add")(full)  # a whole real paper: both sections land on their targets
+pump(0.2)
+export_button = next(b for b in find_all(root, "TButton") if str(b.cget("text")).startswith("导出试卷"))
+print("出卷模式 with the 2024 paper:", export_button.cget("style"))
+assert export_button.cget("style") == "Ready.TButton"
+tkinter.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, kw.get("initialfile", "x.pdf"))
+before = set(os.listdir(out))
+k.get("workspace.export")()
+made = sorted(set(os.listdir(out)) - before)
+print("出卷模式 export:", made)
+assert any("CF卷" in f for f in made) and any("CA卷" in f for f in made)
+k.get("workspace.paper_mode").set(False)
 hits.selection_set(rows[0])
 hits.event_generate("<Return>")
 pump(0.5)

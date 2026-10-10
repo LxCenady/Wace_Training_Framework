@@ -158,6 +158,7 @@ def setup(k):
 
     tree.bind("<<TreeviewSelect>>", on_select)
     k.provide("tree.selection", lambda: (unit(), codes()))  # (selected unit code or None, selected pattern codes)
+    k.provide("tree.widget", tree)  # e.g. 工作区 makes its question rows draggable
 
     def generate():
         c, u = codes(), unit()

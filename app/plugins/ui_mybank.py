@@ -145,6 +145,15 @@ def setup(k):
         table.bind("<<TreeviewOpen>>", lambda e: opened.add(table.focus()))
         table.bind("<<TreeviewClose>>", lambda e: opened.discard(table.focus()))
         table.bind("<Double-1>", open_row)
+
+        def bank_refs(sel):  # a subject / unit / pattern row carries every question under it
+            def under(iid):
+                return [iid] if iid.isdigit() else [x for c in table.get_children(iid) for x in under(c)]
+            return [("gen", g) for g in dict.fromkeys(x for i in sel for x in under(i))]
+
+        drag = k.get("workspace.source", None)  # 工作区: drag questions (or whole groups) down into it
+        if drag:
+            drag(table, bank_refs)
         table.bind("<Return>", open_row)
 
         def export():

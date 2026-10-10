@@ -12,6 +12,7 @@ CREATE TABLE IF NOT EXISTS attempts (id INTEGER PRIMARY KEY, created TEXT, sourc
     marks INT, patterns TEXT, UNIQUE (source, ref, label));
 CREATE TABLE IF NOT EXISTS exams (id INTEGER PRIMARY KEY, created TEXT, subject TEXT, section TEXT, source TEXT,
     refs TEXT, total INT, started TEXT DEFAULT '', submitted TEXT DEFAULT '');
+CREATE TABLE IF NOT EXISTS workspace (ord INTEGER, kind TEXT, ref TEXT);
 """
 
 
@@ -86,6 +87,45 @@ class Store:
             split.setdefault(qid, {})[pattern] = round(marks)
         keys = ("id", "subject", "year", "section", "q", "marks", "stem", "figure", "sketch")
         return [dict(zip(keys, r), split=split.get(r[0], {})) for r in rows]
+
+    # ---- 工作区: an ordered basket of questions, [("past", qid) | ("gen", gid as str)], kept across restarts
+    def workspace(self):
+        return [(kind, ref) for kind, ref in self.q("SELECT kind, ref FROM workspace ORDER BY ord", db=self.gen)]
+
+    def save_workspace(self, items):
+        with self.lock:
+            self.gen.execute("DELETE FROM workspace")
+            self.gen.executemany("INSERT INTO workspace VALUES (?,?,?)",
+                                 [(i, kind, str(ref)) for i, (kind, ref) in enumerate(items)])
+            self.gen.commit()
+
+    def item_info(self, kind, ref):
+        """A workspace row: dict(subject, section, marks, patterns, label) for a past or an AI question (None if
+        it no longer exists)."""
+        if kind == "past":
+            r = self.q("SELECT subject, year, section, q, marks FROM questions WHERE id = ?", ref)
+            if not r:
+                return None
+            subj, year, sec, q, marks = r[0]
+            pats = [p for (p,) in self.q("SELECT DISTINCT pattern FROM part_patterns WHERE qid = ?", ref)]
+            return dict(subject=subj, section=sec, marks=marks, patterns=pats,
+                        label=f"{year} {'CF' if sec == 'CalcFree' else 'CA'} Q{q}")
+        r = self.q("SELECT patterns, section, marks FROM generated WHERE id = ?", int(ref), db=self.gen)
+        if not r:
+            return None
+        pats = json.loads(r[0][0])
+        return dict(subject=pats[0].split(".")[0] if pats else "", section=r[0][1] or "", marks=r[0][2],
+                    patterns=pats, label=f"AI #{ref}")
+
+    def paper_totals(self, subj, since=2020):
+        """{section: marks of a real paper} — the median over recent years (what a full CF / CA paper is worth)."""
+        out = {}
+        for sec in ("CalcFree", "CalcAssumed"):
+            totals = sorted(t for (t,) in self.q("""SELECT SUM(marks) FROM questions WHERE subject = ? AND
+                                                    section = ? AND year >= ? GROUP BY year""", subj, sec, since))
+            if totals:
+                out[sec] = totals[len(totals) // 2]
+        return out
 
     def related(self, code, top=5, least=2):
         """Patterns that share past questions with `code`: (its question count, [(pattern, shared), …]) — only
