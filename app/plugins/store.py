@@ -72,6 +72,21 @@ class Store:
         r = self.q(f"SELECT {self.title} FROM patterns p WHERE code = ?", code)
         return f"{code} {r[0][0].split('★')[0].split('（')[0].strip()}" if r else code
 
+    def past_index(self):
+        """Every past question for searching: dicts with id, subject, year, section, q, marks, stem, figure (shows a
+        figure), sketch (has a drawing part) and split {pattern: marks it carried}, in paper order."""
+        cols = {r[1] for r in self.q("PRAGMA table_info(questions)")}
+        pcols = {r[1] for r in self.q("PRAGMA table_info(parts)")}
+        rows = self.q(f"""SELECT q.id, q.subject, q.year, q.section, q.q, q.marks, q.stem,
+                                 {'q.figure' if 'figure' in cols else '0'},
+                                 (SELECT MAX({'p.sketch' if 'sketch' in pcols else '0'}) FROM parts p WHERE p.qid = q.id)
+                          FROM questions q ORDER BY q.subject, q.year DESC, q.section DESC, q.q""")
+        split = {}
+        for qid, pattern, marks in self.q("SELECT qid, pattern, marks FROM pattern_marks"):
+            split.setdefault(qid, {})[pattern] = round(marks)
+        keys = ("id", "subject", "year", "section", "q", "marks", "stem", "figure", "sketch")
+        return [dict(zip(keys, r), split=split.get(r[0], {})) for r in rows]
+
     def topic_name(self, code):
         """'MAM.D 微分及其应用' — the unit's code plus its name (falls back to the bare code)."""
         r = self.q(f"SELECT {self.topic} FROM topics t WHERE code = ?", code)

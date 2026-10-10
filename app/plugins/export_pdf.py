@@ -161,8 +161,75 @@ def worksheet(items, path, title, name, maths=None, figures=None, meta=None):
     return path, answers
 
 
+CROP_X0, CROP_X1 = 28, 572  # the exam crops' horizontal extent (as plugins/render.py)
+
+
+def past_papers(items, root, path, title, name):
+    """items: store.question dicts. Writes <path> (the questions, cut from the papers as vectors, one question per
+    page) and <path>_评分标准.pdf (the marking keys; a question moves whole to the next page when it does not fit).
+    Returns both paths."""
+    font = os.path.join(FONTS, "msyh.ttc")
+    W, H = pymupdf.paper_size("a4")
+    L, T, R, B = 40, 44, W - 40, H - 50
+    scale = (R - L) / (CROP_X1 - CROP_X0)
+
+    def build(kind, out, own_page):
+        doc, src = pymupdf.open(), {}
+        state = {"page": None, "y": T}
+
+        def new_page():
+            state["page"] = doc.new_page(width=W, height=H)
+            state["page"].insert_font(fontname="yh", fontfile=font)
+            state["y"] = T
+
+        def write(text, size, color=(0, 0, 0), height=None):
+            height = height or size * 1.9
+            state["page"].insert_textbox(pymupdf.Rect(L, state["y"], R, state["y"] + height), text, fontname="yh",
+                                         fontsize=size, color=color)
+            state["y"] += height
+
+        for n, d in enumerate(items):
+            regs = d["exam_regions"] if kind == "exam" else d["key_regions"]
+            heights = [(y1 - y0) * scale for _, y0, y1 in regs]
+            need = 24 + sum(h + 4 for h in heights)
+            if state["page"] is None or own_page or (need > B - state["y"] and state["y"] > T + 40):
+                new_page()
+            if n == 0:
+                write(title + ("" if kind == "exam" else " — 评分标准"), 15, (0.12, 0.23, 0.45), 26)
+            sec = "CF" if d["section"] == "CalcFree" else "CA"
+            pats = "；".join(name(p) for p in dict.fromkeys(c for _, _, cs in d["parts"] for c in cs))
+            write(f"{d['year']} {d['subject']} {sec} Question {d['q']} · {d['marks']} 分 · {pats}", 8.5,
+                  (0.12, 0.23, 0.45), 24)
+            if not regs:
+                write("（本机没有这道题的评分标准）", 9, (0.6, 0.2, 0.2))
+            file = d["exam"] if kind == "exam" else d["key"]
+            if regs and file not in src:
+                src[file] = pymupdf.open(os.path.join(root, file))
+            for pg, y0, y1 in regs:
+                while y1 - y0 > 0.5:  # a crop taller than what is left is cut at the page end and continued
+                    room = (B - state["y"]) / scale
+                    if room < min(60, y1 - y0):
+                        new_page()
+                        continue
+                    cut = min(y1, y0 + room)
+                    h = (cut - y0) * scale
+                    state["page"].show_pdf_page(pymupdf.Rect(L, state["y"], R, state["y"] + h), src[file], pg,
+                                                clip=pymupdf.Rect(CROP_X0, y0, CROP_X1, cut))
+                    state["y"] += h + 4
+                    y0 = cut
+        for i, pg in enumerate(doc):
+            pg.insert_text((W / 2 - 12, H - 28), f"{i + 1} / {doc.page_count}", fontsize=8, color=(.5, .5, .5))
+        doc.subset_fonts()
+        doc.save(out, garbage=4, deflate=True)
+        return out
+
+    return build("exam", path, True), build("key", path[:-4] + "_评分标准.pdf", False)
+
+
 def setup(k):
     store = k.get("store")
+    k.provide("export.past", lambda qids, path, title: past_papers(
+        [store.question(q) for q in qids], k.root, path, title, store.pattern_name))
     k.provide("export.worksheet", lambda gids, path, title, meta=None: worksheet(
         [store.generated(g) for g in gids], path, title, store.pattern_name,
         k.get("math.svg", None), k.get("figure.svg", None), meta))

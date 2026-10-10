@@ -3,9 +3,9 @@
 Answers only exist in a finished item, which the generator emits after the independent solve,
 verification and mark-point split have all passed.
 """
-import base64
+import base64, os, time
 import tkinter as tk
-from tkinter import ttk
+from tkinter import filedialog, ttk
 
 
 def symcheck_summary(item):
@@ -67,7 +67,23 @@ def setup(k):
         bar.pack(fill="x", padx=8, pady=6, before=t.frame)
         ttk.Button(bar, text="在「我的 AI 题库」中查看", style="Accent.TButton",
                    command=lambda: k.get("mybank.show", lambda: None)()).pack(side="left")
+        ids = list(state["ids"])
+        if ids and k.get("export.worksheet", None):
+            ttk.Button(bar, text=f"导出本批 PDF（{len(ids)} 题）", command=lambda: export(ids)).pack(side="left", padx=8)
         k.get("ui.status")(f"批量完成：{ok} / {count} 道通过验证")
+
+    def export(ids):
+        """This batch -> question paper + answer paper (export_pdf), then open the question paper."""
+        path = filedialog.asksaveasfilename(title="导出本批题", defaultextension=".pdf", filetypes=[("PDF", "*.pdf")],
+                                            initialfile=f"WTF练习卷_{time.strftime('%Y%m%d_%H%M')}.pdf")
+        if not path:
+            return
+        q, a = k.get("export.worksheet")(ids, path, f"WTF 练习卷 · {len(ids)} 题")
+        k.get("ui.status")(f"已导出 {len(ids)} 题：{os.path.basename(q)} + {os.path.basename(a)}")
+        if hasattr(os, "startfile"):
+            os.startfile(q)
+
+    k.provide("gen.export_batch", export)
 
     def rich(t, text, *tags):
         """Text with $LaTeX$ rendered (falls back to plain text without the mathtext plugin)."""

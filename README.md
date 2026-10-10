@@ -45,13 +45,14 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 | AI similar questions | select pattern(s) → 「AI 生成相似题」 | new question, independently solved, cross-checked, SymPy-verified, split into mark points — answers stay hidden until you ask |
 | Unit questions | select a unit title → 「AI 生成相似题」 | questions on a whole unit, each built on a real question's shape: patterns, marks and cross-unit pairings follow the unit's real statistics (shown on the unit's page) |
 | Batch generation | 难度 + 数量 under the tree | up to 20 questions at a time, 基础 / 标准 / 拔高 |
+| Past question search | 「真题搜索」 next to 「AI 生成相似题」, or Ctrl+F | find past questions by any mix of patterns and units (all-of / any-of), cross-unit only, with a drawing part or a figure, by year, marks and words; see which patterns and units appear together; export the results as PDF |
 | 我的 AI 题库 | Ctrl+B | every AI question, arranged like the knowledge tree (subject → unit → pattern), searchable, exportable |
 | Self-marking | right-click a part → 「此题扣分」 | tick the mark points you lost; they go to the 错题本 |
 | 错题本 | Ctrl+E | mistakes grouped by pattern, weakest first; 一键讲解, 错题加强题, spaced review |
 | Mock exam | Ctrl+M | real past paper or AI-assembled paper, WACE timing, auto-submit, marking, history |
 | 掌握度地图 | Ctrl+G | one tile per pattern, coloured by your score rate |
 | Formula sheet | right pane (F2) | the official sheet for the subject you are viewing, resizable |
-| PDF export | 我的 AI 题库 / mock exam | question paper (one question per page, rest is working space) + answer paper with ☐ mark boxes |
+| PDF export | 我的 AI 题库 / a finished batch / 真题搜索 / mock exam | question paper (one question per page, rest is working space) + answer paper with ☐ mark boxes |
 | English UI | 设置 → 界面语言 | the whole interface, notes and explanations in English |
 | Updates | 帮助 → 检查更新 | download, verify and install new releases without losing your data |
 
@@ -69,9 +70,11 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 
 **6. Print.** In 我的 AI 题库, select questions (or whole groups, or a search) → 导出练习卷 PDF; mock exams have their own export. You get a question paper with one question per page and an answer paper where no question is split across pages, each mark point with a ☐ to tick.
 
+**6½. Search the past papers (Ctrl+F).** Select patterns or a unit in the tree and press 「真题搜索」: every past question that contains all of them (or any of them), with each pattern's marks, whether it crosses units and whether it has a drawing part. Under the list: the patterns and units that most often come together with your choice — the cross-pattern index. Tick 「只看跨单元」 to see only cross-unit questions. 「导出 PDF」 exports the selected results (or all of them): the questions cut from the original papers as vectors, one per page, and their marking keys.
+
 **7. Watch the map (Ctrl+G).** Each tile is a pattern; colour is your score rate, grey means not attempted, the number is how many marks it carried across past papers. Big number + red tile = where your next hour goes. Right-click a tile to practise it.
 
-**Shortcuts:** Ctrl+B 我的 AI 题库 · Ctrl+E 错题本 · Ctrl+M 模拟考试 · Ctrl+G 掌握度地图 · F2 formula sheet · Ctrl-click patterns to combine · double-click to open · right-click a part to deduct marks.
+**Shortcuts:** Ctrl+F 真题搜索 · Ctrl+B 我的 AI 题库 · Ctrl+E 错题本 · Ctrl+M 模拟考试 · Ctrl+G 掌握度地图 · F2 formula sheet · Ctrl-click patterns to combine · double-click to open · right-click a part to deduct marks.
 
 > **中文使用说明**
 > 1. **学题型**：左侧知识图谱点开知识点 → 点题型，看解题思路；标题下灰字是这个题型在 CF / CA 卷里一般占几分。展开题型可以看到所有用到它的真题。
@@ -80,6 +83,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 > 4. **错题闭环**（Ctrl+E）：薄弱题型排前面；「一键讲解所选错题」逐分讲清楚丢在哪；「生成错题加强题」专练丢分步骤；按 1/3/7/14/30 天间隔复习（勾「只看今日待复习」，右键错题做复习题）。
 > 5. **模拟考**（Ctrl+M）：真题年份或 AI 组卷，WACE 计时、到点自动交卷，交卷后右键扣分出成绩，历史全部保留。
 > 6. **打印**：我的 AI 题库（Ctrl+B）里选题 →「导出练习卷 PDF」：试卷每题一页，答案卷不跨页、每个得分点带 ☐。
+> 6½. **真题搜索**（Ctrl+F，在「AI 生成相似题」旁边）：在左侧选题型或单元，查同时包含（或包含任一）的所有真题，可只看跨单元、含作图小问、有配图；列表下方是常一起出现的题型和单元（跨题型索引）；「导出 PDF」把结果从原卷矢量裁切成试题 + 评分标准。批量 AI 出题完成后也可「导出本批 PDF」。
 > 7. **掌握度地图**（Ctrl+G）：颜色是得分率，数字是该题型历年总分值。分值大又发红的，就是下一小时该去的地方。
 
 ## Quick start for developers

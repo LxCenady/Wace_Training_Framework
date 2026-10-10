@@ -18,6 +18,7 @@ ui_pattern      # pattern method notes
 ui_question     # past question crop + marking key revealed on demand
 ui_generate     # AI question view; mark points revealed only after verification
 ui_mybank       # 我的 AI 题库: searchable index of every generated question
+ui_search       # 真题搜索: past questions by any mix of patterns / units (cross-topic index)
 ui_mistakes     # self-marking: right-click a part to record lost marks; 错题本 + targeted drills
 ui_explain      # 一键讲解: AI explanation of one recorded mistake (cached)
 ui_exam         # 模拟考试: timed past or AI-assembled papers, marked with self-marking

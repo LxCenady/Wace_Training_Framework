@@ -4,6 +4,7 @@ Selecting several patterns (Ctrl/Shift-click) asks the generator for one questio
 unit (topic) title generates unit questions: each one takes the shape of a real question of that unit
 (tools/blueprint.unit_plan), so patterns, marks and cross-topic pairings follow the unit's real statistics.
 Emits select.topic(code), select.pattern([codes]), select.question(qid), select.generated(gid).
+Provides tree.selection() -> (unit or None, [pattern codes]) and ui.tree.actions (a button row).
 """
 import random
 import tkinter as tk
@@ -50,8 +51,11 @@ def setup(k):
                                                                                            pady=(6, 0))
     ttk.Label(foot, text="数量").grid(row=1, column=2, sticky="w", padx=(8, 0), pady=(6, 0))
     ttk.Spinbox(foot, from_=1, to=20, textvariable=count, width=4).grid(row=1, column=3, padx=4, pady=(6, 0))
-    go = ttk.Button(foot, text="AI 生成相似题", style="Accent.TButton")
-    go.grid(row=2, column=0, columnspan=4, sticky="ew", pady=(8, 0))
+    actions = ttk.Frame(foot)  # other plugins add buttons here (ui.tree.actions), e.g. 真题搜索
+    actions.grid(row=2, column=0, columnspan=4, sticky="ew", pady=(8, 0))
+    go = ttk.Button(actions, text="AI 生成相似题", style="Accent.TButton")
+    go.pack(side="left", fill="x", expand=True)
+    k.provide("ui.tree.actions", actions)
     foot.columnconfigure(1, weight=1)
 
     for subj in store.subjects():
@@ -101,6 +105,7 @@ def setup(k):
             k.emit("select.pattern", codes())
 
     tree.bind("<<TreeviewSelect>>", on_select)
+    k.provide("tree.selection", lambda: (unit(), codes()))  # (selected unit code or None, selected pattern codes)
 
     def generate():
         c, u = codes(), unit()

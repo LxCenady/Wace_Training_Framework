@@ -139,6 +139,32 @@ print("unit questions:", units)
 assert all(any(c.startswith("MAS.DE.") for c in codes) for codes in units), units
 count_var.set(1)
 
+# 真题搜索: two patterns, all-of -> the past questions that combine them; double-click opens one
+tree.selection_set(("P:MAM.D.6", "P:MAM.I.5"))
+pump(0.3)
+button("真题搜索").invoke()
+pump(0.5)
+hits = next(t for t in find_all(root, "Treeview") if "year" in t.cget("columns"))
+rows = hits.get_children()
+print("search D.6 + I.5:", [hits.item(r, "values")[:4] for r in rows])
+assert rows and all("MAM.D.6" in hits.item(r, "values")[6] and "MAM.I.5" in hits.item(r, "values")[6] for r in rows)
+shot("6d_search")
+import plugins.ui_search as ui_search, plugins.ui_generate as ui_generate, pymupdf  # noqa: E401,E402
+ui_search.os.startfile = lambda p: None  # one shared os / filedialog module: set the name before each export
+ui_search.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_past.pdf")
+k.get("search.export")()
+past_q, past_a = pymupdf.open(os.path.join(out, "smoke_past.pdf")), pymupdf.open(os.path.join(out, "smoke_past_评分标准.pdf"))
+print("past export:", past_q.page_count, "+", past_a.page_count, "pages")
+assert past_q.page_count >= len(rows) and past_a.page_count >= 1
+ui_generate.filedialog.asksaveasfilename = lambda **kw: os.path.join(out, "smoke_batch.pdf")
+k.get("gen.export_batch")([item["id"] for item in done_items[-3:]])
+batch_q = pymupdf.open(os.path.join(out, "smoke_batch.pdf"))
+print("batch export:", batch_q.page_count, "pages")
+assert batch_q.page_count >= 3
+hits.selection_set(rows[0])
+hits.event_generate("<Return>")
+pump(0.5)
+
 # 我的 AI 题库: subject -> unit -> pattern -> questions, like the knowledge tree
 k.get("mybank.show")()
 
@@ -156,7 +182,7 @@ def nodes(iid=""):
         yield from nodes(c)
 
 
-table = next(tables(root))
+table = next(t for t in tables(root) if "also" in t.cget("columns"))
 assert table.get_children() == ("subj:MAM", "subj:MAS"), table.get_children()
 assert [table.parent(table.parent(p)) for p in nodes() if p.startswith("pat:")][:1] == ["subj:MAM"]
 groups = [p for p in nodes() if p.startswith("pat:")]
