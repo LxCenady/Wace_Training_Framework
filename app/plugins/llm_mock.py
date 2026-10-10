@@ -28,11 +28,36 @@ REPLIES = {
 }
 
 
+SKETCH = "\n(c) On the axes below, sketch the graph of $y = f(x)$, labelling the stationary points. (2 marks)"
+CURVE = {"x": [-2.5, 2.5], "y": [-2, 4], "items": [{"curve": "x**3 - 3*x + 1"}, {"point": [-1, 3]}, {"point": [1, -1]}]}
+
+
+def with_drawing(stage, reply):
+    """The same canned question plus a drawing part (c), for prompts that require one."""
+    reply = json.loads(json.dumps(reply))
+    c = {"label": "c", "marks": 2}
+    if stage == "GENERATE":
+        reply["question"] += SKETCH
+        reply["parts"].append({**c, "answer": "cubic through (−1, 3) and (1, −1)", "value": None})
+    elif stage == "SOLVE":
+        reply["parts"].append({"label": "c", "working": "sketch", "answer": "sketch", "value": None, "sympy": None})
+    elif stage == "VERIFY":
+        reply["parts"].append({"label": "c", "agree": True, "correct_answer": "cubic through (−1, 3), (1, −1)"})
+    elif stage == "MARKS":
+        reply["points"] += [{"label": "c", "text": "correct cubic shape"},
+                            {"label": "c", "text": "stationary points labelled"}]
+        reply["figures"] = {"c": CURVE}
+    return reply
+
+
 def setup(k):
     def chat(settings, system, user, timeout):
         stage = re.match(r"\[STAGE:(\w+)\]", system).group(1)
         if stage == "EXPLAIN":
             return "1. 这一问考什么\n（离线 mock 讲解）\n2. 你丢的分\n…\n3. 正确做法\n…\n4. 下次怎么避免\n…"
-        return "```json\n" + json.dumps(REPLIES.get(stage, {"ok": True}), ensure_ascii=False) + "\n```"
+        reply = REPLIES.get(stage, {"ok": True})
+        if "DRAWING PART REQUIRED" in user or "sketch the graph of $y = f(x)$" in user:
+            reply = with_drawing(stage, reply)
+        return "```json\n" + json.dumps(reply, ensure_ascii=False) + "\n```"
 
     k.get("llm.providers")["mock"] = chat

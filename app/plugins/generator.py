@@ -9,7 +9,7 @@ The program checks JSON shape, part labels, mark totals and points-per-part betw
 at any stage regenerates with the reason as feedback (config["retries"] times). The UI receives nothing
 answer-like until stage 4 has passed; the full transcript is kept in the item's log for auditing.
 """
-import json, os, re, threading
+import json, math, os, random, re, threading
 from concurrent.futures import ThreadPoolExecutor
 
 SUBJECT = {"MAM": "Mathematics Methods ATAR (Units 3-4)", "MAS": "Mathematics Specialist ATAR (Units 3-4)"}
@@ -27,7 +27,9 @@ FIGURE = ("A figure is DATA, not code: {\"x\": [xmin, xmax], \"y\": [ymin, ymax]
           "{\"segment\": [[x1, y1], [x2, y2]], \"dashed\": false}, {\"polygon\": [[x, y], …], \"shade\": false}, "
           "{\"circle\": [cx, cy], \"r\": r}, {\"vline\": x} / {\"hline\": y} (dashed asymptotes), "
           "{\"vector\": [[x1, y1], [x2, y2]], \"label\": \"$\\\\mathbf{a}$\"}, {\"text\": [x, y], \"s\": \"$10$ cm\"}, "
-          "{\"bars\": [[x, height], …], \"width\": w} (histograms, discrete distributions). "
+          "{\"bars\": [[x, height], …], \"width\": w} (histograms, discrete distributions), "
+          "{\"slope\": \"dy/dx as an expr in x and y\", \"step\": 0.5} (a slope field: one short segment per grid "
+          "point; use it for every slope-field question). "
           "Numbers may be SymPy expressions such as \"pi/3\". Use axes false for geometric diagrams (shapes, "
           "cross-sections), \"box\" for histograms, true for graphs and Argand diagrams (with equal true).")
 
@@ -117,6 +119,8 @@ class Pipeline:
         want = (f"Section: {'calculator-free' if section == 'CalcFree' else 'calculator-assumed'}. "
                 if section in ("CalcFree", "CalcAssumed") else "Section: choose the more natural one. ")
         want += mark_guide(store, subj, section, codes, marks, split)
+        self.need_figure, self.need_drawing, text = drawing_guide(store, subj, section, codes)
+        want += text
         want += "\n" + DIFFICULTY.get(difficulty, DIFFICULTY["标准"])
         if variant[1] > 1:
             want += (f"\nThis is question {variant[0]} of a batch of {variant[1]} on the same patterns: pick a context "
@@ -175,6 +179,12 @@ class Pipeline:
                 raise Failed("the figure could not be drawn: " + "; ".join(problems[:3]))
             # the solver and checker read the figure as data (it is exactly what the student sees drawn)
             question += "\n\nFigure shown with the question (as data): " + json.dumps(figure, ensure_ascii=False)
+        if getattr(self, "need_figure", False) and not figure:
+            raise Failed("FIGURE REQUIRED: give the graph / diagram / axes the question works on in \"figure\"")
+        drawing = drawing_parts(stem, labels)
+        if getattr(self, "need_drawing", False) and not drawing:
+            raise Failed("DRAWING PART REQUIRED: no part asks the student to sketch, draw, plot, shade or mark on the "
+                         "figure")
 
         # 2 SOLVE — independent: sees only the question
         s = self.call("SOLVE", n, (
@@ -222,7 +232,8 @@ class Pipeline:
                 f"Question:\n{question}\n\nVerified answers:\n{key}\n" + (f"Previous key was wrong: {last}\n" if last
                                                                            else "") +
                 f"\n{STYLE}\nFor a part that asks the student to sketch or draw, also give the expected drawing in "
-                "\"figures\" (keyed by part label). " + FIGURE + "\nSchema: " +
+                "\"figures\" (keyed by part label): the question's figure with the answer drawn on it. "
+                + (f"Drawing parts in this question: {', '.join(drawing)}. " if drawing else "") + FIGURE + "\nSchema: " +
                 '{"solution": "full worked solution, part by part", "points": [{"label": "a", "text": "behaviour"}], '
                 '"figures": {}}')
             pts = [(label_of(p.get("label")), str(p.get("text", "")).strip()) for p in m.get("points", [])]
@@ -231,6 +242,10 @@ class Pipeline:
             if not wrong and len(pts) == total and m.get("solution"):
                 drawn = {label_of(l): f for l, f in (m.get("figures") or {}).items()
                          if isinstance(f, dict) and not self.figure_problems(f)}  # a bad sketch key is dropped
+                missing = [l for l in drawing if l not in drawn]
+                if missing and m_try == 0:  # a drawing part is marked against a drawn answer, as in real keys
+                    last = f"no drawable expected drawing in \"figures\" for the drawing part(s) {missing}"
+                    continue
                 return {"patterns": codes, "section": g.get("section", ""), "marks": total, "question": stem,
                         "figure": figure,
                         "parts": [{"label": l, "marks": p["marks"], "patterns": p.get("patterns", []),
@@ -269,6 +284,48 @@ class Pipeline:
         if bad:
             raise Failed("symbolic check failed: " + "; ".join(f"({l}) {d}" for l, d in bad.items()))
         return result
+
+
+def drawing_parts(stem, labels):
+    """Labels of the parts that ask the student to draw (same rule as the real papers' parts.sketch)."""
+    try:
+        import partmarks  # tools/
+    except ImportError:
+        return []
+    found = partmarks.tagged_texts(partmarks.texts(stem), labels)
+    return [l for l in labels if partmarks.is_sketch(found.get(l, ""))]
+
+
+def drawing_guide(store, subj, section, codes, roll=random.random):
+    """(needs a figure, needs a drawing part, prompt text). Real questions on these patterns show a figure / ask the
+    student to draw at known rates (wace.db questions.figure, parts.sketch); each new question rolls against them
+    (P(at least one pattern does)), so a batch has drawing parts about as often as the real papers."""
+    try:
+        import blueprint  # tools/: real-paper statistics
+        with store.lock:
+            rates = blueprint.pattern_drawing(store.db, subj, section)
+    except Exception:  # no statistics yet: leave figures to the setter
+        return False, False, ""
+    known = [rates[c] for c in codes if c in rates]
+    p_fig = 1 - math.prod(1 - f for f, _, _ in known)
+    p_draw = 1 - math.prod(1 - d for _, d, _ in known)
+    need_draw = roll() < p_draw
+    need_fig = need_draw or roll() < p_fig
+    if need_draw:
+        return True, True, (
+            f"\nDRAWING PART REQUIRED (real questions on these patterns ask for one {p_draw:.0%} of the time): at least "
+            "one part must have the student draw on the figure — e.g. \"Sketch the graph of … on the axes below, "
+            "labelling all key features\", \"Draw the solution curve through (a, b) on the slope field\", \"Shade "
+            "the region whose area is …\", \"Plot … on the Argand diagram\", \"Mark … on the diagram\". Give in "
+            "\"figure\" what the student draws on: scaled, labelled axes (or the diagram / slope field) with any given "
+            "curves, NOT the answer. Its marks reward visible features (intercepts, asymptotes, turning points, "
+            "shape, end behaviour, the point it passes through), as in real keys.")
+    if need_fig:
+        return True, False, (
+            f"\nFIGURE REQUIRED (real questions on these patterns show one {p_fig:.0%} of the time): the question must "
+            "show a figure in \"figure\" that the student reads from or works on (a graph, slope field, Argand "
+            "diagram, the shape or region, a histogram).")
+    return False, False, ""
 
 
 def mark_guide(store, subj, section, codes, marks, split):

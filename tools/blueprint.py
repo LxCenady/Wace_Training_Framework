@@ -98,6 +98,24 @@ def pattern_marks(db, subj, section):
 LEVELS = ("基础", "标准", "拔高")
 
 
+def pattern_drawing(db, subj, section):
+    """{pattern: (figure rate, drawing rate, questions)} from real questions of that section (all sections when
+    section is not CalcFree/CalcAssumed): how often a question on the pattern shows a figure, and how often a part
+    on it asks the student to sketch / draw / plot / shade / mark on a diagram."""
+    secs = ("CalcFree", "CalcAssumed") if section not in ("CalcFree", "CalcAssumed") else (section,)
+    rows = db.execute(f"""SELECT pp.pattern, q.id, MAX(q.figure), MAX(p.sketch) FROM part_patterns pp
+                           JOIN parts p ON p.qid = pp.qid AND p.label = pp.label JOIN questions q ON q.id = pp.qid
+                           WHERE q.subject = ? AND q.section IN ({",".join("?" * len(secs))})
+                           GROUP BY pp.pattern, q.id""", (subj, *secs)).fetchall()
+    acc = defaultdict(lambda: [0, 0, 0])
+    for pattern, _, fig, sketch in rows:
+        a = acc[pattern]
+        a[0] += fig or 0
+        a[1] += sketch or 0
+        a[2] += 1
+    return {p: (f / n, s / n, n) for p, (f, s, n) in acc.items()}
+
+
 def topic(code):
     return code.rsplit(".", 1)[0]
 
@@ -213,6 +231,15 @@ def markdown(db, subj):
                 "patterns' parts, or one pattern that real papers really do run that long — never one routine "
                 "step inflated to fill the marks:", ""]
         out += [f"  - {names.get(t, t)}: " + ", ".join(v) for t, v in by_t.items()]
+        draw = pattern_drawing(db, subj, section)
+        figs = [f"`{c}` {f:.0%}" for c, (f, d, n) in sorted(draw.items(), key=lambda x: -x[1][0]) if f >= 0.5 and n >= 2]
+        sketch = [f"`{c}` {d:.0%}" for c, (f, d, n) in sorted(draw.items(), key=lambda x: -x[1][1]) if d >= 0.2 and n >= 2]
+        out += ["", "- **Figures and drawing parts.** Patterns whose real questions usually show a figure (share of "
+                "questions): " + (", ".join(figs) or "none") + ". Patterns whose real questions often ask the "
+                "student to draw — sketch a graph, draw a solution curve on a slope field, shade a region, plot on an "
+                "Argand diagram, mark a point (share of questions): " + (", ".join(sketch) or "none") + ". Give these "
+                "a figure (the axes or diagram the student works on) and, about as often as real papers do, a "
+                "drawing part whose marks reward visible features; put the completed drawing in the marking key."]
         out += ["", "- Tag combinations real questions used (pattern codes, count), by topic pair — combine "
                 "patterns like these; other patterns of the same two topics are fine when the pairing is natural:", ""]
         by_pair = defaultdict(list)

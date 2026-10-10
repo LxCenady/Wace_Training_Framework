@@ -190,6 +190,28 @@ def setup(k):
                             x, h = num(x), num(h)
                             zp.Polygon([(x - w / 2, 0), (x + w / 2, 0), (x + w / 2, h), (x - w / 2, h)]).color(
                                 "black").fill(FILL)
+                    elif "slope" in it:  # slope field: a short segment of gradient dy/dx at every grid point
+                        f = fn(it["slope"], ("x", "y"))
+                        step = num(it.get("step", 1))
+                        half = 0.32 * step * min(sx, sy)  # pixels, so neighbouring segments never touch
+                        xs = [step * math.ceil(x0 / step) + j * step for j in range(int((x1 - x0) / step) + 1)]
+                        ys = [step * math.ceil(y0 / step) + j * step for j in range(int((y1 - y0) / step) + 1)]
+                        if len(xs) * len(ys) > 900:
+                            raise ValueError("slope field step too small for the window")
+                        for gx in xs:
+                            for gy in ys:
+                                if not (x0 <= gx <= x1 and y0 <= gy <= y1):
+                                    continue
+                                m = f(gx, gy)
+                                if math.isnan(m):  # x/0: vertical, as drawn in real papers; 0/0: left empty
+                                    near = f(gx, gy + 1e-7 * step)
+                                    if math.isnan(near) or abs(near) < 1e5:
+                                        continue
+                                    m = math.inf
+                                ux, uy = (0.0, 1.0) if math.isinf(m) else (sx, m * sy)
+                                n = math.hypot(ux, uy) or 1
+                                dx, dy = half * ux / n / sx, half * uy / n / sy
+                                zp.Segment((gx - dx, gy - dy), (gx + dx, gy + dy)).color("black")
                     else:
                         problems.append(f"item {i}: unknown kind {sorted(it)}")
                 except Exception as e:  # one bad item never loses the whole figure

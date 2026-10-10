@@ -7,6 +7,8 @@ Sources (all under ROOT):
   marking-key PDFs               split into one row per mark (tools/markpoints.py)
   "(n marks)" in the stems       marks of every part as printed on the paper (tools/partmarks.py); the key's
                                  tick count per part is the fallback and the cross-check
+  stems + exam crops             questions.figure (the question shows a graph / diagram / axes) and parts.sketch
+                                 (the part asks the student to sketch, draw, plot, shade or mark on a diagram)
 
 Question-level topics/patterns are the union of its part tags (view q_patterns). View pattern_marks maps every
 real question to the marks each pattern carried in it (parts with several patterns share their marks evenly).
@@ -18,7 +20,7 @@ ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.p
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 from build_docs import TOPICS  # noqa: E402
 from markpoints import points  # noqa: E402
-from partmarks import for_tags, split  # noqa: E402
+from partmarks import for_tags, has_figure, is_sketch, split, tagged_texts, texts  # noqa: E402
 
 SECTION = {"CalcAssumed": "A", "CalcFree": "F"}
 SCHEMA = """
@@ -26,8 +28,10 @@ CREATE TABLE topics   (code TEXT PRIMARY KEY, subject TEXT, ord INT, file TEXT, 
 CREATE TABLE patterns (code TEXT PRIMARY KEY, topic TEXT, n INT, title TEXT, method TEXT,
                        title_en TEXT DEFAULT '', method_en TEXT DEFAULT '');
 CREATE TABLE questions(id TEXT PRIMARY KEY, subject TEXT, year INT, section TEXT, q INT, marks INT,
-                       exam TEXT, exam_regions TEXT, key TEXT, key_regions TEXT, stem TEXT, points_ok INT);
-CREATE TABLE parts    (qid TEXT, label TEXT, ord INT, marks INT, marks_src TEXT, PRIMARY KEY (qid, label));
+                       exam TEXT, exam_regions TEXT, key TEXT, key_regions TEXT, stem TEXT, points_ok INT,
+                       figure INT);
+CREATE TABLE parts    (qid TEXT, label TEXT, ord INT, marks INT, marks_src TEXT, sketch INT,
+                       PRIMARY KEY (qid, label));
 CREATE TABLE part_patterns (qid TEXT, label TEXT, pattern TEXT);
 CREATE TABLE points   (qid TEXT, label TEXT, ord INT, text TEXT);
 CREATE VIEW q_patterns AS SELECT DISTINCT qid, pattern FROM part_patterns;
@@ -42,6 +46,15 @@ CREATE INDEX pp_pattern ON part_patterns(pattern);
 CREATE INDEX pt_qid ON points(qid);
 """
 HEAD = re.compile(r"^## (?:题型|Pattern)\s*(\d+)\s*[：:]\s*(.+)$")
+
+
+def images_in(doc, regions):
+    """Does the exam crop contain an embedded picture (how the 2016 and 2024-25 papers ship their diagrams)?"""
+    for pg, y0, y1 in regions:
+        clip = pymupdf.Rect(0, y0, doc[pg].rect.width, y1)
+        if any(pymupdf.Rect(i["bbox"]).intersects(clip) for i in doc[pg].get_image_info()):
+            return True
+    return False
 
 
 def method_sections(md_path):
@@ -118,21 +131,26 @@ def build(db_path):
                 docs[q["key"]] = pymupdf.open(os.path.join(ROOT, q["key"]))
             pts = points(key_text(docs[q["key"]], q["key_regions"]))
             ok = int(len(pts) == q["marks"])
-            db.execute("INSERT INTO questions VALUES (?,?,?,?,?,?,?,?,?,?,?,?)",
+            if q["exam"] not in docs:
+                docs[q["exam"]] = pymupdf.open(os.path.join(ROOT, q["exam"]))
+            figure = int(has_figure(q["text"]) or images_in(docs[q["exam"]], q["exam_regions"]))
+            db.execute("INSERT INTO questions VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
                        (qid, subj, int(q["year"]), q["section"], q["q"], q["marks"], q["exam"],
-                        json.dumps(q["exam_regions"]), q["key"], json.dumps(q["key_regions"]), q["text"], ok))
+                        json.dumps(q["exam_regions"]), q["key"], json.dumps(q["key_regions"]), q["text"], ok, figure))
             for j, (label, text) in enumerate(pts):
                 db.execute("INSERT INTO points VALUES (?,?,?,?)", (qid, label, j, text.strip()))
             printed = split(q["text"], q["marks"])
             paper = for_tags(printed, [l for l, _ in parts]) if printed else None
             if printed and not paper:
                 problems.append(f"{qid}: paper has parts {sorted(printed)}, tags have {[l for l, _ in parts]}")
+            part_text = tagged_texts(texts(q["text"]), [l for l, _ in parts])
             for j, (label, pats) in enumerate(parts):
                 ticks = sum(1 for p in pts if p[0] == label) if ok else None
                 if paper and ticks is not None and ticks != paper[label]:
                     problems.append(f"{qid} ({label}): paper says {paper[label]} marks, key has {ticks} ticks")
                 n, src = (paper[label], "paper") if paper else (ticks, "key") if ticks is not None else (None, None)
-                db.execute("INSERT INTO parts VALUES (?,?,?,?,?)", (qid, label, j, n, src))
+                db.execute("INSERT INTO parts VALUES (?,?,?,?,?,?)",
+                           (qid, label, j, n, src, int(is_sketch(part_text[label]))))
                 for p in pats:
                     if p not in known:
                         problems.append(f"{qid} {label}: unknown pattern {p}")
@@ -150,5 +168,7 @@ if __name__ == "__main__":
         print(t, db.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0])
     print("points_ok", db.execute("SELECT SUM(points_ok), COUNT(*) FROM questions").fetchone())
     print("part marks by source", db.execute("SELECT marks_src, COUNT(*) FROM parts GROUP BY marks_src").fetchall())
+    print("questions with a figure", db.execute("SELECT SUM(figure) FROM questions").fetchone()[0],
+          "| parts asking for a drawing", db.execute("SELECT SUM(sketch) FROM parts").fetchone()[0])
     print(len(problems), "problems")
     print("\n".join(problems))
