@@ -87,6 +87,20 @@ class Store:
         keys = ("id", "subject", "year", "section", "q", "marks", "stem", "figure", "sketch")
         return [dict(zip(keys, r), split=split.get(r[0], {})) for r in rows]
 
+    def related(self, code, top=5, least=2):
+        """Patterns that share past questions with `code`: (its question count, [(pattern, shared), …]) — only
+        pairs seen in at least `least` questions (one shared question is a coincidence), strongest first."""
+        if not hasattr(self, "_index"):
+            self._index = self.past_index()
+        with_code = [r for r in self._index if code in r["split"]]
+        together = {}
+        for r in with_code:
+            for p in r["split"]:
+                if p != code:
+                    together[p] = together.get(p, 0) + 1
+        best = sorted(((n, p) for p, n in together.items() if n >= least), key=lambda x: (-x[0], x[1]))[:top]
+        return len(with_code), [(p, n) for n, p in best]
+
     def topic_name(self, code):
         """'MAM.D 微分及其应用' — the unit's code plus its name (falls back to the bare code)."""
         r = self.q(f"SELECT {self.topic} FROM topics t WHERE code = ?", code)

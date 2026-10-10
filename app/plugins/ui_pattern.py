@@ -1,5 +1,8 @@
-"""Pattern view. One job: show the method notes of the selected pattern(s) and the marks it carries in real papers."""
+"""Pattern view. One job: show the method notes of the selected pattern(s), the marks it carries in real papers, and
+the patterns it is most often examined with (bars, with buttons to combine them or see those past questions)."""
 import re
+import tkinter as tk
+from tkinter import ttk
 
 
 def plain(md):
@@ -21,6 +24,38 @@ def marks_line(by_section):
 
 def setup(k):
     store = k.get("store")
+    C = k.get("ui.colors")
+
+    def related_panel(t, code):
+        """常一起考的题型: the patterns sharing this one's past questions, one row each — bar = share of its
+        questions, then 「组合出题」 (select both in the tree) and 「看这几道真题」 (真题搜索 for both)."""
+        w = k.get("ui.write")
+        total, pairs = store.related(code)
+        if not pairs:
+            w(t, "常一起考的题型：没有和它在同一道真题里出现 2 次以上的题型（多为单独出题）\n\n", "muted")
+            return
+        w(t, f"常一起考的题型（在 {total} 道考它的真题里）\n", "sub")
+        box = tk.Frame(t, bg=C["panel"])
+        width = 200
+        for i, (p, n) in enumerate(pairs):
+            tk.Label(box, text=store.pattern_name(p), bg=C["panel"], fg=C["ink"], anchor="w", width=34).grid(
+                row=i, column=0, sticky="w", pady=2)
+            bar = tk.Canvas(box, width=width, height=12, bg=C["panel"], highlightthickness=0)
+            bar.grid(row=i, column=1, padx=6)
+            bar.create_rectangle(0, 2, width, 10, fill=C["line"], width=0)
+            bar.create_rectangle(0, 2, max(4, width * n / total), 10, fill=C["accent"], width=0)
+            tk.Label(box, text=f"{n}/{total} 道 · {n / total:.0%}", bg=C["panel"], fg=C["muted"]).grid(
+                row=i, column=2, sticky="w")
+            ttk.Button(box, text="组合出题", command=lambda p=p: combine([code, p])).grid(row=i, column=3, padx=(10, 2))
+            ttk.Button(box, text="看这几道真题", command=lambda p=p: (combine([code, p]), k.get("search.show")())).grid(
+                row=i, column=4)
+        t.window_create("end", window=box)
+        w(t, "\n\n")
+
+    def combine(pattern_codes):
+        k.get("tree.combine", lambda c: None)(pattern_codes)
+        k.get("ui.status")("已在左侧选中：" + " + ".join(store.pattern_name(c) for c in pattern_codes)
+                           + " —— 点「AI 生成相似题」组合出题")
 
     def show(codes):
         page = k.get("ui.tab")("pattern", "题型讲解")
@@ -33,6 +68,8 @@ def setup(k):
             w(t, f"{p['topic_zh']} · 题型 {p['n']}：{p['title']}\n", "h")
             w(t, f"{code} · 真题 {n} 道 · 展开左侧节点查看；多选题型后点「AI 生成相似题」可组合出题\n", "muted")
             w(t, marks_line(store.pattern_marks(code)) + "\n\n", "muted")
+            if len(codes) == 1:
+                related_panel(t, code)
             for line in plain(p["method"]).splitlines():
                 w(t, line.lstrip("# ") + "\n", *(("sub",) if line.startswith("#") else ()))
             w(t, "\n")

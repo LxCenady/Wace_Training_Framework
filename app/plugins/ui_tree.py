@@ -95,41 +95,40 @@ def setup(k):
 
     # related patterns: with one pattern selected, the patterns that most often share a past question with it are
     # highlighted, with "how many of its questions also have them"; kept while Ctrl-adding them, cleared otherwise
-    related = {"anchor": None, "nodes": {}, "opened": []}
-    tree.tag_configure("related", background="#e3ebf8")
-    index = []
+    related = {"anchor": None, "nodes": {}}
+    tree.tag_configure("related", background="#c9d8f0")  # strongest links: a deeper shade
+    tree.tag_configure("related_weak", background="#e8eef8")
 
     def clear_related():
         for node, text in related["nodes"].items():
             if tree.exists(node):
                 tree.item(node, text=text, tags=())
-        for node in related["opened"]:
-            if tree.exists(node):
-                tree.item(node, open=False)
-        related.update(anchor=None, nodes={}, opened=[])
+        related.update(anchor=None, nodes={})
 
-    def show_related(code, top=5, least=2):
-        if not index:
-            index.extend(store.past_index())
-        with_code = [r for r in index if code in r["split"]]
-        together = {}
-        for r in with_code:
-            for p in r["split"]:
-                if p != code:
-                    together[p] = together.get(p, 0) + 1
-        best = sorted(((n, p) for p, n in together.items() if n >= least), reverse=True)[:top]
+    def show_related(code):
+        """Mark the patterns that share past questions with `code` (store.related) in place: no unit is opened
+        for them (the pattern page lists them all with bars and buttons)."""
+        total, pairs = store.related(code)
         related["anchor"] = code
-        for n, p in best:
+        strongest = pairs[0][1] if pairs else 0
+        for p, n in pairs:
             node = f"P:{p}"
             if not tree.exists(node):
                 continue
             related["nodes"][node] = tree.item(node, "text")
-            tree.item(node, text=f"{related['nodes'][node]}   ↔ {n}/{len(with_code)} 道 · {n / len(with_code):.0%}",
-                      tags=("related",))
-            parent = tree.parent(node)
-            if not tree.item(parent, "open"):  # a related pattern in another unit: open that unit to show it
-                tree.item(parent, open=True)
-                related["opened"].append(parent)
+            tree.item(node, text=f"{related['nodes'][node]}   ↔ {n}/{total} 道 · {n / total:.0%}",
+                      tags=("related" if n * 3 >= strongest * 2 else "related_weak",))
+
+    def combine(pattern_codes):
+        """Select these patterns in the tree (for 「AI 生成相似题」 or 真题搜索), showing the first."""
+        nodes = [f"P:{c}" for c in pattern_codes if tree.exists(f"P:{c}")]
+        if nodes:
+            for n in nodes:
+                tree.item(tree.parent(n), open=True)
+            tree.selection_set(nodes)
+            tree.see(nodes[-1])
+
+    k.provide("tree.combine", combine)
 
     def update_related():
         picked = [c for c in codes() if tree.exists(f"P:{c}")]
