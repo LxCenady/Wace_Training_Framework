@@ -1,8 +1,11 @@
 """Knowledge tree. One job: browse subject -> topic -> pattern -> questions, and start AI generation.
 
-Selecting several patterns (Ctrl/Shift-click) asks the generator for one question combining them.
-Emits select.pattern([codes]), select.question(qid), select.generated(gid).
+Selecting several patterns (Ctrl/Shift-click) asks the generator for one question combining them. Selecting a
+unit (topic) title generates unit questions: each one takes the shape of a real question of that unit
+(tools/blueprint.unit_plan), so patterns, marks and cross-topic pairings follow the unit's real statistics.
+Emits select.topic(code), select.pattern([codes]), select.question(qid), select.generated(gid).
 """
+import random
 import tkinter as tk
 from tkinter import ttk
 
@@ -20,7 +23,7 @@ def setup(k):
     head = ttk.Frame(left)
     head.pack(fill="x", padx=10, pady=(10, 4))
     ttk.Label(head, text="知识图谱", style="H.TLabel").pack(side="left")
-    ttk.Label(head, text="Ctrl+点击可多选题型组合出题", style="Muted.TLabel").pack(side="right")
+    ttk.Label(head, text="选单元按真题分布出题 · Ctrl+点击多选题型", style="Muted.TLabel").pack(side="right")
 
     body = ttk.Frame(left)
     body.pack(fill="both", expand=True, padx=(10, 0))
@@ -82,9 +85,15 @@ def setup(k):
                 out.append(code)
         return out
 
+    def unit():
+        sel = tree.selection()
+        return sel[0][2:] if len(sel) == 1 and sel[0].startswith("T:") else None
+
     def on_select(_):
         sel = tree.selection()
-        if len(sel) == 1 and sel[0][0] in "QG":
+        if unit():
+            k.emit("select.topic", unit())
+        elif len(sel) == 1 and sel[0][0] in "QG":
             kind, rest = sel[0].split(":", 1)
             ref = rest.split("|")[1]
             k.emit("select.question" if kind == "Q" else "select.generated", ref if kind == "Q" else int(ref))
@@ -94,13 +103,23 @@ def setup(k):
     tree.bind("<<TreeviewSelect>>", on_select)
 
     def generate():
-        c = codes()
-        if not c:
-            k.get("ui.status")("先在知识图谱里选中至少一个题型")
+        c, u = codes(), unit()
+        if not c and not u:
+            k.get("ui.status")("先在知识图谱里选中一个单元，或至少一个题型")
             return
-        go.state(["disabled"])
         n = max(1, min(20, count.get()))
-        k.get("generator.start")(c, SECTIONS[sec_code(section.get())], marks.get(), lvl_code(level.get()), n)
+        sec, m, lvl = SECTIONS[sec_code(section.get())], marks.get(), lvl_code(level.get())
+        plan = None
+        if u:
+            import blueprint  # tools/: real-paper statistics
+            try:
+                with store.lock:
+                    plan = blueprint.unit_plan(store.db, u.split(".")[0], u, sec, n, random.Random(), m)
+            except ValueError:
+                k.get("ui.status")("这个单元在所选卷型里没有真题，换个卷型试试")
+                return
+        go.state(["disabled"])
+        k.get("generator.start")([u] if u else c, sec, m, lvl, n, plan=plan)
 
     go.configure(command=generate)
 

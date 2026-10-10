@@ -43,8 +43,9 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 | Pattern notes | click a pattern | how to recognise it, the steps, where the marks are, examiners' warnings, and how many marks it usually carries per section |
 | Past questions | click a question | the original exam crop; 「显示评分标准」 reveals the official key, split one row per mark |
 | AI similar questions | select pattern(s) → 「AI 生成相似题」 | new question, independently solved, cross-checked, SymPy-verified, split into mark points — answers stay hidden until you ask |
+| Unit questions | select a unit title → 「AI 生成相似题」 | questions on a whole unit, each built on a real question's shape: patterns, marks and cross-unit pairings follow the unit's real statistics (shown on the unit's page) |
 | Batch generation | 难度 + 数量 under the tree | up to 20 questions at a time, 基础 / 标准 / 拔高 |
-| 我的 AI 题库 | Ctrl+B | every AI question, grouped by identical tags, searchable, exportable |
+| 我的 AI 题库 | Ctrl+B | every AI question, arranged like the knowledge tree (subject → unit → pattern), searchable, exportable |
 | Self-marking | right-click a part → 「此题扣分」 | tick the mark points you lost; they go to the 错题本 |
 | 错题本 | Ctrl+E | mistakes grouped by pattern, weakest first; 一键讲解, 错题加强题, spaced review |
 | Mock exam | Ctrl+M | real past paper or AI-assembled paper, WACE timing, auto-submit, marking, history |
@@ -60,7 +61,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 
 **2. Do past questions, then mark yourself.** Click a question, do it on paper (formula sheet on the right, F2 to hide it), then press 「显示评分标准」. For every part you dropped marks on, right-click the part (or a mark point) → 「此题扣分」, tick the points you missed and add a note in your own words. That is the whole bookkeeping; the app does the rest.
 
-**3. Get new questions when the past ones run out.** Select one pattern, or Ctrl-click several to combine them; choose 卷型 (CF/CA/任意), 总分 (0 = let the real papers decide), 难度 and 数量; press 「AI 生成相似题」. Each question appears under ★ in the tree and in 我的 AI 题库 once it has passed every check. Answers are hidden: do it first, then reveal and self-mark exactly as with past questions.
+**3. Get new questions when the past ones run out.** Select a **unit title** to practise the whole unit the way the exam tests it, or one pattern, or Ctrl-click several patterns to combine them; choose 卷型 (CF/CA/任意), 总分 (0 = let the real papers decide), 难度 and 数量; press 「AI 生成相似题」. A unit's page lists what unit questions are built from: its real questions per section, how often they cross into other units and with which, and each pattern's share of the unit's marks, usual marks and how often it comes with a figure or a drawing part. Each question appears under ★ in the tree and in 我的 AI 题库 once it has passed every check. Answers are hidden: do it first, then reveal and self-mark exactly as with past questions.
 
 **4. Close the loop in the 错题本 (Ctrl+E).** Weakest patterns come first. Select a mistake and press 「一键讲解所选错题」 for a full explanation of each mark you lost; 「生成错题加强题」 writes new questions that require exactly the steps you got wrong (with nothing selected, it targets your weakest pattern). Mistakes come back for review after 1, 3, 7, 14 and 30 days: tick 「只看今日待复习」, right-click a mistake → 「复习：做一道同题型新题」, then mark it 「复习通过」 or 「又错了」.
 
@@ -75,7 +76,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 > **中文使用说明**
 > 1. **学题型**：左侧知识图谱点开知识点 → 点题型，看解题思路；标题下灰字是这个题型在 CF / CA 卷里一般占几分。展开题型可以看到所有用到它的真题。
 > 2. **刷真题 + 自批**：点真题，在纸上做完再点「显示评分标准」。哪一小问扣分了就右键 →「此题扣分」，勾掉丢的得分点、写一句备注，自动进错题本。
-> 3. **AI 出题**：选一个题型（Ctrl+点击可多选组合），设卷型、总分（0 = 按真题自动）、难度、数量，点「AI 生成相似题」。通过全部校验才入库，答案默认隐藏。
+> 3. **AI 出题**：选**单元标题**按该单元真题的题型分布、分值和跨单元搭配出题（单元页面会列出这些统计）；或选一个题型（Ctrl+点击可多选组合），设卷型、总分（0 = 按真题自动）、难度、数量，点「AI 生成相似题」。通过全部校验才入库，答案默认隐藏。
 > 4. **错题闭环**（Ctrl+E）：薄弱题型排前面；「一键讲解所选错题」逐分讲清楚丢在哪；「生成错题加强题」专练丢分步骤；按 1/3/7/14/30 天间隔复习（勾「只看今日待复习」，右键错题做复习题）。
 > 5. **模拟考**（Ctrl+M）：真题年份或 AI 组卷，WACE 计时、到点自动交卷，交卷后右键扣分出成绩，历史全部保留。
 > 6. **打印**：我的 AI 题库（Ctrl+B）里选题 →「导出练习卷 PDF」：试卷每题一页，答案卷不跨页、每个得分点带 ☐。
@@ -142,7 +143,8 @@ app/             GUI (below)
   Between checker and examiner, **SymPy recomputes** every numeric part from a solver-written expression (e.g. `solve(diff(pi*r**2 + 16*pi/r, r), r)`, `P(Normal('X', 32, 4) > 40)`) and compares it with both models' answers; a disagreement sends the question back. The expression is whitelisted (numbers, arithmetic, known maths functions — no attributes, imports or dunders) and runs in a separate, time-limited process; parts it cannot evaluate are shown as unchecked, never as wrong. SymPy has no opinions, which is exactly why it is here.
   The program checks part labels and mark counts between steps; any failure regenerates with the reason (2 retries by default). Nothing answer-like is shown until all steps pass; 「查看验证记录」 shows every raw reply, for the forensically inclined.
 - **Batch generation**: choose 难度 (基础 / 标准 / 拔高 — calibrated in the prompt against the opening parts, the median past question, and the final parts of the hardest recent questions) and 数量 (1–20). Questions run 4 at a time (`parallel` in the config), each through the full four-step check; a failure only drops that question. The setter is shown the openings of the latest AI questions on the same patterns and told not to reuse their context, function or numbers — otherwise every question would be about a farmer and his fence.
-- **我的 AI 题库** (menu 题库, the button under the tree, or Ctrl+B): every generated question; questions with identical pattern tags fold into one group (count + difficulty mix), searching expands matching groups, sort by any column, double-click to open (answers still hidden until clicked).
+- **Unit questions**: select a unit title instead of a pattern. Each question takes the shape of a real question led by that unit — its patterns and the marks each carried — varied the same way as mock-paper questions (same-unit swaps, ±1 mark). Real shapes are drawn without replacement, so a batch does not repeat itself and still matches the unit: over 2,000 simulated questions per unit, the cross-unit rate is within 2 points of the real one for all 14 units and each pattern's share of the unit's marks within 3.4 %. With section 任意, CF and CA come as often as the unit's real questions sit in each.
+- **我的 AI 题库** (menu 题库, the button under the tree, or Ctrl+B): every generated question, arranged like the knowledge tree — subject → unit → pattern → questions, only where there are questions, with counts and the difficulty mix. A question sits once, under its lead pattern; its other patterns have their own column. Searching expands what matches; sort by any column; double-click to open (answers still hidden); selecting a subject, unit or pattern exports everything under it.
 - **Formula sheet** pinned on the right (newest official sheet; follows the subject you are viewing; drag its edge to resize, re-rendered sharp at any width; F2 hides it, for those who have memorised it, or claim to have).
 - **Self-marking (自批卷)**: every part of an AI answer and of a past question's key is labelled with its topic + 题型. Right-click a part → 「此题扣分」, tick the mark points you missed, add a note → it goes into **我的错题本** (Ctrl+E), grouped by pattern, weakest first. Honesty is not enforced, merely encouraged.
 - **错题加强题**: from the 错题本, generate targeted questions for the selected (or weakest) pattern; the setter is told exactly which mark points you lost, so the new question requires those exact steps. It remembers. It is patient.

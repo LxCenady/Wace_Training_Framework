@@ -377,10 +377,13 @@ def setup(k):
         item["id"] = k.get("store").save_generated(item)
         return item
 
-    def start(codes, section="any", marks=0, difficulty="标准", count=1, focus=""):
-        """Generate `count` questions in background threads (config["parallel"] at a time).
-        Events: gen.started(codes, count), gen.progress(msg), gen.done(item) per question,
+    def start(codes, section="any", marks=0, difficulty="标准", count=1, focus="", plan=None):
+        """Generate `count` questions in background threads (config["parallel"] at a time). `plan` (unit questions,
+        tools/blueprint.unit_plan) gives every question its own [(codes, section, marks, {pattern: marks})].
+        Events: gen.started(codes, count, plan), gen.progress(msg), gen.done(item) per question,
         gen.error(msg) per failed question, gen.finished(ok, count) once at the end."""
+        if plan:
+            count = len(plan)
         post = k.get("ui.post", lambda fn: fn())
         workers = max(1, min(count, int(k.get("config").get("parallel", 4))))
         fatal = k.get("llm.ProviderError", ())
@@ -392,9 +395,10 @@ def setup(k):
                 post(lambda: k.emit("gen.error", tag + "已跳过：" + stop["why"]))
                 return False
             try:
-                item = run(codes, section, marks,
+                c, sec, m, split = plan[i - 1] if plan else (codes, section, marks, None)
+                item = run(c, sec, m,
                            lambda kind, data: kind == "progress" and post(lambda d=tag + data: k.emit("gen.progress", d)),
-                           difficulty, (i, count), focus)
+                           difficulty, (1, 1) if plan else (i, count), focus, split)
                 post(lambda: k.emit("gen.done", item))
                 return True
             except Exception as e:  # report every failure in the UI, never crash the worker silently
@@ -411,7 +415,7 @@ def setup(k):
                 ok = sum(pool.map(one, range(1, count + 1)))
             post(lambda: k.emit("gen.finished", ok, count))
 
-        k.emit("gen.started", codes, count)
+        k.emit("gen.started", codes, count, plan)
         threading.Thread(target=work, daemon=True).start()
 
     k.provide("generator.run", run)

@@ -21,14 +21,22 @@ def setup(k):
     w, ui_text = k.get("ui.write"), k.get("ui.text")
     state = {}
 
-    def started(codes, count=1):
+    def started(codes, count=1, plan=None):
         page = k.get("ui.tab")("gen", "AI 出题")
         state.update(page=page, count=count, ids=[])
         t = ui_text(page)
         t.frame.pack(fill="both", expand=True)
         state["log"] = t
         w(t, f"正在生成并验证{'' if count == 1 else f' {count} 道题'}…\n", "h")
-        w(t, "题型：" + "，".join(f"{c} {store.pattern(c)['title'].split('★')[0].strip()}" for c in codes) + "\n", "muted")
+        if plan:  # unit questions: each has its own patterns, section and marks, from a real question's shape
+            w(t, f"单元出题：{store.topic_name(codes[0])} —— 每道题沿用一道该单元真题的题型组合与分值，"
+                 "题型、分值与跨单元搭配都按真题统计\n", "muted")
+            for i, (c, sec, m, split) in enumerate(plan, 1):
+                w(t, f"  第{i}题 · {'CF' if sec == 'CalcFree' else 'CA'} · {m} 分：" + "；".join(
+                    f"{store.pattern_name(p)}（{split[p]}）" for p in c) + "\n", "muted")
+        else:
+            w(t, "题型：" + "，".join(f"{c} {store.pattern(c)['title'].split('★')[0].strip()}" for c in codes) + "\n",
+              "muted")
         w(t, "流程：出题 → 独立解题（只看题目）→ 独立核对 → 拆分得分点；全部通过前不显示答案。\n\n", "muted")
         k.get("ui.status")("AI 出题中…")
 

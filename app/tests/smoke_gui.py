@@ -37,6 +37,10 @@ def find(w, cls):
             return r
 
 
+def find_all(w, cls):
+    return ([w] if w.winfo_class() == cls else []) + [x for c in w.winfo_children() for x in find_all(c, cls)]
+
+
 def pump(sec=0.6):
     end = time.time() + sec
     while time.time() < end:
@@ -114,7 +118,28 @@ assert finished[-1] == (3, 3), finished
 batch(["MAM.D.1"], "基础", 2)
 assert finished[-1] == (2, 2), finished
 
-# 我的 AI 题库: same tags fold into one group
+# unit questions: select a unit title -> overview of its real statistics; generate -> real question shapes
+done_items = []
+k.on("gen.done", done_items.append)
+tree.selection_set("T:MAS.DE"); tree.see("T:MAS.DE")
+pump(0.5)
+shot("6b_unit_overview")
+count_var = next(w for w in find_all(k.get("ui.left"), "TSpinbox") if float(str(w.cget("from"))) == 1)  # 数量
+count_var.set(3)
+before = len(finished)
+button("AI 生成相似题").invoke()
+for _ in range(300):
+    pump(0.1)
+    if len(finished) > before:
+        break
+shot("6c_unit_log")
+assert finished[-1] == (3, 3), finished
+units = [item["patterns"] for item in done_items[-3:]]
+print("unit questions:", units)
+assert all(any(c.startswith("MAS.DE.") for c in codes) for codes in units), units
+count_var.set(1)
+
+# 我的 AI 题库: subject -> unit -> pattern -> questions, like the knowledge tree
 k.get("mybank.show")()
 
 
@@ -125,11 +150,23 @@ def tables(w):
         yield from tables(c)
 
 
+def nodes(iid=""):
+    for c in table.get_children(iid):
+        yield c
+        yield from nodes(c)
+
+
 table = next(tables(root))
-groups = table.get_children()
-sizes = sorted(len(table.get_children(g)) for g in groups)
-assert sizes == [2, 4], sizes  # D.4+D.6: 1 single + 3 batch; D.1: 2
-table.item(groups[0], open=True)
+assert table.get_children() == ("subj:MAM", "subj:MAS"), table.get_children()
+assert [table.parent(table.parent(p)) for p in nodes() if p.startswith("pat:")][:1] == ["subj:MAM"]
+groups = [p for p in nodes() if p.startswith("pat:")]
+leaves = [q for q in nodes() if q.isdigit()]
+assert len(leaves) == 9 and len(set(leaves)) == 9, leaves  # 1 single + 3 batch + 2 basic + 3 unit, each once
+assert len(table.get_children("pat:MAM.D.1")) == 2
+assert all(table.parent(table.parent(p)) == "subj:MAS" for p in groups if p.startswith("pat:MAS.DE"))
+for iid in ("subj:MAM", "unit:MAM.D", "pat:MAM.D.1"):
+    table.item(iid, open=True)
+groups.insert(0, groups.pop(groups.index("pat:MAM.D.1")))
 shot("7_mybank")
 first = table.get_children(groups[0])[0]
 table.selection_set(first)

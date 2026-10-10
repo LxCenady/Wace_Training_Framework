@@ -72,6 +72,11 @@ class Store:
         r = self.q(f"SELECT {self.title} FROM patterns p WHERE code = ?", code)
         return f"{code} {r[0][0].split('★')[0].split('（')[0].strip()}" if r else code
 
+    def topic_name(self, code):
+        """'MAM.D 微分及其应用' — the unit's code plus its name (falls back to the bare code)."""
+        r = self.q(f"SELECT {self.topic} FROM topics t WHERE code = ?", code)
+        return f"{code} {r[0][0]}" if r else code
+
     def questions_for(self, code):
         """Past questions with at least one part tagged `code`, newest first; labels = matching parts."""
         return self.q("""SELECT q.id, q.year, q.section, q.q, q.marks, GROUP_CONCAT(pp.label, ',')

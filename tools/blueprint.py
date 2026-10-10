@@ -138,33 +138,75 @@ def plan(bp, total, rng, swap=0.35, tries=300):
     raise RuntimeError("no paper fits the blueprint")
 
 
+def lead(sk):
+    """The topic carrying most of a question's marks."""
+    return max({topic(p) for p in sk}, key=lambda t: sum(m for p, m in sk.items() if topic(p) == t))
+
+
+def vary(bp, sk, used, rng, swap, limit):
+    """A real question's shape {pattern: marks} -> a new one: each pattern may be swapped for an unused pattern of
+    the same topic that carried about as many marks (within one) in a real question, and one pattern may move by
+    one mark inside its observed range, the question staying within `limit` marks."""
+    own = bp["own_marks"]
+    by_topic = defaultdict(dict)
+    for code, w in bp["pattern_share"].items():
+        by_topic[topic(code)][code] = w
+    split = {}
+    for p, m in sk.items():
+        alt = {c: w for c, w in by_topic[topic(p)].items()
+               if c not in used and c not in sk and c not in split and any(abs(x - m) <= 1 for x in own[c])}
+        if alt and rng.random() < swap:
+            p = rng.choices(list(alt), weights=list(alt.values()))[0]
+        split[p] = split.get(p, 0) + m
+    if rng.random() < 0.3:  # one mark more or less on one pattern, inside what it has carried
+        p, d = rng.choice(list(split)), rng.choice((-1, 1))
+        if own[p][0] <= split[p] + d <= own[p][-1] and 0 < sum(split.values()) + d <= limit:
+            split[p] += d
+    return split
+
+
+def unit_plan(db, subj, unit, section, count, rng, marks=0, swap=0.35):
+    """`count` questions on one unit (topic code such as 'MAM.D') -> [(codes, section, marks, {pattern: marks})].
+
+    Each question takes the shape of a real question led by the unit (the unit carries most of its marks): so
+    patterns appear as often and with the marks they do in real papers, and cross-topic questions come with the
+    partner topics and at the rate the unit's real questions have. Shapes are varied like mock-paper questions.
+    Section 'any' picks CF / CA as often as the unit's real questions sit in each. A total (`marks`) prefers shapes within two of it."""
+    secs = [section] if section in ("CalcFree", "CalcAssumed") else ["CalcFree", "CalcAssumed"]
+    bps = {s: blueprint(db, subj, s) for s in secs}
+    shapes = {s: [sk for sk in bps[s]["skeletons"] if lead(sk) == unit] for s in secs}
+    weight = [len(shapes[s]) for s in secs]
+    if not any(weight):
+        raise ValueError(f"no real questions led by {unit} in {', '.join(secs)}")
+    out, used = [], set()
+    pools = {s: [] for s in secs}  # shapes are drawn without replacement (a fresh round when one runs out):
+    for _ in range(count):         # variety without favouring one kind of shape
+        s = rng.choices(secs, weights=weight)[0]
+        if not pools[s]:
+            fit = [sk for sk in shapes[s] if abs(sum(sk.values()) - marks) <= 2] if marks else []
+            pools[s] = list(fit or shapes[s])
+        sk = pools[s].pop(rng.randrange(len(pools[s])))
+        split = vary(bps[s], sk, used, rng, swap, max(bps[s]["question_marks"]))
+        used |= split.keys()
+        out.append((sorted(split, key=lambda p: -split[p]), s, sum(split.values()), split))
+    return out
+
+
 def attempt(bp, total, rng, swap):
     own = bp["own_marks"]
     rng_of = {p: (v[0], v[-1]) for p, v in own.items()}
     cap = max(bp["question_marks"])
-    by_topic = defaultdict(dict)
-    for code, w in bp["pattern_share"].items():
-        by_topic[topic(code)][code] = w
-    lead = lambda sk: max({topic(p) for p in sk}, key=lambda t: sum(m for p, m in sk.items() if topic(p) == t))  # noqa: E731
     deficit = {t: share * total for t, share in bp["topic_share"].items()}
-    left, used, qs = total, set(), []
+    left, used, qs, taken = total, set(), [], []
     while left >= 3:
         t = max(deficit, key=lambda t: deficit[t] + rng.uniform(0, 4))
-        cands = [sk for sk in bp["skeletons"] if sum(sk.values()) <= left and lead(sk) == t] or                 [sk for sk in bp["skeletons"] if sum(sk.values()) <= left]
+        cands = ([sk for sk in bp["skeletons"] if sum(sk.values()) <= left and lead(sk) == t]
+                 or [sk for sk in bp["skeletons"] if sum(sk.values()) <= left])
         if not cands:
             break
-        sk = rng.choices(cands, weights=[1 / (1 + len(used & sk.keys())) ** 2 for sk in cands])[0]
-        split = {}
-        for p, m in sk.items():
-            alt = {c: w for c, w in by_topic[topic(p)].items()
-                   if c not in used and c not in sk and c not in split and any(abs(x - m) <= 1 for x in own[c])}
-            if alt and rng.random() < swap:
-                p = rng.choices(list(alt), weights=list(alt.values()))[0]
-            split[p] = split.get(p, 0) + m
-        if rng.random() < 0.3:  # one mark more or less on one pattern, inside what it has carried
-            p, d = rng.choice(list(split)), rng.choice((-1, 1))
-            if rng_of[p][0] <= split[p] + d <= rng_of[p][1] and 0 < sum(split.values()) + d <= min(cap, left):
-                split[p] += d
+        sk = rng.choices(cands, weights=[0.02 if any(sk is t for t in taken) else 1 for sk in cands])[0]
+        taken.append(sk)  # a real shape is used once per paper
+        split = vary(bp, sk, used, rng, swap, min(cap, left))
         for p, m in split.items():
             deficit[topic(p)] -= m
         used |= split.keys()
