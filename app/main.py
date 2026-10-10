@@ -30,7 +30,11 @@ def headless(root, args):
             if a == "--import" and i + 1 < len(args):
                 for rel in fetch.import_dir(args[i + 1], root):
                     say(f"imported {rel}")
-        say(f"{len(fetch.missing(root))} paper(s) still missing")
+        miss = [m[0] for m in fetch.missing(root) if "Sample" not in m[0]]
+        say(f"{len(miss)} paper(s) still missing" + "".join(f"\n  {m}" for m in miss))
+        if "--build" in args and miss:
+            say("not building: a question bank needs every paper (import the missing ones, then --build)")
+            sys.exit(2)
         if "--build" in args:
             problems = build_all.run(log=say)
             say(f"built wace.db ({len(problems)} notes)")

@@ -47,31 +47,10 @@ def pump(sec):
         time.sleep(0.02)
 
 
-k.get("setup.watch")(downloads)
+k.get("setup.folder")(downloads)  # stands in for the user's Downloads folder
 pump(1)
 random.seed(7)
 pdfs = sorted(glob.glob(os.path.join(papers_root, "*", "papers", "*.pdf")))
-for i, f in enumerate(pdfs):  # like a browser: random names, arriving a few at a time
-    shutil.copyfile(f, os.path.join(downloads, f"download_{random.randint(0, 10**9)}.pdf"))
-    if i % 20 == 0:
-        pump(0.3)
-for _ in range(60):  # the wizard polls every 2 s
-    pump(1)
-    if len(__import__("fetch").missing(data)) <= 1:
-        break
-left = __import__("fetch").missing(data)
-print("missing after watching Downloads:", [m[0] for m in left])
-assert all("Sample_MAS_MarkingKey" in m[0] for m in left), left  # only the scanned sample keys can't be recognised
-
-ui_setup.messagebox.askyesno = lambda *a, **kw: True
-
-
-def ui_setup_busy(r):
-    try:
-        b = find(r, "建立题库并启动")
-        return b is not None and b.instate(["disabled"])
-    except Exception:  # window already gone: the build finished and the app restarted
-        return True
 
 
 def find(w, text):
@@ -83,10 +62,50 @@ def find(w, text):
             return r
 
 
+def banner(w):
+    for c in w.winfo_children():
+        if c.winfo_class() == "Label" and str(c.cget("text")).startswith("第"):
+            return c.cget("text")
+        r = banner(c)
+        if r:
+            return r
+
+
+check = find(root, "我存好了，检查下载文件夹")
+for i, f in enumerate(pdfs):  # like a browser: random names in the Downloads folder
+    shutil.copyfile(f, os.path.join(downloads, f"download_{random.randint(0, 10**9)}.pdf"))
+    if i == 30:  # half the papers saved, then the button: imported, but never a partial bank
+        pump(4)
+        assert len(__import__("fetch").missing(data)) == len(__import__("fetch").missing(data)), "nothing is watched"
+        check.invoke()
+        pump(1)
+        print("half imported, banner:", banner(root))
+        assert find(root, "重新建库").instate(["disabled"]) and not restarted, "a partial bank must not be built"
+        assert "第" in (banner(root) or ""), "the banner must say what to do next"
+before = len(__import__("fetch").missing(data))
+pump(4)  # no watching: nothing arrives until the button is pressed
+assert len(__import__("fetch").missing(data)) == before, "the wizard must not import without the button"
+check.invoke()
+pump(1)
+left = __import__("fetch").missing(data)
+print("missing after checking Downloads:", [m[0] for m in left])
+assert all("Sample_MAS_MarkingKey" in m[0] for m in left), left  # only the scanned sample keys can't be recognised
+
+ui_setup.messagebox.askyesno = lambda *a, **kw: True
+
+
+def ui_setup_busy(r):
+    try:
+        b = find(r, "重新建库")
+        return b is not None and b.instate(["disabled"])
+    except Exception:  # window already gone: the build finished and the app restarted
+        return True
+
+
 # the last paper arriving starts the build by itself; press the button only if it has not
 auto = bool(restarted) or ui_setup_busy(root)
 if not auto:
-    find(root, "建立题库并启动").invoke()
+    find(root, "重新建库").invoke()
 print("build started automatically:", auto)
 for _ in range(600):
     pump(0.5)

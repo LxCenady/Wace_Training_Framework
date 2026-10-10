@@ -2,6 +2,18 @@
 
 > *Yes, the acronym is intentional. No, we will not be taking questions about it. Mostly because the app will generate them for you.*
 
+## ⬇ [Download WTF for Windows — WTF-Setup.exe](https://github.com/LxCenady/Wace_Training_Framework/releases/latest/download/WTF-Setup.exe)
+
+Double-click it. That is the whole installation. (Other files and release notes: [latest release](https://github.com/LxCenady/Wace_Training_Framework/releases/latest).)
+
+> **Teachers and students: please do not attempt to run WTF by reading the code.** It does not run that way. We have checked, at length. Download the installer above and let the computer do the reading.
+>
+> **老师、同学们：请不要试图通过阅读代码来运行 WTF。** 读代码它是不会跑起来的，我们认真试过了。点上面的链接下载安装包，双击即可。
+
+**Only here for the notes?** Read the PDFs, not the `.md` files — GitHub's Markdown preview and maths are not on speaking terms:
+method notes [MAM](MAM/methods) · [MAS](MAS/methods) (English: [MAM](MAM/methods_en) · [MAS](MAS/methods_en)), cheat sheets [MAM](cheatsheet/MAM_CheatSheet.pdf) · [MAS](cheatsheet/MAS_CheatSheet.pdf) (English: [MAM](cheatsheet/MAM_CheatSheet_EN.pdf) · [MAS](cheatsheet/MAS_CheatSheet_EN.pdf)).
+The past papers themselves are not here (see *Copyright* below): the app fetches them for you on its first run, which is why there is no question bank in this repository and never will be.
+
 WTF is a serious, rigorously engineered study system for the Western Australian ATAR courses **Mathematics Methods (MAM)** and **Mathematics Specialist (MAS)**, built on the 2016–2025 SCSA past exams. It exists because the average student's revision strategy — "open a past paper, feel bad, close the past paper" — has a measured completion rate of approximately zero.
 
 What it actually does, stated with a straight face:
@@ -22,12 +34,12 @@ Everything else (code, tags, method notes, cheat sheets, skills) is original wor
 
 ## Quick start for students (Windows, nothing to install, allegedly)
 
-1. Download **`WTF-Setup-vX.Y.Z.exe`** from the latest [release](../../releases) and double-click it. It installs for you only (no administrator rights, default `%LOCALAPPDATA%\Programs\WTF`), adds desktop and Start-menu shortcuts and starts the app. Running a newer setup over an old install upgrades it and keeps your papers, AI questions and mistakes, because deleting a student's 错题本 is how wars start. (Allergic to installers? `WTF-Windows-vX.Y.Z.zip` is the same app — extract anywhere, a USB stick works.)
+1. Download **[WTF-Setup.exe](https://github.com/LxCenady/Wace_Training_Framework/releases/latest/download/WTF-Setup.exe)** (always the newest version) and double-click it. It installs for you only (no administrator rights, default `%LOCALAPPDATA%\Programs\WTF`), adds desktop and Start-menu shortcuts and starts the app. Running a newer setup over an old install upgrades it and keeps your papers, AI questions and mistakes, because deleting a student's 错题本 is how wars start. (Allergic to installers? `WTF-Windows-vX.Y.Z.zip` is the same app — extract anywhere, a USB stick works.)
    Windows SmartScreen will warn you because the app is not code-signed. Code signing costs money; this README is free. *More info → Run anyway.*
 2. The first run opens the **import wizard**, which starts working before you have finished reading it:
    - ① the 2016–2019 papers download by themselves from the Wayback Machine, three at a time, with an ETA. The Internet Archive is a national treasure running on what appears to be a single hamster; please be patient with the hamster;
-   - ② 2020–2025: click 「打开下一批」 to open 6 official links at a time in your browser and save the PDFs (Ctrl+S in the PDF viewer) into your Downloads folder. File names do not matter — the wizard watches the folder and recognises each paper from its first page. Name them `asdf (3).pdf` if you must; we have seen worse;
-   - ③ once the last paper arrives, the bank is built (~1 min) and the app restarts into the full interface. You did not have to touch a terminal. You're welcome.
+   - ② 2020–2025: click 「打开下一批」 to open 6 official links at a time in your browser, press Ctrl+S on each PDF and just click Save — the browser's default, the Downloads folder, is the only place the wizard looks. Then click 「我存好了，检查下载文件夹」. File names do not matter: each paper is recognised from its first page. Name them `asdf (3).pdf` if you must; we have seen worse;
+   - ③ the bank is built only when **every** paper is in — then by itself (~1 min) — and the app restarts into the full interface. There is no half-built bank to wonder about. A banner at the top always says what to do next, in case reading this README did not go well either.
 
    Downloads retry dropped connections, timeouts and "too many requests" with polite, growing pauses, and failed files get a second round; update downloads resume where they stopped. Sample papers are skipped because nobody has ever needed them. The window sizes itself to your screen and is DPI-aware, so it is sharp at 125–200 % scaling instead of looking like it was rendered on a potato.
 3. For AI questions and explanations, add your own API key in 设置 (default: DeepSeek). Browsing past questions, marking keys and notes needs no key, no account and no subscription. We checked: still no subscription.

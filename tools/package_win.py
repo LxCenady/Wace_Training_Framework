@@ -88,6 +88,8 @@ def main(version):
     subprocess.run(setup + [os.path.join(TOOLS, "installer.py")], check=True)
     exe = os.path.join(dist, f"WTF-Setup-v{version}.exe")
     print(exe, f"{os.path.getsize(exe) / 1e6:.1f} MB")
+    # the same installer under a fixed name: releases/latest/download/WTF-Setup.exe always fetches the newest
+    shutil.copyfile(exe, os.path.join(dist, "WTF-Setup.exe"))
 
 
 if __name__ == "__main__":
