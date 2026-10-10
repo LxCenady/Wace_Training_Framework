@@ -6,7 +6,7 @@ Results list each question's patterns with the marks they carried; double-click 
 Below the list, the patterns and units that most often appear together with the chosen ones in the results:
 the cross-pattern index. 导出 PDF: the selected results (or all of them) cut from the papers, plus their keys.
 """
-import os, time
+import os, re, time
 import tkinter as tk
 from tkinter import filedialog, ttk
 
@@ -161,18 +161,31 @@ def setup(k):
                                        "「用左侧选中的单元/题型」，可查看它们和哪些题型、单元一起出题。")
             together.configure(state="disabled")
 
+        def paper_name(qids):
+            """The paper's title: the searched patterns / units; without a pattern condition, the unit or pattern
+            every exported question shares (else the subject)."""
+            if want:
+                return " + ".join(store.topic_name(w) if w.count(".") == 1 else store.pattern_name(w) for w in want)
+            rows = [r for r in index if r["id"] in qids]
+            common = set.intersection(*(set(r["split"]) for r in rows)) if rows else set()
+            if common:
+                return " + ".join(store.pattern_name(p) for p in sorted(common))
+            units = set.intersection(*({unit_of(p) for p in r["split"]} for r in rows)) if rows else set()
+            return " + ".join(store.topic_name(u) for u in sorted(units)) if units else f"{subj.get()} 真题"
+
         def export():
             """Selected results (Ctrl/Shift-click), else every result listed -> questions + marking keys (PDF)."""
             qids = list(table.selection() or table.get_children())
             if not qids or not k.get("export.past", None):
                 count.configure(text="没有可导出的真题")
                 return
+            name = paper_name(qids)
             path = filedialog.asksaveasfilename(
                 title="导出真题", defaultextension=".pdf", filetypes=[("PDF", "*.pdf")],
-                initialfile=f"WTF真题_{time.strftime('%Y%m%d_%H%M')}.pdf")
+                initialfile=re.sub(r'[\\/:*?"<>|]+', "_", name)[:80] + f"_{time.strftime('%Y%m%d')}.pdf")
             if not path:
                 return
-            q, a = k.get("export.past")(qids, path, f"WTF 真题练习 · {len(qids)} 题")
+            q, a = k.get("export.past")(qids, path, f"{name} · 真题 {len(qids)} 题")
             count.configure(text=f"已导出 {len(qids)} 道真题：{os.path.basename(q)} + {os.path.basename(a)}")
             if hasattr(os, "startfile"):
                 os.startfile(q)

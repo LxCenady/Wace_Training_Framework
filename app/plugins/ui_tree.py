@@ -93,8 +93,61 @@ def setup(k):
         sel = tree.selection()
         return sel[0][2:] if len(sel) == 1 and sel[0].startswith("T:") else None
 
+    # related patterns: with one pattern selected, the patterns that most often share a past question with it are
+    # highlighted, with "how many of its questions also have them"; kept while Ctrl-adding them, cleared otherwise
+    related = {"anchor": None, "nodes": {}, "opened": []}
+    tree.tag_configure("related", background="#e3ebf8")
+    index = []
+
+    def clear_related():
+        for node, text in related["nodes"].items():
+            if tree.exists(node):
+                tree.item(node, text=text, tags=())
+        for node in related["opened"]:
+            if tree.exists(node):
+                tree.item(node, open=False)
+        related.update(anchor=None, nodes={}, opened=[])
+
+    def show_related(code, top=5, least=2):
+        if not index:
+            index.extend(store.past_index())
+        with_code = [r for r in index if code in r["split"]]
+        together = {}
+        for r in with_code:
+            for p in r["split"]:
+                if p != code:
+                    together[p] = together.get(p, 0) + 1
+        best = sorted(((n, p) for p, n in together.items() if n >= least), reverse=True)[:top]
+        related["anchor"] = code
+        for n, p in best:
+            node = f"P:{p}"
+            if not tree.exists(node):
+                continue
+            related["nodes"][node] = tree.item(node, "text")
+            tree.item(node, text=f"{related['nodes'][node]}   ↔ {n}/{len(with_code)} 道 · {n / len(with_code):.0%}",
+                      tags=("related",))
+            parent = tree.parent(node)
+            if not tree.item(parent, "open"):  # a related pattern in another unit: open that unit to show it
+                tree.item(parent, open=True)
+                related["opened"].append(parent)
+
+    def update_related():
+        picked = [c for c in codes() if tree.exists(f"P:{c}")]
+        anchor = related["anchor"]
+        if anchor and anchor in picked and len(picked) > 1:
+            return  # Ctrl-adding related patterns to the anchor: keep the hints
+        if len(picked) == 1 and picked[0] == anchor:
+            return
+        clear_related()
+        sel = tree.selection()
+        if len(picked) == 1 and len(sel) == 1 and sel[0].startswith("P:"):
+            show_related(picked[0])
+
+    k.provide("tree.related", lambda: dict(related["nodes"]))
+
     def on_select(_):
         sel = tree.selection()
+        update_related()
         if unit():
             k.emit("select.topic", unit())
         elif len(sel) == 1 and sel[0][0] in "QG":

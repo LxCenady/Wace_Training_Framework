@@ -39,7 +39,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 
 | Feature | Where | What it does |
 |---|---|---|
-| Knowledge tree | left pane | subject → topic → 题型 (pattern) → every past question that uses it, plus your ★ AI questions |
+| Knowledge tree | left pane | subject → topic → 题型 (pattern) → every past question that uses it, plus your ★ AI questions; select one pattern and the patterns that most often share its past questions light up (↔ 2/12 道 · 17 %) |
 | Pattern notes | click a pattern | how to recognise it, the steps, where the marks are, examiners' warnings, and how many marks it usually carries per section |
 | Past questions | click a question | the original exam crop; 「显示评分标准」 reveals the official key, split one row per mark |
 | AI similar questions | select pattern(s) → 「AI 生成相似题」 | new question, independently solved, cross-checked, SymPy-verified, split into mark points — answers stay hidden until you ask |
@@ -58,7 +58,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 
 ## How to use it
 
-**1. Learn a pattern.** Expand a topic in the tree and click a 题型. Read the method notes; the grey line under the title says how many marks it usually carries in calculator-free and calculator-assumed papers. Expand the pattern to see every past question on it — the list shows which parts use it.
+**1. Learn a pattern.** Expand a topic in the tree and click a 题型. Read the method notes; the grey line under the title says how many marks it usually carries in calculator-free and calculator-assumed papers. Expand the pattern to see every past question on it — the list shows which parts use it. The patterns that most often appear in the same past questions light up in the tree, with how many of this pattern's questions also use them (only pairs seen at least twice; a unit holding one is opened). Ctrl-click them to combine for an AI question, or press 「真题搜索」 to see those questions.
 
 **2. Do past questions, then mark yourself.** Click a question, do it on paper (formula sheet on the right, F2 to hide it), then press 「显示评分标准」. For every part you dropped marks on, right-click the part (or a mark point) → 「此题扣分」, tick the points you missed and add a note in your own words. That is the whole bookkeeping; the app does the rest.
 
@@ -77,7 +77,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 **Shortcuts:** Ctrl+F 真题搜索 · Ctrl+B 我的 AI 题库 · Ctrl+E 错题本 · Ctrl+M 模拟考试 · Ctrl+G 掌握度地图 · F2 formula sheet · Ctrl-click patterns to combine · double-click to open · right-click a part to deduct marks.
 
 > **中文使用说明**
-> 1. **学题型**：左侧知识图谱点开知识点 → 点题型，看解题思路；标题下灰字是这个题型在 CF / CA 卷里一般占几分。展开题型可以看到所有用到它的真题。
+> 1. **学题型**：左侧知识图谱点开知识点 → 点题型，看解题思路；标题下灰字是这个题型在 CF / CA 卷里一般占几分。展开题型可以看到所有用到它的真题。选中一个题型时，跟它在同一道真题里出现最多的题型会在图谱上高亮（↔ 共现道数 / 本题型道数 · 比例），Ctrl+点击即可组合出题。
 > 2. **刷真题 + 自批**：点真题，在纸上做完再点「显示评分标准」。哪一小问扣分了就右键 →「此题扣分」，勾掉丢的得分点、写一句备注，自动进错题本。
 > 3. **AI 出题**：选**单元标题**按该单元真题的题型分布、分值和跨单元搭配出题（单元页面会列出这些统计）；或选一个题型（Ctrl+点击可多选组合），设卷型、总分（0 = 按真题自动）、难度、数量，点「AI 生成相似题」。通过全部校验才入库，答案默认隐藏。
 > 4. **错题闭环**（Ctrl+E）：薄弱题型排前面；「一键讲解所选错题」逐分讲清楚丢在哪；「生成错题加强题」专练丢分步骤；按 1/3/7/14/30 天间隔复习（勾「只看今日待复习」，右键错题做复习题）。

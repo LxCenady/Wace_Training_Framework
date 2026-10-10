@@ -139,6 +139,16 @@ print("unit questions:", units)
 assert all(any(c.startswith("MAS.DE.") for c in codes) for codes in units), units
 count_var.set(1)
 
+# related patterns: one pattern selected -> the patterns sharing its past questions are highlighted
+tree.selection_set(("P:MAM.D.6",))
+pump(0.3)
+related = k.get("tree.related")()
+print("related to D.6:", [tree.item(n, "text") for n in related])
+assert "P:MAM.I.5" in related and "↔" in tree.item("P:MAM.I.5", "text")
+tree.selection_set(("P:MAM.D.1",))
+pump(0.3)
+assert "↔" not in tree.item("P:MAM.I.5", "text"), "hints of the previous pattern must be cleared"
+
 # 真题搜索: two patterns, all-of -> the past questions that combine them; double-click opens one
 tree.selection_set(("P:MAM.D.6", "P:MAM.I.5"))
 pump(0.3)
