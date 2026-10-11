@@ -1,6 +1,6 @@
 # AGENTS.md — handover for coding agents (Codex, Claude Code, …)
 
-Read this first. It is the state of the project as of 2026-10-11 and the rules the owner works by.
+Read this first. It is the state of the project as of 2026-10-12 and the rules the owner works by.
 Machine-specific details (paths on the owner's PC, the Google Drive sync, their settings) are in
 `HANDOFF.local.md` (not in git) — read it too if it exists.
 
@@ -15,6 +15,10 @@ Machine-specific details (paths on the owner's PC, the Google Drive sync, their 
 - Tests must **never touch the owner's settings or data**: every test redirects `plugins.config.PATH` to a temp file
   and uses an in-memory `generated.db`.
 - The owner prefers fixed, foolproof behaviour over clever options ("写死", "不配齐不建库").
+- Work that needs no judgment (evidence packs, first-pass labelling, note drafts, reviews, translation checks) goes to
+  cheaper sub-agents (Claude: `model: haiku`); keep catalogues, review samples, arbitration and code for yourself, and
+  spot-check every sub-agent claim against the papers before passing it on.
+- Downloading anything needs the owner's say-so.
 - Copyright: SCSA papers, keys and anything containing their text (`questions.json`, topic PDFs, `wace.db`, question
   banks) are **never committed or redistributed**. `.gitignore` already covers them.
 
@@ -90,12 +94,15 @@ cd app
 ..\.venv\Scripts\python tests\test_providers.py
 ..\.venv\Scripts\python tests\smoke_gui.py  <empty temp dir>
 ..\.venv\Scripts\python tests\smoke_en.py   <empty temp dir>
-..\.venv\Scripts\python tests\smoke_setup.py <empty temp dir> E:\WACE_Maths
+..\.venv\Scripts\python tests\smoke_setup.py <temp dir> E:\WACE_Maths   :: fresh install, all three subjects ticked
 ..\.venv\Scripts\python tests\test_external.py
 ..\.venv\Scripts\python tests\smoke_external.py <empty temp dir> en
 ```
 
-Run all four before committing UI or pipeline changes. The smoke tests drive the real window; their screenshots
+Run all of them before committing UI or pipeline changes. `smoke_gui` / `smoke_en` need the directory to **exist** (create it;
+a deleted one fails with "cannot open file … smoke_past.pdf" / a PowerShell screenshot error, not an app bug).
+After any pipeline or tag change, build into a temp file (`build_db.build(<tmp>)`) and compare with the current
+wace.db per subject: subjects you did not touch must have **0 differing rows** in questions, parts, part_patterns, points. The smoke tests drive the real window; their screenshots
 use PowerShell and come out white when the screen is locked or covered (the assertions still run).
 The four original tests use `tests.safe_runtime.isolate()` before loading plugins: settings get a fresh temporary
 path, generated/external SQLite connections are in memory from their first open, and the owner's wace.db is
@@ -106,6 +113,16 @@ Release (only when the owner says so): bump `app/version.txt`, commit, `tools/pa
 `--selftest`), `git push`, `gh release create v<ver> <the three files> --notes-file …`. Publishing the release
 triggers the Mac workflow, which attaches `WTF-macOS-arm64*.dmg` and `WTF-macOS-x86_64*.dmg`. README links to
 `releases/latest/download/<fixed name>` — keep those names.
+
+## Adding a subject
+
+Follow `skills/wtf-subject-pack/SKILL.md` (stages 0–12, delegation templates, the `.wtfpack` protocol draft).
+`python skills/wtf-subject-pack/scripts/pack_status.py <SUBJ>` prints a parity checklist (MAA 25/28, MAM 24/26, MAS 23/26
+on 2026-10-12; the missing items are `pack.json` everywhere, catalogue files for MAM/MAS, MAS points_ok 180/193).
+MAA tag conventions decided in the 2026-10-12 arbitration (keep them for new labels): tag the pattern(s) whose marks
+the key awards; FIN10 only when the key gives a mark for the rate conversion itself; nominal rate = FIN10, effective
+rate = FIN2; FIN1 has no periodic payments (loan with repayments FIN4, annuity FIN7/FIN8); shortest Hamiltonian
+path/cycle = GRF6 + GRF4, GRF9 only when vertices may repeat; NDM7 only when the key marks float.
 
 ## Pitfalls that already cost time
 
@@ -125,21 +142,37 @@ triggers the Mac workflow, which attaches `WTF-macOS-arm64*.dmg` and `WTF-macOS-
 
 ## State and open items (2026-10-12)
 
-Unpushed local commits since v1.8.0: Mac download certificate fix; MAA as a third subject (sources, notes zh+en,
-cheat sheets, question skill, 67-pattern catalogue, reviewed tags); optional subjects in the wizard and 题库 → 管理科目;
-the wtf-subject-pack skill. The owner decides when to release.
+Last release: v1.8.0. Unpushed local commits since then (newest first): docs; optional subjects (wizard checkboxes,
+题库 → 管理科目 via `--setup`, `ui_subjects`); MAA cheat sheets; 2020/21 MAA formula sheets via Wayback;
+wtf-subject-pack skill (2 commits); build_all builds every subject; MAA joins the bank; MAA notes; MAA tooling
+(Codex); partmarks (h)/(i) fix; Mac certificate fix (truststore). All tests passed on 2026-10-12. The owner decides
+when to release.
 
-Next planned work: subject packs (`.wtfpack`, `pack.json` index) as WTF's main mods — data only, distributed via a
-`packs.json` index of release assets + local-file import; first a one-time generalisation so sections, key style,
-answer checker and subject names come from packs (see `skills/wtf-subject-pack/references/pack-format.md` and
-`subject-profiles.md`); verify by rebuilding MAM/MAS/MAA from their packs; then Chemistry.
+**In progress — MAA wrap-up** (uncommitted when this was written):
+- tags: three independent reviews + arbitration changed 41 part tags; `tools/parttags_MAA.txt` re-exported
+  (`labels.json` → tags is a one-off script; the audit `tools/audit_maa.py --labels evidence/maa/labels.json` is 0 errors;
+  its "missing 1 / invalid 1" is 2019, excluded on purpose). Review files: `evidence/maa/tag_review/` (local).
+- notes: the 真题 / Past questions lines are regenerated from the tags; a sub-agent is updating the rest of the text
+  (resolved labelling remarks, examples now under another pattern, header counts) and appending to 审校记录.md.
+- still to do: re-render the notes PDFs (`tools/render_methods.py MAA`), rebuild wace.db, run `tools/blueprint.py`
+  (fills the empty blueprint block of `skills/wace-maa-questions/SKILL.md` — that skill was edited to read wace.db,
+  not evidence/), commit tags + notes + PDFs + skill.
+- 2017 CA Q8: the key's 98 974 is an end-of-period perpetuity while the stem says payments at the start of the year —
+  a known inconsistency in the official key, noted in the notes; not a tag issue.
 
+Next planned work: subject packs (`.wtfpack`, `pack.json` index) as WTF's main mods — data only (no code), distributed
+via a `packs.json` index of GitHub release assets + local-file import, maths packs bundled in the installer. First a
+one-time generalisation so subject names, sections (CalcFree/CalcAssumed is hard-coded in ~15 plugins), key style,
+answer checker and sketch words come from packs (`skills/wtf-subject-pack/references/pack-format.md`,
+`subject-profiles.md`); verify by rebuilding MAM/MAS/MAA from their packs with 0 differing rows; then Chemistry
+(one paper with MC / short / extended sections, description-marks keys, data booklet, no SymPy).
 Open items, roughly by value:
 0. **Completed locally**: AI mock papers and 工作区 now both use `store.paper_totals` (MAM 51 / 100,
    MAS 48 / 89 in the current data); `BLUEPRINT` was deleted. Everything statistical is computed from wace.db
    at run time; the skills' "Paper blueprint" block is a snapshot regenerated by `tools/blueprint.py`.
-1. **Mac version untested by a person** — a classmate is trying v1.7.0; expect screenshots (fonts, right-click,
-   ⌘ shortcuts, wizard, PDF fonts). Fixes go in `app/plat.py` first.
+1. **Mac**: a classmate's v1.7.0 hit CERTIFICATE_VERIFY_FAILED / Errno 61 on downloads; fixed locally with truststore
+   (unreleased, not yet confirmed on a real Mac). Fonts, right-click, ⌘ shortcuts, wizard and PDF fonts still need a
+   person's screenshots. Fixes go in `app/plat.py` first.
 2. **Completed locally**: English notes and UI dictionary retranslated; wizard status messages now use whole
    Chinese source sentences, with reviewed English fragments. Continue checking runtime English with smoke_en.
 3. Example rotation helps context variety, but the setter still drifts to classic models (open-top tank etc.). A fair
@@ -148,4 +181,5 @@ Open items, roughly by value:
    scans/rotated pages), pattern tags, API proposals + human confirmation, and separate external search.
    OCR is not included; scan text can be entered manually. Real external-school-paper tagging and Mac GUI
    have not been tested; synthetic PDF/database tests and local fake API cover the mechanics.
-5. rclone's shared Google client_id is retired during 2026 (affects the owner's Drive sync, not the app).
+5. `ui_setup.SUBJECTS` duplicates `store.SUBJECT_NAMES` — merge when subjects move into packs.
+6. rclone's shared Google client_id is retired during 2026 (affects the owner's Drive sync, not the app).
