@@ -10,7 +10,7 @@ import random
 import tkinter as tk
 from tkinter import ttk
 
-NAMES = {"MAM": "Mathematics Methods 数学方法", "MAS": "Mathematics Specialist 专业数学"}
+from plugins.store import SUBJECT_NAMES as NAMES
 SECTIONS = {"任意": "any", "计算器禁用 (CF)": "CalcFree", "计算器允许 (CA)": "CalcAssumed"}
 LEVELS = ["基础", "标准", "拔高"]
 

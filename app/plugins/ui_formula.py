@@ -20,8 +20,9 @@ def setup(k):
     head = ttk.Frame(frame)
     head.pack(fill="x", padx=8, pady=(8, 4))
     ttk.Label(head, text="公式表", style="H.TLabel").pack(side="left")
-    subj = tk.StringVar(value="MAM")
-    for s in ("MAM", "MAS"):
+    have = k.get("store").subjects() or ["MAM"]  # the subjects in this bank
+    subj = tk.StringVar(value=have[0])
+    for s in have:
         ttk.Radiobutton(head, text=s, value=s, variable=subj, command=lambda: switch(subj.get())).pack(side="left",
                                                                                                     padx=(8, 0))
     title = ttk.Label(frame, style="Muted.TLabel")
@@ -114,5 +115,5 @@ def setup(k):
                          accelerator="F2")
     k.get("ui.menu").add_cascade(label="视图", menu=menu)
     k.get("ui.root").bind_all("<F2>", toggle)
-    k.on("ui.ready", lambda: switch("MAM"))
+    k.on("ui.ready", lambda: switch(have[0]))
     k.provide("formula.switch", switch)

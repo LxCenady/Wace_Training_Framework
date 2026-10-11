@@ -39,9 +39,11 @@ def setup(k):
         page = k.get("ui.tab")("mastery", "掌握度")
         head = ttk.Frame(page, padding=(12, 8))
         head.pack(fill="x")
-        subj = tk.StringVar(value=k.get("mastery.subject", "MAM"))
+        have = store.subjects() or ["MAM"]
+        subj = tk.StringVar(value=k.get("mastery.subject", have[0]) if k.get("mastery.subject", have[0]) in have
+                            else have[0])
         ttk.Label(head, text="掌握度地图", style="H.TLabel").pack(side="left")
-        for s in ("MAM", "MAS"):
+        for s in have:
             ttk.Radiobutton(head, text=s, value=s, variable=subj,
                             command=lambda: (k.provide("mastery.subject", subj.get()), show())).pack(side="left",
                                                                                                 padx=(10, 0))

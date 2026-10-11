@@ -16,16 +16,23 @@ WAYBACK = "https://web.archive.org/web/2020id_/"
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-def sources(root=None):
-    """-> list of (relative path, download URL, official URL, archived?)."""
+def sources(root=None, subjects=None):
+    """-> list of (relative path, download URL, official URL, archived?); only `subjects` when given."""
     out = []
     for line in open(os.path.join(root or ROOT, "sources.tsv"), encoding="utf-8"):
         if line.strip():
             path, url = line.rstrip("\n").split("\t")
+            if subjects is not None and path.split("/", 1)[0] not in subjects:
+                continue
             archived = url.endswith(" (wayback)")
             official = url[: -len(" (wayback)")] if archived else url
             out.append((path, WAYBACK + official if archived else official, official, archived))
     return out
+
+
+def subjects(root=None):
+    """Subjects sources.tsv can fetch, in file order (e.g. ["MAM", "MAS"])."""
+    return list(dict.fromkeys(s[0].split("/", 1)[0] for s in sources(root)))
 
 
 def is_pdf(path):
@@ -36,9 +43,9 @@ def is_pdf(path):
         return False
 
 
-def missing(root=None):
+def missing(root=None, subjects=None):
     root = root or ROOT
-    return [s for s in sources(root) if not is_pdf(os.path.join(root, s[0]))]
+    return [s for s in sources(root, subjects) if not is_pdf(os.path.join(root, s[0]))]
 
 
 def hint(error):

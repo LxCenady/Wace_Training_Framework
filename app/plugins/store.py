@@ -1,6 +1,9 @@
 """Data access. One job: queries over wace.db (read-only past papers) and generated.db (AI items)."""
 import json, os, sqlite3, threading, time
 
+SUBJECT_NAMES = {"MAM": "Mathematics Methods 数学方法", "MAS": "Mathematics Specialist 专业数学",
+                 "MAA": "Mathematics Applications 数学应用"}
+
 GEN_SCHEMA = """
 CREATE TABLE IF NOT EXISTS generated (id INTEGER PRIMARY KEY, created TEXT, patterns TEXT, provider TEXT,
     model TEXT, section TEXT, marks INT, question TEXT, parts TEXT, solution TEXT, points TEXT, log TEXT,
@@ -51,7 +54,10 @@ class Store:
 
     # ---- knowledge tree
     def subjects(self):
-        return [r[0] for r in self.q("SELECT DISTINCT subject FROM topics ORDER BY subject")]
+        """Subjects in this bank, in the order of SUBJECT_NAMES (Methods, Specialist, Applications)."""
+        order = list(SUBJECT_NAMES)
+        have = [r[0] for r in self.q("SELECT DISTINCT subject FROM topics")]
+        return sorted(have, key=lambda s: order.index(s) if s in order else len(order))
 
     def topics(self, subj):
         return self.q(f"""SELECT t.code, {self.topic}, t.en, COUNT(DISTINCT pp.qid) FROM topics t

@@ -96,13 +96,16 @@ def key_text(doc, regs):
     return "\n".join(doc[p].get_text("text", clip=pymupdf.Rect(20, y0, 575, y1)) for p, y0, y1 in regs)
 
 
-def build(db_path):
+def build(db_path, subjects=None):
+    """Everything -> a fresh wace.db for `subjects` (default: every subject build_docs knows)."""
     if os.path.exists(db_path):
         os.remove(db_path)
     db = sqlite3.connect(db_path)
     db.executescript(SCHEMA)
     problems = []
     for subj, topics in TOPICS.items():
+        if subjects is not None and subj not in subjects:
+            continue
         for i, (letter, (fname, zh, en)) in enumerate(topics.items()):
             tcode = f"{subj}.{letter}"
             db.execute("INSERT INTO topics VALUES (?,?,?,?,?,?)", (tcode, subj, i, fname, zh, en))
@@ -130,7 +133,14 @@ def build(db_path):
             if q["key"] not in docs:
                 docs[q["key"]] = pymupdf.open(os.path.join(ROOT, q["key"]))
             pts = points(key_text(docs[q["key"]], q["key_regions"]))
+            printed = split(q["text"], q["marks"])
+            paper = for_tags(printed, [l for l, _ in parts]) if printed else None
+            # one tick per mark, and per part as printed: a key whose text runs out of order (MAA 2021 CA Q9) would
+            # otherwise hang its marks on the wrong parts; such keys are shown as the original image instead
             ok = int(len(pts) == q["marks"])
+            if ok and paper and any(sum(1 for p in pts if p[0] == l) != m for l, m in paper.items()):
+                ok = 0
+                problems.append(f"{qid}: key ticks per part differ from the printed part marks (key shown as image)")
             if q["exam"] not in docs:
                 docs[q["exam"]] = pymupdf.open(os.path.join(ROOT, q["exam"]))
             figure = int(has_figure(q["text"]) or images_in(docs[q["exam"]], q["exam_regions"]))
@@ -139,8 +149,6 @@ def build(db_path):
                         json.dumps(q["exam_regions"]), q["key"], json.dumps(q["key_regions"]), q["text"], ok, figure))
             for j, (label, text) in enumerate(pts):
                 db.execute("INSERT INTO points VALUES (?,?,?,?)", (qid, label, j, text.strip()))
-            printed = split(q["text"], q["marks"])
-            paper = for_tags(printed, [l for l, _ in parts]) if printed else None
             if printed and not paper:
                 problems.append(f"{qid}: paper has parts {sorted(printed)}, tags have {[l for l, _ in parts]}")
             part_text = tagged_texts(texts(q["text"]), [l for l, _ in parts])

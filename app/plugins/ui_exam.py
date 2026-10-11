@@ -32,7 +32,7 @@ def setup(k):
         years = sorted({r[0] for r in store.q("SELECT DISTINCT year FROM questions")}, reverse=True)
         year = tk.StringVar(value=str(years[0]))
         ttk.Label(f, text="科目").grid(row=1, column=0, sticky="w", pady=6)
-        ttk.Combobox(f, textvariable=subj, values=["MAM", "MAS"], state="readonly", width=6).grid(row=1, column=1)
+        ttk.Combobox(f, textvariable=subj, values=store.subjects(), state="readonly", width=6).grid(row=1, column=1)
         ttk.Label(f, text="卷型").grid(row=1, column=2, sticky="w", padx=(12, 0))
         ttk.Combobox(f, textvariable=sec, values=["CalcFree", "CalcAssumed"], state="readonly", width=12).grid(
             row=1, column=3)

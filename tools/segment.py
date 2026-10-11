@@ -4,6 +4,7 @@ One job: PDFs -> question regions (page, y0, y1), marks, and plain stem text.
 """
 import json, re, sys, glob, os
 import pymupdf
+import fetch
 
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HEAD = re.compile(r"^Question\s+(\d+)\s*(\(?continued\)?)?", re.I)
@@ -54,7 +55,10 @@ def scan(path):
                     continue
                 mk = MARKS.search(t)
                 if not mk:
-                    near = [tt for bb, tt in ls if abs(bb[1] - b[1]) < 6 and MARKS.search(tt)]
+                    # Mixed fonts can give the heading a taller bounding box. Match
+                    # the same visual row, rather than requiring identical top edges.
+                    near = [tt for bb, tt in ls if bb[0] >= b[2]
+                            and min(bb[3], b[3]) > max(bb[1], b[1]) and MARKS.search(tt)]
                     mk = MARKS.search(near[0]) if near else None
                 heads.append((q, i, b[1], int(mk.group(1)) if mk else None))
                 seen.add(q)
@@ -91,10 +95,13 @@ def text_of(doc, regs):
 
 def main(subj):
     res = []
+    listed = {s[0] for s in fetch.sources(ROOT, [subj])}  # the bank holds only papers sources.tsv lists
     for ex in sorted(glob.glob(f"{ROOT}/{subj}/papers/*_Exam_*.pdf")):
         name = os.path.basename(ex)
         year, sec = name.split("_")[0], name.split("_")[-1][:-4]
         key = ex.replace("_Exam_", "_MarkingKey_")
+        if f"{subj}/papers/{name}" not in listed:  # e.g. MAA 2019: no usable marking key exists, so not listed
+            continue
         if not os.path.exists(key):  # partial import: questions without their key are left out until it arrives
             print("skip (marking key not imported yet):", name)
             continue

@@ -15,7 +15,7 @@ def run(subjects=("MAM", "MAS"), log=print):
             log(f"{name}: {s}")
             step(s)
     log("database")
-    db, problems = build_db.build(os.path.join(build_db.ROOT, "wace.db"))
+    db, problems = build_db.build(os.path.join(build_db.ROOT, "wace.db"), subjects)
     db.close()
     for p in problems:
         log("  " + p)

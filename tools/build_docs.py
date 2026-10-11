@@ -25,6 +25,14 @@ TOPICS = {
         "DE": ("06_Rates_DiffEq", "变化率与微分方程", "Rates of change & differential equations"),
         "S": ("07_Statistical_Inference", "统计推断（样本均值）", "Statistical inference (sample means)"),
     },
+    "MAA": {
+        "BIV": ("01_Bivariate_Data", "双变量数据分析", "Bivariate data analysis"),
+        "SEQ": ("02_Sequences", "数列增长与衰减", "Growth and decay in sequences"),
+        "GRF": ("03_Graphs_Networks", "图与网络", "Graphs and networks"),
+        "TSI": ("04_Time_Series", "时间序列分析", "Time series analysis"),
+        "FIN": ("05_Loans_Annuities", "贷款、投资与年金", "Loans, investments and annuities"),
+        "NDM": ("06_Network_Decisions", "网络与决策数学", "Networks and decision mathematics"),
+    },
 }
 A4 = pymupdf.paper_rect("a4")
 MARGIN, GAP = 28, 8

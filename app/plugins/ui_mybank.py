@@ -42,7 +42,7 @@ def setup(k):
 
     def layout():
         """[(subject, name, [(unit code, unit name, [pattern codes])])] in the knowledge tree's order."""
-        names = {"MAM": "Mathematics Methods 数学方法", "MAS": "Mathematics Specialist 专业数学"}
+        from plugins.store import SUBJECT_NAMES as names
         return [(subj, names.get(subj, subj), [(code, zh, [p for p, *_ in store.patterns(code)])
                                                for code, zh, *_ in store.topics(subj)])
                 for subj in store.subjects()]
@@ -185,6 +185,7 @@ def setup(k):
     menu = tk.Menu(k.get("ui.menu"), tearoff=False)
     menu.add_command(label="我的 AI 题库", command=show, accelerator="Ctrl+B")
     k.get("ui.menu").add_cascade(label="题库", menu=menu)
+    k.provide("ui.menu.bank", menu)  # other plugins add to the 题库 menu (e.g. 管理科目)
     plat.shortcut(k.get("ui.root"), "b", lambda e: show())
     ttk.Button(k.get("ui.left"), text="我的 AI 题库", command=show).pack(side="bottom", fill="x", padx=10, pady=(0, 8))
     k.provide("mybank.show", show)

@@ -8,7 +8,7 @@ import pymupdf
 
 
 def identify(path):
-    """Return the canonical relative path, or None if this is not a recognisable MAM/MAS paper."""
+    """Return the canonical relative path, or None if this is not a recognisable MAM/MAS/MAA paper."""
     try:
         with pymupdf.open(path) as doc:
             text = " ".join(doc[i].get_text() for i in range(min(2, doc.page_count)))
@@ -20,6 +20,8 @@ def identify(path):
         subj = "MAM"
     elif "mathematics specialist" in low:
         subj = "MAS"
+    elif "mathematics applications" in low:
+        subj = "MAA"
     else:
         return None
     # order matters: an exam's cover lists "Formula sheet" among materials; reports quote "marking key"
@@ -29,8 +31,8 @@ def identify(path):
         kind, m = "ExamReport", re.search(r"(20\d\d) atar course examination report", low)
     elif "marking key" in low:
         kind, m = "MarkingKey", re.search(r"examination,? (20\d\d)", low)
-    elif "formula sheet" in low:
-        kind, m = "FormulaSheet", re.search(r"formula sheet (20\d\d)", low)
+    elif "formula sheet" in low or "formulae and data sheet" in low:  # MAA 2016: "Formulae and Data sheet"
+        kind, m = "FormulaSheet", re.search(r"(?:formula|formulae and data) sheet,? (20\d\d)", low)
     else:
         return None
     if re.search(r"sample (wace )?examination", low) and kind in ("Exam", "MarkingKey"):
