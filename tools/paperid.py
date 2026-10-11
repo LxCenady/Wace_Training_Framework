@@ -30,10 +30,13 @@ def identify(path):
         kind, m = "ExamReport", re.search(r"(20\d\d) atar course examination report", low)
     elif "marking key" in low:
         kind, m = "MarkingKey", re.search(r"examination,? (20\d\d)", low)
-    elif "formula sheet" in low or "formulae and data sheet" in low:  # MAA 2016: "Formulae and Data sheet"
-        kind, m = "FormulaSheet", re.search(r"(?:formula|formulae and data) sheet,? (20\d\d)", low)
-    else:
-        return None
+    else:  # the pack's reference sheets: {"FormulaSheet": ["formula sheet", …], "DataBooklet": ["data booklet"]}
+        kinds = [(k, words) for k, words in profile['recognise'].get('kinds', {}).items()
+                 if any(w.lower() in low for w in words)]
+        if not kinds:
+            return None
+        kind, words = kinds[0]
+        m = re.search("(?:" + "|".join(re.escape(w.lower()) for w in words) + r"),? (20\d\d)", low)
     if re.search(r"sample (wace )?examination", low) and kind in ("Exam", "MarkingKey"):
         year = "2016Sample"
     elif m:

@@ -19,9 +19,10 @@ def audit(subject):
     for question in questions:
         by[question['exam'], question['section']].append(question)
     bad = 0
+    shared = subjects.info(subject).get('paper_layout') == 'shared'  # totals at each section's entrance
     for (exam, code), rows in sorted(by.items()):
         with pymupdf.open(os.path.join(ROOT, exam)) as doc:
-            text = ' '.join(doc[i].get_text() for i in range(min(6, doc.page_count)))
+            text = ' '.join(doc[i].get_text() for i in range(doc.page_count if shared else min(6, doc.page_count)))
         section = next(s for s in subjects.sections(subject) if s['code'] == code)
         printed = printed_totals(text, section)
         total = sum(q['marks'] for q in rows)

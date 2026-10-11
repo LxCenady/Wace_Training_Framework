@@ -1,0 +1,480 @@
+{
+  "schema_version": 1,
+  "course": "Chemistry ATAR Year 12",
+  "catalogue_status": "draft_for_review",
+  "scope": "Sections Two and Three (short answer, extended answer). Section One (multiple choice) is kept whole and not tagged.",
+  "principle": "A part gets the pattern(s) whose marks the marking key awards — the operation the student is credited for, not every topic the context mentions.",
+  "topic_codes": {
+    "EQ": "Chemical equilibrium and rates",
+    "AB": "Acids and bases",
+    "RX": "Oxidation, reduction and electrochemistry",
+    "ORG": "Organic structure, properties and reactions",
+    "PRO": "Polymers, amino acids and proteins",
+    "SYN": "Chemical synthesis and industrial processes",
+    "QNT": "Stoichiometry and quantitative analysis",
+    "INQ": "Science inquiry and data analysis"
+  },
+  "syllabus_sources": {
+    "2024": "https://senior-secondary.scsa.wa.edu.au/__data/assets/pdf_file/0005/1089527/Chemistry-ATAR-Year-12-Syllabus-for-teaching-from-January-2024_pdf.PDF"
+  },
+  "patterns": [
+    {
+      "id": "EQ1",
+      "name_zh": "碰撞理论解释反应速率",
+      "name_en": "Collision theory and reaction rate",
+      "description": "用碰撞频率、能量≥活化能的有效碰撞解释浓度、温度、压强、催化剂、表面积对速率的影响。",
+      "syllabus": "Unit 3 · Chemical equilibrium systems",
+      "not": "解释平衡移动时用到正逆反应速率变化归 EQ5。"
+    },
+    {
+      "id": "EQ2",
+      "name_zh": "能量剖面图",
+      "name_en": "Energy profile diagrams",
+      "description": "画出或读取能量剖面图：反应物/产物能量、ΔH、正逆反应活化能、催化路径；据此判断吸放热与可逆性。",
+      "syllabus": "Unit 3 · Chemical equilibrium systems"
+    },
+    {
+      "id": "EQ3",
+      "name_zh": "动态平衡的特征与开放/封闭体系",
+      "name_en": "Features of dynamic equilibrium; open and closed systems",
+      "description": "描述动态平衡（正逆速率相等、宏观性质不变、浓度不一定相等），判断体系开放或封闭，解释同位素示踪等证据。",
+      "syllabus": "Unit 3 · Chemical equilibrium systems"
+    },
+    {
+      "id": "EQ4",
+      "name_zh": "勒夏特列原理预测平衡移动",
+      "name_en": "Predict equilibrium shifts with Le Châtelier's principle",
+      "description": "对浓度、分压、体积/总压、温度、催化剂、加惰性气体的改变，预测平衡移动方向及物质量的变化。",
+      "syllabus": "Unit 3 · Chemical equilibrium systems",
+      "not": "只要求用碰撞理论或速率解释的归 EQ5；两者都给分时同时标。"
+    },
+    {
+      "id": "EQ5",
+      "name_zh": "用碰撞理论/正逆速率解释平衡移动",
+      "name_en": "Explain a shift with collision theory and forward/reverse rates",
+      "description": "解释扰动后正逆反应速率如何变化、何时重新相等，以及新平衡下浓度的变化。",
+      "syllabus": "Unit 3 · Chemical equilibrium systems"
+    },
+    {
+      "id": "EQ6",
+      "name_zh": "浓度/速率-时间图",
+      "name_en": "Concentration-time and rate-time graphs",
+      "description": "在坐标轴上画出或解读扰动前后各物质浓度或正逆速率随时间的变化（突变、渐变、新平衡）。",
+      "syllabus": "Unit 3 · Chemical equilibrium systems"
+    },
+    {
+      "id": "EQ7",
+      "name_zh": "平衡常数表达式",
+      "name_en": "Equilibrium constant expressions",
+      "description": "写出均相或多相体系的 K 表达式（固体、纯液体不写入），或由表达式写出反应。",
+      "syllabus": "Unit 3 · Chemical equilibrium systems"
+    },
+    {
+      "id": "EQ8",
+      "name_zh": "K 的大小与温度对 K 的影响",
+      "name_en": "Magnitude of K and the effect of temperature",
+      "description": "由 K 的大小判断平衡位置；判断温度变化时 K 的变化；说明只有温度改变 K。",
+      "syllabus": "Unit 3 · Chemical equilibrium systems"
+    },
+    {
+      "id": "EQ9",
+      "name_zh": "平衡体系的可观察现象",
+      "name_en": "Observable changes in equilibrium systems",
+      "description": "说出平衡移动时的颜色、沉淀、气体等可观察变化（如 CrO4²⁻/Cr2O7²⁻、Fe³⁺/SCN⁻、Co 配合物）。",
+      "syllabus": "Unit 3 · Chemical equilibrium systems"
+    },
+    {
+      "id": "EQ10",
+      "name_zh": "真实情境中的平衡",
+      "name_en": "Equilibria in real contexts",
+      "description": "把平衡原理用于海洋酸化与碳酸盐、血液/生物体系、工业条件选择以外的实际情境并加以解释。",
+      "syllabus": "Unit 3 · Chemical equilibrium systems",
+      "not": "工业生产中产率与速率的折中归 SYN2。"
+    },
+    {
+      "id": "AB1",
+      "name_zh": "布朗斯特-劳里酸碱与共轭酸碱对",
+      "name_en": "Brønsted–Lowry acids, bases and conjugate pairs",
+      "description": "识别质子给体/受体、共轭酸碱对、两性物质，写出质子转移方程。",
+      "syllabus": "Unit 3 · Acids and bases"
+    },
+    {
+      "id": "AB2",
+      "name_zh": "强弱酸碱、电离与 Ka",
+      "name_en": "Strength, ionisation and Ka",
+      "description": "区分强/弱与浓/稀，写电离方程（含多元酸分步），由 Ka 比较酸性强弱；阿伦尼乌斯模型与 B-L 模型的比较。",
+      "syllabus": "Unit 3 · Acids and bases"
+    },
+    {
+      "id": "AB3",
+      "name_zh": "盐的水解与溶液酸碱性",
+      "name_en": "Hydrolysis of salts",
+      "description": "判断盐溶液酸性/碱性/中性并写出水解方程，含两性离子（HCO3⁻、HSO3⁻ 等）的比较。",
+      "syllabus": "Unit 3 · Acids and bases"
+    },
+    {
+      "id": "AB4",
+      "name_zh": "缓冲溶液",
+      "name_en": "Buffer solutions",
+      "description": "说明缓冲溶液组成，写平衡方程，用勒夏特列原理解释加入 H⁺/OH⁻ 时 pH 变化很小，缓冲容量。",
+      "syllabus": "Unit 3 · Acids and bases"
+    },
+    {
+      "id": "AB5",
+      "name_zh": "pH、Kw 与强酸强碱计算",
+      "name_en": "pH, Kw and strong acid/base calculations",
+      "description": "用 pH = −log[H⁺] 与 Kw 计算强酸/强碱溶液、稀释或混合后的 pH、[H⁺]、[OH⁻]。",
+      "syllabus": "Unit 3 · Acids and bases",
+      "not": "滴定数据算浓度/质量归 QNT4。"
+    },
+    {
+      "id": "AB6",
+      "name_zh": "指示剂与终点",
+      "name_en": "Indicators, equivalence and end points",
+      "description": "根据滴定曲线/等当点 pH 选择指示剂并说明理由，描述颜色变化，区分等当点与终点。",
+      "syllabus": "Unit 3 · Acids and bases"
+    },
+    {
+      "id": "AB7",
+      "name_zh": "滴定操作与器材",
+      "name_en": "Titration technique and apparatus",
+      "description": "器材的冲洗（用什么液体、为什么）、一级标准物质的性质、标准化、读数与操作误差对结果的影响。",
+      "syllabus": "Unit 3 · Acids and bases",
+      "not": "一般的误差类型与改进归 INQ6。"
+    },
+    {
+      "id": "AB8",
+      "name_zh": "滴定曲线",
+      "name_en": "Titration curves",
+      "description": "画出或解读 pH 滴定曲线：起点、突跃、等当点位置与强弱酸碱组合的关系。",
+      "syllabus": "Unit 3 · Acids and bases"
+    },
+    {
+      "id": "AB9",
+      "name_zh": "酸碱/沉淀反应方程式与现象",
+      "name_en": "Acid–base and precipitation equations with observations",
+      "description": "写出酸与金属氧化物/碳酸盐/碱、沉淀反应等的配平离子方程式，描述可观察现象。",
+      "syllabus": "Unit 3 · Acids and bases",
+      "not": "氧化还原型的方程式与现象归 RX3。"
+    },
+    {
+      "id": "RX1",
+      "name_zh": "氧化数与氧化剂/还原剂",
+      "name_en": "Oxidation numbers; oxidising and reducing agents",
+      "description": "标出氧化数，判断被氧化/被还原物质、氧化剂与还原剂，填写氧化数变化表。",
+      "syllabus": "Unit 3 · Oxidation and reduction"
+    },
+    {
+      "id": "RX2",
+      "name_zh": "半反应与氧化还原方程配平",
+      "name_en": "Half-equations and balanced redox equations",
+      "description": "在酸性条件下写出并配平氧化/还原半反应和总反应。",
+      "syllabus": "Unit 3 · Oxidation and reduction"
+    },
+    {
+      "id": "RX3",
+      "name_zh": "氧化还原反应方程式与现象",
+      "name_en": "Redox reactions with observations",
+      "description": "置换反应、卤素反应、完全/不完全燃烧等的方程式与可观察现象。",
+      "syllabus": "Unit 3 · Oxidation and reduction"
+    },
+    {
+      "id": "RX4",
+      "name_zh": "标准电极电势：反应倾向与 E°",
+      "name_en": "Standard electrode potentials: tendency and E°cell",
+      "description": "用 E° 表判断反应能否自发、最强氧化剂/还原剂，计算标准电池电势。",
+      "syllabus": "Unit 3 · Oxidation and reduction"
+    },
+    {
+      "id": "RX5",
+      "name_zh": "原电池结构与工作原理",
+      "name_en": "Galvanic cells",
+      "description": "标注阳极/阴极、电极正负、电子流向、离子迁移、盐桥作用，写电极反应，描述电极现象。",
+      "syllabus": "Unit 3 · Oxidation and reduction"
+    },
+    {
+      "id": "RX6",
+      "name_zh": "电解池与电解应用",
+      "name_en": "Electrolytic cells and electrolysis",
+      "description": "说明外加电源驱动非自发反应；电解精炼铜、电镀银等的装置、电极反应与杂质去向。",
+      "syllabus": "Unit 3 · Oxidation and reduction"
+    },
+    {
+      "id": "RX7",
+      "name_zh": "实用电池与燃料电池",
+      "name_en": "Commercial cells and fuel cells",
+      "description": "一次/二次电池（干电池、铅酸、锂离子）与燃料电池的电极反应、充放电过程、优缺点比较。",
+      "syllabus": "Unit 3 · Oxidation and reduction"
+    },
+    {
+      "id": "RX8",
+      "name_zh": "铁的腐蚀与防护",
+      "name_en": "Corrosion of iron and its prevention",
+      "description": "铁生锈的电化学过程与方程式，隔绝氧气/水、牺牲阳极、外加电流阴极保护的原理。",
+      "syllabus": "Unit 3 · Oxidation and reduction"
+    },
+    {
+      "id": "RX9",
+      "name_zh": "电池符号/电池图",
+      "name_en": "Cell diagrams",
+      "description": "画出或读取电化学电池的标准符号表示。",
+      "syllabus": "Unit 3 · Oxidation and reduction"
+    },
+    {
+      "id": "ORG1",
+      "name_zh": "识别官能团与有机物类别",
+      "name_en": "Identify functional groups and classes",
+      "description": "在结构中圈出/命名官能团（烯烃、醇、醛、酮、羧酸、酯、胺、酰胺），判断化合物类别。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "ORG2",
+      "name_zh": "IUPAC 命名与结构式互译",
+      "name_en": "IUPAC names and structural formulae",
+      "description": "按 IUPAC 规则命名（≤8 个碳、简单支链、一个官能团），或由名称画出结构式（含全部 H）。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "ORG3",
+      "name_zh": "同分异构体",
+      "name_en": "Isomers",
+      "description": "画出或判断碳链、位置、官能团异构和顺反异构，说明顺反异构存在的条件。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "ORG4",
+      "name_zh": "分子间作用力解释沸点与溶解性",
+      "name_en": "Boiling point and solubility from intermolecular forces",
+      "description": "比较色散力、偶极-偶极、氢键，解释沸点、在水或有机溶剂中溶解性的差异与趋势（含读表/作图后的解释）。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials",
+      "not": "只要求画图或读数时同时标 INQ4/INQ5。"
+    },
+    {
+      "id": "ORG5",
+      "name_zh": "烯烃的加成反应",
+      "name_en": "Addition reactions of alkenes",
+      "description": "写出烯烃与 H2、X2、HX、H2O 的加成产物与方程式，用溴水褪色等现象检验不饱和。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "ORG6",
+      "name_zh": "醇的氧化",
+      "name_en": "Oxidation of alcohols",
+      "description": "伯/仲/叔醇与酸性 MnO4⁻ 或 Cr2O7²⁻ 的反应产物、方程式与颜色变化；醇的完全燃烧。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "ORG7",
+      "name_zh": "酯化与羧酸、胺的反应",
+      "name_en": "Esterification; reactions of carboxylic acids and amines",
+      "description": "羧酸与醇的酯化（缩合）、羧酸的酸碱反应（与碳酸盐/碱）、胺的碱性，写出产物与方程式。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "ORG8",
+      "name_zh": "设计化学检验区分有机物",
+      "name_en": "Chemical tests to distinguish compounds",
+      "description": "提出试剂与条件，写出各物质预期的不同现象以鉴别有机物。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "ORG9",
+      "name_zh": "由反应与数据推断结构",
+      "name_en": "Deduce structure from reactions and data",
+      "description": "综合反应现象、分子式、分析数据推断有机物结构并画出。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials",
+      "not": "经验式/分子式的计算部分归 QNT5。"
+    },
+    {
+      "id": "PRO1",
+      "name_zh": "加聚物：单体与聚合物互推",
+      "name_en": "Addition polymers: monomer ↔ polymer",
+      "description": "由单体画出加聚物重复单元（≥规定数目），或由聚合物结构推出单体。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "PRO2",
+      "name_zh": "缩聚物：聚酯与聚酰胺",
+      "name_en": "Condensation polymers: polyesters and polyamides",
+      "description": "由单体画出聚酯/聚酰胺结构、标出酯键/酰胺键，或由聚合物推出单体，说明小分子副产物。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "PRO3",
+      "name_zh": "塑料结构与性质、用途",
+      "name_en": "Polymer structure, properties and uses",
+      "description": "用交联、链长、支链、分子间作用力解释热塑性/热固性、强度、熔点等性质与用途。",
+      "syllabus": "Unit 4 · Chemical synthesis"
+    },
+    {
+      "id": "PRO4",
+      "name_zh": "α-氨基酸与两性离子",
+      "name_en": "α-amino acids and zwitterions",
+      "description": "画出氨基酸的通式/两性离子，判断不同 pH 下的存在形式，按侧链极性分类（查数据手册）。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "PRO5",
+      "name_zh": "肽键与多肽",
+      "name_en": "Peptide bonds and polypeptides",
+      "description": "画出二肽/三肽、标出肽键，写缩合反应，判断氨基酸序列。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "PRO6",
+      "name_zh": "蛋白质的一、二、三级结构",
+      "name_en": "Primary, secondary and tertiary protein structure",
+      "description": "描述各级结构；说明 α-螺旋/β-折叠中的氢键；侧链间作用（二硫键、氢键、离子键、色散力）；突变或条件改变对结构的影响。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "PRO7",
+      "name_zh": "酶作为生物催化剂",
+      "name_en": "Enzymes as catalysts",
+      "description": "说明酶的催化作用、专一性、最适条件，在工业合成中的优点与局限。",
+      "syllabus": "Unit 4 · Chemical synthesis"
+    },
+    {
+      "id": "SYN1",
+      "name_zh": "多步合成路线与试剂条件",
+      "name_en": "Reaction sequences, reagents and conditions",
+      "description": "设计或补全多步合成路线，写出每步的试剂、条件、中间产物与反应类型。",
+      "syllabus": "Unit 4 · Chemical synthesis"
+    },
+    {
+      "id": "SYN2",
+      "name_zh": "工业条件：速率与产率的折中",
+      "name_en": "Industrial conditions: rate versus yield",
+      "description": "解释哈柏法、接触法、生物柴油等工艺中温度、压强、催化剂、浓度的选择及其对速率和产率的影响。",
+      "syllabus": "Unit 4 · Chemical synthesis",
+      "not": "纯粹用勒夏特列原理预测移动归 EQ4。"
+    },
+    {
+      "id": "SYN3",
+      "name_zh": "绿色化学与工艺评价",
+      "name_en": "Green chemistry and evaluating processes",
+      "description": "比较不同合成路线（如发酵 vs 乙烯水合）在原料、能耗、废物、经济、可持续性上的优劣。",
+      "syllabus": "Unit 4 · Chemical synthesis"
+    },
+    {
+      "id": "SYN4",
+      "name_zh": "肥皂与洗涤剂",
+      "name_en": "Soaps and detergents",
+      "description": "皂化反应方程式，肥皂/阴离子洗涤剂结构，去污原理（胶束示意图），在硬水中的表现。",
+      "syllabus": "Unit 4 · Chemical synthesis"
+    },
+    {
+      "id": "SYN5",
+      "name_zh": "生物柴油与酯交换",
+      "name_en": "Biodiesel and transesterification",
+      "description": "写出酯交换反应，比较碱催化与酶催化法，生物柴油的性质与优缺点。",
+      "syllabus": "Unit 4 · Chemical synthesis"
+    },
+    {
+      "id": "QNT1",
+      "name_zh": "物质的量、质量、浓度换算与稀释",
+      "name_en": "Moles, mass, concentration and dilution",
+      "description": "n = m/M、c = n/V、稀释计算等基本换算，作为单独得分的计算步骤。",
+      "syllabus": "Assumed Year 11 · used across Units 3–4"
+    },
+    {
+      "id": "QNT2",
+      "name_zh": "限量试剂与理论产量",
+      "name_en": "Limiting reagent and theoretical yield",
+      "description": "比较反应物物质量与计量比判断限量试剂，计算理论产量或剩余反应物。",
+      "syllabus": "Unit 4 · Chemical synthesis"
+    },
+    {
+      "id": "QNT3",
+      "name_zh": "产率、纯度与百分含量",
+      "name_en": "Percentage yield, purity and composition",
+      "description": "计算百分产率、效率、样品纯度或某成分质量分数。",
+      "syllabus": "Unit 4 · Chemical synthesis"
+    },
+    {
+      "id": "QNT4",
+      "name_zh": "滴定计算",
+      "name_en": "Titration calculations",
+      "description": "由（酸碱或氧化还原）滴定数据：剔除离群滴定值求平均、取样比例、返滴定，计算浓度、质量或含量。",
+      "syllabus": "Unit 3 · Acids and bases"
+    },
+    {
+      "id": "QNT5",
+      "name_zh": "经验式与分子式",
+      "name_en": "Empirical and molecular formulae",
+      "description": "由燃烧分析或元素质量计算经验式，结合摩尔质量求分子式。",
+      "syllabus": "Unit 4 · Properties and structure of organic materials"
+    },
+    {
+      "id": "QNT6",
+      "name_zh": "气体计算",
+      "name_en": "Gas calculations",
+      "description": "用 PV = nRT 或标准状况摩尔体积计算气体的物质量、体积、质量。",
+      "syllabus": "Assumed Year 11 · used across Units 3–4"
+    },
+    {
+      "id": "QNT7",
+      "name_zh": "有效数字与单位",
+      "name_en": "Significant figures and units",
+      "description": "评分 key 单独给分的有效数字与单位要求。",
+      "syllabus": "Assumed across the course",
+      "not": "只在 key 为有效数字/单位单独给一分时标。"
+    },
+    {
+      "id": "INQ1",
+      "name_zh": "假设与探究问题",
+      "name_en": "Hypotheses and research questions",
+      "description": "写出可检验的假设或探究问题。",
+      "syllabus": "Science inquiry skills"
+    },
+    {
+      "id": "INQ2",
+      "name_zh": "自变量、因变量与控制变量",
+      "name_en": "Independent, dependent and controlled variables",
+      "description": "识别变量并说明如何控制。",
+      "syllabus": "Science inquiry skills"
+    },
+    {
+      "id": "INQ3",
+      "name_zh": "实验设计与步骤",
+      "name_en": "Designing a procedure",
+      "description": "描述可重复的实验步骤、器材、测量方法与安全措施。",
+      "syllabus": "Science inquiry skills"
+    },
+    {
+      "id": "INQ4",
+      "name_zh": "绘制图表",
+      "name_en": "Graphing data",
+      "description": "选择合适图表，标注坐标轴与单位、刻度、描点并画最佳拟合线/曲线。",
+      "syllabus": "Science inquiry skills"
+    },
+    {
+      "id": "INQ5",
+      "name_zh": "解读数据与趋势、外推",
+      "name_en": "Interpreting data and trends",
+      "description": "从表格或图像中读数、描述趋势与关系、内插或外推、得出结论。",
+      "syllabus": "Science inquiry skills"
+    },
+    {
+      "id": "INQ6",
+      "name_zh": "误差、准确度与可靠性",
+      "name_en": "Errors, accuracy and reliability",
+      "description": "区分随机误差与系统误差并举例，判断误差对结果偏大或偏小的影响，提出改进以提高准确度/精密度/可靠性/有效性。",
+      "syllabus": "Science inquiry skills"
+    },
+    {
+      "id": "INQ7",
+      "name_zh": "评价结论与主张",
+      "name_en": "Evaluating conclusions and claims",
+      "description": "依据证据、数据质量与有效数字评价结论或说法是否成立。",
+      "syllabus": "Science inquiry skills"
+    },
+    {
+      "id": "INQ8",
+      "name_zh": "科学发展与社会",
+      "name_en": "Science as a human endeavour",
+      "description": "模型/理论的发展（如酸碱模型演变）及化学与社会、环境、经济的联系。",
+      "syllabus": "Science as a Human Endeavour"
+    }
+  ]
+}

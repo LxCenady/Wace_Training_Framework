@@ -51,6 +51,11 @@ def scan(path, shared=False):
             if shared and re.match(r"Supplementary pages?\b", t, re.I) and not re.fullmatch(
                     r"Supplementary page", t, re.I):
                 continue
+            if shared and STOP.match(t) and not re.fullmatch(
+                    r"(?:End of questions|Supplementary pages?|Spare grid|Additional working space(?: pages?)?|"
+                    r"ACKNOWLEDGEMENTS|This document\s*[–-]\s*apart from.*)\s*", t):
+                continue  # a section-entrance instruction ("Additional working space pages at the end of …") or
+                # its wrapped second line mentions the spare pages; only a heading on its own line ends the paper
             if heads and STOP.match(t) and b[1] > bands[i][0] + 5 and not HEAD.match(t):
                 stop = (i, b[1]) if b[1] > bands[i][0] + 20 else (i - 1, None)
                 return doc, heads, stop, bands
