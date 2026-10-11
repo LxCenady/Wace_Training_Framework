@@ -14,8 +14,6 @@ from tkinter import ttk
 import plat
 
 TIMES = {"CalcFree": (5, 50), "CalcAssumed": (10, 100)}
-BLUEPRINT = {("MAM", "CalcFree"): (52, 7), ("MAM", "CalcAssumed"): (98, 10),  # median total marks, questions
-             ("MAS", "CalcFree"): (48, 8), ("MAS", "CalcAssumed"): (89, 11)}
 SEC_NAME = {"CalcFree": "计算器禁用", "CalcAssumed": "计算器允许"}
 
 
@@ -148,7 +146,7 @@ def setup(k):
             open_exam(store.exam(eid))
             return
         import blueprint  # tools/: real-paper statistics (topic share, marks per question, cross-topic pairs)
-        total = BLUEPRINT[(subj, sec)][0]
+        total = store.paper_totals(subj)[sec]
         with store.lock:
             bp = blueprint.blueprint(store.db, subj, sec)
         items = blueprint.plan(bp, total, random.Random())

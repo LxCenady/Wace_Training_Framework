@@ -423,7 +423,23 @@ k.emit("mistakes.changed")
 pump()
 shot("12_exam_marking")
 assert st.exam(exam["id"])["lost"] == 1, st.exam(exam["id"])
+import blueprint  # noqa: E402
+real_plan = blueprint.plan
+planned_totals = []
+
+
+def record_plan(bp, total, rng):
+    planned_totals.append(total)
+    items = real_plan(bp, total, rng)
+    assert sum(marks for _, marks, _, _ in items) == total
+    return items
+
+
+blueprint.plan = record_plan
 k.get("exam.start")("MAM", "CalcAssumed", "ai", "", type("M", (), {"configure": lambda *a, **kw: None})())
+blueprint.plan = real_plan
+assert planned_totals == [st.paper_totals("MAM")["CalcAssumed"]], planned_totals
+print("AI paper target:", planned_totals[0])
 pump(0.4)
 shot("12b_exam_progress")
 for _ in range(300):
