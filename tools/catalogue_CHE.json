@@ -2,7 +2,7 @@
   "schema_version": 1,
   "course": "Chemistry ATAR Year 12",
   "catalogue_status": "draft_for_review",
-  "scope": "Sections Two and Three (short answer, extended answer). Section One (multiple choice) is kept whole and not tagged.",
+  "scope": "All three sections. Section One (multiple choice) questions carry one pattern each (rarely two); Sections Two and Three are tagged per part.",
   "principle": "A part gets the pattern(s) whose marks the marking key awards — the operation the student is credited for, not every topic the context mentions.",
   "topic_codes": {
     "EQ": "Chemical equilibrium and rates",
@@ -452,7 +452,7 @@
       "id": "INQ5",
       "name_zh": "解读数据与趋势、外推",
       "name_en": "Interpreting data and trends",
-      "description": "从表格或图像中读数、描述趋势与关系、内插或外推、得出结论。",
+      "description": "从表格或图像中读数、描述趋势与关系、内插或外推、得出结论；区分定性/定量、一手/二手数据。",
       "syllabus": "Science inquiry skills"
     },
     {
@@ -468,6 +468,13 @@
       "name_en": "Evaluating conclusions and claims",
       "description": "依据证据、数据质量与有效数字评价结论或说法是否成立。",
       "syllabus": "Science inquiry skills"
+    },
+    {
+      "id": "INQ8",
+      "name_zh": "科学与社会：模型、伦理与合作",
+      "name_en": "Science and society: models, ethics, collaboration",
+      "description": "模型与理论的发展（如酸碱模型）、科研伦理、国际合作与共享数据库（如 PDB）、化学对社会与环境的影响。",
+      "syllabus": "Science as a Human Endeavour"
     }
   ],
   "revision": "2026-10-12: definitions widened after the first labelling pass (aldehydes, hydrolysis, non-acidic redox, cell voltage, non-redox equations, sampling, safety, sequences); QNT8 added"

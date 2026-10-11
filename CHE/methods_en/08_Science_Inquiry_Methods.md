@@ -33,7 +33,7 @@
 
 **Common errors**: listing variables without a relationship (at most half marks); writing the hypothesis as a fact or an untestable statement; writing only "affects" without direction; not using the information given in the question stem.
 
-**Past questions**: 2017E-Q39(g), 2018S-Q33(a), 2021E-Q39(b), 2022E-Q39(a)
+**Past questions**: 2017E-Q39(g), 2018S-Q33(a), 2019M-Q19, 2021E-Q39(b), 2022E-Q39(a), 2023M-Q6, 2025M-Q12
 
 ---
 
@@ -53,7 +53,7 @@
 
 **Common errors**: writing the DV too vaguely (e.g. "the reaction" or "colour"); confusing controlled variables with the IV, or writing the same quantity twice; in 2021E-Q37(ai), listing only some trial groups and missing other groups with the same conditions.
 
-**Past questions**: 2020S-Q32(a), 2020S-Q32(b), 2021E-Q37(ai), 2022E-Q39(b), 2022E-Q39(c)
+**Past questions**: 2017M-Q22, 2020S-Q32(a), 2020S-Q32(b), 2021E-Q37(a)(i), 2022E-Q39(b), 2022E-Q39(c), 2023M-Q7, 2023M-Q8
 
 ---
 
@@ -128,7 +128,7 @@
 
 **Common mistakes**: only saying "increases" without stating the position of the maximum (2021E-Q39(d)); not citing graph data when predicting (2020S-Q29(c) requires justify); performing calculations when the question prohibits them; ignoring the shape of the curve when extrapolating and using a linear relationship directly.
 
-**Past exam questions**: 2017S-Q34(ci), 2020S-Q29(c), 2021S-Q29(a), 2021E-Q37(b), 2021E-Q39(d), 2022S-Q27(c)
+**Past questions**: 2016M-Q22, 2017M-Q23, 2017S-Q34(c)(i), 2020S-Q29(c), 2021M-Q17, 2021S-Q29(a), 2021E-Q37(b), 2021E-Q39(d), 2022S-Q27(c), 2023M-Q13
 
 ---
 
@@ -155,7 +155,7 @@
 
 **Common mistakes**: reversing the direction of random and systematic error (random error has no fixed direction); giving examples unrelated to this experiment, such as a vague "human error"; using the wrong denominator for the sampling proportion (the denominator is the total number of possible sampling points, 180, not the 59 sampled, then multiply by 100%); writing "reliable" as "lots of data" without mentioning repetition; confusing accuracy (close to the true value) with reliability (consistent on repetition).
 
-**Past exam questions**: 2018E-Q36(a), 2018E-Q36(bi), 2018E-Q36(bii), 2018E-Q36(biii), 2019S-Q35(c), 2020S-Q32(ci), 2020S-Q32(cii), 2022E-Q39(e)
+**Past questions**: 2016M-Q6, 2017M-Q24, 2017M-Q25, 2018E-Q36(a), 2018E-Q36(b)(i), 2018E-Q36(b)(ii), 2018E-Q36(b)(iii), 2019M-Q20, 2019S-Q35(c), 2020S-Q32(c)(i), 2020S-Q32(c)(ii), 2021M-Q18, 2022E-Q39(e), 2023M-Q10, 2023M-Q11, 2023M-Q12, 2024M-Q5, 2024M-Q8
 
 ---
 
@@ -186,4 +186,23 @@
 - **Known issue with the official key (2024E-Q36(c))**: the main key calculates using OH⁻ : aspirin = 1 : 1, giving 305 mg/tablet; the key note says that if a 2 : 1 ratio is used, it gives 152 mg. The two results differ by a factor of two, and the key is internally inconsistent (see the note in QNT4). Students should state the stoichiometric ratio used and its basis, and make the conclusion about the label accordingly.
 - Different comparison bases: the two numbers in 2022S-Q31(b) must both be "water absorption mass"; one cannot be a mass and the other a percentage.
 
-**Past exam questions**: 2016E-Q38(d), 2016E-Q42(f), 2017S-Q34(cii), 2019E-Q39(c), 2022S-Q31(b), 2024E-Q36(c), 2025E-Q38(d)
+**Past questions**: 2016E-Q38(d), 2016E-Q42(f), 2017S-Q34(c)(ii), 2019E-Q39(c), 2022S-Q31(b), 2024E-Q36(c), 2025E-Q38(d)
+
+---
+
+## Pattern 8: Science and society: models, ethics and collaboration
+
+**Recognise**: multiple-choice questions asking which statements are about research ethics, what the Protein Data Bank (PDB) is for, or why one model replaced another; no calculation — they test how science works.
+
+**Steps**
+1. Decide which kind it is: development of models (e.g. Arrhenius → Brønsted–Lowry widened the scope), research ethics (honest reporting, due credit, consent, safety), international collaboration and shared data (the PDB collects protein structures from around the world), and chemistry's effects on society and the environment.
+2. Judge each option: only statements about honesty, openness, respect and safety are ethics; calibrating instruments or using primary standards is about accuracy, not ethics.
+3. For combined options (i, ii, iii …) check each statement in turn rather than picking a familiar-looking set.
+
+**Mark-earning points (typical wording in the key)**: multiple choice, 1 mark for the correct option.
+
+**Common errors**:
+- Treating accurate practice (calibration, repeated measurement) as ethical behaviour (2018M-Q16).
+- Knowing the name of a database but not its purpose: the PDB is a public, shared database of protein 3-D structures (2018M-Q9).
+
+**Past questions**: 2018M-Q9, 2018M-Q16

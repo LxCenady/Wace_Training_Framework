@@ -46,7 +46,7 @@
 - Writing only one equation for an amphoteric species (2018S-Q31(bi) requires two equations).
 - Missing one of the B-L bases when circling bases (the key for 2023S-Q26(c) lists three: H₂O, NO₂⁻, HCOO⁻; all must be circled for full marks).
 
-**Past-paper questions**: 2016S-Q31(b), 2017E-Q40(f), 2017S-Q31(a), 2018S-Q31(b)(i), 2019E-Q36(a), 2023S-Q26(b), 2023S-Q26(c), 2024S-Q29(a), 2024S-Q32(b)
+**Past questions**: 2016M-Q10, 2016M-Q11, 2016S-Q31(b), 2017S-Q31(a), 2017E-Q40(f), 2018M-Q8, 2018S-Q31(b)(i), 2019M-Q24, 2019E-Q36(a), 2020M-Q2, 2020M-Q15, 2021M-Q21, 2022M-Q14, 2023S-Q26(b), 2023S-Q26(c), 2024M-Q3, 2024S-Q29(a), 2024S-Q32(b), 2025M-Q20, 2025M-Q25
 
 ---
 
@@ -80,7 +80,7 @@
 - Using Ka to express percentage ionisation, or using pH directly instead of Ka.
 - When using the Arrhenius definition, writing only “H⁺” but not stating that it is produced in aqueous solution (key accepts “produce H⁺ in aqueous solution”).
 
-**Past exam questions**: 2016E-Q42(g), 2016S-Q31(b), 2016S-Q33(b), 2018S-Q27(a), 2018S-Q27(b), 2019S-Q31(c), 2019S-Q35(a)(i), 2019S-Q35(a)(ii), 2020S-Q31(a), 2023S-Q26(a), 2023S-Q26(d), 2023S-Q34(b), 2023S-Q34(c), 2025E-Q36(a), 2025E-Q36(b)
+**Past questions**: 2016S-Q31(b), 2016S-Q33(b), 2016E-Q42(g), 2017M-Q1, 2018M-Q3, 2018M-Q18, 2018S-Q27(a), 2018S-Q27(b), 2019M-Q8, 2019S-Q31(c), 2019S-Q35(a)(i), 2019S-Q35(a)(ii), 2020M-Q18, 2020S-Q31(a), 2021M-Q3, 2021M-Q8, 2022M-Q11, 2022M-Q13, 2023S-Q26(a), 2023S-Q26(d), 2023S-Q34(b), 2023S-Q34(c), 2024M-Q9, 2024M-Q10, 2024M-Q11, 2024M-Q12, 2025M-Q2, 2025E-Q36(a), 2025E-Q36(b)
 
 ---
 
@@ -109,7 +109,7 @@
 - Mistaking salts of strong acids and strong bases (e.g. KCl, NaNO₃) as undergoing hydrolysis.
 - Omitting “⇌” when writing equations, or writing only one side of the hydrolysis.
 
-**Past exam questions**: 2016S-Q31(a), 2017E-Q39(e), 2018S-Q27(d), 2018S-Q31(b)(ii), 2019S-Q27(a), 2019S-Q27(b), 2020E-Q37(d), 2022S-Q28, 2023S-Q33(b)
+**Past questions**: 2016S-Q31(a), 2017E-Q39(e), 2018S-Q27(d), 2018S-Q31(b)(ii), 2019S-Q27(a), 2019S-Q27(b), 2020E-Q37(d), 2021M-Q9, 2022S-Q28, 2023M-Q18, 2023S-Q33(b), 2024M-Q4, 2025M-Q19
 
 ---
 
@@ -143,7 +143,7 @@
 - Missing the double arrow in an equation or getting one species wrong (2018S-Q29(a) notes "one minor error, include lack of double arrow").
 - Confusing buffering capacity with pH, or only saying "the concentration is high" without stating which two components.
 
-**Past exam questions**: 2016S-Q32(a), 2016S-Q32(b), 2018S-Q29(a), 2018S-Q29(b), 2018S-Q29(d), 2018S-Q29(e), 2019E-Q36(d), 2019E-Q36(e), 2020S-Q30(b), 2021S-Q28(b)(ii), 2023S-Q28(a), 2023S-Q28(b), 2024S-Q32(a), 2024S-Q32(c), 2024S-Q32(d), 2024S-Q32(e), 2025S-Q29(a), 2025S-Q29(b)
+**Past questions**: 2016S-Q32(a), 2016S-Q32(b), 2018S-Q29(a), 2018S-Q29(b), 2018S-Q29(d), 2018S-Q29(e), 2019E-Q36(d), 2019E-Q36(e), 2020S-Q30(b), 2021S-Q28(b)(ii), 2022M-Q5, 2023S-Q28(a), 2023S-Q28(b), 2024S-Q32(a), 2024S-Q32(c), 2024S-Q32(d), 2024S-Q32(e), 2025S-Q29(a), 2025S-Q29(b)
 
 ---
 
@@ -174,7 +174,7 @@
 - Writing only the answer with no intermediate steps (2016E-Q42(f)).
 - Incorrect significant figures (QNT7) and units.
 
-**Past exam questions**: 2016E-Q42(f), 2016E-Q42(g), 2017S-Q29(c), 2017S-Q31(d), 2017S-Q31(e), 2018S-Q29(c), 2019S-Q32, 2020S-Q30(b), 2021S-Q29(b), 2023S-Q34(b), 2024S-Q34, 2025E-Q36(a)
+**Past questions**: 2016E-Q42(f), 2016E-Q42(g), 2017S-Q29(c), 2017S-Q31(d), 2017S-Q31(e), 2018S-Q29(c), 2019M-Q16, 2019S-Q32, 2020M-Q5, 2020S-Q30(b), 2021M-Q14, 2021S-Q29(b), 2022M-Q12, 2023M-Q19, 2023S-Q34(b), 2024S-Q34, 2025E-Q36(a)
 
 ---
 
@@ -204,7 +204,7 @@
 - Considering only one equivalence point for a polyprotic acid: in 2019S-Q35(b), when titration only reaches the first equivalence point, the key accepts "too low" (with the reason that a smaller amount of NaOH was added), or "unchanged" when accompanied by the reason "the first equivalence point has been reached and the calculation needs correction".
 - Writing only "changes colour" for the colour change, without giving the starting and final colours.
 
-**Past exam questions**: 2016S-Q34(b), 2017E-Q37(d), 2018S-Q27(d), 2019S-Q35(b), 2020E-Q37(d), 2021S-Q28(a), 2022E-Q38(c), 2023S-Q33(b)
+**Past questions**: 2016M-Q12, 2016S-Q34(b), 2017M-Q8, 2017E-Q37(d), 2018M-Q1, 2018S-Q27(d), 2019M-Q1, 2019S-Q35(b), 2020M-Q17, 2020E-Q37(d), 2021S-Q28(a), 2022M-Q1, 2022E-Q38(c), 2023S-Q33(b), 2024M-Q6
 
 ---
 
@@ -234,7 +234,7 @@
 - Stating the direction of the error without a reason (you need to explain dilution, a change in amount used, or the indicator's end point).
 - Writing only "high purity" when listing properties of a primary standard, without giving other properties.
 
-**Past exam questions**: 2016E-Q42(b), 2016E-Q42(d), 2018E-Q40(d), 2018S-Q27(c), 2019E-Q39(b), 2019S-Q35(b), 2021E-Q35(a), 2021E-Q35(b), 2022E-Q38(b), 2023E-Q36(a), 2025E-Q38(e)
+**Past questions**: 2016M-Q7, 2016E-Q42(b), 2016E-Q42(d), 2018M-Q12, 2018S-Q27(c), 2018E-Q40(d), 2019S-Q35(b), 2019E-Q39(b), 2020M-Q25, 2021E-Q35(a), 2021E-Q35(b), 2022M-Q9, 2022E-Q38(b), 2023E-Q36(a), 2024M-Q7, 2025E-Q38(e)
 
 ---
 
@@ -258,7 +258,7 @@
 - Circling the buffer region near the equivalence point instead of the flat region.
 - Considering only one sharp change for a polyprotic acid.
 
-**Past exam questions**: 2016S-Q34(a), 2019S-Q35(a)(ii), 2021S-Q28(a), 2021S-Q28(b)(i)
+**Past questions**: 2016S-Q34(a), 2019S-Q35(a)(ii), 2021S-Q28(a), 2021S-Q28(b)(i)
 
 ---
 
@@ -293,4 +293,4 @@
 - Incorrect relationship between H₂CO₃ and CO₂, or missing CO₂ as a product.
 - In 2018S-Q26(c), writing the reaction of HCl with Cu(OH)₂ as producing a gas, when in fact no gas is released.
 
-**Past exam questions**: 2016S-Q27(a)(ii), 2016S-Q33(a), 2017E-Q37(a), 2018E-Q36(c), 2018S-Q26(a), 2018S-Q26(b), 2018S-Q26(c), 2019E-Q36(c), 2019E-Q37(b), 2019S-Q26(a), 2019S-Q26(b), 2019S-Q26(c), 2019S-Q27(b), 2019S-Q30(a), 2020E-Q37(d), 2022E-Q37(b), 2022E-Q37(c), 2022E-Q37(d), 2023S-Q27(a), 2023S-Q30(b), 2023S-Q33(a), 2025E-Q35(c)
+**Past questions**: 2016S-Q27(a)(ii), 2016S-Q33(a), 2017E-Q37(a), 2018S-Q26(a), 2018S-Q26(b), 2018S-Q26(c), 2018E-Q36(c), 2019S-Q26(a), 2019S-Q26(b), 2019S-Q26(c), 2019S-Q27(b), 2019S-Q30(a), 2019E-Q36(c), 2019E-Q37(b), 2020E-Q37(d), 2022E-Q37(b), 2022E-Q37(c), 2022E-Q37(d), 2023M-Q3, 2023M-Q9, 2023S-Q27(a), 2023S-Q30(b), 2023S-Q33(a), 2025E-Q35(c)

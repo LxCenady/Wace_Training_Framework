@@ -5,6 +5,7 @@ One job: PDFs -> question regions (page, y0, y1), marks, and plain stem text.
 import json, re, sys, glob, os
 import pymupdf
 import fetch
+import segment_mc
 import subjects
 
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -144,6 +145,13 @@ def main(subj):
         er = regions(eh, es, eb, edoc.page_count)
         kdoc, kh, ks, kb = scan(key, shared=shared)
         kr = regions(kh, ks, kb, kdoc.page_count)
+        for section in profile['sections'] if shared else []:
+            if section.get('question_mode') == 'mc':  # one question per number, answer from the key's grid
+                for item in segment_mc.questions(edoc, blocks[section['code']], eb, kdoc):
+                    res.append(dict(subject=subj, year=year, section=section['code'], q=item['q'], marks=1,
+                                    exam=os.path.relpath(ex, ROOT).replace("\\", "/"), exam_regions=item['exam_regions'],
+                                    key=os.path.relpath(key, ROOT).replace("\\", "/"), key_regions=item['key_regions'],
+                                    answer=item['answer'], text=text_of(edoc, item['exam_regions'])))
         for q, p, y, mk in eh:
             if shared:
                 found = [code for code, page, top, _ in sections if (page, top) <= (p, y)]
@@ -151,7 +159,7 @@ def main(subj):
                     raise ValueError(f'Question outside sections: {name} Q{q}')
                 sec = found[-1]
                 section = next(s for s in profile['sections'] if s['code'] == sec)
-                if section.get('question_mode') == 'section-only':
+                if section.get('question_mode') in ('section-only', 'mc'):  # mc: segment_mc above
                     continue
                 # Do not append the next section's header/instructions to the
                 # final question of this section.

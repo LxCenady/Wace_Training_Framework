@@ -38,7 +38,7 @@
 - Tonne conversion: 2024E-Q40(a) first converts 2245 tonne to 2.245 × 10⁹ g, then calculates n(Ni).
 - Volume after dilution: in 2016E-Q42(f), a 100 mL sample is diluted to 250 mL; the key first calculates n(H⁺) in 250 mL, then divides by the original sample's 0.100 L; omitting this step means the original sample concentration cannot be obtained.
 
-**Past exam questions**: 2016E-Q39(a), 2016E-Q42(a), 2016E-Q42(f), 2017S-Q29(a), 2017S-Q29(b), 2017S-Q33(c), 2017E-Q36(a), 2017E-Q36(b), 2017E-Q37(b), 2017E-Q37(c), 2018S-Q29(b), 2018E-Q35, 2018E-Q36(c), 2018E-Q40(a), 2018E-Q40(c), 2019S-Q30(b), 2019S-Q32, 2019E-Q38(d), 2019E-Q39(c), 2019E-Q40(a), 2019E-Q40(b), 2019E-Q40(d), 2020E-Q39(a), 2020E-Q39(b), 2022E-Q34, 2022E-Q35(c), 2022E-Q37(f), 2022E-Q38(a), 2023E-Q35(b), 2023E-Q36(b), 2023E-Q37(a), 2023E-Q37(b), 2023E-Q38(a), 2023E-Q38(b), 2024S-Q34, 2024E-Q36(c), 2024E-Q38(a), 2024E-Q38(b), 2024E-Q40(a), 2024E-Q40(b), 2024E-Q40(c), 2025E-Q35(d), 2025E-Q36(a), 2025E-Q36(b), 2025E-Q37(a), 2025E-Q38(d), 2025E-Q39, 2025E-Q40(d)
+**Past questions**: 2016M-Q9, 2016E-Q39(a), 2016E-Q42(a), 2016E-Q42(f), 2017S-Q29(a), 2017S-Q29(b), 2017S-Q33(c), 2017E-Q36(a), 2017E-Q36(b), 2017E-Q37(b), 2017E-Q37(c), 2018S-Q29(b), 2018E-Q35, 2018E-Q36(c), 2018E-Q40(a), 2018E-Q40(c), 2019S-Q30(b), 2019S-Q32, 2019E-Q38(d), 2019E-Q39(c), 2019E-Q40(a), 2019E-Q40(b), 2019E-Q40(d), 2020E-Q39(a), 2020E-Q39(b), 2022E-Q34, 2022E-Q35(c), 2022E-Q37(f), 2022E-Q38(a), 2023E-Q35(b), 2023E-Q36(b), 2023E-Q37(a), 2023E-Q37(b), 2023E-Q38(a), 2023E-Q38(b), 2024S-Q34, 2024E-Q36(c), 2024E-Q38(a), 2024E-Q38(b), 2024E-Q40(a), 2024E-Q40(b), 2024E-Q40(c), 2025E-Q35(d), 2025E-Q36(a), 2025E-Q36(b), 2025E-Q37(a), 2025E-Q38(d), 2025E-Q39, 2025E-Q40(d)
 
 ---
 
@@ -68,7 +68,7 @@
 - 2023E-Q38(a): the key uses the 1 : 2 : 1 stoichiometric ratio to determine that Cl₂ is limiting and the other two reactants are in excess, then uses n(Fe(OH)₃) = 2 × n(Cl₂) to find the yield.
 - 2018E-Q37(d) is a conceptual question: hydrochloric acid is in excess to make all the Ga₂O₃ react and increase the yield; no calculation is needed.
 
-**Past exam questions**: 2017S-Q29(a), 2017S-Q29(b), 2018E-Q37(d), 2019S-Q32, 2019E-Q40(a), 2019E-Q40(b), 2020E-Q39(c), 2021E-Q37(c), 2023E-Q38(a), 2024S-Q34, 2024E-Q40(c)
+**Past questions**: 2017S-Q29(a), 2017S-Q29(b), 2018E-Q37(d), 2019S-Q32, 2019E-Q40(a), 2019E-Q40(b), 2020E-Q39(c), 2021E-Q37(c), 2023E-Q38(a), 2024S-Q34, 2024E-Q40(c)
 
 ## Pattern 3: Yield, purity and percentage content ★
 
@@ -95,7 +95,7 @@
 - Wrong percentage denominator: the denominator in 2024E-Q40(b) is the theoretical yield (1.516 × 10⁹ g), not the actual yield.
 - Claim true/false question (2022S-Q31(b)): the key first calculates the "water that should be absorbed" (3.97 g × 180 = 715 g), then multiplies by 97.4% to get 696 g, compares this with the measured 691 g, and concludes claim not true; the two numbers compared must be on the same basis.
 
-**Past exam questions**: 2016E-Q39(a), 2017S-Q33(c), 2017E-Q36(a), 2017E-Q37(c), 2018E-Q35, 2018E-Q40(a), 2018E-Q40(c), 2019S-Q30(b), 2019E-Q38(d), 2019E-Q40(d), 2020E-Q37(c), 2020E-Q39(b), 2021E-Q37(d), 2022S-Q31(b), 2022E-Q34, 2022E-Q35(c), 2022E-Q37(f), 2023E-Q35(b), 2024E-Q40(a), 2024E-Q40(b), 2024E-Q40(c), 2025E-Q35(d), 2025E-Q37(a), 2025E-Q40(d)
+**Past questions**: 2016E-Q39(a), 2017S-Q33(c), 2017E-Q36(a), 2017E-Q37(c), 2018E-Q35, 2018E-Q40(a), 2018E-Q40(c), 2019S-Q30(b), 2019E-Q38(d), 2019E-Q40(d), 2020E-Q37(c), 2020E-Q39(b), 2021E-Q37(d), 2022S-Q31(b), 2022E-Q34, 2022E-Q35(c), 2022E-Q37(f), 2023E-Q35(b), 2024E-Q40(a), 2024E-Q40(b), 2024E-Q40(c), 2025E-Q35(d), 2025E-Q37(a), 2025E-Q40(d)
 
 ---
 
@@ -130,7 +130,7 @@
 - Back titration (2024E-Q36(c)): n(OH⁻) reacted = n(OH⁻) added − n(H⁺) titrated; both n values must be shown. In this question, the total n for 5 tablets must be divided by 5 to obtain the n for one tablet (see Pattern 1 for unit and ratio conversions).
 - **Known issue with the official key (2024E-Q36(c))**: the main text of the key calculates using OH⁻ : aspirin = 1 : 1, giving 305 mg/tablet; the key's note says "if a 2:1 ratio is used, m = 152 mg". The two results differ by a factor of two, so the key is internally inconsistent. Aspirin contains one carboxyl group; if OH⁻ consumed by hydrolysis of the ester group is also included, the ratio may be 2 : 1. When answering, students should state the stoichiometric ratio used and the basis for it.
 
-**Past exam questions**: 2016E-Q42(a), 2016E-Q42(c), 2016E-Q42(e), 2016E-Q42(f), 2017E-Q37(c), 2018E-Q40(c), 2019E-Q39(a), 2019E-Q39(c), 2020E-Q37(a), 2020E-Q37(b), 2020E-Q37(c), 2021E-Q35(c), 2021E-Q36(a), 2022E-Q34, 2022E-Q38(a), 2023E-Q36(b), 2024E-Q36(b), 2024E-Q36(c), 2024E-Q38(b), 2025E-Q38(d)
+**Past questions**: 2016E-Q42(a), 2016E-Q42(c), 2016E-Q42(e), 2016E-Q42(f), 2017E-Q37(c), 2018M-Q13, 2018E-Q40(c), 2019E-Q39(a), 2019E-Q39(c), 2020E-Q37(a), 2020E-Q37(b), 2020E-Q37(c), 2021E-Q35(c), 2021E-Q36(a), 2022E-Q34, 2022E-Q38(a), 2023E-Q36(b), 2024E-Q36(b), 2024E-Q36(c), 2024E-Q38(b), 2025E-Q38(d)
 
 ---
 
@@ -160,7 +160,7 @@
 - Rounding the ratio: the ratio in 2022E-Q34 (e.g. 4.25 ÷ 0.328 ≈ 13) is a near-integer result, so state why it is rounded.
 - Multiplier for the molecular formula: 2017E-Q38(b) gives M ≈ 194 g mol⁻¹, about 2 times the empirical formula mass of 97.1; the key for 2017E-Q38(c) uses this to write the molecular formula, so the multiplier must be stated explicitly.
 
-**Past exam questions**: 2016E-Q38(c), 2017E-Q38(a), 2017E-Q38(c), 2018E-Q35, 2019S-Q30(b), 2020E-Q38(a), 2020E-Q38(b), 2021E-Q36(a), 2021E-Q36(b), 2022E-Q34, 2023E-Q37(a), 2023E-Q37(b), 2024E-Q38(a), 2025E-Q39
+**Past questions**: 2016E-Q38(c), 2017E-Q38(a), 2017E-Q38(c), 2018E-Q35, 2019S-Q30(b), 2020E-Q38(a), 2020E-Q38(b), 2021E-Q36(a), 2021E-Q36(b), 2022E-Q34, 2023E-Q37(a), 2023E-Q37(b), 2024E-Q38(a), 2025E-Q39
 
 ---
 
@@ -185,7 +185,7 @@
 - 2023E-Q37(b): 150 °C converts to 423.15 K, n = (1.42 × 205) ÷ (8.314 × 423.15).
 - 2020E-Q38(b): 637 mL converts to 0.637 L, 40 °C converts to 313.15 K, key gives n = 0.0367 mol.
 
-**Past exam questions**: 2016E-Q39(a), 2016E-Q42(g), 2017E-Q36(b), 2017E-Q38(b), 2018E-Q35, 2020E-Q38(b), 2021E-Q36(b), 2023E-Q35(b), 2023E-Q37(b), 2024E-Q40(c), 2025E-Q39
+**Past questions**: 2016E-Q39(a), 2016E-Q42(g), 2017E-Q36(b), 2017E-Q38(b), 2018E-Q35, 2020E-Q38(b), 2021E-Q36(b), 2023E-Q35(b), 2023E-Q37(b), 2024E-Q40(c), 2025E-Q39
 
 ---
 
@@ -209,7 +209,7 @@
 - Unit chain: mixing tonne, kg, g and mg gives a wrong value, and even correct significant figures won't earn the marks (2018E-Q36(c)).
 - Rounding requirements are not consistent: different keys round differently, so answer according to what the question explicitly requires.
 
-**Past exam questions**: 2016E-Q39(a), 2017S-Q34(ci), 2017E-Q36(b), 2018E-Q36(c), 2019E-Q40(a), 2020E-Q37(c), 2021E-Q37(d), 2022E-Q35(c), 2023E-Q35(b), 2025E-Q37(a)
+**Past questions**: 2016E-Q39(a), 2017S-Q34(c)(i), 2017E-Q36(b), 2018E-Q36(c), 2019E-Q40(a), 2020E-Q37(c), 2021E-Q37(d), 2022E-Q35(c), 2023E-Q35(b), 2025E-Q37(a)
 
 ---
 
@@ -230,4 +230,4 @@
 **Common errors**: Not writing "excess"; only writing weigh without drying to constant mass; omitting the equation; treating the precipitate mass directly as the mass of the ion being tested.
 (Evidence note: only 1 sub-question in this pattern, so the evidence base is weak.)
 
-**Past exam questions**: 2019S-Q30(a)
+**Past questions**: 2019S-Q30(a)

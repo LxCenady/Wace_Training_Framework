@@ -119,6 +119,29 @@ If the user asks how to solve a type of question (怎么做 / 解题思路 / 讲
 
 Use this when writing a set or a mock paper: **randomise** (vary question count, marks per question, which patterns appear, and order within the difficulty ramp — never the same paper twice), but keep the **topic mark distribution** close to the real one below, and make the stated share of questions **cross-topic** (two topics in one question), using only pairings that real papers use.
 
+### Multiple-choice
+
+- Questions per paper (2020–2025): 25–25; marks per question: 1–1 (median 1).
+- Share of marks by topic: Oxidation, reduction and electrochemistry 22%, Acids and bases 20%, Chemical equilibrium and rates 19%, Organic structure, properties and reactions 14%, Polymers, amino acids and proteins 9%, Science inquiry and data analysis 9%, Chemical synthesis and industrial processes 7%, Stoichiometry and quantitative analysis 1%.
+- Cross-topic questions: 0% of real questions combine two topics. How likely each topic is to pair, and with what (P(partner | topic) in real cross-topic questions):
+
+
+- **Marks one pattern carries within a question** (middle half of real questions, and the largest seen). A question is the sum of its patterns' parts: a 10-mark question is three or four patterns' parts, or one pattern that real papers really do run that long — never one routine step inflated to fill the marks:
+
+  - Acids and bases: `CHE.AB.1` 1 (max 1), `CHE.AB.2` 1 (max 1), `CHE.AB.3` 1 (max 1), `CHE.AB.4` 1 (max 1), `CHE.AB.5` 1 (max 1), `CHE.AB.6` 1 (max 1), `CHE.AB.7` 1 (max 1), `CHE.AB.9` 1 (max 1)
+  - Chemical equilibrium and rates: `CHE.EQ.1` 1 (max 1), `CHE.EQ.2` 1 (max 1), `CHE.EQ.3` 1 (max 1), `CHE.EQ.4` 1 (max 1), `CHE.EQ.5` 1 (max 1), `CHE.EQ.6` 1 (max 1), `CHE.EQ.7` 1 (max 1), `CHE.EQ.8` 1 (max 1), `CHE.EQ.9` 1 (max 1), `CHE.EQ.10` 1 (max 1)
+  - Science inquiry and data analysis: `CHE.INQ.1` 1 (max 1), `CHE.INQ.2` 1 (max 1), `CHE.INQ.5` 1 (max 1), `CHE.INQ.6` 1 (max 1), `CHE.INQ.8` 1 (max 1)
+  - Organic structure, properties and reactions: `CHE.ORG.1` 1 (max 1), `CHE.ORG.2` 1 (max 1), `CHE.ORG.3` 1 (max 1), `CHE.ORG.4` 1 (max 1), `CHE.ORG.5` 1 (max 1), `CHE.ORG.6` 1 (max 1), `CHE.ORG.7` 1 (max 1), `CHE.ORG.8` 1 (max 1)
+  - Polymers, amino acids and proteins: `CHE.PRO.1` 1 (max 1), `CHE.PRO.2` 1 (max 1), `CHE.PRO.3` 1 (max 1), `CHE.PRO.4` 1 (max 1), `CHE.PRO.5` 1 (max 1), `CHE.PRO.6` 1 (max 1)
+  - Stoichiometry and quantitative analysis: `CHE.QNT.1` 1 (max 1), `CHE.QNT.4` 1 (max 1)
+  - Oxidation, reduction and electrochemistry: `CHE.RX.1` 1 (max 1), `CHE.RX.2` 1 (max 1), `CHE.RX.3` 1 (max 1), `CHE.RX.4` 1 (max 1), `CHE.RX.5` 1 (max 1), `CHE.RX.6` 1 (max 1), `CHE.RX.7` 1 (max 1), `CHE.RX.8` 1 (max 1)
+  - Chemical synthesis and industrial processes: `CHE.SYN.1` 1 (max 1), `CHE.SYN.2` 1 (max 1), `CHE.SYN.3` 1 (max 1), `CHE.SYN.4` 1 (max 1), `CHE.SYN.5` 1 (max 1)
+
+- **Figures and drawing parts.** Patterns whose real questions usually show a figure (share of questions): `CHE.EQ.6` 100%, `CHE.EQ.9` 100%, `CHE.INQ.2` 67%, `CHE.SYN.2` 67%, `CHE.EQ.2` 60%, `CHE.AB.9` 50%, `CHE.INQ.5` 50%, `CHE.ORG.1` 50%, `CHE.ORG.2` 50%, `CHE.ORG.7` 50%. Patterns whose real questions often ask the student to draw — sketch a graph, draw a solution curve on a slope field, shade a region, plot on an Argand diagram, mark a point (share of questions): none. Give these a figure (the axes or diagram the student works on) and, about as often as real papers do, a drawing part whose marks reward visible features; put the completed drawing in the marking key.
+
+- Tag combinations real questions used (pattern codes, count), by topic pair — combine patterns like these; other patterns of the same two topics are fine when the pairing is natural:
+
+
 ### Short answer
 
 - Questions per paper (2020–2025): 8–10; marks per question: 4–14 (median 8).
@@ -126,7 +149,7 @@ Use this when writing a set or a mock paper: **randomise** (vary question count,
 - Cross-topic questions: 45% of real questions combine two topics. How likely each topic is to pair, and with what (P(partner | topic) in real cross-topic questions):
 
   - **Stoichiometry and quantitative analysis** — 100% of its questions are cross-topic; pairs with Acids and bases 62%, Science inquiry and data analysis 25%, Chemical equilibrium and rates 12%, Oxidation, reduction and electrochemistry 12%, Polymers, amino acids and proteins 12%.
-  - **Science inquiry and data analysis** — 100% of its questions are cross-topic; pairs with Acids and bases 36%, Chemical equilibrium and rates 36%, Organic structure, properties and reactions 27%, Oxidation, reduction and electrochemistry 18%, Stoichiometry and quantitative analysis 18%, Polymers, amino acids and proteins 9%.
+  - **Science inquiry and data analysis** — 100% of its questions are cross-topic; pairs with Acids and bases 36%, Chemical equilibrium and rates 36%, Organic structure, properties and reactions 27%, Stoichiometry and quantitative analysis 18%, Oxidation, reduction and electrochemistry 18%, Polymers, amino acids and proteins 9%.
   - **Polymers, amino acids and proteins** — 73% of its questions are cross-topic; pairs with Organic structure, properties and reactions 88%, Chemical synthesis and industrial processes 25%, Oxidation, reduction and electrochemistry 12%, Stoichiometry and quantitative analysis 12%, Science inquiry and data analysis 12%, Acids and bases 12%.
   - **Acids and bases** — 69% of its questions are cross-topic; pairs with Chemical equilibrium and rates 41%, Oxidation, reduction and electrochemistry 27%, Stoichiometry and quantitative analysis 23%, Science inquiry and data analysis 18%, Organic structure, properties and reactions 9%, Polymers, amino acids and proteins 5%.
   - **Chemical synthesis and industrial processes** — 62% of its questions are cross-topic; pairs with Organic structure, properties and reactions 100%, Polymers, amino acids and proteins 40%, Oxidation, reduction and electrochemistry 20%.
@@ -179,12 +202,12 @@ Use this when writing a set or a mock paper: **randomise** (vary question count,
 
   - **Organic structure, properties and reactions** — 100% of its questions are cross-topic; pairs with Polymers, amino acids and proteins 59%, Stoichiometry and quantitative analysis 47%, Acids and bases 47%, Chemical synthesis and industrial processes 41%, Science inquiry and data analysis 24%, Chemical equilibrium and rates 18%, Oxidation, reduction and electrochemistry 12%.
   - **Acids and bases** — 100% of its questions are cross-topic; pairs with Stoichiometry and quantitative analysis 76%, Organic structure, properties and reactions 47%, Science inquiry and data analysis 29%, Polymers, amino acids and proteins 24%, Oxidation, reduction and electrochemistry 18%, Chemical synthesis and industrial processes 18%, Chemical equilibrium and rates 18%.
-  - **Chemical equilibrium and rates** — 91% of its questions are cross-topic; pairs with Stoichiometry and quantitative analysis 60%, Chemical synthesis and industrial processes 40%, Acids and bases 30%, Organic structure, properties and reactions 30%, Polymers, amino acids and proteins 30%, Science inquiry and data analysis 20%, Oxidation, reduction and electrochemistry 20%.
+  - **Chemical equilibrium and rates** — 91% of its questions are cross-topic; pairs with Stoichiometry and quantitative analysis 60%, Chemical synthesis and industrial processes 40%, Organic structure, properties and reactions 30%, Acids and bases 30%, Polymers, amino acids and proteins 30%, Science inquiry and data analysis 20%, Oxidation, reduction and electrochemistry 20%.
   - **Science inquiry and data analysis** — 90% of its questions are cross-topic; pairs with Stoichiometry and quantitative analysis 78%, Acids and bases 56%, Organic structure, properties and reactions 44%, Polymers, amino acids and proteins 33%, Chemical synthesis and industrial processes 33%, Chemical equilibrium and rates 22%, Oxidation, reduction and electrochemistry 11%.
   - **Polymers, amino acids and proteins** — 87% of its questions are cross-topic; pairs with Organic structure, properties and reactions 77%, Stoichiometry and quantitative analysis 46%, Acids and bases 31%, Chemical synthesis and industrial processes 31%, Science inquiry and data analysis 23%, Chemical equilibrium and rates 23%, Oxidation, reduction and electrochemistry 8%.
-  - **Chemical synthesis and industrial processes** — 86% of its questions are cross-topic; pairs with Organic structure, properties and reactions 58%, Stoichiometry and quantitative analysis 42%, Chemical equilibrium and rates 33%, Polymers, amino acids and proteins 33%, Acids and bases 25%, Science inquiry and data analysis 25%.
+  - **Chemical synthesis and industrial processes** — 86% of its questions are cross-topic; pairs with Organic structure, properties and reactions 58%, Stoichiometry and quantitative analysis 42%, Chemical equilibrium and rates 33%, Polymers, amino acids and proteins 33%, Science inquiry and data analysis 25%, Acids and bases 25%.
   - **Stoichiometry and quantitative analysis** — 72% of its questions are cross-topic; pairs with Acids and bases 50%, Organic structure, properties and reactions 31%, Science inquiry and data analysis 27%, Oxidation, reduction and electrochemistry 27%, Polymers, amino acids and proteins 23%, Chemical equilibrium and rates 23%, Chemical synthesis and industrial processes 19%.
-  - **Oxidation, reduction and electrochemistry** — 70% of its questions are cross-topic; pairs with Stoichiometry and quantitative analysis 100%, Acids and bases 43%, Chemical equilibrium and rates 29%, Organic structure, properties and reactions 29%, Polymers, amino acids and proteins 14%, Science inquiry and data analysis 14%.
+  - **Oxidation, reduction and electrochemistry** — 70% of its questions are cross-topic; pairs with Stoichiometry and quantitative analysis 100%, Acids and bases 43%, Chemical equilibrium and rates 29%, Organic structure, properties and reactions 29%, Science inquiry and data analysis 14%, Polymers, amino acids and proteins 14%.
 
 - **Marks one pattern carries within a question** (middle half of real questions, and the largest seen). A question is the sum of its patterns' parts: a 10-mark question is three or four patterns' parts, or one pattern that real papers really do run that long — never one routine step inflated to fill the marks:
 

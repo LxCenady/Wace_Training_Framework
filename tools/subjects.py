@@ -65,8 +65,9 @@ def section_name(subject, code, field='zh', root=None):
 def section_minutes(subject, code, root=None):
     pack = info(subject, root)
     for section in pack['sections']:
-        if section['code'] == code:
-            return section['minutes'] or pack['paper_minutes']
+        if section['code'] == code:  # one section of a shared paper: its suggested working time, no reading time
+            return section['minutes'] or ([0, section['suggested_minutes']] if section.get('suggested_minutes')
+                                          else pack['paper_minutes'])
     raise ValueError(f'Unknown section {subject}: {code}')
 
 

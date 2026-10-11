@@ -46,7 +46,7 @@
 - Confusing “the substance oxidised” with “the reducing agent” (the reducing agent is oxidised).
 - 2021S-Q31(b) asks “show that this reaction is a redox reaction”; you must write the oxidation number changes for both atoms; writing only one cannot earn full marks.
 
-**Past-paper questions**: 2019S-Q28(a), 2020S-Q30(a), 2021S-Q31(b), 2024S-Q33(a), 2025E-Q38(c)(ii), 2025E-Q40(b), 2019S-Q28(b)
+**Past questions**: 2016M-Q13, 2016M-Q14, 2017M-Q2, 2018M-Q7, 2019M-Q17, 2019S-Q28(a), 2019S-Q28(b), 2020M-Q1, 2020M-Q3, 2020S-Q30(a), 2021M-Q1, 2021S-Q31(b), 2022M-Q2, 2023M-Q4, 2023M-Q5, 2024M-Q2, 2024S-Q33(a), 2025M-Q16, 2025E-Q38(c)(ii), 2025E-Q40(b)
 
 ---
 
@@ -81,7 +81,7 @@
 - The key for 2021S-Q31(a) accepts both overall reaction forms (H⁺ form and OH⁻/H₂O form); this must be consistent with the half-reactions written, and H⁺ cannot be used for one half and OH⁻ for the other.
 - The key for 2019E-Q40 is marked as 22 marks, consistent with the sub-question marks in the question stem (a 9, b 4, c 3, d 6, total 22). 2019E-Q40(c) is a sub-question of this pattern (overall equation for the oxidation of Fe²⁺ by H₂O₂, 3 marks: 1 mark each for reactants, products and balancing).
 
-**Past exam questions**: 2016E-Q40(a), 2016E-Q40(b), 2016S-Q27(b), 2017S-Q26(a)(ii), 2017S-Q27, 2017S-Q34(a), 2018S-Q28(a), 2018S-Q28(b), 2018S-Q30(d), 2019E-Q40(c), 2019S-Q28(b), 2020E-Q36(c), 2021S-Q27(b), 2021S-Q30(b), 2021S-Q31(a), 2022E-Q37(a), 2023E-Q37(e)(i), 2024E-Q39(d), 2024S-Q33(b), 2025E-Q40(c), 2025S-Q33
+**Past questions**: 2016S-Q27(b), 2016E-Q40(a), 2016E-Q40(b), 2017S-Q26(a)(ii), 2017S-Q27, 2017S-Q34(a), 2018S-Q28(a), 2018S-Q28(b), 2018S-Q30(d), 2019S-Q28(b), 2019E-Q40(c), 2020E-Q36(c), 2021S-Q27(b), 2021S-Q30(b), 2021S-Q31(a), 2022E-Q37(a), 2023E-Q37(e)(i), 2024S-Q33(b), 2024E-Q39(d), 2025M-Q14, 2025M-Q15, 2025S-Q33, 2025E-Q40(c)
 
 ---
 
@@ -115,7 +115,7 @@
 - Writing only “colour change” without the initial and final colours.
 - Omitting soot or CO from the products of incomplete combustion and writing only CO₂.
 
-**Past exam questions**: 2017S-Q26(a)(i), 2017S-Q26(c)(i), 2017S-Q26(c)(ii), 2019S-Q26(a), 2020S-Q27, 2022E-Q37(e), 2023S-Q30(a), 2023S-Q30(c), 2024S-Q27(a), 2024S-Q27(b), 2024S-Q27(c), 2025S-Q26(a), 2025S-Q26(b)
+**Past questions**: 2017S-Q26(a)(i), 2017S-Q26(c)(i), 2017S-Q26(c)(ii), 2019M-Q10, 2019M-Q12, 2019S-Q26(a), 2020S-Q27, 2021M-Q19, 2022M-Q22, 2022E-Q37(e), 2023S-Q30(a), 2023S-Q30(c), 2024S-Q27(a), 2024S-Q27(b), 2024S-Q27(c), 2025S-Q26(a), 2025S-Q26(b)
 
 ## Pattern 4: Standard electrode potentials: reaction tendency and cell voltage
 
@@ -148,7 +148,7 @@
 - Choosing a metal with a more positive E° than iron as the sacrificial anode (e.g. Cu, Ag, Sn).
 - Forgetting to state that the voltage is negative and the reaction is not spontaneous in 2024S-Q33(c).
 
-**Past exam questions**: 2017E-Q37(h), 2017E-Q37(i), 2017S-Q34(c)(ii), 2020E-Q36(d), 2021S-Q30(c), 2021S-Q31(d), 2023S-Q27(c), 2024E-Q39(b)(ii), 2024E-Q39(e), 2024S-Q33(c), 2025S-Q27(c)
+**Past questions**: 2016M-Q15, 2016M-Q16, 2016M-Q17, 2017M-Q10, 2017S-Q34(c)(ii), 2017E-Q37(h), 2017E-Q37(i), 2018M-Q5, 2018M-Q6, 2018M-Q14, 2018M-Q15, 2019M-Q6, 2019M-Q7, 2020M-Q19, 2020E-Q36(d), 2021M-Q12, 2021S-Q30(c), 2021S-Q31(d), 2022M-Q16, 2022M-Q17, 2023M-Q15, 2023M-Q20, 2023S-Q27(c), 2024S-Q33(c), 2024E-Q39(b)(ii), 2024E-Q39(e), 2025M-Q24, 2025S-Q27(c)
 
 ---
 
@@ -181,7 +181,7 @@
 - Labelling the anode and cathode the wrong way round, or writing the anode as the “positive electrode” (in a galvanic cell the anode is negative).
 - Observations only write “bubbles” or “solid forms”, without stating the change in solution colour.
 
-**Past exam questions**: 2016S-Q26(a), 2016S-Q26(b), 2017E-Q37(f), 2017E-Q37(g), 2017S-Q34(b), 2019S-Q31(a), 2019S-Q31(b), 2020E-Q36(a), 2020E-Q36(b), 2020E-Q36(e)(i), 2020E-Q36(e)(ii), 2021S-Q30(a), 2023S-Q29
+**Past questions**: 2016S-Q26(a), 2016S-Q26(b), 2017M-Q4, 2017S-Q34(b), 2017E-Q37(f), 2017E-Q37(g), 2019M-Q5, 2019S-Q31(a), 2019S-Q31(b), 2020M-Q6, 2020E-Q36(a), 2020E-Q36(b), 2020E-Q36(e)(i), 2020E-Q36(e)(ii), 2021M-Q13, 2021S-Q30(a), 2022M-Q15, 2023S-Q29
 
 ---
 
@@ -209,7 +209,7 @@
 - Drawing the electron direction or ion direction backwards.
 - Not showing the position of the power supply.
 
-**Past exam questions**: 2016E-Q40(b), 2016S-Q26(a), 2016S-Q26(b), 2019S-Q31(a), 2019S-Q31(b), 2022E-Q35(d), 2023S-Q29, 2024E-Q39(c), 2025E-Q40(a)
+**Past questions**: 2016S-Q26(a), 2016S-Q26(b), 2016E-Q40(b), 2017M-Q3, 2017M-Q4, 2018M-Q25, 2019S-Q31(a), 2019S-Q31(b), 2020M-Q20, 2021M-Q22, 2022E-Q35(d), 2023M-Q23, 2023S-Q29, 2024E-Q39(c), 2025E-Q40(a)
 
 ---
 
@@ -241,7 +241,7 @@
 - Writing 2025S-Q27(b) as the reduction reaction for discharging.
 - In environmental questions, writing only "no pollution" without specifically explaining the products or raw materials.
 
-**Past exam questions**: 2017E-Q37(e), 2017E-Q37(f), 2017E-Q37(g), 2018S-Q28(c), 2023S-Q29, 2025S-Q27(a), 2025S-Q27(b), 2025S-Q27(d)(i), 2025S-Q27(d)(ii)
+**Past questions**: 2017E-Q37(e), 2017E-Q37(f), 2017E-Q37(g), 2018S-Q28(c), 2021M-Q10, 2023M-Q24, 2023S-Q29, 2025M-Q21, 2025M-Q22, 2025M-Q23, 2025S-Q27(a), 2025S-Q27(b), 2025S-Q27(d)(i), 2025S-Q27(d)(ii)
 
 ---
 
@@ -277,4 +277,4 @@
 - For painting or oiling, writing only “prevents rust”, without explaining the role of the barrier, or without explaining why rusting still occurs when the barrier is incomplete (2024E-Q39(b)(i)).
 - Mixing the OH⁻ and H⁺ forms of the overall reaction.
 
-**Past exam questions**: 2021S-Q31(a), 2021S-Q31(c), 2021S-Q31(d), 2023S-Q27(b), 2023S-Q27(c), 2024E-Q39(a), 2024E-Q39(b)(i), 2024E-Q39(b)(ii)
+**Past questions**: 2017M-Q9, 2021S-Q31(a), 2021S-Q31(c), 2021S-Q31(d), 2023S-Q27(b), 2023S-Q27(c), 2024E-Q39(a), 2024E-Q39(b)(i), 2024E-Q39(b)(ii), 2025M-Q7, 2025M-Q9

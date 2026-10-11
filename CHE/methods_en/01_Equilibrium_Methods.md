@@ -50,7 +50,7 @@
 - For catalyst questions, writing only “faster” without stating that Eₐ is lowered.
 - Boltzmann diagram without Eₐ marked, or with the curve direction drawn incorrectly.
 
-**Exam questions**: 2016E-Q39(c), 2018E-Q37(a), 2018E-Q37(c), 2019S-Q34(b), 2020S-Q34(b), 2021E-Q37(a)(ii), 2022E-Q35(b), 2024E-Q37(b), 2025E-Q38(b)
+**Past questions**: 2016M-Q2, 2016E-Q39(c), 2017M-Q6, 2017M-Q7, 2017M-Q13, 2018E-Q37(a), 2018E-Q37(c), 2019S-Q34(b), 2020M-Q7, 2020S-Q34(b), 2021E-Q37(a)(ii), 2022M-Q7, 2022E-Q35(b), 2024M-Q15, 2024E-Q37(b), 2025E-Q38(b)
 
 ---
 
@@ -78,7 +78,7 @@
 - Drawing endothermic and exothermic the wrong way round (products higher than reactants but labelled exothermic).
 - The key for 2022E-Q35(a) requires the magnitudes of Eₐ and ΔH to be reasonable; Eₐ must not be drawn at about the same height as the reactants.
 
-**Exam questions**: 2016E-Q41(f), 2017S-Q33(a), 2017S-Q33(b), 2019S-Q27(c), 2021S-Q32(b), 2022E-Q35(a)
+**Past questions**: 2016M-Q8, 2016E-Q41(f), 2017S-Q33(a), 2017S-Q33(b), 2018M-Q19, 2019S-Q27(c), 2020M-Q8, 2021S-Q32(b), 2022E-Q35(a), 2023M-Q21, 2025M-Q13
 
 ---
 
@@ -100,7 +100,7 @@
 - Describing dynamic equilibrium as “the reaction has stopped” or “the concentrations are equal”.
 - The three inferences repeat each other (e.g. two statements both say “the forward and reverse reactions occur at the same time”), in which case only one mark can be awarded.
 
-**Past exam questions**: 2018E-Q38(c)(i), 2025S-Q30(a)
+**Past questions**: 2018E-Q38(c)(i), 2019M-Q2, 2020M-Q12, 2020M-Q16, 2022M-Q3, 2024M-Q13, 2024M-Q14, 2025S-Q30(a)
 
 ---
 
@@ -133,7 +133,7 @@
 - Mixing up the effect of temperature with the change in K (see Pattern 8).
 - In volume-change questions, using “concentration increases” instead of “pressure increases”, ignoring the gas coefficients.
 
-**Past exam questions**: 2016E-Q39(c), 2016E-Q41(e), 2017S-Q28(a), 2017S-Q28(b), 2018E-Q38(b), 2018E-Q38(c)(iii), 2018S-Q32, 2019E-Q36(d), 2019E-Q36(f), 2019S-Q31(c), 2020E-Q40(d), 2020S-Q29(b), 2020S-Q29(c), 2020S-Q31(c), 2020S-Q34(a), 2021S-Q29(a), 2021S-Q32(d), 2022S-Q26, 2023S-Q28(b), 2024S-Q26, 2024S-Q30(a), 2024S-Q30(b), 2025S-Q30(b)
+**Past questions**: 2016M-Q1, 2016M-Q4, 2016E-Q39(c), 2016E-Q41(e), 2017M-Q12, 2017S-Q28(a), 2017S-Q28(b), 2018M-Q22, 2018S-Q32, 2018E-Q38(b), 2018E-Q38(c)(iii), 2019M-Q3, 2019S-Q31(c), 2019E-Q36(d), 2019E-Q36(f), 2020M-Q24, 2020S-Q29(b), 2020S-Q29(c), 2020S-Q31(c), 2020S-Q34(a), 2020E-Q40(d), 2021M-Q23, 2021M-Q24, 2021M-Q25, 2021S-Q29(a), 2021S-Q32(d), 2022M-Q8, 2022M-Q25, 2022S-Q26, 2023S-Q28(b), 2024M-Q1, 2024S-Q26, 2024S-Q30(a), 2024S-Q30(b), 2025M-Q4, 2025S-Q30(b)
 
 ---
 
@@ -161,7 +161,7 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Writing “the equilibrium shifts” but not writing collision theory or a comparison of the forward and reverse rates.
 - 2025S-Q29(b) requires writing the equilibrium equation containing OH⁻; without the equation, full marks cannot be awarded.
 
-**Past exam questions**: 2016E-Q39(d), 2017S-Q28(a), 2017S-Q28(b), 2019E-Q36(g), 2020S-Q29(b), 2021S-Q32(c), 2022S-Q26, 2024S-Q26, 2025S-Q29(b), 2025S-Q32(c)
+**Past questions**: 2016E-Q39(d), 2017S-Q28(a), 2017S-Q28(b), 2018M-Q21, 2019E-Q36(g), 2020S-Q29(b), 2021S-Q32(c), 2022S-Q26, 2024S-Q26, 2025M-Q4, 2025M-Q11, 2025S-Q29(b), 2025S-Q32(c)
 
 ---
 
@@ -191,7 +191,7 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - The curve for a product (initial zero) does not start from zero.
 - The two curves do not reach the new equilibrium at the same time.
 
-**Past questions**: 2016E-Q41(c)(i), 2016E-Q41(c)(ii), 2016E-Q41(d), 2016E-Q41(e), 2018E-Q37(b), 2018E-Q38(c)(i), 2018E-Q38(c)(ii), 2018E-Q38(c)(iii), 2019S-Q34(c), 2021S-Q32(d), 2025S-Q32(a)
+**Past questions**: 2016E-Q41(c)(i), 2016E-Q41(c)(ii), 2016E-Q41(d), 2016E-Q41(e), 2017M-Q5, 2018E-Q37(b), 2018E-Q38(c)(i), 2018E-Q38(c)(ii), 2018E-Q38(c)(iii), 2019M-Q3, 2019M-Q4, 2019S-Q34(c), 2020M-Q24, 2021S-Q32(d), 2025S-Q32(a)
 
 ---
 
@@ -218,7 +218,7 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Writing water or a pure solid into the expression (the key for 2017S-Q31(b) accepts only [H₃O⁺][OH⁻] or [H⁺][OH⁻]).
 - Writing pH or pKa values into the expression.
 
-**Past questions**: 2016E-Q41(a), 2017S-Q31(b), 2018S-Q31(a), 2019E-Q36(b), 2020S-Q29(a), 2021S-Q32(a), 2023S-Q34(a)
+**Past questions**: 2016E-Q41(a), 2017S-Q31(b), 2018S-Q31(a), 2019E-Q36(b), 2020S-Q29(a), 2021S-Q32(a), 2022M-Q10, 2023S-Q34(a), 2025M-Q1
 
 ---
 
@@ -242,7 +242,7 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Only saying “shift to the left” and not writing the change in the value of K.
 - Writing “K increases” incorrectly as “reactants increase”.
 
-**Past questions**: 2016E-Q41(b), 2016E-Q41(f), 2017S-Q31(c), 2020S-Q29(c)
+**Past questions**: 2016M-Q3, 2016E-Q41(b), 2016E-Q41(f), 2017S-Q31(c), 2018M-Q2, 2020S-Q29(c), 2021M-Q20, 2022M-Q6, 2023M-Q17, 2025M-Q3
 
 ---
 
@@ -265,7 +265,7 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Colour names inconsistent with the data booklet (e.g. writing the orange of Cr₂O₇²⁻ as red).
 - For the Fe³⁺ and SCN⁻ system, incorrectly relating the deepening of colour after “FeCl₃ is added” to the direction of equilibrium shift.
 
-**Past questions**: 2022S-Q26, 2024S-Q26, 2025S-Q32(b)
+**Past questions**: 2021M-Q24, 2021M-Q25, 2022S-Q26, 2024S-Q26, 2025S-Q32(b)
 
 ---
 
@@ -293,4 +293,4 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Ignoring the secondary effect in 2024S-Q30(a) that “an increase in HCO₃⁻ shifts Equation 3 left”.
 - 2019E-Q36(f) must be answered using the equilibrium shift principle; (g) must be explained using collision theory and rates, not only the equilibrium shift principle (2019 report). The key for 2019E-Q36(e)–(g) is a copyright placeholder in the PDF; the two concentration conditions required by (e) could not be verified, so answer according to the question stem and the steps in this pattern.
 
-**Past exam questions**: 2018S-Q32, 2019E-Q36(f), 2019E-Q36(g), 2020S-Q31(b), 2020S-Q31(c), 2022E-Q38(c), 2023S-Q28(b), 2024S-Q30(a), 2024S-Q30(b)
+**Past questions**: 2017M-Q18, 2018S-Q32, 2019M-Q21, 2019E-Q36(f), 2019E-Q36(g), 2020S-Q31(b), 2020S-Q31(c), 2021M-Q15, 2022E-Q38(c), 2023M-Q1, 2023S-Q28(b), 2024S-Q30(a), 2024S-Q30(b)

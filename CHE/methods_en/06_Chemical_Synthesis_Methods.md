@@ -34,7 +34,7 @@
 - Omitting the catalyst or the phase of the water in ethene hydration (the 2021E-Q39(a) key requires H₂O(g)).
 - 2023E-Q39(aii) instructed candidates to use condensed structures; answers should be written in the representation specified in the question.
 
-**Past-paper questions**: 2016S-Q30(a), 2016S-Q30(b), 2018S-Q30(c), 2019S-Q29(a), 2020S-Q33, 2021E-Q39(a), 2022S-Q33(a), 2023E-Q39(aii)
+**Past questions**: 2016M-Q23, 2016M-Q24, 2016M-Q25, 2016S-Q30(a), 2016S-Q30(b), 2018S-Q30(c), 2019S-Q29(a), 2020S-Q33, 2021E-Q39(a), 2022S-Q33(a), 2023E-Q39(a)(ii)
 
 ---
 
@@ -73,7 +73,7 @@
 - 2021 report: 2021E-Q38 had an average mark of 35.5%, making it a challenging question on that paper. 2024 report: the "outline and justify" in 2024E-Q36(a) was the hardest sub-question.
 - 2019E-Q37(e) predicts the optimal conditions for soap production (high temperature, high concentration of NaOH, stirring or removing product); stirring only increases surface area and rate, not yield; removing product is what affects yield.
 
-**Past exam questions**: 2016E-Q39(b), 2017S-Q30(a), 2017S-Q30(b), 2018E-Q38(a), 2019E-Q37(e), 2019S-Q29(b), 2021E-Q38, 2023E-Q35(a), 2023E-Q39(bii), 2024E-Q36(a), 2025E-Q37(b)
+**Past questions**: 2016E-Q39(b), 2017S-Q30(a), 2017S-Q30(b), 2018M-Q20, 2018M-Q23, 2018E-Q38(a), 2019S-Q29(b), 2019E-Q37(e), 2021E-Q38, 2023E-Q35(a), 2023E-Q39(b)(ii), 2024E-Q36(a), 2025M-Q5, 2025E-Q37(b)
 
 ---
 
@@ -97,7 +97,7 @@
 - Confusing "renewable" with "cheap".
 - The reports do not comment separately on this pattern; evidence is limited (only 3 parts).
 
-**Past exam questions**: 2020E-Q40(f), 2020E-Q40(g), 2023E-Q39(c)
+**Past questions**: 2017M-Q11, 2020E-Q40(f), 2020E-Q40(g), 2021M-Q6, 2023E-Q39(c)
 
 ---
 
@@ -132,7 +132,7 @@
 - 2025E-Q35(a) forms soap from caprylic acid and NaOH; this is a carboxylic acid neutralisation reaction (RCOOH + NaOH → RCOO⁻Na⁺ + H₂O), different from saponification of triglycerides. The key requires both NaOH as a reactant and water as a product to be written.
 - Report: the 2024 report lists 2024S-Q31 (similarities and differences between soap and detergent structures and the micelle diagram) as a soap topic, but the hardest questions named in that report are Q28 (solubility) and Q30 (ocean acidification), which are not part of this document.
 
-**Past exam questions**: 2017E-Q39(ai), 2017E-Q39(b), 2017E-Q39(d), 2019E-Q37(a), 2019E-Q37(b), 2019E-Q37(d), 2020E-Q40(ei), 2022E-Q36(a), 2022E-Q36(b), 2022E-Q36(c), 2024E-Q37(ai), 2024S-Q31(a), 2024S-Q31(b), 2025E-Q35(a), 2025E-Q35(b), 2025E-Q35(c), 2025E-Q35(e)
+**Past questions**: 2017M-Q21, 2017E-Q39(a)(i), 2017E-Q39(b), 2017E-Q39(d), 2018M-Q24, 2019E-Q37(a), 2019E-Q37(b), 2019E-Q37(d), 2020M-Q9, 2020M-Q22, 2020M-Q23, 2020E-Q40(e)(i), 2022M-Q4, 2022E-Q36(a), 2022E-Q36(b), 2022E-Q36(c), 2023M-Q25, 2024S-Q31(a), 2024S-Q31(b), 2024E-Q37(a)(i), 2025E-Q35(a), 2025E-Q35(b), 2025E-Q35(c), 2025E-Q35(e)
 
 ---
 
@@ -158,4 +158,4 @@
 - Writing unsupported comparisons such as "lipase is cheaper" without identifying the specific difference from the base-catalysed method.
 - The marking for 2016S-Q28(b) requires each point to state which method it refers to; otherwise no mark is awarded.
 
-**Past exam questions**: 2016S-Q28(b), 2020E-Q40(a), 2021E-Q39(a), 2024E-Q37(aii)
+**Past questions**: 2016M-Q5, 2016S-Q28(b), 2019M-Q11, 2019M-Q13, 2020E-Q40(a), 2021E-Q39(a), 2024E-Q37(a)(ii)

@@ -161,6 +161,12 @@ class Pipeline:
         examples = "\n\n".join(example_text(q, codes) for q in pick_examples(store, codes, section))
         want = (f"Section: {subjects.section_name(subj, section, 'en').lower()}. "
                 if section in subjects.section_codes(subj) else "Section: choose the more natural one. ")
+        if next((s for s in subjects.sections(subj) if s["code"] == section), {}).get("question_mode") == "mc":
+            want += ("MULTIPLE CHOICE: write a stem and exactly four options labelled (a), (b), (c), (d) inside "
+                     "\"question\" (no '(n marks)'): one correct option and three plausible distractors built on typical "
+                     "student errors. Give exactly one part: label \"\", marks 1, answer = the correct letter and a "
+                     "one-sentence reason, value null.\n")
+            marks, split = 1, None
         want += mark_guide(store, subj, section, codes, marks, split)
         self.need_figure, self.need_drawing, text = drawing_guide(store, subj, section, codes)
         want += text

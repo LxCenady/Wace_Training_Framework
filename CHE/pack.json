@@ -12,8 +12,7 @@
   "papers": {
     "years": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
     "excluded": {
-      "2016Sample": "sample paper: not an examination",
-      "Section One": "multiple-choice section kept whole as a block: not split into questions, not tagged"
+      "2016Sample": "sample paper: not an examination"
     }
   },
   "paper_layout": "shared",
@@ -38,7 +37,7 @@
       "suggested_minutes": 50,
       "share": 0.25,
       "headings": ["Section One:"],
-      "question_mode": "section-only"
+      "question_mode": "mc"
     },
     {
       "code": "SA",

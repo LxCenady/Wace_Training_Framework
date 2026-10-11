@@ -41,7 +41,7 @@
 - Adding end groups: the key explicitly requires "ends are not terminated" (2022S-Q31(a)).
 - The key for 2020S-Q28(c) writes addition (polymerisation/reaction); answering condensation scores no marks.
 
-**Past exam questions**: 2016S-Q29(a), 2016S-Q29(b), 2017E-Q36(e), 2019E-Q38(c), 2019E-Q38(e), 2020S-Q28(c), 2021E-Q34(f), 2021E-Q34(g), 2021E-Q34(h), 2022S-Q31(a)
+**Past questions**: 2016M-Q20, 2016S-Q29(a), 2016S-Q29(b), 2017E-Q36(e), 2019E-Q38(c), 2019E-Q38(e), 2020M-Q21, 2020S-Q28(c), 2021E-Q34(f), 2021E-Q34(g), 2021E-Q34(h), 2022S-Q31(a), 2023M-Q16, 2024M-Q24, 2025M-Q18
 
 ---
 
@@ -71,7 +71,7 @@
 - Report entry for 2020S-Q28: poly(ethylene adipate) is a biodegradable polyester, average 68.45%.
 - 2025S-Q28(a): the monomer of P3HB; the key diagram is 3-hydroxybutanoic acid HO–CH(CH₃)–CH₂–COOH, 2 marks in total; minor errors such as wrong methyl position, incorrect number of H, or improper connection score only 1 mark.
 
-**Past exam questions**: 2016S-Q29(d), 2017E-Q36(c), 2017E-Q36(e), 2018S-Q30(a), 2018S-Q30(b), 2019E-Q38(e), 2020S-Q28(a), 2020S-Q28(bii), 2021E-Q34(g), 2021E-Q34(h), 2022S-Q31(c), 2023E-Q36(d), 2024S-Q35(b), 2025S-Q28(a), 2025S-Q28(b)
+**Past questions**: 2016M-Q20, 2016S-Q29(d), 2017E-Q36(c), 2017E-Q36(e), 2018S-Q30(a), 2018S-Q30(b), 2019E-Q38(e), 2020S-Q28(a), 2020S-Q28(b)(ii), 2021E-Q34(g), 2021E-Q34(h), 2022S-Q31(c), 2023E-Q36(d), 2024S-Q35(b), 2025S-Q28(a), 2025S-Q28(b)
 
 ---
 
@@ -93,7 +93,7 @@
 - Writing only the property name without explaining its relationship to structure (chains, branching, forces).
 - This pattern has 4 parts; there are no separate comments in the report, so evidence is limited.
 
-**Past exam questions**: 2016S-Q29(c), 2017E-Q36(d), 2019E-Q38(a), 2025S-Q28(c)
+**Past questions**: 2016S-Q29(c), 2017E-Q36(d), 2018M-Q10, 2019E-Q38(a), 2021M-Q4, 2023M-Q22, 2024M-Q22, 2024M-Q23, 2025S-Q28(c)
 
 ---
 
@@ -122,7 +122,7 @@
 - Omitting H when drawing structures: the question for 2018E-Q39(c) requires "show all hydrogen atoms"; the question for 2020E-Q35(f) does not have this requirement.
 - The reports do not give a separate comment on this pattern. 2023E-Q36(c) and 2024S-Q29(b) use ionic attraction between zwitterions to explain high melting points; see ORG4 Pattern 4.
 
-**Past exam questions**: 2016S-Q36(aii), 2017E-Q40(a), 2017E-Q40(e), 2018E-Q39(c), 2018E-Q39(d), 2019E-Q41(a), 2020E-Q35(f), 2021E-Q34(a), 2022S-Q29(ai), 2022S-Q29(aii), 2022S-Q29(e), 2023E-Q36(c), 2024S-Q29(a), 2024S-Q29(b)
+**Past questions**: 2016M-Q21, 2016S-Q36(a)(ii), 2017M-Q15, 2017M-Q19, 2017E-Q40(a), 2017E-Q40(e), 2018E-Q39(c), 2018E-Q39(d), 2019M-Q9, 2019E-Q41(a), 2020E-Q35(f), 2021M-Q7, 2021M-Q11, 2021E-Q34(a), 2022M-Q20, 2022S-Q29(a)(i), 2022S-Q29(a)(ii), 2022S-Q29(e), 2023M-Q14, 2023E-Q36(c), 2024S-Q29(a), 2024S-Q29(b)
 
 ---
 
@@ -146,7 +146,7 @@
 - 2023S-Q31(a) requires first defining primary structure, then using a labelled diagram to explain peptide bond formation, 4 marks in total (also counted in Pattern 6).
 - Common problems in Section Three listed in the 2018 report include "drawing peptide links"; when drawing, check each amide group.
 
-**Past exam questions**: 2016S-Q36(ai), 2016S-Q36(aii), 2016S-Q36(b), 2017E-Q40(a), 2018E-Q39(a), 2018E-Q39(b), 2019E-Q41(a), 2019E-Q41(b), 2020E-Q35(e), 2021E-Q34(a), 2023S-Q31(a), 2024E-Q37(e), 2025E-Q36(d)
+**Past questions**: 2016S-Q36(a)(i), 2016S-Q36(a)(ii), 2016S-Q36(b), 2017E-Q40(a), 2018E-Q39(a), 2018E-Q39(b), 2019E-Q41(a), 2019E-Q41(b), 2020M-Q11, 2020E-Q35(e), 2021E-Q34(a), 2023S-Q31(a), 2024E-Q37(e), 2025E-Q36(d)
 
 ---
 
@@ -175,7 +175,7 @@
 - The key for 2019E-Q41(c) requires distinguishing primary and secondary structure: primary is the sequence, secondary is the α-helix or β-pleated sheet formed by hydrogen bonding.
 - Report: in this note, the report entries for 2020E-Q35, 2024E-Q37 and 2025E-Q36 are blank, so reasons for lost marks cannot be added from the reports.
 
-**Past exam questions**: 2016S-Q29(e), 2017E-Q40(b), 2017E-Q40(c), 2017E-Q40(e), 2018E-Q39(e), 2019E-Q41(c), 2020E-Q35(a), 2020E-Q35(b), 2020E-Q35(c), 2020E-Q35(d), 2021E-Q34(b), 2021E-Q34(c), 2022S-Q29(bi), 2022S-Q29(bii), 2022S-Q29(c), 2022S-Q29(d), 2023S-Q31(a), 2023S-Q31(b), 2024E-Q37(d), 2024E-Q37(e), 2024E-Q37(f), 2024E-Q37(g), 2025E-Q36(c), 2025E-Q36(e), 2025E-Q36(f)
+**Past questions**: 2016S-Q29(e), 2017M-Q17, 2017M-Q20, 2017E-Q40(b), 2017E-Q40(c), 2017E-Q40(e), 2018M-Q17, 2018E-Q39(e), 2019E-Q41(c), 2020M-Q14, 2020E-Q35(a), 2020E-Q35(b), 2020E-Q35(c), 2020E-Q35(d), 2021E-Q34(b), 2021E-Q34(c), 2022S-Q29(b)(i), 2022S-Q29(b)(ii), 2022S-Q29(c), 2022S-Q29(d), 2023S-Q31(a), 2023S-Q31(b), 2024E-Q37(d), 2024E-Q37(e), 2024E-Q37(f), 2024E-Q37(g), 2025E-Q36(c), 2025E-Q36(e), 2025E-Q36(f)
 
 ---
 
@@ -198,4 +198,4 @@
 - Stating only that “enzymes are catalysts” without explaining activation energy and pathway will not earn full marks.
 - The 2024 report warns: do not use anthropomorphic words such as “sensitive” to describe enzymes (e.g. “enzymes sensitive to pH”); instead write denaturation or outside the optimum range.
 
-**Past exam questions**: 2016E-Q38(a), 2016S-Q28(b), 2020E-Q40(b), 2020E-Q40(f), 2021E-Q39(e), 2023E-Q39(ai), 2024E-Q37(c), 2025E-Q38(b)
+**Past questions**: 2016S-Q28(b), 2016E-Q38(a), 2020E-Q40(b), 2020E-Q40(f), 2021E-Q39(e), 2023E-Q39(a)(i), 2024E-Q37(c), 2025E-Q38(b)
