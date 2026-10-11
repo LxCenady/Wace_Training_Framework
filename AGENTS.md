@@ -242,6 +242,17 @@ profiles against official papers. Chemistry stage-0 findings are in `CHE/README.
 Chemistry work goes to Luna after the architecture/protocol is ready. The owner requires reverse tagging
 from each marking-scheme award to atomic topics/patterns and then back to the question, with capped/alternative
 rubrics preserved, image review, and syllabus + marking key + examination report evidence for notes.
+Chemistry sources (2026-10-11): the in-app browser downloaded 24 genuine PDFs into ignored
+`evidence/che/originals/`: 2020–2025 exam/key/public reports, 2020–2023 and 2026 data booklets, current Year 12
+syllabus. `download_inventory.json` records official URLs, sizes, page counts and SHA-256. 2024/2025 booklets
+and pre-2020 resources are not yet available locally; never silently substitute the 2026 booklet.
+Read-only segmentation preflight located all 87 written questions, with key regions and zero section
+count/mark discrepancies against six covers; partmarks.split succeeds for all 87. MC remains a section block.
+Shared scan now rejects MC stimulus references as question headings and ignores repeated supplementary-page
+instructions at section entrances, without changing separate-paper maths scanning. Final questions exclude
+the next section's header. Luna visually reviewed 12 pilot records with 35 region crops; primary spot-checks
+confirmed graph/structure rubrics and Q38(d)'s official key/public-report titre inconsistency. Full 2025 rubric
+inventory is in progress in ignored evidence; no CHE profile installed, catalogue approved or DB built.
 Known baseline audit issue: 2016Sample MAM CF sums to 53 but cover says 52; unchanged from before this migration.
 Test temp copies exhausted C:; final setup/external checks used `evidence/runtime/` on E:. Cleanup of C: test
 folders was rejected by automatic policy, so they were left intact. Never delete unrelated user files.

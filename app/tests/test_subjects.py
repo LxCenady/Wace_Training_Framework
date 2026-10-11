@@ -65,7 +65,11 @@ class Profiles(unittest.TestCase):
                                           ('Section Three', 'Question 27 (6 marks)')]:
                     page = doc.new_page()
                     page.insert_text((60, 80), heading)
-                    page.insert_text((60, 120), question)
+                    if heading == 'Section One':
+                        page.insert_text((60, 105), 'Question 24 refers to the following diagram.')
+                    else:
+                        page.insert_text((60, 105), 'Supplementary pages for planning your answers are provided.')
+                    page.insert_text((60, 130), question)
                     page.draw_rect(pymupdf.Rect(70, 150, 270, 260), color=(0, 0, 0))
                 doc.save(papers / f'2025_CHE_{kind}.pdf')
         (self.root / 'sources.tsv').write_text('CHE/papers/2025_CHE_Exam.pdf\thttps://example.invalid/exam\n', encoding='utf-8')
@@ -73,6 +77,8 @@ class Profiles(unittest.TestCase):
             segment.main('CHE')
         questions = json.loads((self.root / 'CHE/questions.json').read_text(encoding='utf-8'))
         self.assertEqual([(q['q'], q['section']) for q in questions], [(26, 'SA'), (27, 'ER')])
+        self.assertNotIn('Section Three', questions[0]['text'])
+        self.assertNotIn('Supplementary pages', questions[0]['text'])
         blocks = json.loads((self.root / 'CHE/sections.json').read_text(encoding='utf-8'))
         self.assertEqual(list(blocks[0]['sections']), ['MC', 'SA', 'ER'])
         for question in questions:

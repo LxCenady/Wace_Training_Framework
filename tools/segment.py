@@ -34,7 +34,7 @@ def band(page, ls):
     return top, bot
 
 
-def scan(path):
+def scan(path, shared=False):
     """Return ordered list of (q, page, y, marks) heads and the stop point (page, y)."""
     doc = pymupdf.open(path)
     heads, seen, stop = [], set(), (doc.page_count - 1, None)
@@ -43,6 +43,11 @@ def scan(path):
         ls = lines(pg)
         bands.append(band(pg, ls))
         for b, t in sorted(ls, key=lambda x: x[0][1]):
+            # Shared papers repeat supplementary-page instructions at each
+            # section entrance. Only the actual spare-page heading ends a paper.
+            if shared and re.match(r"Supplementary pages?\b", t, re.I) and not re.fullmatch(
+                    r"Supplementary page", t, re.I):
+                continue
             if heads and STOP.match(t) and b[1] > bands[i][0] + 5 and not HEAD.match(t):
                 stop = (i, b[1]) if b[1] > bands[i][0] + 20 else (i - 1, None)
                 return doc, heads, stop, bands
@@ -51,6 +56,8 @@ def scan(path):
                 return doc, heads, stop, bands
             m = HEAD.match(t)
             if m and not m.group(2):
+                if shared and not re.fullmatch(r"Question\s+\d+\s*(?:\(\d+\s*marks?\))?", t, re.I):
+                    continue  # e.g. MC stimulus: 'Question 24 refers to ...'
                 q = int(m.group(1))
                 if q in seen or (heads and q != heads[-1][0] + 1):
                     continue
@@ -110,7 +117,7 @@ def main(subj):
         if not os.path.exists(key):  # partial import: questions without their key are left out until it arrives
             print("skip (marking key not imported yet):", name)
             continue
-        edoc, eh, es, eb = scan(ex)
+        edoc, eh, es, eb = scan(ex, shared=shared)
         sections = []
         if shared:
             seen = set()
@@ -127,7 +134,7 @@ def main(subj):
             section_blocks.append(dict(exam=os.path.relpath(ex, ROOT).replace(os.sep, '/'),
                                        sections=blocks))
         er = regions(eh, es, eb, edoc.page_count)
-        kdoc, kh, ks, kb = scan(key)
+        kdoc, kh, ks, kb = scan(key, shared=shared)
         kr = regions(kh, ks, kb, kdoc.page_count)
         for q, p, y, mk in eh:
             if shared:
@@ -138,6 +145,14 @@ def main(subj):
                 section = next(s for s in profile['sections'] if s['code'] == sec)
                 if section.get('question_mode') == 'section-only':
                     continue
+                # Do not append the next section's header/instructions to the
+                # final question of this section.
+                later = [(page, top) for code, page, top, _ in sections if (page, top) > (p, y)]
+                if later:
+                    end_page, end_top = later[0]
+                    er[q] = [[page, top, min(bottom, round(end_top - 3, 1)) if page == end_page else bottom]
+                             for page, top, bottom in er[q] if page <= end_page]
+                    er[q] = [r for r in er[q] if r[2] - r[1] > 12]
             res.append(dict(subject=subj, year=year, section=sec, q=q, marks=mk,
                             exam=os.path.relpath(ex, ROOT).replace("\\", "/"), exam_regions=er[q],
                             key=os.path.relpath(key, ROOT).replace("\\", "/"), key_regions=kr.get(q, []),
