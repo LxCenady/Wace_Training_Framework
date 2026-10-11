@@ -148,17 +148,11 @@ wtf-subject-pack skill (2 commits); build_all builds every subject; MAA joins th
 (Codex); partmarks (h)/(i) fix; Mac certificate fix (truststore). All tests passed on 2026-10-12. The owner decides
 when to release.
 
-**In progress — MAA wrap-up** (uncommitted when this was written):
-- tags: three independent reviews + arbitration changed 41 part tags; `tools/parttags_MAA.txt` re-exported
-  (`labels.json` → tags is a one-off script; the audit `tools/audit_maa.py --labels evidence/maa/labels.json` is 0 errors;
-  its "missing 1 / invalid 1" is 2019, excluded on purpose). Review files: `evidence/maa/tag_review/` (local).
-- notes: the 真题 / Past questions lines are regenerated from the tags; a sub-agent is updating the rest of the text
-  (resolved labelling remarks, examples now under another pattern, header counts) and appending to 审校记录.md.
-- still to do: re-render the notes PDFs (`tools/render_methods.py MAA`), rebuild wace.db, run `tools/blueprint.py`
-  (fills the empty blueprint block of `skills/wace-maa-questions/SKILL.md` — that skill was edited to read wace.db,
-  not evidence/), commit tags + notes + PDFs + skill.
-- 2017 CA Q8: the key's 98 974 is an end-of-period perpetuity while the stem says payments at the start of the year —
-  a known inconsistency in the official key, noted in the notes; not a tag issue.
+**MAA is at parity** (`pack_status.py MAA`: 27/28, only `pack.json` missing): 138 questions, 698 tagged parts, 67 patterns,
+points_ok 134/138 (2021 CA Q9 shows its key as an image on purpose). Tags were reviewed by three independent passes +
+arbitration on 2026-10-12 (41 parts changed; files in `evidence/maa/tag_review/`, local); notes, stars and counts
+follow the tags; MAM/MAS rows unchanged. 2017 CA Q8: the official key's 98 974 is an end-of-period perpetuity while the
+stem says start of year — a known key inconsistency, noted in the notes, not a tag issue.
 
 Next planned work: subject packs (`.wtfpack`, `pack.json` index) as WTF's main mods — data only (no code), distributed
 via a `packs.json` index of GitHub release assets + local-file import, maths packs bundled in the installer. First a
