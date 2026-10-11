@@ -22,7 +22,7 @@ Machine-specific details (paths on the owner's PC, the Google Drive sync, their 
 
 WTF (WACE Training Framework): a desktop study system for WA ATAR Mathematics Methods (MAM) and Specialist (MAS),
 built on the 2016–2025 SCSA past exams. Public repo `LxCenady/Wace_Training_Framework`, releases for Windows
-(Setup.exe + portable zip) and macOS (two .dmg, built by GitHub Actions). Current version: `app/version.txt` (1.7.0).
+(Setup.exe + portable zip) and macOS (two .dmg, built by GitHub Actions). Current version: `app/version.txt` (1.8.0).
 README.md describes every feature for users (deadpan-humorous tone on purpose; keep the copyright part serious).
 
 ## Layout
