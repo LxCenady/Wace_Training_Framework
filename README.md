@@ -23,23 +23,55 @@ The Mac version is new: if something looks off, a screenshot in an [issue](https
 method notes [MAM](MAM/methods) · [MAS](MAS/methods) · [MAA](MAA/methods) · [Chemistry](CHE/methods) (English: [MAM](MAM/methods_en) · [MAS](MAS/methods_en) · [MAA](MAA/methods_en) · [Chemistry](CHE/methods_en)), cheat sheets [MAM](cheatsheet/MAM_CheatSheet.pdf) · [MAS](cheatsheet/MAS_CheatSheet.pdf) · [MAA](cheatsheet/MAA_CheatSheet.pdf) · [Chemistry](cheatsheet/CHE_CheatSheet.pdf) (English: [MAM](cheatsheet/MAM_CheatSheet_EN.pdf) · [MAS](cheatsheet/MAS_CheatSheet_EN.pdf) · [MAA](cheatsheet/MAA_CheatSheet_EN.pdf) · [Chemistry](cheatsheet/CHE_CheatSheet_EN.pdf)).
 The past papers themselves are not here (see *Copyright* below): the app fetches them for you on its first run, which is why there is no question bank in this repository and never will be.
 
-WTF is a serious, rigorously engineered study system for the Western Australian ATAR courses **Mathematics Methods (MAM)**, **Mathematics Specialist (MAS)** and, since it turned out the framework does not care which maths you hate, **Mathematics Applications (MAA)**, built on the 2016–2025 SCSA past exams. It exists because the average student's revision strategy — "open a past paper, feel bad, close the past paper" — has a measured completion rate of approximately zero.
+WTF is a desktop study framework for Western Australian ATAR courses, built on the 2016–2025 SCSA past exams. Its four bundled **subject packs** are **Mathematics Methods (MAM)**, **Mathematics Specialist (MAS)**, **Mathematics Applications (MAA)** and **Chemistry (CHE)**. The framework supplies the tools; the packs supply the subjects to feel bad about. It exists because the average student's revision strategy — "open a past paper, feel bad, close the past paper" — has a measured completion rate of approximately zero.
 
-**New in 2.0: Chemistry.** All 400 questions of the 2016–2025 Chemistry ATAR papers — 250 multiple choice and 150 written — tagged by pattern, the Description/Marks keys split one row per mark, notes for all 64 patterns, the data booklet of each year beside the question. Also new: subjects are now **packs**, which is how Chemistry got in without anyone touching the framework, and how the next subject will.
+**New in 2.0: subjects are packs.** Chemistry brings 400 past questions — 250 multiple choice and 150 written — 64 patterns, bilingual notes and year-specific data booklets. Its marking keys are split where the parser can reconcile the marks; the remaining 14 written questions show the original key. The framework was generalised to support shared papers and Description/Marks keys. Future packs can reuse those capabilities; a genuinely new marking format still needs a framework handler. JSON has many talents. Inventing a parser is not one of them.
 
 What it actually does, stated with a straight face:
 
 - every past question is split by **topic**, and every **sub-question** is tagged with the specific **题型 (question pattern)** it uses. Per part, not per question, because examiners enjoy putting three topics into one question and calling it "(c)";
-- every ratified marking key is split into **one row per mark**, so you can see exactly which tick you donated to the examiner;
+- marking keys are split into **one row per mark** where their structure reconciles with the printed marks; otherwise the original key crop stays visible, because inventing a missing mark is the examiner's job;
 - hand-written, independently reviewed **solving-method notes** for every pattern (Chinese with English terms) and 3-page **cheat sheets**, for those who believe 3 pages is "light reading";
-- a desktop **GUI** (knowledge tree → pattern → past questions, marking key hidden until you are brave enough) that can ask an LLM of your choice to **write a similar question, solve it independently, check it, and split the answer into mark points before showing you anything**. The AI marks its own homework, then a different AI marks that, then SymPy marks both. Trust issues are a feature;
+- a desktop **GUI** (knowledge tree → pattern → past questions, marking key hidden until you are brave enough) that can ask an LLM of your choice to **write a similar question, solve it independently, check it, and split the answer into mark points before showing you anything**. Maths packs also request SymPy recomputation; Chemistry currently relies on the model checks and structural validation, without a dedicated chemical verifier. Trust issues are a feature. A universal correctness certificate is not;
 - Claude Code **skills** for generating topic quizzes, for when one AI is not enough.
 
-> 中文简介：WACE 数学方法 / 专业数学 / 数学应用 / 化学刷题系统（v2 起学科以「学科包」形式接入），名字缩写纯属巧合（并不是）。真题按知识点与小问题型标注，评分标准拆到每一分，每个题型都有解题思路讲义。GUI 里按知识图谱选题型看真题，或者让你自己接入的 AI（OpenAI / Anthropic 格式）出相似题：出题、独立解题、独立核对、SymPy 复算、拆成得分点，全部通过才给答案。AI 不被信任，这是设计。
+> 中文简介：WTF 是 WACE ATAR 刷题框架，内置数学方法、专业数学、数学应用和化学四个学科包，名字缩写纯属巧合（并不是）。框架负责界面、题库、AI 流程和导出；学科包提供课程结构、题型标注、讲义和真题来源。真题在本机下载、切分并建库，评分拆分不可靠时保留官方 key 原图。AI 经出题、独立解题、核对和得分点整理；数学额外做 SymPy 复算，化学目前没有专用化学验算器。AI 不被信任，这是设计；不代表它终于值得信任了。
+
+## Subject packs — the syllabus has moved out of the engine
+
+There are two kinds of plugin, and only one of them gets to run Python:
+
+| Layer | Contains | Responsibility |
+|---|---|---|
+| **Framework and feature plugins** | `app/kernel.py`, `app/plugins/*.py`, the shared tools in `tools/` | UI, databases, PDF rendering, AI providers, generation, marking, search, exports and updates |
+| **Subject packs** | a data-only `.wtfpack` archive | course profile, sections and timing, scoring metadata, topics/pattern tags, bilingual notes, cheat sheets, question-generation skill and paper-source manifest |
+| **Your local data** | downloaded PDFs, derived crops/indexes, `wace.db`, `generated.db`, `external.db` | the papers you fetched, the bank you built, and the mistakes you personally contributed |
+
+The tiny kernel supplies services and events. Feature plugins register services with `provide/get` and communicate through `on/emit`; `main.py` wires them together. Subject packs do not join that Python plugin loader. They are read by the subject registry, which tells the same tools how to handle each course. A timetable should not require a software fork. It already requires enough stationery.
+
+Each installed subject has `<S>/pack.json` and `<S>/sources.tsv`. The profile defines names, topics, section codes, paper layout, timers, weights, reference sheets and which **built-in** marking parser/checker to use. Maths uses separate CF/CA papers; Chemistry uses one paper with MC/SA/ER sections. Raw marks and section weights are separate metadata: 100 raw marks and 100% are not synonyms, however reassuring the number looks.
+
+The source manifest records official URLs, download method, exact Wayback capture where applicable, SHA-256, size/page count and whether a file is required. The app checks the saved PDFs against that manifest before using the pack's crop locations. A PDF with the right title and the wrong pages is still the wrong PDF. It has simply dressed well.
+
+**Installing a pack:** 题库 → 管理科目 → 导入学科包… → choose a local `.wtfpack`. WTF checks its format, minimum framework version, supported handlers, safe file paths and payload hashes, installs the data, then opens the paper-import wizard. All required files for the selected subjects must be present before it builds the bank. Pack installation does not conjure copyrighted papers out of a ZIP.
+
+```text
+subject pack: profile + notes + tags + source manifest
+                         ↓
+download/import matching original PDFs on your computer
+                         ↓
+recognise → segment → read marks + apply tags → build wace.db
+                         ↓
+the same UI, search, practice, AI workflow and PDF export
+```
+
+**Current boundary:** local pack import/export is implemented; an online pack catalogue and one-click online installation are not. Adding a course that uses supported layouts and handlers is data work. A new parser or independent verifier is framework work, registered centrally; packs cannot ship executable code. The four bundled subjects use this same mechanism. There is no secret fifth subject hidden in `main.py`, waiting for its own `if` statement.
+
+> 中文架构说明：框架的功能插件是 Python 代码，由微内核加载；学科包是数据，由注册表读取。两者共用界面与建库流程，但学科包不能带可执行代码，也不包含 SCSA 原卷或衍生题库。新增学科若能复用已有卷型和处理器，制作包即可；新的评分格式或验算能力仍需扩展框架。现在支持本地 `.wtfpack` 导入，尚无在线包商店。外源卷库继续独立存放，不混入 SCSA 真题统计。
 
 ## Copyright — the exams are not in this repo (this part is not a joke)
 
-The past exams, marking keys and examination reports are © School Curriculum and Standards Authority (SCSA), licensed only for non-commercial copying *within educational institutions*. They are therefore **not redistributed** here, and neither is anything containing their text or images (`questions.json`, topic PDFs, question banks, `wace.db`). You download them yourself from SCSA and build everything locally — `sources.tsv` lists the official URL of every file (2016–2019 via the Wayback Machine).
+The past exams, marking keys and examination reports are © School Curriculum and Standards Authority (SCSA), licensed only for non-commercial copying *within educational institutions*. They are therefore **not redistributed** here or inside subject packs, and neither is anything containing their text or images (`questions.json`, topic PDFs, question banks, `wace.db`). You download them yourself from SCSA and build everything locally — each subject's `<S>/sources.tsv` lists its official sources and file checksums (2016–2019 via the Wayback Machine).
 
 Everything else (code, tags, method notes, cheat sheets, skills) is original work in this repo.
 
@@ -49,15 +81,15 @@ On a Mac, step 1 is the .dmg above (drag to Applications, right-click → Open t
 
 1. Download **[WTF-Setup.exe](https://github.com/LxCenady/Wace_Training_Framework/releases/latest/download/WTF-Setup.exe)** (always the newest version) and double-click it. It installs for you only (no administrator rights, default `%LOCALAPPDATA%\Programs\WTF`), adds desktop and Start-menu shortcuts and starts the app. Running a newer setup over an old install upgrades it and keeps your papers, AI questions and mistakes, because deleting a student's 错题本 is how wars start. (Allergic to installers? `WTF-Windows-vX.Y.Z.zip` is the same app — extract anywhere, a USB stick works.)
    Windows SmartScreen will warn you because the app is not code-signed. Code signing costs money; this README is free. *More info → Run anyway.*
-2. The first run opens the **import wizard**. Tick the subjects you actually take (MAM, MAS, MAA — nobody takes all three, and the wizard will not judge you either way); only their papers are fetched. Then it starts working before you have finished reading this:
+2. The first run opens the **import wizard**. Tick the subjects you actually take (MAM, MAS, MAA, CHE — the wizard knows which packs are installed, not why you chose them); only their papers are fetched. Then it starts working before you have finished reading this:
    - ① the 2016–2019 papers download by themselves from the Wayback Machine, three at a time, with an ETA. The Internet Archive is a national treasure running on what appears to be a single hamster; please be patient with the hamster;
    - ② 2020–2025: click 「打开下一批」 to open 6 official links at a time in your browser, press Ctrl+S on each PDF and just click Save — the browser's default, the Downloads folder, is the only place the wizard looks. Then click 「我存好了，检查下载文件夹」. File names do not matter: each paper is recognised from its first page. Name them `asdf (3).pdf` if you must; we have seen worse;
-   - ③ the bank is built only when **every** paper is in — then by itself (~1 min) — and the app restarts into the full interface. There is no half-built bank to wonder about. A banner at the top always says what to do next, in case reading this README did not go well either.
+   - ③ the bank is built only when **every required file** is in — then by itself — and the app restarts into the full interface. Sample papers and examination reports are optional and do not block it. There is no half-built bank to wonder about. A banner at the top always says what to do next, in case reading this README did not go well either.
 
-   Downloads retry dropped connections, timeouts and "too many requests" with polite, growing pauses, and failed files get a second round; update downloads resume where they stopped. Sample papers are skipped because nobody has ever needed them. The window sizes itself to your screen and is DPI-aware, so it is sharp at 125–200 % scaling instead of looking like it was rendered on a potato.
+   Downloads retry dropped connections, timeouts and "too many requests" with polite, growing pauses, and failed files get a second round; update downloads resume where they stopped. Wrong-version PDFs are rejected rather than silently giving every question a new haircut. The window sizes itself to your screen and is DPI-aware, so it is sharp at 125–200 % scaling instead of looking like it was rendered on a potato.
 3. For AI questions and explanations, add your own API key in 设置 (default: DeepSeek). Browsing past questions, marking keys and notes needs no key, no account and no subscription. We checked: still no subscription.
 
-Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teachers can prepare a copy without the GUI — i.e. without having to look at it:
+Your AI questions and 错题本 live in `generated.db` in the app's data folder: next to `WTF.exe` on Windows, or `~/Library/Application Support/WTF` on Mac. Teachers can prepare a copy without the GUI — i.e. without having to look at it:
 `WTF.exe --import <folder of PDFs> --build` (log in `WTF.log`).
 
 ## Features at a glance
@@ -67,7 +99,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 | Knowledge tree | left pane | subject → topic → 题型 (pattern) → every past question that uses it, plus your ★ AI questions; select one pattern and the patterns that most often share its past questions light up (↔ 2/12 道 · 17 %) |
 | Pattern notes | click a pattern | how to recognise it, the steps, where the marks are, examiners' warnings, and how many marks it usually carries per section |
 | Past questions | click a question | the original exam crop; 「显示评分标准」 reveals the official key, split one row per mark |
-| AI similar questions | select pattern(s) → 「AI 生成相似题」 | new question, independently solved, cross-checked, SymPy-verified, split into mark points — answers stay hidden until you ask |
+| AI similar questions | select pattern(s) → 「AI 生成相似题」 | new question, independently solved, cross-checked, split into mark points; maths additionally uses SymPy — answers stay hidden until you ask |
 | Unit questions | select a unit title → 「AI 生成相似题」 | questions on a whole unit, each built on a real question's shape: patterns, marks and cross-unit pairings follow the unit's real statistics (shown on the unit's page) |
 | Batch generation | 难度 + 数量 under the tree | up to 20 questions at a time, 基础 / 标准 / 拔高 |
 | Past question search | 「真题搜索」 next to 「AI 生成相似题」, or Ctrl+F | find past questions by any mix of patterns and units (all-of / any-of), cross-unit only, with a drawing part or a figure, by year, marks and words; see which patterns and units appear together; export the results as PDF |
@@ -76,23 +108,24 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 | 错题本 | Ctrl+E | mistakes grouped by pattern, weakest first; 一键讲解, 错题加强题, spaced review |
 | Mock exam | Ctrl+M | real past paper or AI-assembled paper, WACE timing, auto-submit, marking, history |
 | 掌握度地图 | Ctrl+G | one tile per pattern, coloured by your score rate |
-| Formula sheet | right pane (F2) | the official sheet for the subject you are viewing, resizable |
+| Reference sheets | right pane (F2) | choose subject and year; maths formula sheets or Chemistry data booklets, follows the question you are viewing, resizable |
 | PDF export | 我的 AI 题库 / a finished batch / 真题搜索 / mock exam | question paper (one question per page, rest is working space) + answer paper with ☐ mark boxes |
-| Subject packs | 题库 → 管理科目 → 导入学科包… | since v2.0 every subject is a data-only `.wtfpack` (`pack.json` + notes + tags + a manifest of where each paper comes from, with checksums); the app reads subjects, sections, timers and marking style from the pack, so adding a subject means publishing a pack, not editing the app |`n| 管理科目 | 题库 → 管理科目 | add or drop subjects later: tick a subject, fetch its papers, rebuild — your AI questions and 错题本 stay |
+| Subject packs | 题库 → 管理科目 → 导入学科包… | import a local data-only `.wtfpack`, validate its profile and files, then fetch its required papers and build locally; no executable code or SCSA originals in the pack |
+| 管理科目 | 题库 → 管理科目 | add or drop subjects later: tick a subject, fetch its papers, rebuild — your AI questions and 错题本 stay |
 | English UI | 设置 → 界面语言 | the whole interface, notes and explanations in English |
 | Updates | 帮助 → 检查更新 | download, verify and install new releases without losing your data |
 
 ## How to use it
 
-**1. Learn a pattern.** Expand a topic in the tree and click a 题型. Read the method notes; the grey line under the title says how many marks it usually carries in calculator-free and calculator-assumed papers. Expand the pattern to see every past question on it — the list shows which parts use it. The patterns that most often appear in the same past questions light up in the tree, with how many of this pattern's questions also use them (only pairs seen at least twice; a unit holding one is opened). Ctrl-click them to combine for an AI question, or press 「真题搜索」 to see those questions.
+**1. Learn a pattern.** Choose a subject in the tree's drop-down, expand a topic and click a 题型. Read the method notes; the grey line under the title says how many marks it usually carries in that subject's sections. Expand the pattern to see every past question on it — the list shows which parts use it. The patterns that most often appear in the same past questions light up in the tree, with how many of this pattern's questions also use them (only pairs seen at least twice; a unit holding one is opened). Ctrl-click them to combine for an AI question, or press 「真题搜索」 to see those questions.
 
 **2. Do past questions, then mark yourself.** Click a question, do it on paper (formula sheet on the right, F2 to hide it), then press 「显示评分标准」. For every part you dropped marks on, right-click the part (or a mark point) → 「此题扣分」, tick the points you missed and add a note in your own words. That is the whole bookkeeping; the app does the rest.
 
-**3. Get new questions when the past ones run out.** Select a **unit title** to practise the whole unit the way the exam tests it, or one pattern, or Ctrl-click several patterns to combine them; choose 卷型 (CF/CA/任意), 总分 (0 = let the real papers decide), 难度 and 数量; press 「AI 生成相似题」. A unit's page lists what unit questions are built from: its real questions per section, how often they cross into other units and with which, and each pattern's share of the unit's marks, usual marks and how often it comes with a figure or a drawing part. Each question appears under ★ in the tree and in 我的 AI 题库 once it has passed every check. Answers are hidden: do it first, then reveal and self-mark exactly as with past questions.
+**3. Get new questions when the past ones run out.** Select a **unit title** to practise the whole unit the way the exam tests it, or one pattern, or Ctrl-click several patterns to combine them; choose 卷型 (sections of the selected subject, or 任意), 总分 (0 = let the real papers decide), 难度 and 数量; press 「AI 生成相似题」. A unit's page lists what unit questions are built from: its real questions per section, how often they cross into other units and with which, and each pattern's share of the unit's marks, usual marks and how often it comes with a figure or a drawing part. Each question appears under ★ in the tree and in 我的 AI 题库 once it has passed every check. Answers are hidden: do it first, then reveal and self-mark exactly as with past questions.
 
 **4. Close the loop in the 错题本 (Ctrl+E).** Weakest patterns come first. Select a mistake and press 「一键讲解所选错题」 for a full explanation of each mark you lost; 「生成错题加强题」 writes new questions that require exactly the steps you got wrong (with nothing selected, it targets your weakest pattern). Mistakes come back for review after 1, 3, 7, 14 and 30 days: tick 「只看今日待复习」, right-click a mistake → 「复习：做一道同题型新题」, then mark it 「复习通过」 or 「又错了」.
 
-**5. Sit a mock exam (Ctrl+M).** Choose subject, section and a real year or 「AI 组卷」. AI papers are assembled while you watch (each question's patterns and marks are listed); start when ready. Reading time and working time follow WACE (CF 5 + 50 min, CA 10 + 100 min) and the paper submits itself at the end. Then open each question, reveal the key, right-click to deduct, and the score updates. Every attempt is kept in the history.
+**5. Sit a mock exam (Ctrl+M).** Choose subject, section and a real year or 「AI 组卷」. AI papers are assembled while you watch (each question's patterns and marks are listed); start when ready. Reading and working time come from the subject profile (maths CF 5 + 50 min, CA 10 + 100 min; Chemistry section practice uses its suggested working time) and the paper submits itself at the end. Then open each question, reveal the key, right-click to deduct, and the score updates. Every attempt is kept in the history.
 
 **6. Print.** In 我的 AI 题库, select questions (or whole groups, or a search) → 导出练习卷 PDF; mock exams have their own export. You get a question paper with one question per page and an answer paper where no question is split across pages, each mark point with a ☐ to tick.
 
@@ -103,7 +136,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 **Shortcuts:** Ctrl+F 真题搜索 · Ctrl+B 我的 AI 题库 · Ctrl+E 错题本 · Ctrl+M 模拟考试 · Ctrl+G 掌握度地图 · F2 formula sheet · Ctrl-click patterns to combine · double-click to open · right-click a part to deduct marks.
 
 > **中文使用说明**
-> 1. **学题型**：左侧知识图谱点开知识点 → 点题型，看解题思路；标题下灰字是这个题型在 CF / CA 卷里一般占几分。展开题型可以看到所有用到它的真题。选中一个题型时，跟它在同一道真题里出现最多的题型会在图谱上高亮（↔ 共现道数 / 本题型道数 · 比例），Ctrl+点击即可组合出题。
+> 1. **学题型**：左侧下拉选择学科，点开知识点 → 点题型，看解题思路；标题下灰字是这个题型在该学科各分区一般占几分。数学是 CF / CA，化学是 MC / SA / ER。展开题型可以看到所有用到它的真题。选中一个题型时，跟它在同一道真题里出现最多的题型会在图谱上高亮（↔ 共现道数 / 本题型道数 · 比例），Ctrl+点击即可组合出题。
 > 2. **刷真题 + 自批**：点真题，在纸上做完再点「显示评分标准」。哪一小问扣分了就右键 →「此题扣分」，勾掉丢的得分点、写一句备注，自动进错题本。
 > 3. **AI 出题**：选**单元标题**按该单元真题的题型分布、分值和跨单元搭配出题（单元页面会列出这些统计）；或选一个题型（Ctrl+点击可多选组合），设卷型、总分（0 = 按真题自动）、难度、数量，点「AI 生成相似题」。通过全部校验才入库，答案默认隐藏。
 > 4. **错题闭环**（Ctrl+E）：薄弱题型排前面；「一键讲解所选错题」逐分讲清楚丢在哪；「生成错题加强题」专练丢分步骤；按 1/3/7/14/30 天间隔复习（勾「只看今日待复习」，右键错题做复习题）。
@@ -115,7 +148,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 ## External papers — kept separate from SCSA past questions
 
 Open **外源卷库 / External library** in the menu and import a PDF question paper together with its answer PDF.
-Enter the paper name, school or other source, subject and calculator section. Originals are copied into
+Enter the paper name, school or other source, subject and section. Originals are copied into
 `external/`; crops, marks, text and tags live in a separate `external.db`. External questions are searched only
 in this library and never affect the SCSA knowledge tree, past-question search, paper totals or blueprint.
 
@@ -158,29 +191,39 @@ app\WACE学习系统.bat
 ## English edition
 
 - **App**: 设置 (Settings) → 模型与 API key → 界面语言 / Language → English, then restart (the first-run wizard has the same switch). Pattern names, method notes and AI explanations switch to English too.
-- **Notes**: `MAM/methods_en/`, `MAS/methods_en/`, `MAA/methods_en/` (method notes + review logs, md + pdf) and `cheatsheet/*_CheatSheet_EN.*`.
-- **How it is made**: `tools/translate.py docs` translates the Chinese notes chunk by chunk with the configured model (DeepSeek by default — outsourcing, essentially) and caches every chunk; `tools/translate.py ui` builds `app/i18n/en.json` from the Chinese fragments in the code plus any fragment the running app reported missing. The interface code stays single-language: the `i18n` plugin translates text at the exact moment it reaches Tk, which is either elegant or unhinged depending on who you ask. Glossary: 题型 = pattern, 知识点 = topic, 错题本 = mistake book, 得分点 = mark points, 评分标准 = marking key.
+- **Notes**: `MAM/methods_en/`, `MAS/methods_en/`, `MAA/methods_en/`, `CHE/methods_en/` (method notes + review logs, md + pdf) and `cheatsheet/*_CheatSheet_EN.*`.
+- **How it is made**: `tools/translate.py docs <S>` translates one subject's Chinese notes chunk by chunk with the configured model (DeepSeek by default — outsourcing, essentially); choose the subject deliberately, because rebuilding every translation can overwrite hand edits. `tools/translate.py ui` builds `app/i18n/en.json` from the Chinese fragments in the code plus any fragment the running app reported missing. The interface code stays single-language: the `i18n` plugin translates text at the exact moment it reaches Tk, which is either elegant or unhinged depending on who you ask. Glossary: 题型 = pattern, 知识点 = topic, 错题本 = mistake book, 得分点 = mark points, 评分标准 = marking key.
 - `app/tests/smoke_en.py` opens every main view in English and lists any Chinese still on screen (currently none; it was very thorough about this).
 
 ## Layout
 
 ```
-MAM/ MAS/ MAA/
+MAM/ MAS/ MAA/ CHE/                       installed subject data
+  pack.json      course profile: topics, sections, layout, timing, weights, built-in handlers and sheets
+  sources.tsv    paper URLs + download method + archive capture + hashes + required/optional status
   methods/       NN_Topic_解题思路.md/.pdf   题型 patterns: how to recognise, steps, where the marks are,
                                              examiners'-report warnings, cited past questions; 审校记录 = review log
+  methods_en/    English editions
   papers/ topics/ 题库/ questions.json      (built locally, not in git)
 cheatsheet/      MAM / MAS / MAA / CHE cheat sheets (md + pdf, 3 pages each)
-skills/          wace-mam-questions, wace-mas-questions (Claude Code skills; paths resolve live:
-                 $WACE_MATHS_ROOT, else the folder above skills/)
+skills/          wace-{mam,mas,maa,che}-questions: question-generation instructions
+                 wtf-subject-pack: authoring and reviewing a subject pack
+                 (paths resolve live: $WACE_MATHS_ROOT, else the folder above skills/)
 tools/
-  fetch.py         sources.tsv -> */papers; import any-named PDFs (paperid.py recognises a paper from its first page)
+  subjects.py      validates and reads installed profiles; the shared subject registry
+  handlers.py      built-in marking parsers/checkers selected by profile (no pack-supplied code)
+  pack.py          export / inspect / import data-only .wtfpack archives
+  scoring.py       raw marks and section-weighted score summaries
+  rubric.py        structured-award scoring algebra and overlapping atomic coverage (not the live bank format)
+  fetch.py         <S>/sources.tsv -> */papers; recognise saved PDFs and verify source hashes
   package_win.py   Windows release: PyInstaller app -> dist/WTF-Windows-<ver>.zip + WTF-Setup-<ver>.exe
   installer.py     the setup exe: per-user install, shortcuts, upgrades keep user data
   build_all.py     runs the steps below in order
   segment.py       papers -> questions.json (page regions of every question in exam + key)
+  segment_mc.py    multiple-choice regions and accepted answers for a shared paper
   build_docs.py    questions.json + tags_*.txt -> topic PDFs (exam crop + key crop) and .md indexes
   build_bank.py    question-only banks per topic, newest first
-  markpoints.py    marking-key text -> one row per mark (tick lines under "Specific behaviours")
+  markpoints.py    built-in ticks and Description/Marks key parsers; inconsistent keys keep image fallback
   build_db.py      everything -> wace.db; prints any tag / key inconsistency
   blueprint.py     real paper statistics -> mark distribution + cross-topic pairings for skills and mock exams
   tags_*.txt       topic tags per question
@@ -190,7 +233,7 @@ tools/
 app/             GUI (below)
 ```
 
-`wace.db` (SQLite) tables: `topics`, `patterns` (title + method text), `questions` (crop regions, stem, `points_ok`), `parts` (marks of every part as printed on the paper — `tools/partmarks.py` reads the "(n marks)" after each (a)/(b)(i), and they agree with the marking key's tick count on every question where that count is clean), `part_patterns`, `points` (one row per mark), `questions.figure` / `parts.sketch` (whether the question shows a graph or diagram, and whether the part asks the student to sketch, draw, plot, shade or mark on it — read from the stems and the exam crops), and the view `pattern_marks` (every real question × pattern × topic × section → the marks that pattern carried in it), which feeds the mock-exam blueprint, the skills and the "marks" line on each pattern page. For 16 of 367 questions the key's ticks do not split cleanly (`points_ok = 0`) — the marking key, too, has its moods — and the GUI then shows the original key crop as the authority. AI-generated questions go to a separate `generated.db`, so rebuilding never deletes them.
+`wace.db` (SQLite) is the locally built SCSA index: `topics`, `patterns` (notes), `questions` (source crops, stem, `points_ok`), `parts` (printed marks and drawing flags), `part_patterns` and `points`. The `pattern_marks` view feeds practice statistics and blueprints; currently a part tagged with several patterns shares its marks evenly between them. That is a statistical allocation, not a proof of which knowledge atom earned each mark. The structured scoring-tree/atomic-coverage module is a separate foundation and is not yet the bank's storage or self-marking model. If a key does not reconcile (`points_ok = 0`), the GUI shows the official crop rather than pretending the parser won. AI questions, attempts and mistakes live in `generated.db`; external imports live in `external.db` and `external/`, outside the SCSA index and its statistics. Rebuilding the past bank does not turn your mistakes into somebody else's problem.
 
 ## How it works (`app/`)
 
@@ -201,17 +244,17 @@ app/             GUI (below)
   3. *checker* — compares setter and solver part by part, re-derives any disagreement, checks the question is well-posed;
   4. *examiner* — splits the verified solution into exactly one behaviour per mark.
 
-  Between checker and examiner, **SymPy recomputes** every numeric part from a solver-written expression (e.g. `solve(diff(pi*r**2 + 16*pi/r, r), r)`, `P(Normal('X', 32, 4) > 40)`) and compares it with both models' answers; a disagreement sends the question back. The expression is whitelisted (numbers, arithmetic, known maths functions — no attributes, imports or dunders) and runs in a separate, time-limited process; parts it cannot evaluate are shown as unchecked, never as wrong. SymPy has no opinions, which is exactly why it is here.
+  For packs with `checker: sympy` (the three maths courses), **SymPy recomputes** numeric parts with supported solver-written expressions (e.g. `solve(diff(pi*r**2 + 16*pi/r, r), r)`, `P(Normal('X', 32, 4) > 40)`) and compares them with both models' answers; a disagreement sends the question back. The expression is whitelisted (numbers, arithmetic, known maths functions — no attributes, imports or dunders) and runs in a separate, time-limited process; parts it cannot evaluate are shown as unchecked, never as wrong. Chemistry currently uses `checker: none`, which skips this independent computation, not the solver/checker model calls. SymPy has no opinions. It also has no Chemistry ATAR qualification.
   The program checks part labels and mark counts between steps; any failure regenerates with the reason (2 retries by default). Nothing answer-like is shown until all steps pass; 「查看验证记录」 shows every raw reply, for the forensically inclined.
 - **Batch generation**: choose 难度 (基础 / 标准 / 拔高 — calibrated in the prompt against the opening parts, the median past question, and the final parts of the hardest recent questions) and 数量 (1–20). Questions run 4 at a time (`parallel` in the config), each through the full four-step check; a failure only drops that question. The setter is shown the openings of the latest AI questions on the same patterns and told not to reuse their context, function or numbers — otherwise every question would be about a farmer and his fence.
-- **Unit questions**: select a unit title instead of a pattern. Each question takes the shape of a real question led by that unit — its patterns and the marks each carried — varied the same way as mock-paper questions (same-unit swaps, ±1 mark). Real shapes are drawn without replacement, so a batch does not repeat itself and still matches the unit: over 2,000 simulated questions per unit, the cross-unit rate is within 2 points of the real one for all 14 units and each pattern's share of the unit's marks within 3.4 %. With section 任意, CF and CA come as often as the unit's real questions sit in each.
+- **Unit questions**: select a unit title instead of a pattern. Each question takes the shape of a real question led by that unit — its patterns and the marks each carried — varied the same way as mock-paper questions (same-unit swaps, ±1 mark). Real shapes are drawn without replacement, so a batch does not repeat itself and still matches the unit: over 2,000 simulated questions per unit, the cross-unit rate is within 2 points of the real one for all 14 units and each pattern's share of the unit's marks within 3.4 %. Those figures describe the earlier two-maths-course evaluation, not a fresh four-subject benchmark. With section 任意, sections are sampled from the selected unit's real questions.
 - **我的 AI 题库** (menu 题库, the button under the tree, or Ctrl+B): every generated question, arranged like the knowledge tree — subject → unit → pattern → questions, only where there are questions, with counts and the difficulty mix. A question sits once, under its lead pattern; its other patterns have their own column. Searching expands what matches; sort by any column; double-click to open (answers still hidden); selecting a subject, unit or pattern exports everything under it.
-- **Formula sheet** pinned on the right (newest official sheet; follows the subject you are viewing; drag its edge to resize, re-rendered sharp at any width; F2 hides it, for those who have memorised it, or claim to have).
+- **Reference sheets** pinned on the right (subject/year drop-downs; follows the question's year; formula sheets for maths, data booklets for Chemistry; drag its edge to resize, re-rendered sharp at any width; F2 hides it, for those who have memorised it, or claim to have).
 - **Self-marking (自批卷)**: every part of an AI answer and of a past question's key is labelled with its topic + 题型. Right-click a part → 「此题扣分」, tick the mark points you missed, add a note → it goes into **我的错题本** (Ctrl+E), grouped by pattern, weakest first. Honesty is not enforced, merely encouraged.
 - **错题加强题**: from the 错题本, generate targeted questions for the selected (or weakest) pattern; the setter is told exactly which mark points you lost, so the new question requires those exact steps. It remembers. It is patient.
 - **一键讲解**: one click explains a recorded mistake — what the part tests, why each missed mark was lost (using your note), the full correct working with every mark shown, and habits to avoid it next time. Cached; 「重新讲解」 asks again if the first explanation did not land.
 - **导出练习卷 PDF** (我的 AI 题库): selected questions, whole groups or the current search → a question paper with suggested time, one question per page and the rest of the page (plus a blank page if that is not enough, ~3 lines per mark) as working space, and an answer paper whose mark points have ☐ boxes for marking on actual paper, the ancient medium. Answers share pages, but a question that does not fit moves whole to the next page — nothing is cut in half unless it is longer than a page.
-- **模拟考试** (Ctrl+M): a real past paper or an AI-assembled one. Every AI question is built on the shape of a real question — which patterns it combined and how many marks each carried — then reshuffled: patterns swapped for same-topic ones that have carried that many marks, marks nudged by one inside what real papers show. Topic shares, question counts and cross-topic pairings land within a few percent of the real papers, no two mock papers are alike, and none of them are kind. (Earlier versions once offered a 12-mark calculator-free definite integral. That examiner has been let go.) WACE timing (CF 5 + 50 min, CA 10 + 100 min) with auto-submit, a live progress display while the paper is being assembled, and export to PDF; then mark each question with right-click and watch the score update in real time; history of all attempts, kept forever.
+- **模拟考试** (Ctrl+M): a real past paper or an AI-assembled one. Every AI question is built on the shape of a real question — which patterns it combined and how many marks each carried — then reshuffled: patterns swapped for same-topic ones that have carried that many marks, marks nudged by one inside what real papers show. Topic shares, question counts and cross-topic pairings land within a few percent of the real papers, no two mock papers are alike, and none of them are kind. (Earlier versions once offered a 12-mark calculator-free definite integral. That examiner has been let go.) Profile-defined timing (maths CF 5 + 50 min, CA 10 + 100 min; Chemistry section practice uses its suggested working time) with auto-submit, a live progress display while the paper is being assembled, and export to PDF; then mark each question with right-click and watch the score update in real time; history of all attempts, kept forever.
 - **掌握度地图** (Ctrl+G): one tile per pattern — colour = your score rate on it (grey = not attempted, i.e. avoided), number = marks it carried across past papers; click for the notes, right-click to practise it.
 - **间隔复习**: every mistake comes back after 1, 3, 7, 14 and 30 days (Leitner boxes), like a sequel nobody asked for. The 错题本 shows what is due today, and a review can generate a fresh question aimed at the points you missed.
 - **Settings** (设置 → 模型与 API key): Anthropic format (`/v1/messages`) or OpenAI format (`/chat/completions`) with your own base URL, model and key — any compatible service works. **Default: DeepSeek** (`https://api.deepseek.com`, `deepseek-flash`, thinking mode at `reasoning_effort: max`, because "min" felt disrespectful to the exam); the per-provider 额外参数 JSON is merged into every request body. Keys are stored only in `%APPDATA%\wace-maths\config.json` (empty → `DEEPSEEK_API_KEY` / `OPENAI_API_KEY` / `ANTHROPIC_API_KEY`). An empty balance (HTTP 402) or a bad key stops the batch with a readable message instead of failing 20 questions one by one. `mock` is an offline provider for trying the pipeline without paying anyone.
