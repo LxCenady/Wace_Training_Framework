@@ -87,7 +87,7 @@
       "id": "EQ10",
       "name_zh": "真实情境中的平衡",
       "name_en": "Equilibria in real contexts",
-      "description": "把平衡原理用于海洋酸化与碳酸盐、血液/生物体系、工业条件选择以外的实际情境并加以解释。",
+      "description": "把平衡原理用于海洋酸化与碳酸平衡（CO2 + H2O ⇌ H2CO3 …）、血液/生物体系等实际情境并加以解释。",
       "syllabus": "Unit 3 · Chemical equilibrium systems",
       "not": "工业生产中产率与速率的折中归 SYN2。"
     },
@@ -100,9 +100,9 @@
     },
     {
       "id": "AB2",
-      "name_zh": "强弱酸碱、电离与 Ka",
-      "name_en": "Strength, ionisation and Ka",
-      "description": "区分强/弱与浓/稀，写电离方程（含多元酸分步），由 Ka 比较酸性强弱；阿伦尼乌斯模型与 B-L 模型的比较。",
+      "name_zh": "强弱酸碱、电离与 Ka；溶液中的物种",
+      "name_en": "Strength, ionisation, Ka and species in solution",
+      "description": "区分强/弱与浓/稀，写电离方程（含多元酸分步），由 Ka 比较酸性强弱，列出溶液或体系中存在的主要物种；阿伦尼乌斯模型与 B-L 模型的比较。",
       "syllabus": "Unit 3 · Acids and bases"
     },
     {
@@ -151,9 +151,9 @@
     },
     {
       "id": "AB9",
-      "name_zh": "酸碱/沉淀反应方程式与现象",
-      "name_en": "Acid–base and precipitation equations with observations",
-      "description": "写出酸与金属氧化物/碳酸盐/碱、沉淀反应等的配平离子方程式，描述可观察现象。",
+      "name_zh": "非氧化还原反应方程式与现象",
+      "name_en": "Non-redox equations with observations",
+      "description": "写出酸碱、沉淀、分解（如氢氧化物受热分解）等非氧化还原反应的配平方程式，或把多步反应合并为总方程式，并描述可观察现象。",
       "syllabus": "Unit 3 · Acids and bases",
       "not": "氧化还原型的方程式与现象归 RX3。"
     },
@@ -168,7 +168,7 @@
       "id": "RX2",
       "name_zh": "半反应与氧化还原方程配平",
       "name_en": "Half-equations and balanced redox equations",
-      "description": "在酸性条件下写出并配平氧化/还原半反应和总反应。",
+      "description": "写出并配平氧化/还原半反应和总反应（酸性条件为主；题目给定碱性或其他条件时按给定条件）。",
       "syllabus": "Unit 3 · Oxidation and reduction"
     },
     {
@@ -180,16 +180,16 @@
     },
     {
       "id": "RX4",
-      "name_zh": "标准电极电势：反应倾向与 E°",
-      "name_en": "Standard electrode potentials: tendency and E°cell",
-      "description": "用 E° 表判断反应能否自发、最强氧化剂/还原剂，计算标准电池电势。",
+      "name_zh": "标准电极电势：反应倾向与电池电压",
+      "name_en": "Electrode potentials: reaction tendency and cell voltage",
+      "description": "用 E° 表判断反应能否自发、最强氧化剂/还原剂，计算标准电池电势，解释实测电压与 E° 计算值不同的原因（非标准条件、内阻等）。",
       "syllabus": "Unit 3 · Oxidation and reduction"
     },
     {
       "id": "RX5",
       "name_zh": "原电池结构与工作原理",
       "name_en": "Galvanic cells",
-      "description": "标注阳极/阴极、电极正负、电子流向、离子迁移、盐桥作用，写电极反应，描述电极现象。",
+      "description": "标注阳极/阴极、电极正负、电子流向、离子迁移、盐桥作用，写电极反应，描述电极现象；用电池符号（电池图）表示电池。",
       "syllabus": "Unit 3 · Oxidation and reduction"
     },
     {
@@ -214,13 +214,6 @@
       "syllabus": "Unit 3 · Oxidation and reduction"
     },
     {
-      "id": "RX9",
-      "name_zh": "电池符号/电池图",
-      "name_en": "Cell diagrams",
-      "description": "画出或读取电化学电池的标准符号表示。",
-      "syllabus": "Unit 3 · Oxidation and reduction"
-    },
-    {
       "id": "ORG1",
       "name_zh": "识别官能团与有机物类别",
       "name_en": "Identify functional groups and classes",
@@ -230,8 +223,8 @@
     {
       "id": "ORG2",
       "name_zh": "IUPAC 命名与结构式互译",
-      "name_en": "IUPAC names and structural formulae",
-      "description": "按 IUPAC 规则命名（≤8 个碳、简单支链、一个官能团），或由名称画出结构式（含全部 H）。",
+      "name_en": "Names and structural formulae",
+      "description": "按 IUPAC 规则命名（≤8 个碳、简单支链、一个官能团）；由名称或给定条件（碳数、官能团、异构类型）画出结构式（含全部 H）。",
       "syllabus": "Unit 4 · Properties and structure of organic materials"
     },
     {
@@ -251,23 +244,23 @@
     },
     {
       "id": "ORG5",
-      "name_zh": "烯烃的加成反应",
-      "name_en": "Addition reactions of alkenes",
-      "description": "写出烯烃与 H2、X2、HX、H2O 的加成产物与方程式，用溴水褪色等现象检验不饱和。",
+      "name_zh": "加成反应",
+      "name_en": "Addition reactions",
+      "description": "写出烯烃等不饱和物质的加成产物与方程式（H2、X2、HX、H2O 及题目给出的其他试剂），用溴水褪色等现象检验不饱和。",
       "syllabus": "Unit 4 · Properties and structure of organic materials"
     },
     {
       "id": "ORG6",
-      "name_zh": "醇的氧化",
-      "name_en": "Oxidation of alcohols",
-      "description": "伯/仲/叔醇与酸性 MnO4⁻ 或 Cr2O7²⁻ 的反应产物、方程式与颜色变化；醇的完全燃烧。",
+      "name_zh": "醇与醛的氧化",
+      "name_en": "Oxidation of alcohols and aldehydes",
+      "description": "伯/仲/叔醇、醛与酸性 MnO4⁻ 或 Cr2O7²⁻ 的反应产物、方程式、颜色变化，判断反应类型；醇的完全燃烧。",
       "syllabus": "Unit 4 · Properties and structure of organic materials"
     },
     {
       "id": "ORG7",
-      "name_zh": "酯化与羧酸、胺的反应",
-      "name_en": "Esterification; reactions of carboxylic acids and amines",
-      "description": "羧酸与醇的酯化（缩合）、羧酸的酸碱反应（与碳酸盐/碱）、胺的碱性，写出产物与方程式。",
+      "name_zh": "酯化与水解；羧酸、胺的反应",
+      "name_en": "Esterification and hydrolysis; reactions of carboxylic acids and amines",
+      "description": "羧酸与醇的酯化（缩合）、酯/酰胺的水解及由结构推断产物、羧酸的酸碱反应（与碳酸盐/碱）、胺的碱性。",
       "syllabus": "Unit 4 · Properties and structure of organic materials"
     },
     {
@@ -324,7 +317,7 @@
       "id": "PRO6",
       "name_zh": "蛋白质的一、二、三级结构",
       "name_en": "Primary, secondary and tertiary protein structure",
-      "description": "描述各级结构；说明 α-螺旋/β-折叠中的氢键；侧链间作用（二硫键、氢键、离子键、色散力）；突变或条件改变对结构的影响。",
+      "description": "描述各级结构（含比较两条氨基酸序列的异同）；α-螺旋/β-折叠中的氢键；侧链间作用（二硫键、氢键、离子键、色散力）；突变或条件改变对结构的影响。",
       "syllabus": "Unit 4 · Properties and structure of organic materials"
     },
     {
@@ -336,9 +329,9 @@
     },
     {
       "id": "SYN1",
-      "name_zh": "多步合成路线与试剂条件",
-      "name_en": "Reaction sequences, reagents and conditions",
-      "description": "设计或补全多步合成路线，写出每步的试剂、条件、中间产物与反应类型。",
+      "name_zh": "合成路线、工业反应与条件",
+      "name_en": "Reaction sequences, industrial reactions and conditions",
+      "description": "设计或补全多步合成路线；写出发酵、水合等工业/生化反应的方程式，并给出试剂、条件、中间产物与反应类型。",
       "syllabus": "Unit 4 · Chemical synthesis"
     },
     {
@@ -421,6 +414,13 @@
       "not": "只在 key 为有效数字/单位单独给一分时标。"
     },
     {
+      "id": "QNT8",
+      "name_zh": "沉淀称重分析",
+      "name_en": "Gravimetric analysis",
+      "description": "沉淀称重法的步骤（沉淀、过滤、洗涤、干燥至恒重、称量）及其计算。",
+      "syllabus": "Assumed Year 11 · used across Units 3–4"
+    },
+    {
       "id": "INQ1",
       "name_zh": "假设与探究问题",
       "name_en": "Hypotheses and research questions",
@@ -436,9 +436,9 @@
     },
     {
       "id": "INQ3",
-      "name_zh": "实验设计与步骤",
-      "name_en": "Designing a procedure",
-      "description": "描述可重复的实验步骤、器材、测量方法与安全措施。",
+      "name_zh": "实验设计、步骤与安全",
+      "name_en": "Procedure design and safety",
+      "description": "描述可重复的实验步骤、器材、测量方法；化学品危害与安全措施。",
       "syllabus": "Science inquiry skills"
     },
     {
@@ -457,9 +457,9 @@
     },
     {
       "id": "INQ6",
-      "name_zh": "误差、准确度与可靠性",
-      "name_en": "Errors, accuracy and reliability",
-      "description": "区分随机误差与系统误差并举例，判断误差对结果偏大或偏小的影响，提出改进以提高准确度/精密度/可靠性/有效性。",
+      "name_zh": "误差、准确度、可靠性与取样",
+      "name_en": "Errors, accuracy, reliability and sampling",
+      "description": "区分随机误差与系统误差并举例，判断误差对结果的影响方向，说明取样数量与方式的局限，提出改进以提高准确度/精密度/可靠性/有效性。",
       "syllabus": "Science inquiry skills"
     },
     {
@@ -468,13 +468,7 @@
       "name_en": "Evaluating conclusions and claims",
       "description": "依据证据、数据质量与有效数字评价结论或说法是否成立。",
       "syllabus": "Science inquiry skills"
-    },
-    {
-      "id": "INQ8",
-      "name_zh": "科学发展与社会",
-      "name_en": "Science as a human endeavour",
-      "description": "模型/理论的发展（如酸碱模型演变）及化学与社会、环境、经济的联系。",
-      "syllabus": "Science as a Human Endeavour"
     }
-  ]
+  ],
+  "revision": "2026-10-12: definitions widened after the first labelling pass (aldehydes, hydrolysis, non-acidic redox, cell voltage, non-redox equations, sampling, safety, sequences); QNT8 added"
 }
