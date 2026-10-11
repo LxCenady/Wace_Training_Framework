@@ -1,8 +1,8 @@
 # Structured awards — working design for non-tick marking keys
 
-Status: design draft grounded in the Chemistry 2025 evidence inventory. Not a registered handler or
-an installed Chemistry pack. The existing mathematics `ticks` interface and database rows stay intact.
-Implement and verify the structured handler/storage path before accepting this format as a usable pack.
+Status: `tools/rubric.py` implements and tests the scoring algebra and diagnostic atomic coverage.
+The Chemistry handler, pack validation and database/UI integration are still pending. This document
+does not establish that a Chemistry pack is usable. Existing mathematics rows remain intact.
 
 ## Separate knowledge from the operation being scored
 
@@ -10,6 +10,14 @@ Each award carries two sets of references: atomic knowledge IDs and pattern/oper
 in the subject catalogue. A subject's broad topic tree is a navigation view over these references.
 Award tags are the source of part/question tags; do not infer award tags from the words in a stem or
 divide the whole part's marks equally among all its patterns.
+
+The same two-mark criterion can assess two atoms: both have a potential coverage of two marks,
+but together the criterion still earns at most two. Coverage values are overlapping diagnostic
+projections, never a partition of question marks. Calculate each projection through the original
+sum/best/select tree with its caps, so mutually exclusive routes cannot inflate a pattern's maximum.
+Prerequisites may be fulfilled without contributing marks to the projected atom. Do not interpret
+potential coverage as observed mastery or automatically allocate partial criterion credit to atoms.
+Until the key defines separate conditions, a multi-mark criterion stays indivisible for attribution.
 
 IDs are stable within a subject/year/section/question/part. The source location is separate from the ID:
 replacing a page crop must not renumber the knowledge or the award. Table responses with no printed
@@ -70,6 +78,15 @@ Scoring an attempt retains credited awards and the selected route/choices. A who
 comes from the scoring tree, then whole-paper weights come from `tools/scoring.py`. For statistics,
 alternative-route coverage must not be advertised as simultaneously attainable marks. An unreviewed
 condition/route yields an unresolved result, rather than an invented definitive total.
+
+Runtime API: `validate(root, printed_marks)` checks ownership, dependency cycles and maxima;
+`score(root, credits, conditions)` returns lower/upper bounds and `earned: null` when those bounds
+differ; `coverage(root, 'knowledge' | 'patterns')` returns non-additive potential coverage.
+Unlisted award credits mean zero (a finalized credit input, not an unfinished assessment).
+`requires` means positive credit on every referenced node. `conditions` gate a node on reviewed
+booleans; `conditional_caps` apply their caps when their condition is true. Missing relevant
+judgments propagate uncertainty. Conditions are inert IDs, not expressions. Store selected routes,
+credit evidence and review status at the attempt layer; the algebra alone does not prove them.
 
 ## Source and visual evidence
 

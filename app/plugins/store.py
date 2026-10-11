@@ -349,3 +349,6 @@ def setup(k):
     import scoring
     k.provide('score.summary', lambda subject, results, year=None:
               scoring.score(subjects.info(subject, k.root), results, year))
+    import rubric
+    k.provide('score.rubric', rubric.score)
+    k.provide('score.atom_coverage', rubric.coverage)

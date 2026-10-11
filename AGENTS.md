@@ -257,6 +257,17 @@ Primary recomputation excludes subtotals and chooses one complete alternative ro
 are retained, not silently fixed. `references/rubric-format.md` records the draft structured-award design;
 it is not a registered runtime handler. No CHE profile installed, catalogue approved or DB built.
 Known baseline audit issue: 2016Sample MAM CF sums to 53 but cover says 52; unchanged from before this migration.
+Structured scoring foundation (2026-10-12): `tools/rubric.py` validates sum/best/select/award trees,
+printed maxima, ownership and dependency cycles; scores credited criteria with review-condition bounds,
+preserves multi-mark bands, returns selected routes/choices and exposes non-additive atomic/pattern
+coverage. Formal associations must reference known catalogue IDs. Kernel services `score.rubric` and
+`score.atom_coverage` expose it; packaging includes the module on both platforms. Five focused tests pass.
+This is not yet the Chemistry key handler, bank storage, attempt UI or a finished CHE pack. Maths
+continues through its existing data path. Six app checks pass (UTF-8 output; GBK first interrupted GUI
+logging), both English checks report zero CJK, protected files retain identical SHA-256 hashes.
+Maths export/import and temporary rebuild compared 8740 rows in 15 subject/table pairs: zero differences.
+Luna's six-year CHE candidate inventories now cover 87 written questions, 283 response units and 1002
+printed marks. They remain ignored evidence pending primary arbitration and formal award tags.
 Test temp copies exhausted C:; final setup/external checks used `evidence/runtime/` on E:. Cleanup of C: test
 folders was rejected by automatic policy, so they were left intact. Never delete unrelated user files.
 
