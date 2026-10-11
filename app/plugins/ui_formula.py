@@ -76,7 +76,8 @@ def setup(k):
                                text=f"本机还没有 {state['subj']} 的{sheet_name(state['subj'])}（导入真题后自动出现）。")
             return
         y, width = 6, max(200, state["width"] - 12)
-        pages = [p for p in doc if len(p.get_text().split()) >= 40] or list(doc)  # skip cover / index pages
+        pages = [p for p in doc if len(p.get_text().split()) >= 40          # skip cover pages
+                 and "table of contents" not in p.get_text().lower()] or list(doc)  # and a data booklet's contents
         for page in pages:
             zoom = width / page.rect.width
             png = page.get_pixmap(matrix=pymupdf.Matrix(zoom, zoom)).tobytes("png")
