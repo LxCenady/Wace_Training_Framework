@@ -30,16 +30,24 @@
       "minutes": [
         5,
         50
+      ],
+      "short": "CF",
+      "recognise": [
+        "calculator-free"
       ]
     },
     {
       "code": "CalcAssumed",
       "letter": "A",
-      "zh": "计算器可用",
+      "zh": "计算器允许",
       "en": "Calculator-assumed",
       "minutes": [
         10,
         100
+      ],
+      "short": "CA",
+      "recognise": [
+        "calculator-assumed"
       ]
     }
   ],

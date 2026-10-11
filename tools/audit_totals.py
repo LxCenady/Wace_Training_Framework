@@ -1,19 +1,37 @@
 """Compare summed question marks with the section total printed in each paper."""
 import json, re, sys, os, collections, pymupdf
+import subjects
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-PAT = re.compile(r"Section (One|Two)\s*:?\s*Calculator[\s-]*(free|assumed).{0,40}?\((\d+)\s*Marks\)", re.I | re.S)
-bad = 0
-for s in sys.argv[1:]:
-    qs = json.load(open(f"{ROOT}/{s}/questions.json", encoding="utf-8"))
+TOTAL = re.compile(r'(Section\s+(?:One|Two|Three|Four).{0,140}?)\((\d+)\s*Marks\)', re.I | re.S)
+
+
+def printed_totals(text, section):
+    normal = lambda value: re.sub(r'[\s-]+', ' ', value).lower()
+    words = section.get('recognise', [section['en']])
+    return sorted({int(m.group(2)) for m in TOTAL.finditer(text)
+                   if any(normal(word) in normal(m.group(1)) for word in words)})
+
+
+def audit(subject):
+    with open(f'{ROOT}/{subject}/questions.json', encoding='utf-8') as file:
+        questions = json.load(file)
     by = collections.defaultdict(list)
-    for q in qs: by[q["exam"]].append(q)
-    for ex, v in sorted(by.items()):
-        doc = pymupdf.open(f"{ROOT}/{ex}")
-        txt = " ".join(doc[i].get_text() for i in range(min(6, doc.page_count)))
-        sec = v[0]["section"].replace("Calc", "").lower()
-        tots = [int(m.group(3)) for m in PAT.finditer(txt) if m.group(2).lower() == sec]
-        got = sum(q["marks"] for q in v)
-        ok = got in tots
+    for question in questions:
+        by[question['exam'], question['section']].append(question)
+    bad = 0
+    for (exam, code), rows in sorted(by.items()):
+        with pymupdf.open(os.path.join(ROOT, exam)) as doc:
+            text = ' '.join(doc[i].get_text() for i in range(min(6, doc.page_count)))
+        section = next(s for s in subjects.sections(subject) if s['code'] == code)
+        printed = printed_totals(text, section)
+        total = sum(q['marks'] for q in rows)
+        ok = total in printed
         bad += not ok
-        print("OK " if ok else "BAD", ex.split("/")[-1], "sum", got, "printed", sorted(set(tots)))
-print("mismatches:", bad)
+        print('OK' if ok else 'BAD', os.path.basename(exam), code, 'sum', total, 'printed', printed)
+    return bad
+
+
+if __name__ == '__main__':
+    bad = sum(audit(subject) for subject in sys.argv[1:])
+    print('mismatches:', bad)
+    sys.exit(bool(bad))

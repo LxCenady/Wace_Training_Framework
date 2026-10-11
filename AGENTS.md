@@ -216,13 +216,23 @@ stem says start of year — a known key inconsistency, noted in the notes, not a
 
 Subject packs in progress (2026-10-11): Phase 1 migrates the three maths names, courses, topics, recognition
 titles and section letters to `<S>/pack.json`, read by `tools/subjects.py`; packaging includes the registry.
+Phase 2 migrates section names/short labels, filters, totals, blueprints, generator section schema, exam
+timers, external section validation and workspace meters/export to profiles. Shared-paper segmentation
+preserves every section in ignored `sections.json`; `question_mode: section-only` skips individual questions
+while retaining the block (Chemistry MC). Synthetic three-section tests preserve drawing regions.
 The registry accepts shared-paper sections with `minutes: null` and whole-paper `paper_minutes`.
 Temporary rebuild compared 8,740 rows across questions, parts, part_patterns, points and patterns: 0 differences
-for MAM/MAS/MAA. Section selectors, timer consumers, handlers and pack import/export still need Phases 2–5.
-All six app checks passed; both English smoke checks reported 0 CJK runs. Two registry tests passed;
+for MAM/MAS/MAA, also after a full smoke_setup pipeline rebuild. Handlers and pack import/export still need Phases 3–5.
+All six app checks passed; both English smoke checks reported 0 CJK runs. Four registry/pipeline tests passed;
 protected config/generated/wace/external files remained unchanged by SHA-256. Evidence: `evidence/packs/` (ignored).
 The owner confirmed sections must be metadata: maths CF/CA, science Section One/Two/Three; verify science
 profiles against official papers. Chemistry stage-0 findings are in `CHE/README.md`; no chemistry pack installed.
+Chemistry work goes to Luna after the architecture/protocol is ready. The owner requires reverse tagging
+from each marking-scheme award to atomic topics/patterns and then back to the question, with capped/alternative
+rubrics preserved, image review, and syllabus + marking key + examination report evidence for notes.
+Known baseline audit issue: 2016Sample MAM CF sums to 53 but cover says 52; unchanged from before this migration.
+Test temp copies exhausted C:; final setup/external checks used `evidence/runtime/` on E:. Cleanup of C: test
+folders was rejected by automatic policy, so they were left intact. Never delete unrelated user files.
 
 Open items, roughly by value:
 0. **Completed locally**: AI mock papers and 工作区 now both use `store.paper_totals` (MAM 51 / 100,

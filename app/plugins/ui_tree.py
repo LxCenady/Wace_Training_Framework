@@ -6,12 +6,13 @@ unit (topic) title generates unit questions: each one takes the shape of a real 
 Emits select.topic(code), select.pattern([codes]), select.question(qid), select.generated(gid).
 Provides tree.selection() -> (unit or None, [pattern codes]) and ui.tree.actions (a button row).
 """
+import subjects
 import random
 import tkinter as tk
 from tkinter import ttk
 
 from plugins.store import SUBJECT_NAMES as NAMES
-SECTIONS = {"任意": "any", "计算器禁用 (CF)": "CalcFree", "计算器允许 (CA)": "CalcAssumed"}
+SECTIONS = subjects.section_options()
 LEVELS = ["基础", "标准", "拔高"]
 
 
@@ -76,7 +77,7 @@ def setup(k):
         for qid, year, sec, q, m, labels in store.questions_for(pcode):
             parts = "整题" if labels == "" else ",".join(f"({l})" for l in labels.split(","))
             tree.insert(node, "end", f"Q:{pcode}|{qid}",
-                        text=f"{year} {'CF' if sec == 'CalcFree' else 'CA'} Q{q}  [{m}分]  {parts}")
+                        text=f"{year} {subjects.section_name(pcode.split('.')[0], sec, 'short')} Q{q}  [{m}分]  {parts}")
 
     tree.bind("<<TreeviewOpen>>", lambda e: tree.focus().startswith("P:") and fill(tree.focus()[2:]))
 

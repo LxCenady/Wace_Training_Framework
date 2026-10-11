@@ -1,4 +1,5 @@
 """Independent external-paper library: paired import, draft review and source-separated search."""
+import subjects
 import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
@@ -15,15 +16,25 @@ def setup(k):
         form = ttk.Frame(dlg, padding=12)
         form.pack(fill="both", expand=True)
         title, source = tk.StringVar(), tk.StringVar()
-        subject, section = tk.StringVar(value=next(iter(SUBJECT_NAMES))), tk.StringVar(value="CalcFree")
+        subject = tk.StringVar(value=next(iter(SUBJECT_NAMES)))
+        section = tk.StringVar(value=subjects.section_codes(subject.get())[0])
         paths = {name: tk.StringVar() for name in ("exam", "answer")}
         for row, (caption, variable) in enumerate((("试卷名称（可含年份）", title), ("来源（学校或机构）", source))):
             ttk.Label(form, text=caption).grid(row=row, column=0, sticky="w")
             ttk.Entry(form, textvariable=variable, width=48).grid(row=row, column=1, padx=6, pady=4)
         for row, (caption, variable, values) in enumerate((("科目", subject, list(SUBJECT_NAMES)),
-                                                           ("卷型", section, ["CalcFree", "CalcAssumed"])), 2):
+                                                           ("卷型", section, subjects.section_codes(subject.get()))), 2):
             ttk.Label(form, text=caption).grid(row=row, column=0, sticky="w")
-            ttk.Combobox(form, textvariable=variable, values=values, state="readonly").grid(row=row, column=1, sticky="w", padx=6, pady=4)
+            box = ttk.Combobox(form, textvariable=variable, values=values, state="readonly")
+            box.grid(row=row, column=1, sticky="w", padx=6, pady=4)
+            if variable is section:
+                section_box = box
+        def sections_changed(*_):
+            values = subjects.section_codes(subject.get())
+            section_box.configure(values=values)
+            if section.get() not in values:
+                section.set(values[0])
+        subject.trace_add('write', sections_changed)
 
         def choose(name):
             path = filedialog.askopenfilename(parent=dlg, title="选择 PDF 原件", filetypes=[("PDF", "*.pdf")])
@@ -87,7 +98,7 @@ def setup(k):
             papers.column(name, width=width, stretch=name in ("title", "source"))
         papers.pack(fill="x", padx=10, pady=6)
         for paper in store.papers():
-            papers.insert("", "end", iid=paper["id"], values=(paper["title"], paper["source"], paper["subject"], "CF" if paper["section"] == "CalcFree" else "CA", paper["count"]))
+            papers.insert("", "end", iid=paper["id"], values=(paper["title"], paper["source"], paper["subject"], subjects.section_name(paper["subject"], paper["section"], "short"), paper["count"]))
         bar = ttk.Frame(page, padding=(10, 2))
         bar.pack(fill="x")
 
@@ -112,7 +123,7 @@ def setup(k):
         filters.pack(fill="x")
         subject, section, words = tk.StringVar(value=""), tk.StringVar(value=""), tk.StringVar()
         confirmed = tk.BooleanVar()
-        for caption, variable, values, width in (("科目", subject, ["", *SUBJECT_NAMES], 6), ("卷型", section, ["", "CalcFree", "CalcAssumed"], 14)):
+        for caption, variable, values, width in (("科目", subject, ["", *SUBJECT_NAMES], 6), ("卷型", section, ["", *subjects.section_codes()], 14)):
             ttk.Label(filters, text=caption).pack(side="left")
             ttk.Combobox(filters, textvariable=variable, values=values, width=width, state="readonly").pack(side="left", padx=4)
         word_row = ttk.Frame(page, padding=(10, 3))

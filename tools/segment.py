@@ -5,6 +5,7 @@ One job: PDFs -> question regions (page, y0, y1), marks, and plain stem text.
 import json, re, sys, glob, os
 import pymupdf
 import fetch
+import subjects
 
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HEAD = re.compile(r"^Question\s+(\d+)\s*(\(?continued\)?)?", re.I)
@@ -95,26 +96,57 @@ def text_of(doc, regs):
 
 def main(subj):
     res = []
+    profile = subjects.info(subj)
+    shared = profile.get('paper_layout') == 'shared'
+    section_blocks = []
     listed = {s[0] for s in fetch.sources(ROOT, [subj])}  # the bank holds only papers sources.tsv lists
-    for ex in sorted(glob.glob(f"{ROOT}/{subj}/papers/*_Exam_*.pdf")):
+    pattern = '*_Exam.pdf' if shared else '*_Exam_*.pdf'
+    for ex in sorted(glob.glob(f"{ROOT}/{subj}/papers/{pattern}")):
         name = os.path.basename(ex)
-        year, sec = name.split("_")[0], name.split("_")[-1][:-4]
-        key = ex.replace("_Exam_", "_MarkingKey_")
+        year, sec = name.split("_")[0], None if shared else name.split("_")[-1][:-4]
+        key = ex.replace("_Exam", "_MarkingKey")
         if f"{subj}/papers/{name}" not in listed:  # e.g. MAA 2019: no usable marking key exists, so not listed
             continue
         if not os.path.exists(key):  # partial import: questions without their key are left out until it arrives
             print("skip (marking key not imported yet):", name)
             continue
         edoc, eh, es, eb = scan(ex)
+        sections = []
+        if shared:
+            seen = set()
+            for page, pg in enumerate(edoc):
+                for box, text in sorted(lines(pg), key=lambda item: item[0][1]):
+                    for section in profile['sections']:
+                        if section['code'] not in seen and any(text.lower().startswith(h.lower())
+                                for h in section.get('headings', [])):
+                            sections.append((section['code'], page, box[1], None))
+                            seen.add(section['code'])
+            if seen != set(subjects.section_codes(subj)):
+                raise ValueError(f'Section headings missing: {name}: {seen}')
+            blocks = regions(sections, es, eb, edoc.page_count)
+            section_blocks.append(dict(exam=os.path.relpath(ex, ROOT).replace(os.sep, '/'),
+                                       sections=blocks))
         er = regions(eh, es, eb, edoc.page_count)
         kdoc, kh, ks, kb = scan(key)
         kr = regions(kh, ks, kb, kdoc.page_count)
         for q, p, y, mk in eh:
+            if shared:
+                found = [code for code, page, top, _ in sections if (page, top) <= (p, y)]
+                if not found:
+                    raise ValueError(f'Question outside sections: {name} Q{q}')
+                sec = found[-1]
+                section = next(s for s in profile['sections'] if s['code'] == sec)
+                if section.get('question_mode') == 'section-only':
+                    continue
             res.append(dict(subject=subj, year=year, section=sec, q=q, marks=mk,
                             exam=os.path.relpath(ex, ROOT).replace("\\", "/"), exam_regions=er[q],
                             key=os.path.relpath(key, ROOT).replace("\\", "/"), key_regions=kr.get(q, []),
                             text=text_of(edoc, er[q])))
-    json.dump(res, open(f"{ROOT}/{subj}/questions.json", "w", encoding="utf-8"), ensure_ascii=False, indent=1)
+    with open(f"{ROOT}/{subj}/questions.json", 'w', encoding='utf-8') as file:
+        json.dump(res, file, ensure_ascii=False, indent=1)
+    if shared:
+        with open(f"{ROOT}/{subj}/sections.json", 'w', encoding='utf-8') as file:
+            json.dump(section_blocks, file, ensure_ascii=False, indent=1)
     print(subj, len(res), "questions")
 
 

@@ -1,4 +1,5 @@
 """Past-question view. One job: show the exam crop; reveal the marking key and its one-mark points on click."""
+import subjects
 import base64
 import tkinter as tk
 from tkinter import ttk
@@ -24,7 +25,7 @@ def setup(k):
         d = store.question(qid)
         page = k.get("ui.tab")("question", "真题")
         inner = k.get("ui.scroll")(page)
-        sec = "计算器禁用" if d["section"] == "CalcFree" else "计算器允许"
+        sec = subjects.section_name(d["subject"], d["section"])
         ttk.Label(inner, text=f"{d['year']} {d['subject']} {sec}  Question {d['q']}  ·  {d['marks']} 分",
                   style="H.TLabel", background=C["panel"]).pack(anchor="w", padx=12, pady=(12, 2))
         parts = {label: (m, pats) for label, m, pats in d["parts"]}
@@ -34,7 +35,7 @@ def setup(k):
             pts = [t for l, t in d["points"] if l == label] if d["points_ok"] else []
             return {"source": "past", "ref": qid, "label": label, "part_marks": m or len(pts) or max(1, round(d["marks"] / max(1, len(parts)))),
                     "patterns": pats, "points": pts,
-                    "title": f"{d['year']} {d['subject']} {'CF' if d['section'] == 'CalcFree' else 'CA'} "
+                    "title": f"{d['year']} {d['subject']} {subjects.section_name(d['subject'], d['section'], 'short')} "
                              f"Q{d['q']} ({label or '整题'})"}
 
         def markable(widget, label):

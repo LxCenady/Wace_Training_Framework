@@ -22,6 +22,7 @@ def identify(path):
     if len(matches) != 1:
         return None
     subj = matches[0]
+    profile = subjects.info(subj)
     # order matters: an exam's cover lists "Formula sheet" among materials; reports quote "marking key"
     if "question/answer booklet" in low:
         kind, m = "Exam", re.search(r"examination,? (20\d\d)", low)
@@ -40,10 +41,13 @@ def identify(path):
     else:
         return None
     if kind in ("Exam", "MarkingKey"):
-        free, assumed = low.find("calculator-free"), low.find("calculator-assumed")
-        if free < 0 and assumed < 0:
+        if profile.get('paper_layout') == 'shared':
+            return f"{subj}/papers/{year}_{subj}_{kind}.pdf"
+        found = [(low.find(word.lower()), section['code']) for section in profile['sections']
+                 for word in section.get('recognise', [section['en']]) if word.lower() in low]
+        if not found:
             return None
-        sec = "CalcFree" if assumed < 0 or 0 <= free < assumed else "CalcAssumed"
+        sec = min(found)[1]
         return f"{subj}/papers/{year}_{subj}_{kind}_{sec}.pdf"
     return f"{subj}/papers/{year}_{subj}_{kind}.pdf"
 

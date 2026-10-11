@@ -3,6 +3,7 @@ official marking points, the points the student missed, their note, and the patt
 
 The explanation is cached on the mistake row (re-marking the part clears it); 「重新讲解」 asks again.
 """
+import subjects
 import re, threading
 import tkinter as tk
 from tkinter import ttk
@@ -44,7 +45,7 @@ def material(store, m):
         key = "\n".join(f"- {t}" for l, t in d["points"] if l == m["label"]) if d["points_ok"] else \
             "(official key not split cleanly — infer the marks from the question)"
         body = (f"Question (WACE {d['year']} {d['subject']}, "
-                f"{'calculator-free' if d['section'] == 'CalcFree' else 'calculator-assumed'}, Q{d['q']}):\n"
+                f"{subjects.section_name(d['subject'], d['section'], 'en').lower()}, Q{d['q']}):\n"
                 f"{d['stem']}\n\nPart ({m['label'] or 'whole question'}) — {m['part_marks']} marks.\n"
                 f"Official marking points for this part:\n{key}")
     notes = "\n\n".join(f"Method notes for {store.pattern_name(c)}:\n{store.pattern(c)['method']}"

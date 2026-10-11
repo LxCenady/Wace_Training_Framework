@@ -6,6 +6,7 @@ Views call k.get("mistakes.popup")(event, ctx) on right-click, where ctx describ
 The 错题本 groups records by pattern (weakest first) and can generate 错题加强题: the generator is told the
 exact mark points the student missed, so the new question requires those steps.
 """
+import subjects
 import tkinter as tk
 from tkinter import ttk
 import plat
@@ -100,7 +101,7 @@ def setup(k):
         if m["source"] == "gen":
             return f"AI #{m['ref']} ({m['label']})"
         subj, ys, q = m["ref"].split("-")
-        sec = "CF" if ys.endswith("F") else "CA"
+        sec = next((s.get("short", s["code"]) for s in subjects.sections(subj) if s["letter"] == ys[4:]), ys[4:])
         return f"{ys[:4]} {subj} {sec} {q} ({m['label'] or '整题'})"
 
     def review_text(m):

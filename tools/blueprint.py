@@ -10,6 +10,7 @@
 
 python tools/blueprint.py  rewrites the "Paper blueprint" block of both question-generation skills.
 """
+import subjects as subject_profiles
 import os, re, sqlite3, sys
 from collections import Counter, defaultdict
 from itertools import combinations
@@ -83,7 +84,7 @@ def blueprint(db, subj, section, since=2020):
 def pattern_marks(db, subj, section):
     """{pattern: (low, high)} — the middle of the marks each pattern carried in one real question of that section
     (all sections when section is not CalcFree/CalcAssumed)."""
-    secs = [section] if section in ("CalcFree", "CalcAssumed") else ["CalcFree", "CalcAssumed"]
+    secs = [section] if section in subject_profiles.section_codes(subj) else subject_profiles.section_codes(subj)
     pooled = defaultdict(list)
     for sec in secs:
         for p, v in blueprint(db, subj, sec)["own_marks"].items():
@@ -102,7 +103,7 @@ def pattern_drawing(db, subj, section):
     """{pattern: (figure rate, drawing rate, questions)} from real questions of that section (all sections when
     section is not CalcFree/CalcAssumed): how often a question on the pattern shows a figure, and how often a part
     on it asks the student to sketch / draw / plot / shade / mark on a diagram."""
-    secs = ("CalcFree", "CalcAssumed") if section not in ("CalcFree", "CalcAssumed") else (section,)
+    secs = subject_profiles.section_codes(subj) if section not in subject_profiles.section_codes(subj) else [section]
     rows = db.execute(f"""SELECT pp.pattern, q.id, MAX(q.figure), MAX(p.sketch) FROM part_patterns pp
                            JOIN parts p ON p.qid = pp.qid AND p.label = pp.label JOIN questions q ON q.id = pp.qid
                            WHERE q.subject = ? AND q.section IN ({",".join("?" * len(secs))})
@@ -172,7 +173,7 @@ def unit_plan(db, subj, unit, section, count, rng, marks=0, swap=0.35):
     patterns appear as often and with the marks they do in real papers, and cross-topic questions come with the
     partner topics and at the rate the unit's real questions have. Shapes are varied like mock-paper questions.
     Section 'any' picks CF / CA as often as the unit's real questions sit in each. A total (`marks`) prefers shapes within two of it."""
-    secs = [section] if section in ("CalcFree", "CalcAssumed") else ["CalcFree", "CalcAssumed"]
+    secs = [section] if section in subject_profiles.section_codes(subj) else subject_profiles.section_codes(subj)
     bps = {s: blueprint(db, subj, s) for s in secs}
     shapes = {s: [sk for sk in bps[s]["skeletons"] if lead(sk) == unit] for s in secs}
     weight = [len(shapes[s]) for s in secs]
@@ -245,7 +246,7 @@ def markdown(db, subj):
            "which patterns appear, and order within the difficulty ramp — never the same paper twice), but keep the "
            "**topic mark distribution** close to the real one below, and make the stated share of questions "
            "**cross-topic** (two topics in one question), using only pairings that real papers use.", ""]
-    for section, label in (("CalcFree", "Calculator-free"), ("CalcAssumed", "Calculator-assumed")):
+    for section, label in subject_profiles.section_labels(subj, "en").items():
         bp = blueprint(db, subj, section)
         marks = sorted(bp["question_marks"])
         out += [f"### {label}", "",

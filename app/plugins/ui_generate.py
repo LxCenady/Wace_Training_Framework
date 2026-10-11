@@ -3,6 +3,7 @@
 Answers only exist in a finished item, which the generator emits after the independent solve,
 verification and mark-point split have all passed.
 """
+import subjects
 import base64, os, time
 import tkinter as tk
 from tkinter import ttk
@@ -33,7 +34,7 @@ def setup(k):
             w(t, f"单元出题：{store.topic_name(codes[0])} —— 每道题沿用一道该单元真题的题型组合与分值，"
                  "题型、分值与跨单元搭配都按真题统计\n", "muted")
             for i, (c, sec, m, split) in enumerate(plan, 1):
-                w(t, f"  第{i}题 · {'CF' if sec == 'CalcFree' else 'CA'} · {m} 分：" + "；".join(
+                w(t, f"  第{i}题 · {subjects.section_name(c[0].split('.')[0], sec, 'short')} · {m} 分：" + "；".join(
                     f"{store.pattern_name(p)}（{split[p]}）" for p in c) + "\n", "muted")
         else:
             w(t, "题型：" + "，".join(f"{c} {store.pattern(c)['title'].split('★')[0].strip()}" for c in codes) + "\n",
@@ -116,7 +117,7 @@ def setup(k):
         bar.pack(fill="x", padx=8, pady=6)
         t = ui_text(page)
         t.frame.pack(fill="both", expand=True)
-        sec = {"CalcFree": "计算器禁用", "CalcAssumed": "计算器允许"}.get(item.get("section"), item.get("section", ""))
+        sec = subjects.section_name(item["patterns"][0].split(".")[0], item.get("section"))
         w(t, f"AI 题 #{item['id']} · {item['marks']} 分 · {sec} · {item.get('difficulty') or '标准'}\n", "h")
         w(t, "题型：" + "，".join(item["patterns"]) + f"   ·   {item.get('provider')} {item.get('model', '')}"
              "   ·   ✓ 已通过独立解题与核对" + symcheck_summary(item) + "\n\n", "muted")

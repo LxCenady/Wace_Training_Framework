@@ -159,8 +159,8 @@ class Pipeline:
         context = skill_text(self.k.root, pats[0]) + "\n\n" + "\n\n".join(
             f"## Pattern {p['code']} — {p['topic_zh']} / 题型 {p['n']}：{p['title']}\n{p['method']}" for p in pats)
         examples = "\n\n".join(example_text(q, codes) for q in pick_examples(store, codes, section))
-        want = (f"Section: {'calculator-free' if section == 'CalcFree' else 'calculator-assumed'}. "
-                if section in ("CalcFree", "CalcAssumed") else "Section: choose the more natural one. ")
+        want = (f"Section: {subjects.section_name(subj, section, 'en').lower()}. "
+                if section in subjects.section_codes(subj) else "Section: choose the more natural one. ")
         want += mark_guide(store, subj, section, codes, marks, split)
         self.need_figure, self.need_drawing, text = drawing_guide(store, subj, section, codes)
         want += text
@@ -197,7 +197,7 @@ class Pipeline:
             "Past questions with these patterns:\n" + examples + "\n\n" + STYLE + "\n\nIf the question needs a "
             "drawing (a graph the student reads from, a diagram of a shape, an Argand diagram, a histogram), give it "
             "as \"figure\"; otherwise null. " + FIGURE +
-            '\nSchema: {"section": "CalcFree|CalcAssumed", "question": "full stem with (a), (b)(i)… and (n marks) '
+            '\nSchema: {"section": "' + "|".join(subjects.section_codes(subj)) + '", "question": "full stem with (a), (b)(i)… and (n marks) '
             'after each part", "figure": null, "parts": [{"label": "a", "marks": 2, "patterns": ["code"], '
             '"answer": "final answer", "value": "the final answer as a SymPy expression (12*pi, [2, -3] for several '
             'values, 3*x**2 - 3 for an expression) or null for explain / sketch / show-that parts"}]}')

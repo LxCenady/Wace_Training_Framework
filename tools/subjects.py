@@ -78,3 +78,38 @@ def section_letter(subject, code, root=None):
         if section['code'] == code:
             return section['letter']
     raise ValueError(f'Unknown section {subject}: {code}')
+
+
+def section_codes(subject=None, root=None):
+    """Stable section order; a union is useful for filters spanning subjects."""
+    return list(section_labels(subject, 'code', root))
+
+
+def section_labels(subject=None, field='zh', root=None):
+    packs = {subject: info(subject, root)} if subject else profiles(root)
+    out = {}
+    for pack in packs.values():
+        for section in pack['sections']:
+            value = section.get(field, section['code'])
+            if section['code'] in out and out[section['code']] != value:
+                raise ValueError(f'Ambiguous section label: {section["code"]}; specify subject')
+            out[section['code']] = value
+    return out
+
+
+def section_name(subject, code, field='zh', root=None):
+    return section_labels(subject, field, root).get(code, code or '')
+
+
+def section_minutes(subject, code, root=None):
+    pack = info(subject, root)
+    for section in pack['sections']:
+        if section['code'] == code:
+            return section['minutes'] or pack['paper_minutes']
+    raise ValueError(f'Unknown section {subject}: {code}')
+
+
+def section_options(subject=None, any_value='any', root=None):
+    labels = section_labels(subject, root=root)
+    shorts = section_labels(subject, 'short', root)
+    return {'任意': any_value, **{f'{name} ({shorts[code]})': code for code, name in labels.items()}}

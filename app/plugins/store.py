@@ -115,7 +115,7 @@ class Store:
             subj, year, sec, q, marks = r[0]
             pats = [p for (p,) in self.q("SELECT DISTINCT pattern FROM part_patterns WHERE qid = ?", ref)]
             return dict(subject=subj, section=sec, marks=marks, patterns=pats,
-                        label=f"{year} {'CF' if sec == 'CalcFree' else 'CA'} Q{q}")
+                        label=f"{year} {subjects.section_name(subj, sec, 'short')} Q{q}")
         r = self.q("SELECT patterns, section, marks FROM generated WHERE id = ?", int(ref), db=self.gen)
         if not r:
             return None
@@ -126,7 +126,7 @@ class Store:
     def paper_totals(self, subj, since=2020):
         """{section: marks of a real paper} — the median over recent years (what a full CF / CA paper is worth)."""
         out = {}
-        for sec in ("CalcFree", "CalcAssumed"):
+        for sec in subjects.section_codes(subj):
             totals = sorted(t for (t,) in self.q("""SELECT SUM(marks) FROM questions WHERE subject = ? AND
                                                     section = ? AND year >= ? GROUP BY year""", subj, sec, since))
             if totals:
@@ -156,7 +156,7 @@ class Store:
         """Past questions with at least one part tagged `code`, newest first; labels = matching parts."""
         return self.q("""SELECT q.id, q.year, q.section, q.q, q.marks, GROUP_CONCAT(pp.label, ',')
                          FROM part_patterns pp JOIN questions q ON q.id = pp.qid WHERE pp.pattern = ?
-                         GROUP BY q.id ORDER BY q.year DESC, q.section = 'CalcFree' DESC, q.q""", code)
+                         GROUP BY q.id ORDER BY q.year DESC, q.section = ? DESC, q.q""", code, subjects.section_codes(code.split(".")[0])[0])
 
     # ---- one past question
     def question(self, qid):

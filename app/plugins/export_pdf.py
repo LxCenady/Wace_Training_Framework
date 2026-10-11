@@ -6,6 +6,7 @@ Fonts come from the system font folder (plat.pdf_fonts): Microsoft YaHei + Segoe
 Hiragino Sans GB + Apple Symbols on macOS; the symbol font covers the glyphs the CJK font lacks (⇒ ☐ ✓ …),
 chosen per character.
 """
+import subjects
 import html, io, os, re, shutil, tempfile, time
 import pymupdf
 import plat
@@ -25,7 +26,7 @@ p {{margin: 2pt 0;}}
 .sol {{color: #333; font-size: 9.5pt;}}
 .s {{font-family: sym;}}
 """
-SECTION = {"CalcFree": "计算器禁用 (Calculator-free)", "CalcAssumed": "计算器允许 (Calculator-assumed)"}
+SECTION = {s: f"{name} ({subjects.section_labels(field='en')[s]})" for s, name in subjects.section_labels().items()}
 
 
 class Assets:
@@ -209,7 +210,7 @@ def past_papers(items, root, path, title, name, first=None, header=True, numbere
                 write(title + ("" if kind == "exam" else " — 答案与评分标准"), 15, (0.12, 0.23, 0.45), 26)
                 if meta:
                     write(meta, 8.5, (0.4, 0.4, 0.4), 20)
-            sec = "CF" if d["section"] == "CalcFree" else "CA"
+            sec = subjects.section_name(d["subject"], d["section"], "short")
             pats = "；".join(name(p) for p in dict.fromkeys(c for _, _, cs in d["parts"] for c in cs))
             origin = f"{d['year']} {d['subject']} {sec} Question {d['q']}"
             head = f"Question {first + n} · {d['marks']} 分 · 真题 {origin}" if first else f"{origin} · {d['marks']} 分"

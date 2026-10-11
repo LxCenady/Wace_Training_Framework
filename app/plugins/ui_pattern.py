@@ -1,5 +1,6 @@
 """Pattern view. One job: show the method notes of the selected pattern(s), the marks it carries in real papers, and
 the patterns it is most often examined with (bars, with buttons to combine them or see those past questions)."""
+import subjects
 import re
 import tkinter as tk
 from tkinter import ttk
@@ -10,10 +11,10 @@ def plain(md):
     return re.sub(r"`([^`]+)`", r"\1", md)
 
 
-def marks_line(by_section):
+def marks_line(by_section, subject=None):
     """'分值（真题中此题型在一道题里占）：计算器禁用 一般 2–4 分，最多 6 分（9 道）· …' from the printed marks."""
     out = []
-    for sec, name in (("CalcFree", "计算器禁用"), ("CalcAssumed", "计算器允许")):
+    for sec, name in subjects.section_labels(subject).items():
         v = by_section.get(sec)
         if v:
             r = [round(x) for x in v]
@@ -67,7 +68,7 @@ def setup(k):
             n = len(store.questions_for(code))
             w(t, f"{p['topic_zh']} · 题型 {p['n']}：{p['title']}\n", "h")
             w(t, f"{code} · 真题 {n} 道 · 展开左侧节点查看；多选题型后点「AI 生成相似题」可组合出题\n", "muted")
-            w(t, marks_line(store.pattern_marks(code)) + "\n\n", "muted")
+            w(t, marks_line(store.pattern_marks(code), code.split('.')[0]) + "\n\n", "muted")
             if len(codes) == 1:
                 related_panel(t, code)
             for line in plain(p["method"]).splitlines():
@@ -89,8 +90,8 @@ def setup(k):
         w(t, f"单元：{store.topic_name(code)}\n", "h")
         w(t, "选中单元后点「AI 生成相似题」= 单元出题：每道题沿用一道以本单元为主的真题的题型组合与每个题型的分值，"
              "再随机换成同单元、分值相近的题型并微调 ±1 分；所以题型频率、分值区间和跨单元搭配都跟真题一致。"
-             "卷型选「任意」时按本单元真题在 CF / CA 的题数比例抽。下面是这些统计。\n\n", "muted")
-        for sec, name in (("CalcFree", "计算器禁用 (CF)"), ("CalcAssumed", "计算器允许 (CA)")):
+             "卷型选「任意」时按本单元真题在各部分的题数比例抽。下面是这些统计。\n\n", "muted")
+        for name, sec in list(subjects.section_options(subj).items())[1:]:
             with store.lock:
                 bp = blueprint.blueprint(store.db, subj, sec)
                 draw = blueprint.pattern_drawing(store.db, subj, sec)

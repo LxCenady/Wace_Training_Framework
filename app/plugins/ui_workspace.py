@@ -15,12 +15,10 @@ import time
 import tkinter as tk
 from tkinter import ttk
 import plat
+import subjects
 
 COLS = (("n", "#", 40), ("kind", "来源", 56), ("label", "题目", 120), ("section", "卷型", 48), ("marks", "分", 40),
         ("patterns", "题型", 520))
-SEC = {"CalcFree": "CF", "CalcAssumed": "CA"}
-SEC_NAME = {"CalcFree": "计算器禁用 (Calculator-free)", "CalcAssumed": "计算器允许 (Calculator-assumed)"}
-TIMES = {"CalcFree": (5, 50), "CalcAssumed": (10, 100)}  # WACE reading + working minutes
 TOL = 3  # 出卷模式: a section is ready within this many marks of a real paper
 MOVE = 6  # pixels the pointer must travel before a press becomes a drag
 
@@ -65,13 +63,18 @@ def setup(k):
     paper.trace_add("write", lambda *_: refresh())
     bars = ttk.Frame(frame)  # 出卷模式: one row of CF / CA meters under the header
     meters = {}
-    for sec in ("CalcFree", "CalcAssumed"):
-        ttk.Label(bars, text=SEC_NAME[sec].split(" ")[0]).pack(side="left", padx=(0, 4))
-        bar = ttk.Progressbar(bars, length=200, style="Ws.Horizontal.TProgressbar")
-        bar.pack(side="left")
-        lbl = tk.Label(bars, width=16, anchor="w", bg=C["bg"], fg=C["muted"])
-        lbl.pack(side="left", padx=(6, 18))
-        meters[sec] = (bar, lbl)
+    def make_meters(subj):
+        for widget in bars.winfo_children():
+            widget.destroy()
+        meters.clear()
+        for sec, name in subjects.section_labels(subj).items():
+            ttk.Label(bars, text=name).pack(side="left", padx=(0, 4))
+            bar = ttk.Progressbar(bars, length=200, style="Ws.Horizontal.TProgressbar")
+            bar.pack(side="left")
+            lbl = tk.Label(bars, width=16, anchor="w", bg=C["bg"], fg=C["muted"])
+            lbl.pack(side="left", padx=(6, 18))
+            meters[sec] = (bar, lbl)
+    make_meters(store.subjects()[0])
     clear_btn = ttk.Button(head, text="全部清空", command=lambda: clear_all())
     clear_btn.pack(side="right")
     export_btn = ttk.Button(head, text="合并导出", command=lambda: export())
@@ -98,7 +101,11 @@ def setup(k):
 
     def refresh(select=()):
         table.delete(*table.get_children())
-        sums = {"CalcFree": 0, "CalcAssumed": 0}
+        subj = subject() or store.subjects()[0]
+        codes = subjects.section_codes(subj)
+        if list(meters) != codes:
+            make_meters(subj)
+        sums = dict.fromkeys(codes, 0)
         unknown = 0
         for n, ref in enumerate(items, 1):
             d = info(ref)
@@ -107,19 +114,19 @@ def setup(k):
             else:
                 unknown += 1
             table.insert("", "end", iid=f"{ref[0]}|{ref[1]}", values=(
-                n, "真题" if ref[0] == "past" else "AI", d["label"], SEC.get(d["section"], "?"), d["marks"],
+                n, "真题" if ref[0] == "past" else "AI", d["label"], subjects.section_name(d["subject"], d["section"], 'short'), d["marks"],
                 "；".join(store.pattern_name(p) for p in d["patterns"])))
         for iid in select:
             if table.exists(iid):
                 table.selection_add(iid)
         total = sum(info(r)["marks"] or 0 for r in items)
         count.configure(text=f"{len(items)} 题 · {total} 分" if items else "空：把题拖进来")
-        subj = subject()
         ready = False
         if paper.get():
             bars.pack(fill="x", padx=8, pady=(0, 2), after=head)
             target = store.paper_totals(subj) if subj else {}
-            ready = bool(items) and not unknown and all(
+            mixed = len({info(r)["subject"] for r in items}) > 1
+            ready = bool(items) and not mixed and not unknown and all(
                 abs(sums[s] - target.get(s, 0)) <= TOL for s in sums)
             for sec, (bar, lbl) in meters.items():
                 goal = target.get(sec, 0) or 1
@@ -130,10 +137,11 @@ def setup(k):
                 lbl.configure(text=f"{sums[sec]} / {target.get(sec, '?')} 分  " + (
                     "✓ 已凑齐" if fine else f"还差 {-gap}" if gap < 0 else f"多了 {gap}"),
                     fg=C["ok"] if fine else C["muted"])
-            mixed = len({info(r)["subject"] for r in items}) > 1
-            warn = ("  混了 MAM 和 MAS" if mixed else "") + (f"  {unknown} 题没有卷型" if unknown else "")
+            warn = ("  混了不同科目" if mixed else "") + (f"  {unknown} 题没有卷型" if unknown else "")
             count.configure(text=count.cget("text") + f" · {subj}{warn}")
-            export_btn.configure(text="导出试卷（CF 卷 + CA 卷）", style="Ready.TButton" if ready else "TButton")
+            names = subjects.section_labels(subj, 'short')
+            label = ' + '.join(f'{name} 卷' for name in names.values())
+            export_btn.configure(text=f"导出试卷（{label}）", style="Ready.TButton" if ready else "TButton")
         else:
             bars.pack_forget()
             export_btn.configure(text="合并导出", style="TButton")
@@ -323,18 +331,23 @@ def setup(k):
         done = []
         if paper.get():
             subj = subject()
-            for sec in ("CalcFree", "CalcAssumed"):
-                refs = [r for r in items if info(r)["section"] == sec]
+            profile = subjects.info(subj)
+            separate = profile.get('paper_layout', 'separate-sections') == 'separate-sections'
+            for sec in subjects.section_codes(subj) if separate else [None]:
+                refs = [r for r in items if sec is None or info(r)["section"] == sec]
                 if not refs:
                     continue
-                path = k.get("export.target")(f"WTF_{subj}_{SEC[sec]}卷_{stamp}.pdf", f"导出 {SEC[sec]} 卷")
+                short = subjects.section_name(subj, sec, 'short') if sec else subj
+                path = k.get("export.target")(f"WTF_{subj}_{short}卷_{stamp}.pdf", f"导出 {short} 卷")
                 if not path:
                     return
                 marks = sum(info(r)["marks"] or 0 for r in refs)
-                reading, working = TIMES[sec]
+                reading, working = subjects.section_minutes(subj, sec) if sec else profile['paper_minutes']
                 meta = (f"{len(refs)} 题 · 共 {marks} 分 · 阅读时间 {reading} 分钟 + 作答时间 {working} 分钟 · "
                         f"{time.strftime('%Y-%m-%d')} · WTF — WACE Training Framework")
-                done.append(k.get("export.combined")(refs, path, f"WACE {subj} 模拟卷 · {SEC_NAME[sec]}", meta))
+                name = (f"{subjects.section_name(subj, sec)} ({subjects.section_name(subj, sec, 'en')})"
+                        if sec else profile['name']['zh'])
+                done.append(k.get("export.combined")(refs, path, f"WACE {subj} 模拟卷 · {name}", meta))
         else:
             path = k.get("export.target")(f"WTF组卷_{stamp}.pdf", "合并导出")
             if not path:

@@ -6,6 +6,7 @@ Results list each question's patterns with the marks they carried; double-click 
 Below the list, the patterns and units that most often appear together with the chosen ones in the results:
 the cross-pattern index. 导出 PDF: the selected results (or all of them) cut from the papers, plus their keys.
 """
+import subjects as subject_profiles
 import os, time
 import tkinter as tk
 from tkinter import ttk
@@ -14,7 +15,7 @@ import plat
 COLS = (("year", "年份", 60), ("section", "卷型", 50), ("q", "题号", 50), ("marks", "分", 40),
         ("cross", "跨单元", 60), ("draw", "作图/配图", 80), ("patterns", "题型（分值）", 620))
 MODES = ["同时包含全部", "包含任一"]
-SECTIONS = {"任意": None, "计算器禁用 (CF)": "CalcFree", "计算器允许 (CA)": "CalcAssumed"}
+SECTIONS = subject_profiles.section_options(any_value=None)
 
 
 def unit_of(code):
@@ -137,7 +138,7 @@ def setup(k):
                 marks = ("作图" if r["sketch"] else "") + ("/" if r["sketch"] and r["figure"] else "") + \
                         ("配图" if r["figure"] else "")
                 table.insert("", "end", iid=r["id"], values=(
-                    r["year"], "CF" if r["section"] == "CalcFree" else "CA", f"Q{r['q']}", r["marks"],
+                    r["year"], subject_profiles.section_name(r["subject"], r["section"], "short"), f"Q{r['q']}", r["marks"],
                     "✓" if len(units) > 1 else "", marks, pats))
             total_marks = sum(r["marks"] for r in found)
             count.configure(text=f"{len(found)} 道真题 · 共 {total_marks} 分 · 双击打开原题（可看评分标准、右键扣分）· "

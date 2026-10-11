@@ -25,3 +25,4 @@ tools/i18n_cache.json
 generated_backup_*.db
 
 HANDOFF.local.md
+*/sections.json

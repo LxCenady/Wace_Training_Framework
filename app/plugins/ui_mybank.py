@@ -6,6 +6,7 @@ nodes that hold questions (collapsed; expanded while searching). A question sits
 its other patterns are listed in their own column. Opening a question emits select.generated(gid); the AI view
 shows it with answers still hidden.
 """
+import subjects
 import os, time
 import tkinter as tk
 from tkinter import ttk
@@ -13,7 +14,7 @@ import plat
 
 COLS = (("id", "#", 50), ("created", "时间", 130), ("difficulty", "难度", 120), ("section", "卷型", 50),
         ("marks", "分", 40), ("also", "其他题型", 150), ("model", "模型", 120), ("stem", "题目开头", 420))
-SECTION = {"CalcFree": "CF", "CalcAssumed": "CA"}
+SECTION = subjects.section_labels(field="short")
 LEVEL_ORDER = {"基础": 0, "标准": 1, "拔高": 2}
 
 

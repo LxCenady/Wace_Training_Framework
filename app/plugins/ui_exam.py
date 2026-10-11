@@ -7,14 +7,14 @@ questions show), topics in proportion to their real share of marks, cross-topic 
 difficulty rising with jitter. Marking reuses self-marking (right-click a part in the opened question); the score is the paper total
 minus the marks recorded as lost since the exam started.
 """
+import subjects
 import base64, os, random, shutil, threading, time
 import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
 from tkinter import ttk
 import plat
 
-TIMES = {"CalcFree": (5, 50), "CalcAssumed": (10, 100)}
-SEC_NAME = {"CalcFree": "计算器禁用", "CalcAssumed": "计算器允许"}
+
 
 
 def setup(k):
@@ -28,14 +28,21 @@ def setup(k):
         f = ttk.Frame(page, padding=14)
         f.pack(fill="x")
         ttk.Label(f, text="模拟考试", style="H.TLabel").grid(row=0, column=0, columnspan=6, sticky="w")
-        subj, sec, src = tk.StringVar(value=store.subjects()[0]), tk.StringVar(value="CalcAssumed"), tk.StringVar(value="past")
+        subj = tk.StringVar(value=store.subjects()[0])
+        sec, src = tk.StringVar(value=subjects.section_codes(subj.get())[-1]), tk.StringVar(value="past")
         years = sorted({r[0] for r in store.q("SELECT DISTINCT year FROM questions")}, reverse=True)
         year = tk.StringVar(value=str(years[0]))
         ttk.Label(f, text="科目").grid(row=1, column=0, sticky="w", pady=6)
         ttk.Combobox(f, textvariable=subj, values=store.subjects(), state="readonly", width=6).grid(row=1, column=1)
         ttk.Label(f, text="卷型").grid(row=1, column=2, sticky="w", padx=(12, 0))
-        ttk.Combobox(f, textvariable=sec, values=["CalcFree", "CalcAssumed"], state="readonly", width=12).grid(
-            row=1, column=3)
+        section_box = ttk.Combobox(f, textvariable=sec, values=subjects.section_codes(subj.get()), state="readonly", width=12)
+        section_box.grid(row=1, column=3)
+        def sections_changed(*_):
+            values = subjects.section_codes(subj.get())
+            section_box.configure(values=values)
+            if sec.get() not in values:
+                sec.set(values[-1])
+        subj.trace_add("write", sections_changed)
         ttk.Radiobutton(f, text="历年真卷", value="past", variable=src).grid(row=2, column=0, sticky="w")
         ttk.Combobox(f, textvariable=year, values=[str(y) for y in years], state="readonly", width=6).grid(
             row=2, column=1)
@@ -58,7 +65,7 @@ def setup(k):
         for e in store.exams():
             got = e["total"] - e["lost"]
             table.insert("", "end", iid=str(e["id"]), values=(
-                e["created"], f"{e['subject']} {SEC_NAME[e['section']]} · {paper_name(e)}",
+                e["created"], f"{e['subject']} {subjects.section_name(e['subject'], e['section'])} · {paper_name(e)}",
                 f"{got} / {e['total']}" if e["submitted"] else "—", "已交卷" if e["submitted"] else "未交卷"))
         table.bind("<Double-1>", lambda ev: table.focus() and open_exam(store.exam(int(table.focus()))))
 
@@ -67,7 +74,7 @@ def setup(k):
         page = k.get("ui.tab")("exam", "模拟考试")
         head = ttk.Frame(page, padding=(14, 12, 14, 4))
         head.pack(fill="x")
-        ttk.Label(head, text=f"正在组卷：{subj} {SEC_NAME[sec]} · {len(items)} 题 · {total} 分",
+        ttk.Label(head, text=f"正在组卷：{subj} {subjects.section_name(subj, sec)} · {len(items)} 题 · {total} 分",
                   style="H.TLabel").pack(side="left")
         ttk.Button(head, text="返回", command=show).pack(side="right")
         clock = ttk.Label(head, style="Muted.TLabel")
@@ -106,7 +113,7 @@ def setup(k):
 
     def export_exam(e):
         """AI paper -> exam-style question paper + answer paper; past paper -> copies of the official exam + key."""
-        reading, working = TIMES[e["section"]]
+        reading, working = subjects.section_minutes(e["subject"], e["section"])
         name = f"WTF_{e['subject']}_{e['section']}_{paper_name(e).replace(' ', '')}_{e['created'][:10]}"
         if e["source"] == "ai":
             if not k.get("export.worksheet", None):
@@ -114,7 +121,7 @@ def setup(k):
             path = k.get("export.target")(name + ".pdf", "导出模拟卷")
             if not path:
                 return
-            title = f"WACE {e['subject']} 模拟卷 · {SEC_NAME[e['section']]}"
+            title = f"WACE {e['subject']} 模拟卷 · {subjects.section_name(e['subject'], e['section'])}"
             meta = (f"{len(e['refs'])} 题 · 共 {e['total']} 分 · 阅读时间 {reading} 分钟 + 作答时间 {working} 分钟 · "
                     f"{e['created'][:10]} · WTF — WACE Training Framework")
             q, a = k.get("export.worksheet")([int(r) for _, r in e["refs"]], path, title, meta)
@@ -245,7 +252,7 @@ def setup(k):
         page = k.get("ui.tab")("exam", "模拟考试")
         bar = ttk.Frame(page, padding=(12, 8))
         bar.pack(fill="x")
-        ttk.Label(bar, text=f"{e['subject']} {SEC_NAME[e['section']]} · {paper_name(e)} · {e['total']} 分",
+        ttk.Label(bar, text=f"{e['subject']} {subjects.section_name(e['subject'], e['section'])} · {paper_name(e)} · {e['total']} 分",
                   style="H.TLabel").pack(side="left")
         ttk.Button(bar, text="返回", command=show).pack(side="right")
         ttk.Button(bar, text="导出 PDF", command=lambda: export_exam(e)).pack(side="right", padx=6)
@@ -263,7 +270,7 @@ def setup(k):
             state["t0"] = time.time()
         else:
             state["t0"] = time.mktime(time.strptime(e["started"], "%Y-%m-%d %H:%M"))
-        reading, working = (m * 60 for m in TIMES[e["section"]])
+        reading, working = (m * 60 for m in subjects.section_minutes(e["subject"], e["section"]))
 
         def tick():
             left = reading + working - (time.time() - state["t0"])
