@@ -58,6 +58,10 @@ Maths packs say `"sections": [{"code": "CalcFree", "letter": "F", "zh": "计算�
 `"checker": "sympy"`, `"sheets": ["FormulaSheet"]`.
 
 Field rules:
+- `paper_layout`: `separate-sections` (maths) or `shared` (one exam/key containing multiple sections, Chemistry). This describes source files, not the number of sections or their timers.
+- `sections[].suggested_minutes`: optional advisory working time within a shared paper. It is separate from `minutes` (reading/working times of an independent paper). Chemistry uses whole-paper `paper_minutes`; do not invent separate reading periods for MC/SA/ER.
+- `sections[].share`: score weight, independent of raw marks. Yearly question counts and raw section totals come from the validated papers, not immutable pack constants. Calculate weighted scores per section before summing.
+- Chemistry stage-0 evidence is in `CHE/README.md`. Its MC key can accept alternative letters; written rubrics can award a capped number of marks from alternatives. A handler must preserve these semantics rather than counting every alternative as an additional mark. Shared question stimuli must survive segmentation.
 - `subject`: 2–4 capital letters, unique; becomes the folder name and the id prefix `<S>-<year><letter>-Q<n>`.
 - `sections[].letter` is what `parttags.txt` uses (`2024A 9 …`); `code` is the file-name section
   (`2024_<S>_Exam_<code>.pdf`). One paper with several sections: the exam and key are one file each
