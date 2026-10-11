@@ -220,6 +220,8 @@ def setup(k):
             row = tree.identify_row(e.y)
             if not row or e.state & 0x0005:  # empty space, or Shift / Ctrl held: the normal selection rules
                 return None
+            if tree.identify_element(e.x, e.y).endswith("indicator") or not refs_of((row,)):
+                return None  # branch controls and non-question rows belong to the tree
             s.update(row=row, x=e.x_root, y=e.y_root, dragging=False)
             if row in tree.selection():
                 s["mode"] = "drag"

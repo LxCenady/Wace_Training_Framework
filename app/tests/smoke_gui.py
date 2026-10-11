@@ -78,10 +78,26 @@ k.emit("ui.ready")  # run() is not called: the test pumps the event loop itself
 tree = find(root, "Treeview")
 root.lift(); root.attributes("-topmost", True)
 pump(1.0)
-for node in ("T:MAM.D", "P:MAM.D.6"):
-    tree.item(node, open=True)
-tree.focus("P:MAM.D.6"); tree.event_generate("<<TreeviewOpen>>")
+tree.item("T:MAM.D", open=True)
 tree.selection_set("P:MAM.D.6"); tree.see("P:MAM.D.6")
+pump(0.2)
+# A selected pattern's disclosure arrow must still reach Tk's class binding.
+node = "P:MAM.D.6"
+x, y, width, height = tree.bbox(node)
+indicator = next(px for px in range(x, x + width)
+                 if tree.identify_element(px, y + height // 2).endswith("indicator"))
+def toggle_pattern():
+    tree.event_generate("<ButtonPress-1>", x=indicator, y=y + height // 2)
+    tree.event_generate("<ButtonRelease-1>", x=indicator, y=y + height // 2)
+    pump(0.2)
+toggle_pattern()
+assert tree.item(node, "open"), "Selected pattern did not expand on click"
+assert not tree.exists("X:MAM.D.6"), "Expanded pattern did not load its questions"
+toggle_pattern()
+assert not tree.item(node, "open"), "Selected pattern did not collapse on click"
+toggle_pattern()
+assert tree.item(node, "open"), "Selected pattern did not reopen on click"
+print("PASS selected pattern click: expand, lazy load, collapse, reopen")
 shot("1_pattern")
 q = tree.get_children("P:MAM.D.6")[0]
 tree.selection_set(q); tree.see(q)
