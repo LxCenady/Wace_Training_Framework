@@ -29,7 +29,8 @@ UI_PROMPT = (
     "UI text. Each item is a Chinese fragment cut out of a longer string (shown as context); numbers and names are "
     "inserted around it at run time, so translate only the fragment, keep its leading/trailing role (e.g. '共' -> "
     "'total', '分' -> 'marks'), no quotes. Glossary: 题型 = pattern, 知识点 = topic, 知识图谱 = knowledge tree, "
-    "错题本 = mistake book, 得分点 = mark points, 评分标准 = marking key, 真题/真卷 = past paper. "
+    "错题本 = mistake book, 得分点 = mark points, 评分标准 = marking key. Translate 真题 as past question when it means an individual exam question; "
+    "use past paper for a complete exam paper or imported SCSA paper. Translate 真卷 as past paper. Keep these terms distinct. "
     "Reply with ONE JSON object mapping each id to its English text.")
 
 

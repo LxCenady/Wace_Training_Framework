@@ -1,181 +1,179 @@
-# MAM · Differentiation and Its Applications — Patterns and Solution Approaches
+# MAM · Differentiation and Its Applications — Question Patterns and Solution Approaches
 
-> Based on: ratified marking keys for 51 past exam questions containing differentiation from 2016–2025 ("Specific behaviours" point-by-point marking criteria) + past exam reports.
-> Question numbering: `2021A-Q12` = 2021 Calculator-assumed Question 12, `F` = Calculator-free; `2016S-A19` = 2016 official sample paper (not included in the 51 questions; original paper at `papers/2016Sample_*`). Original questions and marking can be found in `topics/01_Differentiation.pdf`.
+> Based on: the ratified marking key for the 51 past exam questions involving differentiation from 2016–2025 (the "Specific behaviours" point-by-point scoring points) + past exam reports.
+> Past exam question numbering: `2021A-Q12` = 2021 Calculator-assumed Question 12, `F` = Calculator-free; `2016S-A19` = 2016 official sample paper (not among the 51 questions; original paper see `papers/2016Sample_*`). Original questions and marking: see `topics/01_Differentiation.pdf`.
 > Review status: has undergone one round of independent review and was revised according to feedback (see `Review_log.md`).
 
-## First, remember: where the marking panel repeatedly deducted marks
+## First, Remember: Where Markers Repeatedly Deduct Marks
 
-- **Optimisation questions must verify the nature of the extremum**: The 2024 report states: for optimisation questions requiring calculus, full marks require using the second derivative test or sign test to verify the nature of the stationary point. Verification is usually worth 1 mark on its own (e.g. 1 of the 4 marks in 2024A-Q12(c)).
+- **Optimisation questions must verify the extremum**: The 2024 report states: for optimisation questions requiring calculus, full marks require using the second derivative test or sign test to verify the nature of the stationary point. Verification is usually worth 1 mark on its own (e.g. 1 of the 4 marks in 2024A-Q12(c)).
 - **The second derivative test fails when f″=0** (2023 report): in this case you must use a sign table (sign test) to determine the nature.
-- **Graph sketches must label all key points**: label coordinates for intercepts, stationary points and inflection points; write equations for asymptotes; use open/closed circles for endpoints. The 2020 report specifically named Q7(d): many students did not label key points and could not get full marks (the 4 marks for this question were for intercepts, stationary point + inflection point, concavity, and limiting behaviour).
+- **Graphs must label all key points**: label coordinates of intercepts, stationary points and points of inflection; write equations for asymptotes; use open/closed circles for endpoints. The 2020 report specifically named Q7(d): many people did not label key points and could not get full marks (the 4 marks for that question were allocated to intercepts, stationary point + point of inflection, concavity, and limiting behaviour).
 - **"Show that" questions must not skip steps** (2022, 2023, 2025 reports): every substitution and simplification must be written out.
-- **Calculators must be in radian mode** (2022, 2024, 2025 reports): a π/180 appearing when differentiating sin indicates degree mode.
-- **Applied questions must include units**.
+- **Calculators must be in radian mode** (2022, 2024, 2025 reports): if differentiating sin gives π/180, the calculator is in degree mode.
+- **Application questions must include units**.
 
 ---
 
-## Pattern 1: Direct differentiation (combining rules)
+## Pattern 1: Direct Differentiation (Combining Rules)
 
-**Identification**: "Differentiate …", "Determine f′(x)", "Do not simplify / Simplify your answer". Early 2–4 mark questions at the start of the CF paper.
+**Recognition**: "Differentiate …", "Determine f′(x)", "Do not simplify / Simplify your answer". A 2–4 mark question at the start of a CF paper.
 
 **Approach**
-1. First identify the structure: product → product rule; fraction → quotient rule (or rewrite as a product); composite → chain rule. It is common for two or three rules to be combined, e.g. x² ln(4x+3) is a product with a chain rule inside.
+1. First identify the structure: product → product rule; fraction → quotient rule (or rewrite as a product); composite → chain rule. Often two or three rules are combined, e.g. x² ln(4x+3) is a product with a chain rule inside.
 2. Memorise the basic derivatives: (eᵏˣ)′ = keᵏˣ, (ln f)′ = f′/f, (sin kx)′ = k cos kx, (tan x)′ = 1/cos²x.
-3. When the question says simplify, factor out common factors, e.g. xeˣ(x+2); when it says do not simplify, don't waste time simplifying.
+3. If the question says simplify, factor out common factors, e.g. xeˣ(x+2); if it says do not simplify, don't waste time simplifying.
 
-**Marking points (typical key wording)**: ✓ correct use of product/quotient/chain rule (the mark is awarded for writing the two-term structure with at least one term correct, e.g. 2018F-Q3(b)) ✓ derivative completely correct ✓ simplification (if required by the question).
+**Marking points (typical wording in the key)**: ✓ correct use of product/quotient/chain rule (the mark is only awarded if the two-term structure is written and at least one term is correct, e.g. 2018F-Q3(b)) ✓ derivative completely correct ✓ simplification (if required by the question).
 
-**Common errors**: omitting the inner derivative 6x² when differentiating (2x³+1)⁵; reversing the numerator order in the quotient rule; omitting the negative sign when differentiating e⁻ˣ.
+**Common errors**: missing the inner derivative 6x² when differentiating (2x³+1)⁵; writing the numerator of the quotient rule in reverse order; missing the negative sign when differentiating e⁻ˣ.
 
-**Past questions**: 2016F-Q2(a), 2018F-Q3(a), 2020F-Q2, 2021F-Q1(a), 2023F-Q1(a), 2024F-Q1(a), 2017A-Q10 (proving the derivative of tan).
+**Past questions**: 2016F-Q2(a), 2018F-Q3(a), 2020F-Q2, 2021F-Q1(a), 2023F-Q1(a), 2024F-Q1(a), 2017A-Q10 (prove the derivative of tan).
 
 ---
 
-## Pattern 2: Tables / graphs giving function values, finding derivatives of composites or products
+## Pattern 2: Table / Graph Gives Function Values, Find Derivative of Composite or Product
 
-**Identification**: A table of g(x), h(x), g′(x), h′(x) at several x-values, or two function graphs.
+**Recognition**: A table giving g(x), h(x), g′(x), h′(x) at several x-values, or two function graphs.
 
 **Approach**
 1. First write the general formula: product (fg)′(5) = f′(5)g(5) + f(5)g′(5); quotient (g/h)′(3) = [g′(3)h(3) − g(3)h′(3)] / h(3)² (2019F-Q2(a) is a quotient); composite [h(g(x))]′ = h′(g(x))·g′(x). **The general formula itself is worth 1 mark**.
 2. For composite functions, always evaluate the inner function first: h′(g(1)) = h′(3), not h′(1).
-3. Graph questions: the gradient of a straight-line segment is the derivative; at a corner (sharp point) between two straight segments the derivative does not exist. The point asked about will usually avoid the corner; if the inner function value g(a) falls exactly on the corner, the derivative cannot be found.
+3. Graph questions: the slope of a straight-line segment is the derivative; at the corner (sharp point) between two straight-line segments the derivative does not exist. The points asked about will generally avoid corners; if the inner function value g(a) falls exactly on a corner, the derivative cannot be found.
 
-**Marking points**: ✓ correct expression using product/chain rule ✓ correct substitution of values.
+**Marking points**: ✓ use the correct product/chain rule to write the expression ✓ substitute values correctly.
 
-**Common errors**: 2019 report: Q2(b) (differentiating a composite function) was poorly answered; 2020 report: many students did not realise Q5(c) required the chain rule. Common error (author's note, not from the report): calculating h′(g(1)) as h′(1).
+**Common errors**: 2019 report: Q2(b) (differentiating composite functions) was poorly answered; 2020 report: many people did not realise Q5(c) required the chain rule. Common error (editor's note, not in the original report): calculating h′(g(1)) as h′(1).
 
 **Past questions**: 2019F-Q2, 2020F-Q5, 2023F-Q5(a).
 
 ---
 
-## Pattern 3: "rate of change of f′(x)", "explain the meaning of f″"
+## Pattern 3: “rate of change of f′(x)”, “Explain the meaning of f″”
 
-**Identification**: Given f′(x), asked for the rate of change of f′(x), or asked to explain the meaning of your answer.
+**Recognition**: Given f′(x), asked for the rate of change of f′(x), or asked to explain the meaning of your answer.
 
 **Approach**
 - The rate of change of f′ is **f″(x)**. The key has a dedicated mark for "indicates rate of change of f′(x) is f″(x)".
-- When explaining meaning, put it in context: "when x = 1, the gradient of f is increasing at a rate of … per unit of x". At x=a, f′(a)=0 and f″(a)<0 means the point is a local maximum.
+- When explaining the meaning, put it in context: "when x = 1, the gradient of f is increasing at a rate of … per unit of x". If f′(a)=0 and f″(a)<0 at x=a, this shows the point is a local maximum.
 
-**Marking points**: ✓ recognise that f″ is required ✓ correct differentiation ✓ correct substitution ✓ (explanation questions) state both "the rate of change of what quantity" and "at which x / when".
+**Marking points**: ✓ recognise that f″ is required ✓ differentiate correctly ✓ substitute the value ✓ (explanation questions) state both "what quantity it is the rate of change of" and "at which x / when".
 
 **Past questions**: 2018F-Q3(b), 2019F-Q1(a)(b), 2019F-Q7(b), 2021F-Q1(b), 2022F-Q1(a), 2019F-Q2(c).
 
 ---
 
-## Pattern 4: Full function analysis (stationary points + nature + inflection points + graph sketching)
+## Pattern 4: Full Function Analysis (Stationary Points + Nature + Points of Inflection + Sketching)
 
-**Identification**: A 10–15 mark question, commonly the final question on a CA paper or CF paper. "Use calculus to determine all stationary points and their nature", "points of inflection", "Hence sketch".
+**Recognition**: A 10–15 mark question, often the last question on a CA or CF paper. "Use calculus to determine all stationary points and their nature", "points of inflection", "Hence sketch".
 
 **Standard procedure**
-1. **Factorise f′(x)**, e.g. for f = x²eˣ, f′ = xeˣ(x+2). eˣ>0 is never zero; write this as a reason.
+1. **Factorise f′(x)**, e.g. if f = x²eˣ then f′ = xeˣ(x+2). Since eˣ>0 is never zero, write this as the reason.
 2. f′ = 0 → stationary point x-values → substitute back into the **original function** to find y-coordinates (finding y-coordinates is marked separately).
-3. Determine the nature: f″(a)>0 is a local minimum, f″(a)<0 is a local maximum; **when f″(a)=0 you must use a sign test instead**.
-4. Inflection points: f″=0, and confirm that f″ changes sign on either side of the point. Horizontal inflection point: f′(a)=0 and f″ changes sign on either side of a (equivalently, f′ has the same sign on either side of a). **Having only f′=f″=0 is not enough**, e.g. for f = x⁴ at x=0, f′=f″=0 but it is a local minimum, so a sign table is needed to confirm.
-5. Graph sketching: label coordinates for intercepts, stationary points and inflection points; draw asymptotes (vertical asymptote for ln, horizontal asymptote for eˣ) and domain endpoints (open/closed circles); the concavity shape must match the sign of f″.
+3. Determine the nature: f″(a)>0 is a local minimum, f″(a)<0 is a local maximum; **if f″(a)=0 you must use a sign test instead**.
+4. Points of inflection: f″=0, and confirm that f″ changes sign on either side of the point. Horizontal point of inflection: f′(a)=0 and f″ changes sign on either side of a (equivalently, f′ has the same sign on either side of a). **Having f′=f″=0 is not enough**, e.g. for f = x⁴ at x=0, f′=f″=0 but it is a local minimum, so a sign table is needed to confirm.
+5. Sketching: label coordinates of intercepts, stationary points and points of inflection; draw asymptotes (vertical asymptote for ln, horizontal asymptote for eˣ) and domain endpoints (open/closed circles); the concavity shape must match the sign of f″.
 
-**Marking points (using 2021A-Q12 as an example, 15 marks)**: (a) 2 marks: product rule, factorisation. (b) 7 marks: f′=0, two solutions, find f″, classify x=0 as a local minimum, y-coordinate of the local minimum, classify x=−2 as a local maximum, y-coordinate of the local maximum. (c) 2 marks: f″=0, two inflection points. (d) 4 marks: local minimum, local maximum, inflection point, overall shape.
+**Marking points (using 2021A-Q12 as an example, 15 marks)**: (a) 2 marks: product rule, factorisation. (b) 7 marks: f′=0, two solutions, find f″, determine that x=0 is a local minimum, y-coordinate of the local minimum, determine that x=−2 is a local maximum, y-coordinate of the local maximum. (c) 2 marks: f″=0, two points of inflection. (d) 4 marks: local minimum, local maximum, points of inflection, overall shape.
 
 **Common errors**
 - writing only x and not the y-coordinate;
-- when determining nature, saying only "f″ is positive" without writing the value of f″(a) or a sign table;
-- for functions such as ln(x+3), forgetting the domain x>−3 and not drawing the vertical asymptote (2017A-Q14 has 1 mark specifically for the asymptote);
-- 2023 report reminder: when y″=0 the second derivative test is inconclusive, so a sign test must be used instead (corresponding to x=4 in 2023F-Q5(d)).
+- when determining nature, only saying "f″ is positive" without writing the value of f″(a) or a sign table;
+- forgetting the domain x>−3 for functions such as ln(x+3), and not drawing the vertical asymptote (2017A-Q14 has 1 mark specifically for the asymptote);
+- 2023 report reminder: when y″=0, the second derivative test is inconclusive, so a sign test must be used instead (corresponding to x=4 in 2023F-Q5(d)).
 
 **Past questions**: 2016A-Q13, 2016F-Q3, 2017A-Q14, 2020F-Q7, 2021A-Q12, 2023F-Q5(d)(e).
 
 ---
 
-## Pattern 5: Finding coefficients from conditions / sketching from conditions
+## Pattern 5: Find Coefficients from Conditions / Sketch from Conditions
 
-**Identification**: "Determine a, b, c, d" with several conditions (turning point, inflection point, area, passing through a point), or a set of conditions such as f(2)=0, f′(−1)=0, f″(−1)=4 from which you must sketch a graph.
+**Recognition**: "Determine a, b, c, d" with several conditions (turning point, point of inflection, area, passing through a point), or a set of conditions such as f(2)=0, f′(−1)=0, f″(−1)=4 for you to sketch the graph.
 
 **Approach**
-1. Translate each condition into an equation: passes through a point → f(a)=b; turning point → f′(a)=0; inflection point → f″(a)=0; area → ∫f dx = A.
+1. Translate each condition into an equation: passes through a point → f(a)=b; turning point → f′(a)=0; point of inflection → f″(a)=0; area → ∫f dx = A.
 2. First write the general forms of f′ and f″ (this step is usually worth 1 mark on its own).
 3. Number of unknowns = number of equations; solve the simplest equation first (e.g. f″(0)=0 ⇒ b=0).
-4. Graph-sketching questions: convert each condition into a graphical feature one by one (f″(−1)>0 → local minimum; f′(1)=0 but there are only two stationary points and f′(2)>0 → horizontal inflection point).
+4. Sketching: convert each condition into a graph feature (f″(−1)>0 → local minimum; f′(1)=0 but only two stationary points and f′(2)>0 → horizontal point of inflection).
 
-**Marking points**: ✓ write f′ and f″ ✓ form one equation for each condition (usually about 1 mark each; 2018A-Q15 combined the two derivative equations for 1 mark) ✓ solve all coefficients. Graph sketching: ✓ intercepts ✓ increasing intervals ✓ local minimum ✓ horizontal inflection point ✓ continuous and smooth.
+**Marking points**: ✓ write f′, f″ ✓ form one equation for each condition (usually about 1 mark each; 2018A-Q15 gives 1 mark for two derivative equations combined) ✓ solve all coefficients. Sketching: ✓ intercepts ✓ increasing intervals ✓ local minimum ✓ horizontal point of inflection ✓ continuous and smooth.
 
-**Past questions**: 2018A-Q15 (growth pauses at t=6 and then continues to increase ⇒ t=6 is a horizontal inflection point ⇒ P′(6)=0 and P″(6)=0; solving gives a=−18, b=108), 2020F-Q3, 2022F-Q5.
+**Past questions**: 2018A-Q15 (growth pauses at t=6 then continues increasing ⇒ t=6 is a horizontal point of inflection ⇒ P′(6)=0 and P″(6)=0; solving gives a=−18, b=108), 2020F-Q3, 2022F-Q5.
 
----
+## Pattern 6: Optimisation ★ Frequently tested
 
-## Pattern 6: Optimisation (optimisation) ★ High frequency
-
-**Identification**: A contextual question with “Show that the area/volume/surface is given by …”, then “Using calculus, determine the dimensions that maximise/minimise …”.
+**Identify**: a context question with “Show that the area/volume/surface is given by …”, then “Using calculus, determine the dimensions that maximise/minimise …”.
 
 **Standard procedure**
-1. **Show that**: introduce the constraint (fixed volume, perimeter 500 m, Pythagorean relation) → use the constraint to eliminate one variable → substitute into the objective function → simplify to the form given in the question. Write out every step.
-2. Differentiate → set it equal to 0 → solve for candidate values; state why unreasonable solutions are discarded (e.g. r=0, θ outside the range).
-3. **Verify the nature of the extremum**: when the question says using calculus, this is required and usually worth 1 mark. The method is to calculate A″(x₀)<0 at the stationary point, or write a sign table (f′ changes from positive to negative). If the question states “You do not need to verify” (e.g. 2025A-Q12(b), 2025A-Q14(c)), you may omit it; if unsure, write it—you won't lose marks.
-4. Return to the question to answer: if the question asks for dimensions, give all dimensions (both radius and height), note the rounding required by the question (e.g. nearest mm), and include units.
-5. When there is a discrete constraint (only whole numbers can be produced), compare the values for the two neighbouring integers before drawing a conclusion (2020A-Q13).
+1. **Show that**: introduce the constraint (fixed volume, perimeter 500 m, Pythagorean relationship) → use the constraint to eliminate one variable → substitute into the objective function → simplify to the form given in the question. Write out every step.
+2. Differentiate → set it to 0 → solve for candidate values; state why any invalid solutions are rejected (e.g. r=0, θ outside the range).
+3. **Verify the nature of the extremum**: when the question requires using calculus, this must be written and is usually worth 1 mark. The method is to calculate A″(x₀)<0 at the stationary point, or write a sign table (f′ changes from positive to negative). If the question states "You do not need to verify" (e.g. 2025A-Q12(b), 2025A-Q14(c)), it can be omitted; if unsure, write it—you will not lose marks for including it.
+4. Answer the question: if it asks for dimensions, give all dimensions (both radius and height); note the rounding required by the question (e.g. nearest mm), and include units.
+5. When there is a discrete constraint (only whole numbers can be produced), compare the values of the two neighbouring integers before drawing a conclusion (2020A-Q13).
 
-**Scoring points (2024A-Q12(c))**: ✓ correct derivative ✓ solve A′=0 ✓ use the second derivative or a sign table to verify a maximum ✓ find the other dimension y.
+**Marking points (2024A-Q12(c))**: ✓ correct derivative ✓ solve A′=0 ✓ use the second derivative or a sign table to verify a maximum ✓ find the other dimension y.
 
 **Common errors**
-- omitting the verification (pointed out in reports);
+- omitting the verification (identified in the report);
 - giving only x and not y / h;
-- working backwards directly from the result in a show that question;
+- in a show that question, working backwards from the conclusion;
 - using CAS but not writing the equation (2022 report: write the equation being solved and the key output).
 
-**Past exam questions**: 2016F-Q8, 2016S-A19, 2017A-Q17, 2018A-Q13(a), 2018F-Q6(b), 2019A-Q16, 2020A-Q17, 2024A-Q12, 2025A-Q9(d).
+**Past questions**: 2016F-Q8, 2016S-A19, 2017A-Q17, 2018A-Q13(a), 2018F-Q6(b), 2019A-Q16, 2020A-Q17, 2024A-Q12, 2025A-Q9(d).
 
 ---
 
 ## Pattern 7: Increments formula δy ≈ (dy/dx)·δx
 
-**Identification**: “Use the increments formula to estimate / approximate the change”.
+**Identify**: “Use the increments formula to estimate / approximate the change”.
 
 **Approach**
-1. Write down δx (**note unit conversion**: 1° = π/180 rad; 1 month = 1/12 year).
+1. Write down δx (**note unit conversions**: 1° = π/180 rad; 1 month = 1/12 year).
 2. Find dy/dx and evaluate it at the **starting point**.
 3. δy ≈ f′(a)·δx; if asked for the new value, add f(a).
-4. Include units; if the question asks for an exact value, keep π or fractions.
+4. Include units; if the question asks for an exact value, leave it in terms of π or as a fraction.
 
-**Scoring points**: ✓ correct increment δx ✓ find f′(a) ✓ substitute into the formula to get the result (with units).
+**Marking points**: ✓ correct increment δx ✓ find f′(a) ✓ substitute into the formula to get the result (with units).
 
-**Common errors**: not converting angles to radians (2024F-Q7(d) 45°→46° requires δθ = π/180); inconsistent time units; treating the estimate as the new value (or vice versa).
+**Common errors**: not converting degrees to radians (2024F-Q7(d) 45°→46° requires δθ = π/180); inconsistent time units; treating the estimate as the new value (or vice versa).
 
-**Past exam questions**: 2016A-Q11, 2017A-Q15(c)(iii), 2019F-Q7(c), 2021F-Q3 (ln 2.02), 2022A-Q15(b), 2023A-Q14(b), 2024F-Q7(d), 2025F-Q3(c).
+**Past questions**: 2016A-Q11, 2017A-Q15(c)(iii), 2019F-Q7(c), 2021F-Q3 (ln 2.02), 2022A-Q15(b), 2023A-Q14(b), 2024F-Q7(d), 2025F-Q3(c).
 
 ---
 
 ## Pattern 8: Rates of change under the chain rule / related rates
 
-**Identification**: given dθ/dt or dh/dt, asked for the rate of change of another quantity with respect to time; the question often hints dy/dt = dy/dθ × dθ/dt.
+**Identify**: given dθ/dt or dh/dt, asked for the rate of change of another quantity with respect to time; the question often hints dy/dt = dy/dθ × dθ/dt.
 
 **Approach**
-1. First use the geometric relationship to write y as a function of θ (or V as a function of h), e.g. y = 12 tan θ.
+1. First use a geometric relationship to write y as a function of θ (or V as a function of h), e.g. y = 12 tan θ.
 2. Differentiate with respect to the intermediate variable.
-3. Multiply by the known rate of change, and **substitute the values at the specified time** (often you must first use y=5 to find cos θ).
-4. Write units and explain the meaning of the direction/sign.
+3. Multiply by the known rate, and **substitute the value at the specified time** (often you must first find cos θ from y=5).
+4. Write units, and explain the meaning of the direction/sign.
 
-**Scoring points**: ✓ establish the relationship ✓ differentiate ✓ multiply using the chain rule ✓ substitute values.
+**Marking points**: ✓ establish the relationship ✓ differentiate ✓ multiply using the chain rule ✓ substitute values.
 
-**Past exam questions**: 2016A-Q21 (lighthouse), 2017A-Q15(c). (2025F-Q3 gives h(t) directly, so it is just differentiation plus substitution; classified under Pattern 1 and Pattern 7.)
+**Past questions**: 2016A-Q21 (lighthouse), 2017A-Q15(c). (2025F-Q3 gives h(t) directly; it is just differentiation plus substitution, and is classified under Patterns 1 and 7.)
 
 ---
 
 ## Pattern 9: Tangents / tangent-related geometry
 
-**Identification**: “The line y = x + c is tangent to f(x)”, “the tangent line connects the dog and the ball”.
+**Identify**: “The line y = x + c is tangent to f(x)” “the tangent line connects the dog and the ball”.
 
-**Approach**: At the point of tangency there are two conditions: f′(a) = gradient of the tangent, f(a) = y-value on the tangent. Solve for a from the first, then find the intercept from the second. Use y − f(a) = f′(a)(x − a) for the tangent equation.
+**Approach**: at the point of tangency there are two conditions: f′(a) = gradient of the tangent, f(a) = y-value on the tangent. Use the first to solve for a, then use the second to find the intercept. Use y − f(a) = f′(a)(x − a) for the tangent equation.
 
-**Past exam questions**: 2020A-Q11, 2016S-A11, 2019A-Q15(d) (top edge of the window is tangent to line AB: set the derivative equal to the gradient of AB), 2025A-Q12(c).
+**Past questions**: 2020A-Q11, 2016S-A11, 2019A-Q15(d) (the top edge of the window is tangent to the line AB: set the derivative equal to the gradient of AB), 2025A-Q12(c).
 
 ---
 
-## Pattern 10: Interpretation and description (1–3 marks every year)
+## Pattern 10: Interpretation and description (the 1–3 marks that appear every year)
 
-**Identification**: “Describe how … varies”, “Explain the meaning of your answer”, “What is the meaning of …”.
+**Identify**: “Describe how … varies” “Explain the meaning of your answer” “What is the meaning of …”.
 
-**Writing template**
-- Describing change: explain it in sections. For example, “For $1.50 < x < … the company makes a loss; profit increases to a maximum of $… at x = …; then decreases.” (2018F-Q6(a) 1 mark per section.)
-- Interpreting the derivative: “At t = …, [quantity] is increasing/decreasing at a rate of [value + units] per [unit of the independent variable].”
-- Reports repeatedly point out that writing only calculations without saying what has been calculated loses marks (2018, 2019 reports), and answers must use accurate terminology (2025 report). State the name of the specific quantity, include units, and link it to the context.
+**Response template**
+- Describing change: explain it clearly in intervals. For example “For $1.50 < x < … the company makes a loss; profit increases to a maximum of $… at x = …; then decreases.” (2018F-Q6(a) 1 mark per interval.)
+- Interpreting a derivative: “At t = …, [quantity] is increasing/decreasing at a rate of [value + units] per [unit of the independent variable].”
+- Reports repeatedly point out: writing only the calculation without explaining what is being calculated loses marks (2018, 2019 reports), and answers must use accurate terminology (2025 report). Write the name of the specific quantity, include units, and relate it to the context.
 
-**Past exam questions**: 2017A-Q15(b), 2017F-Q6(b)(ii), 2018F-Q6(a), 2019F-Q1(b), 2025A-Q9(c) (the maximum rate of increase is at the point of inflection: the point where the graph has its greatest gradient).
+**Past questions**: 2017A-Q15(b), 2017F-Q6(b)(ii), 2018F-Q6(a), 2019F-Q1(b), 2025A-Q9(c) (the maximum rate of increase is at the point of inflection: the point where the graph has the greatest gradient).

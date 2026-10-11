@@ -49,7 +49,7 @@ def setup(k):
     ttk.Label(left, text="欢迎", style="H.TLabel").pack(anchor="w", padx=12, pady=(12, 4))
     ttk.Label(left, wraplength=400, justify="left", text=(
         "SCSA的真题、评分标准和公式表受版权保护，不随程序分发；需要你自己从官方网站下载一次，"
-        "之后所有功能（知识图谱、按小问标注的真题、每一分的评分标准、AI 出题）都在本机离线可用。\n\n"
+        "导入后，题库、知识图谱和评分标准会保存在本机；AI 出题需要先在设置中配置模型服务，并保持联网。\n\n"
         "全部文件约 75 MB，下载与建库只需做一次。")).pack(anchor="w", padx=12)
 
     lang = tk.StringVar(value="English" if k.get("config").get("language") == "en" else "中文")
