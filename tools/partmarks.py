@@ -7,12 +7,13 @@ for a label. Labels match the tag files: "a", "ai", "b", … ("" for a question 
 import re
 
 ROMAN = ["i", "ii", "iii", "iv", "v", "vi"]
-TOKEN = re.compile(r"(?m)^\s*\(([a-h])\)|^\s*\((i{1,3}|iv|v|vi)\)|\((\d+)\s*marks?\)", re.I)
+# letters a–h and j–l; "(i)" goes through the roman branch, which decides between part i and sub-part (i)
+TOKEN = re.compile(r"(?m)^\s*\(([a-hj-l])\)|^\s*\((i{1,3}|iv|v|vi)\)|\((\d+)\s*marks?\)", re.I)
 
 
 def split(stem, total):
     """{label: marks} or None when the printed marks do not add up to the question total."""
-    letter, roman, out, header = "", "", {}, True
+    letter, roman, out, header, has_marks = "", "", {}, True, False
     for m in TOKEN.finditer(stem):
         lt, rm, mk = m.group(1), m.group(2), m.group(3)
         if mk:
@@ -21,10 +22,15 @@ def split(stem, total):
                 continue
             label = letter + roman
             out[label] = out.get(label, 0) + int(mk)
+            has_marks = True  # current letter part has printed marks
         elif lt and ord(lt) == (ord(letter) + 1 if letter else ord("a")):
-            letter, roman, header = lt, "", False
-        elif rm and letter and rm == ROMAN[ROMAN.index(roman) + 1 if roman else 0]:
-            roman = rm
+            letter, roman, header, has_marks = lt, "", False, False
+        elif rm and letter:
+            # (i) after letter "h" with printed marks is letter i, not roman sub-part
+            if has_marks and not roman and rm == "i" and letter == "h":
+                letter, roman, header, has_marks = "i", "", False, False
+            elif rm == ROMAN[ROMAN.index(roman) + 1 if roman else 0]:
+                roman = rm
     if not out and not header:  # only the header's marks: a question without parts
         out = {"": total}
     if not out or sum(out.values()) != total:
@@ -47,16 +53,23 @@ def for_tags(found, labels):
 
 def texts(stem):
     """{part label: its text as printed} — same label rules as split(); text before (a) is left out."""
-    letter, roman, out, label, start = "", "", {}, None, 0
+    letter, roman, out, label, start, has_marks = "", "", {}, None, 0, False
     for m in TOKEN.finditer(stem):
-        lt, rm = m.group(1), m.group(2)
+        lt, rm, mk = m.group(1), m.group(2), m.group(3)
         new = None
+        if mk:
+            has_marks = True  # current letter part has printed marks
         if lt and ord(lt) == (ord(letter) + 1 if letter else ord("a")):
-            letter, roman = lt, ""
+            letter, roman, has_marks = lt, "", False
             new = letter
-        elif rm and letter and rm == ROMAN[ROMAN.index(roman) + 1 if roman else 0]:
-            roman = rm
-            new = letter + roman
+        elif rm and letter:
+            # (i) after letter "h" with printed marks is letter i, not roman sub-part
+            if has_marks and not roman and rm == "i" and letter == "h":
+                letter, roman, has_marks = "i", "", False
+                new = "i"
+            elif rm == ROMAN[ROMAN.index(roman) + 1 if roman else 0]:
+                roman = rm
+                new = letter + roman
         if new:
             if label is not None:
                 out[label] = out.get(label, "") + stem[start:m.start()]
@@ -74,9 +87,15 @@ def preamble(stem):
 
 
 def tagged_texts(found, labels):
-    """Text for the tagged labels: a tag on "a" gets (a) and its (i), (ii)…; "" gets the whole stem."""
-    return {label: "".join(v for k, v in found.items() if k[:1] == label) if label else "".join(found.values())
-            for label in labels}
+    """Text for the tagged labels: a tag on "a" gets (a) and its (i), (ii)…; a tag on "ai" gets (a)(i) only;
+    "" gets the whole stem."""
+    def text(label):
+        if not label:
+            return "".join(found.values())
+        if len(label) > 1:  # a sub-part
+            return found.get(label, "")
+        return "".join(v for k, v in found.items() if k[:1] == label)
+    return {label: text(label) for label in labels}
 
 
 SKETCH = re.compile(
