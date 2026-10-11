@@ -1,7 +1,7 @@
 # 01 Chemical Equilibrium and Reaction Rates Problem-solving Approach
 
 > Basis: `evidence/che/notes/EQ.txt` (EQ1–EQ10, item-by-item listing of question stems, key and exam reports), `tools/parttags_CHE.txt` (item tags), `tools/catalogue_CHE.json` (pattern definitions), `evidence/che/notes/INDEX.md` (mark allocation statistics). Resources available to students are taken from `CHE/papers/2025_CHE_DataBooklet.pdf`, with spot checks of the 2016, 2019, 2022 and 2024 data booklets.
-> Exam question numbering format: `2024S-Q30(a)` = 2024 Section Two (short answer) Question 30(a); `2019E-Q37(e)` = Section Three (extended answer). `S` and `E` only indicate paper section, not Calculator-free or assumed.
+> Exam question numbering format: `2024S-Q30(a)` = 2024 Section Two (short answer) Question 30(a); `2016M-Q1` = 2016 Section One (multiple choice) Question 1; `2019E-Q37(e)` = Section Three (extended answer). `M`, `S` and `E` only indicate paper section, not Calculator-free or assumed.
 > ★ markers: by INDEX mark ranking, approximately the top quarter are selected (top 3 of the 10 patterns in this topic): EQ4 (98 marks), EQ5 (58 marks), EQ1 (36 marks).
 > Review status: independent review completed (against exam questions, key and exam reports), record at `CHE/methods/审校记录.md`. The key for 2019E-Q36(e) is a copyright placeholder in the PDF and could not be verified; noted in Pattern 10.
 
@@ -49,6 +49,7 @@
 - For temperature questions, writing only collision frequency and omitting average kinetic energy and energy distribution.
 - For catalyst questions, writing only “faster” without stating that Eₐ is lowered.
 - Boltzmann diagram without Eₐ marked, or with the curve direction drawn incorrectly.
+- MC questions mostly test how temperature, catalysts or concentration change the initial rate (e.g. 2016M-Q2, 2024M-Q15); check whether the stem restricts the answer to initial rate or to one direction of rate.
 
 **Past questions**: 2016M-Q2, 2016E-Q39(c), 2017M-Q6, 2017M-Q7, 2017M-Q13, 2018E-Q37(a), 2018E-Q37(c), 2019S-Q34(b), 2020M-Q7, 2020S-Q34(b), 2021E-Q37(a)(ii), 2022M-Q7, 2022E-Q35(b), 2024M-Q15, 2024E-Q37(b), 2025E-Q38(b)
 
@@ -77,6 +78,7 @@
 - Marking only Eₐ and not ΔH, or omitting the negative sign on ΔH.
 - Drawing endothermic and exothermic the wrong way round (products higher than reactants but labelled exothermic).
 - The key for 2022E-Q35(a) requires the magnitudes of Eₐ and ΔH to be reasonable; Eₐ must not be drawn at about the same height as the reactants.
+- MC questions often give an energy profile and ask whether the reaction is exothermic or endothermic, or which reaction is more likely to be reversible (e.g. 2016M-Q8, 2020M-Q8); check the sign of ΔH first, then compare the forward and reverse activation energies.
 
 **Past questions**: 2016M-Q8, 2016E-Q41(f), 2017S-Q33(a), 2017S-Q33(b), 2018M-Q19, 2019S-Q27(c), 2020M-Q8, 2021S-Q32(b), 2022E-Q35(a), 2023M-Q21, 2025M-Q13
 
@@ -99,6 +101,7 @@
 **Common errors (Examiner reports)**: The Examiner reports do not have specific comments on this pattern. Points repeatedly required by the key:
 - Describing dynamic equilibrium as “the reaction has stopped” or “the concentrations are equal”.
 - The three inferences repeat each other (e.g. two statements both say “the forward and reverse reactions occur at the same time”), in which case only one mark can be awarded.
+- MC questions often separate open and closed systems and physical and chemical changes, or test the features of equilibrium (e.g. 2022M-Q3, 2024M-Q13); distractors such as “equal masses of reactants and products” or “equal concentrations” recur (2020M-Q16, 2024M-Q14).
 
 **Past questions**: 2018E-Q38(c)(i), 2019M-Q2, 2020M-Q12, 2020M-Q16, 2022M-Q3, 2024M-Q13, 2024M-Q14, 2025S-Q30(a)
 
@@ -132,6 +135,7 @@
 - Writing that a catalyst “shifts the equilibrium to the right”.
 - Mixing up the effect of temperature with the change in K (see Pattern 8).
 - In volume-change questions, using “concentration increases” instead of “pressure increases”, ignoring the gas coefficients.
+- The most common MC type asks for the direction of a shift or the change in yield (e.g. 2016M-Q1, 2018M-Q22, 2022M-Q25); pure solids and liquids are not in the equilibrium expression (e.g. 2024M-Q1, MgCO3/MgO), so do not treat their amounts as concentration changes.
 
 **Past questions**: 2016M-Q1, 2016M-Q4, 2016E-Q39(c), 2016E-Q41(e), 2017M-Q12, 2017S-Q28(a), 2017S-Q28(b), 2018M-Q22, 2018S-Q32, 2018E-Q38(b), 2018E-Q38(c)(iii), 2019M-Q3, 2019S-Q31(c), 2019E-Q36(d), 2019E-Q36(f), 2020M-Q24, 2020S-Q29(b), 2020S-Q29(c), 2020S-Q31(c), 2020S-Q34(a), 2020E-Q40(d), 2021M-Q23, 2021M-Q24, 2021M-Q25, 2021S-Q29(a), 2021S-Q32(d), 2022M-Q8, 2022M-Q25, 2022S-Q26, 2023S-Q28(b), 2024M-Q1, 2024S-Q26, 2024S-Q30(a), 2024S-Q30(b), 2025M-Q4, 2025S-Q30(b)
 
@@ -160,6 +164,7 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Omitting the step “the other rate is initially unchanged”, so the cause-and-effect chain is incomplete.
 - Writing “the equilibrium shifts” but not writing collision theory or a comparison of the forward and reverse rates.
 - 2025S-Q29(b) requires writing the equilibrium equation containing OH⁻; without the equation, full marks cannot be awarded.
+- MC questions ask how a temperature rise changes forward and reverse rates, or use K and temperature to infer the direction of a shift (e.g. 2018M-Q21, 2025M-Q4, 2025M-Q11); “forward and reverse rates rise equally” is a common distractor.
 
 **Past questions**: 2016E-Q39(d), 2017S-Q28(a), 2017S-Q28(b), 2018M-Q21, 2019E-Q36(g), 2020S-Q29(b), 2021S-Q32(c), 2022S-Q26, 2024S-Q26, 2025M-Q4, 2025M-Q11, 2025S-Q29(b), 2025S-Q32(c)
 
@@ -190,6 +195,7 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Incorrect stoichiometric ratio (e.g. the same change in O₂ and N₂).
 - The curve for a product (initial zero) does not start from zero.
 - The two curves do not reach the new equilibrium at the same time.
+- MC questions often give a rate–time graph or a piston system and ask which condition changed (e.g. 2017M-Q5, 2020M-Q24); check whether forward and reverse rates jump at the moment of change, and by how much, to separate concentration, pressure, temperature and catalyst changes.
 
 **Past questions**: 2016E-Q41(c)(i), 2016E-Q41(c)(ii), 2016E-Q41(d), 2016E-Q41(e), 2017M-Q5, 2018E-Q37(b), 2018E-Q38(c)(i), 2018E-Q38(c)(ii), 2018E-Q38(c)(iii), 2019M-Q3, 2019M-Q4, 2019S-Q34(c), 2020M-Q24, 2021S-Q32(d), 2025S-Q32(a)
 
@@ -217,6 +223,7 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Missing or incorrect exponents (one occurrence loses 1 mark).
 - Writing water or a pure solid into the expression (the key for 2017S-Q31(b) accepts only [H₃O⁺][OH⁻] or [H⁺][OH⁻]).
 - Writing pH or pKa values into the expression.
+- MC questions ask for the correct K expression (e.g. 2022M-Q10, 2025M-Q1): omit pure solids, use coefficients as indices, and put products in the numerator and reactants in the denominator.
 
 **Past questions**: 2016E-Q41(a), 2017S-Q31(b), 2018S-Q31(a), 2019E-Q36(b), 2020S-Q29(a), 2021S-Q32(a), 2022M-Q10, 2023S-Q34(a), 2025M-Q1
 
@@ -241,6 +248,7 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Attributing a change in K to concentration or pressure (only temperature changes K).
 - Only saying “shift to the left” and not writing the change in the value of K.
 - Writing “K increases” incorrectly as “reactants increase”.
+- MC questions use the size of K to judge how far a reaction proceeds or the relative amounts at equilibrium (e.g. 2016M-Q3, 2021M-Q20, 2022M-Q6); K describes the equilibrium position, not how fast the reaction proceeds.
 
 **Past questions**: 2016M-Q3, 2016E-Q41(b), 2016E-Q41(f), 2017S-Q31(c), 2018M-Q2, 2020S-Q29(c), 2021M-Q20, 2022M-Q6, 2023M-Q17, 2025M-Q3
 
@@ -264,6 +272,7 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Only writing “changes colour” and not writing the initial and final colours.
 - Colour names inconsistent with the data booklet (e.g. writing the orange of Cr₂O₇²⁻ as red).
 - For the Fe³⁺ and SCN⁻ system, incorrectly relating the deepening of colour after “FeCl₃ is added” to the direction of equilibrium shift.
+- MC questions use the NO₂/N₂O₄ two-chamber set-up to test colour and pressure changes (e.g. 2021M-Q24, 2021M-Q25); colour depends on the NO₂ concentration, so first decide which way the equilibrium shifts.
 
 **Past questions**: 2021M-Q24, 2021M-Q25, 2022S-Q26, 2024S-Q26, 2025S-Q32(b)
 
@@ -292,5 +301,6 @@ Example structure (compiled from the key for 2020S-Q29(b) and 2021S-Q32(c)): rem
 - Missing the direction of a shift in one step, causing a break in the conclusion.
 - Ignoring the secondary effect in 2024S-Q30(a) that “an increase in HCO₃⁻ shifts Equation 3 left”.
 - 2019E-Q36(f) must be answered using the equilibrium shift principle; (g) must be explained using collision theory and rates, not only the equilibrium shift principle (2019 report). The key for 2019E-Q36(e)–(g) is a copyright placeholder in the PDF; the two concentration conditions required by (e) could not be verified, so answer according to the question stem and the steps in this pattern.
+- MC questions ask which equation represents ocean acidification or which step does not affect shell formation (e.g. 2021M-Q15, 2023M-Q1); check each equation against CO₂ dissolution, the HCO₃⁻/CO₃²⁻ equilibrium and CaCO₃ dissolution.
 
 **Past questions**: 2017M-Q18, 2018S-Q32, 2019M-Q21, 2019E-Q36(f), 2019E-Q36(g), 2020S-Q31(b), 2020S-Q31(c), 2021M-Q15, 2022E-Q38(c), 2023M-Q1, 2023S-Q28(b), 2024S-Q30(a), 2024S-Q30(b)

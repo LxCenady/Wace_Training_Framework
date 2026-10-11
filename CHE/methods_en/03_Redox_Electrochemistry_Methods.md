@@ -1,7 +1,7 @@
 # 03 Redox and Electrochemistry Problem-solving Approach
 
-> Based on: `evidence/che/notes/RX.txt` (RX1–RX8, 91 sub-question annotations in total, listing the question stem, key and exam report for each sub-question), `tools/parttags_CHE.txt` (sub-question tags), `tools/catalogue_CHE.json` (pattern definitions), `evidence/che/notes/INDEX.md` (mark statistics). Resources available to students are taken from `CHE/papers/2025_CHE_DataBooklet.pdf`, with the 2016, 2019, 2022 and 2024 versions of the data booklet also spot-checked.
-> Past-paper numbering format: `2024S-Q33(b)` = Question 33(b) in the 2024 Section Two (short answer); `2025E-Q40(a)` = Section Three (extended answer). `S` and `E` indicate paper type only.
+> Based on: `evidence/che/notes/RX.txt` (RX1–RX8, 146 sub-question annotations in total: 55 Section One multiple-choice questions and 91 in Section Two and Section Three, the latter listing the question stem, key and exam report for each sub-question), `tools/parttags_CHE.txt` (sub-question tags), `tools/catalogue_CHE.json` (pattern definitions), `evidence/che/notes/INDEX.md` (mark statistics). Resources available to students are taken from `CHE/papers/2025_CHE_DataBooklet.pdf`, with the 2016, 2019, 2022 and 2024 versions of the data booklet also spot-checked.
+> Past-paper numbering format: `2024S-Q33(b)` = Question 33(b) in the 2024 Section Two (short answer); `2025E-Q40(a)` = Section Three (extended answer). `2019M-Q10` = 2019 Section One (multiple choice) Question 10; `M`, `S` and `E` indicate paper type only.
 > ★ markers: ranked by INDEX mark value, the top approximately one quarter are selected (for this topic's 8 patterns, the top 2): RX2 (80 marks), RX3 (51 marks).
 > Review status: independent review completed (checked against past papers, key and exam reports); record at `CHE/methods/审校记录.md`.
 
@@ -45,6 +45,7 @@
 - Writing O in H₂O₂ as −2, or omitting the sign of the oxidation number (+1 and −1 must be written).
 - Confusing “the substance oxidised” with “the reducing agent” (the reducing agent is oxidised).
 - 2021S-Q31(b) asks “show that this reaction is a redox reaction”; you must write the oxidation number changes for both atoms; writing only one cannot earn full marks.
+- MC questions ask you to compare oxidation number changes, decide whether a reaction is redox, or identify the oxidant and reductant (e.g. 2016M-Q13, 2016M-Q14, 2024M-Q2); assign oxidation numbers to each element first, then compare.
 
 **Past questions**: 2016M-Q13, 2016M-Q14, 2017M-Q2, 2018M-Q7, 2019M-Q17, 2019S-Q28(a), 2019S-Q28(b), 2020M-Q1, 2020M-Q3, 2020S-Q30(a), 2021M-Q1, 2021S-Q31(b), 2022M-Q2, 2023M-Q4, 2023M-Q5, 2024M-Q2, 2024S-Q33(a), 2025M-Q16, 2025E-Q38(c)(ii), 2025E-Q40(b)
 
@@ -80,6 +81,7 @@
 - Omitting the cancellation of H⁺ or H₂O in the overall reaction, leading to inconsistent species.
 - The key for 2021S-Q31(a) accepts both overall reaction forms (H⁺ form and OH⁻/H₂O form); this must be consistent with the half-reactions written, and H⁺ cannot be used for one half and OH⁻ for the other.
 - The key for 2019E-Q40 is marked as 22 marks, consistent with the sub-question marks in the question stem (a 9, b 4, c 3, d 6, total 22). 2019E-Q40(c) is a sub-question of this pattern (overall equation for the oxidation of Fe²⁺ by H₂O₂, 3 marks: 1 mark each for reactants, products and balancing).
+- MC questions (2025M-Q14, 2025M-Q15) ask you to identify reactants in unbalanced reactions; write the half-equations first, then use electron gain or loss and oxidation number changes to identify the species.
 
 **Past questions**: 2016S-Q27(b), 2016E-Q40(a), 2016E-Q40(b), 2017S-Q26(a)(ii), 2017S-Q27, 2017S-Q34(a), 2018S-Q28(a), 2018S-Q28(b), 2018S-Q30(d), 2019S-Q28(b), 2019E-Q40(c), 2020E-Q36(c), 2021S-Q27(b), 2021S-Q30(b), 2021S-Q31(a), 2022E-Q37(a), 2023E-Q37(e)(i), 2024S-Q33(b), 2024E-Q39(d), 2025M-Q14, 2025M-Q15, 2025S-Q33, 2025E-Q40(c)
 
@@ -114,6 +116,7 @@
 - Writing CuCl or another incorrect chemical formula can only receive partial marks even if balanced.
 - Writing only “colour change” without the initial and final colours.
 - Omitting soot or CO from the products of incomplete combustion and writing only CO₂.
+- MC questions ask whether a reaction occurs or whether a visible change is seen (e.g. 2019M-Q10, 2021M-Q19); compare the activity series of metals or halogens first; the balanced O₂ coefficient can be read directly (2022M-Q22).
 
 **Past questions**: 2017S-Q26(a)(i), 2017S-Q26(c)(i), 2017S-Q26(c)(ii), 2019M-Q10, 2019M-Q12, 2019S-Q26(a), 2020S-Q27, 2021M-Q19, 2022M-Q22, 2022E-Q37(e), 2023S-Q30(a), 2023S-Q30(c), 2024S-Q27(a), 2024S-Q27(b), 2024S-Q27(c), 2025S-Q26(a), 2025S-Q26(b)
 
@@ -147,6 +150,7 @@
 - Writing vague terms such as “temperature” as the reason for the measured voltage deviation, without stating the specific effect.
 - Choosing a metal with a more positive E° than iron as the sacrificial anode (e.g. Cu, Ag, Sn).
 - Forgetting to state that the voltage is negative and the reaction is not spontaneous in 2024S-Q33(c).
+- The most common MC type asks whether a reaction is spontaneous, the theoretical cell voltage, or the order of reducing strength (e.g. 2016M-Q15, 2016M-Q16, 2019M-Q6, 2025M-Q24); cell E⁰ is cathode minus anode, and a half-equation's E⁰ does not change when its coefficients are multiplied.
 
 **Past questions**: 2016M-Q15, 2016M-Q16, 2016M-Q17, 2017M-Q10, 2017S-Q34(c)(ii), 2017E-Q37(h), 2017E-Q37(i), 2018M-Q5, 2018M-Q6, 2018M-Q14, 2018M-Q15, 2019M-Q6, 2019M-Q7, 2020M-Q19, 2020E-Q36(d), 2021M-Q12, 2021S-Q30(c), 2021S-Q31(d), 2022M-Q16, 2022M-Q17, 2023M-Q15, 2023M-Q20, 2023S-Q27(c), 2024S-Q33(c), 2024E-Q39(b)(ii), 2024E-Q39(e), 2025M-Q24, 2025S-Q27(c)
 
@@ -180,6 +184,7 @@
 - Labelling only one ion’s migration (2019S-Q31(a) requires both ions to be labelled).
 - Labelling the anode and cathode the wrong way round, or writing the anode as the “positive electrode” (in a galvanic cell the anode is negative).
 - Observations only write “bubbles” or “solid forms”, without stating the change in solution colour.
+- MC questions test electrode labels, electron flow and the role of the salt bridge (e.g. 2019M-Q5, 2021M-Q13, 2022M-Q15); oxidation occurs at the anode (negative electrode), and electrons flow through the external circuit from anode to cathode.
 
 **Past questions**: 2016S-Q26(a), 2016S-Q26(b), 2017M-Q4, 2017S-Q34(b), 2017E-Q37(f), 2017E-Q37(g), 2019M-Q5, 2019S-Q31(a), 2019S-Q31(b), 2020M-Q6, 2020E-Q36(a), 2020E-Q36(b), 2020E-Q36(e)(i), 2020E-Q36(e)(ii), 2021M-Q13, 2021S-Q30(a), 2022M-Q15, 2023S-Q29
 
@@ -208,6 +213,7 @@
 - Writing only the half-reactions and not the electrolyte (the key for 2025E-Q40(a) requires the electrolyte to be written).
 - Drawing the electron direction or ion direction backwards.
 - Not showing the position of the power supply.
+- MC questions compare galvanic and electrolytic cells or ask for electrode products (e.g. 2017M-Q3, 2018M-Q25, 2023M-Q23); in an electrolytic cell the anode is connected to the positive terminal of the power supply and oxidation occurs there.
 
 **Past questions**: 2016S-Q26(a), 2016S-Q26(b), 2016E-Q40(b), 2017M-Q3, 2017M-Q4, 2018M-Q25, 2019S-Q31(a), 2019S-Q31(b), 2020M-Q20, 2021M-Q22, 2022E-Q35(d), 2023M-Q23, 2023S-Q29, 2024E-Q39(c), 2025E-Q40(a)
 
@@ -240,6 +246,7 @@
 - Mixing up the positive and negative electrode directions for charging and discharging (during charging, oxidation occurs at the positive electrode).
 - Writing 2025S-Q27(b) as the reduction reaction for discharging.
 - In environmental questions, writing only "no pollution" without specifically explaining the products or raw materials.
+- MC questions ask whether a cell is primary or secondary, or about fuel-cell reactions and emissions (e.g. 2021M-Q10, 2023M-Q24, 2025M-Q22); primary cells cannot be recharged, and in a fuel cell the fuel is oxidised at the negative (anode) electrode.
 
 **Past questions**: 2017E-Q37(e), 2017E-Q37(f), 2017E-Q37(g), 2018S-Q28(c), 2021M-Q10, 2023M-Q24, 2023S-Q29, 2025M-Q21, 2025M-Q22, 2025M-Q23, 2025S-Q27(a), 2025S-Q27(b), 2025S-Q27(d)(i), 2025S-Q27(d)(ii)
 
@@ -276,5 +283,6 @@
 - Omitting “the two metals must be electrically connected”.
 - For painting or oiling, writing only “prevents rust”, without explaining the role of the barrier, or without explaining why rusting still occurs when the barrier is incomplete (2024E-Q39(b)(i)).
 - Mixing the OH⁻ and H⁺ forms of the overall reaction.
+- MC questions ask about corrosion equations or protection (e.g. 2017M-Q9, 2025M-Q7, 2025M-Q9); the brown colour of rust comes from Fe³⁺ formation (2025M-Q9), and a tin coating protects only while it is intact (2025M-Q7).
 
 **Past questions**: 2017M-Q9, 2021S-Q31(a), 2021S-Q31(c), 2021S-Q31(d), 2023S-Q27(b), 2023S-Q27(c), 2024E-Q39(a), 2024E-Q39(b)(i), 2024E-Q39(b)(ii), 2025M-Q7, 2025M-Q9

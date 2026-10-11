@@ -1,7 +1,7 @@
 # 05 Polymers and Proteins Problem-solving Approach
 
-> Basis: from the 2016–2025 Chemistry ATAR past exam questions in Section Two and Section Three, the sub-questions tagged PRO, 7 patterns in total, with 89 tag occurrences altogether (consistent with INDEX.md; excludes Section One multiple-choice questions). Marking points are taken from the key in the marking rubric, paraphrased, not copied verbatim; the original papers and marking files are kept in a local ignored directory.
-> Exam question numbering format: `2021E-Q34(g)` = 2021 Section Three Question 34 (g); `2022S-Q29(ai)` = 2022 Section Two Question 29 (a)(i).
+> Basis: from the 2016–2025 Chemistry ATAR past exam questions in Section One (multiple choice), Section Two and Section Three, the sub-questions tagged PRO, 7 patterns in total, with 113 tag occurrences altogether (24 in Section One multiple-choice questions, 89 in Section Two and Section Three). Marking points are taken from the key in the marking rubric, paraphrased, not copied verbatim; the original papers and marking files are kept in a local ignored directory.
+> Exam question numbering format: `2021E-Q34(g)` = 2021 Section Three Question 34 (g); `2016M-Q20` = 2016 Section One (multiple choice) Question 20; `2022S-Q29(ai)` = 2022 Section Two Question 29 (a)(i).
 > Amino acid side-chain classification is based on the structure table of the 20 α-amino acids in the 2024 Data Booklet, and the key for 2022S-Q29(e).
 > Pattern definitions are taken from `tools/catalogue_CHE.json`; labels are draft (draft_for_review); this file has not been independently reviewed.
 > ★ markers: ranked by total score for each pattern (INDEX.md), taking roughly the top quarter; this file covers PRO6 and PRO4.
@@ -40,6 +40,7 @@
 - Side groups attached to the wrong carbon. In the PMMA repeating unit, the methyl group and the ester group are attached to the same backbone carbon and must not be separated (the key for 2019E-Q38(c) requires a continuous backbone, no end groups, and the correct repeating unit).
 - Adding end groups: the key explicitly requires "ends are not terminated" (2022S-Q31(a)).
 - The key for 2020S-Q28(c) writes addition (polymerisation/reaction); answering condensation scores no marks.
+- MC questions give a polymer or monomer and ask for the monomer or repeating unit (e.g. 2020M-Q21, 2023M-Q16, 2024M-Q24); an addition monomer needs a C=C double bond, which opens to form the backbone.
 
 **Past questions**: 2016M-Q20, 2016S-Q29(a), 2016S-Q29(b), 2017E-Q36(e), 2019E-Q38(c), 2019E-Q38(e), 2020M-Q21, 2020S-Q28(c), 2021E-Q34(f), 2021E-Q34(g), 2021E-Q34(h), 2022S-Q31(a), 2023M-Q16, 2024M-Q24, 2025M-Q18
 
@@ -70,6 +71,7 @@
 - 2023E-Q36(d) requires alanine and lactic acid each to form three repeating units: condensation of alanine forms amide bonds (peptide bonds), and condensation of lactic acid forms ester bonds.
 - Report entry for 2020S-Q28: poly(ethylene adipate) is a biodegradable polyester, average 68.45%.
 - 2025S-Q28(a): the monomer of P3HB; the key diagram is 3-hydroxybutanoic acid HO–CH(CH₃)–CH₂–COOH, 2 marks in total; minor errors such as wrong methyl position, incorrect number of H, or improper connection score only 1 mark.
+- MC question 2016M-Q20 asks which compounds can form a condensation polymer; each monomer needs at least two functional groups that react with each other, such as a dicarboxylic acid with a diamine or a diol.
 
 **Past questions**: 2016M-Q20, 2016S-Q29(d), 2017E-Q36(c), 2017E-Q36(e), 2018S-Q30(a), 2018S-Q30(b), 2019E-Q38(e), 2020S-Q28(a), 2020S-Q28(b)(ii), 2021E-Q34(g), 2021E-Q34(h), 2022S-Q31(c), 2023E-Q36(d), 2024S-Q35(b), 2025S-Q28(a), 2025S-Q28(b)
 
@@ -92,6 +94,7 @@
 - Property and use do not correspond: e.g. "strong" is not linked to "impact resistance of safety glasses".
 - Writing only the property name without explaining its relationship to structure (chains, branching, forces).
 - This pattern has 4 parts; there are no separate comments in the report, so evidence is limited.
+- MC questions are often “which is not a use of …” or ask about plastic properties (e.g. 2018M-Q10, 2023M-Q22, 2024M-Q22, 2024M-Q23); learn the typical uses of each plastic and how chain length, cross-linking and intermolecular forces affect its properties.
 
 **Past questions**: 2016S-Q29(c), 2017E-Q36(d), 2018M-Q10, 2019E-Q38(a), 2021M-Q4, 2023M-Q22, 2024M-Q22, 2024M-Q23, 2025S-Q28(c)
 
@@ -121,6 +124,7 @@
 - Omitting COOH at low pH, or drawing the carboxyl group as COO⁻.
 - Omitting H when drawing structures: the question for 2018E-Q39(c) requires "show all hydrogen atoms"; the question for 2020E-Q35(f) does not have this requirement.
 - The reports do not give a separate comment on this pattern. 2023E-Q36(c) and 2024S-Q29(b) use ionic attraction between zwitterions to explain high melting points; see ORG4 Pattern 4.
+- MC questions ask for the general structure of an α-amino acid or the dominant form at a given pH (e.g. 2016M-Q21, 2017M-Q15, 2022M-Q20); in basic conditions the carboxyl group is deprotonated, and in acidic conditions the amino group is protonated.
 
 **Past questions**: 2016M-Q21, 2016S-Q36(a)(ii), 2017M-Q15, 2017M-Q19, 2017E-Q40(a), 2017E-Q40(e), 2018E-Q39(c), 2018E-Q39(d), 2019M-Q9, 2019E-Q41(a), 2020E-Q35(f), 2021M-Q7, 2021M-Q11, 2021E-Q34(a), 2022M-Q20, 2022S-Q29(a)(i), 2022S-Q29(a)(ii), 2022S-Q29(e), 2023M-Q14, 2023E-Q36(c), 2024S-Q29(a), 2024S-Q29(b)
 
@@ -145,6 +149,7 @@
 - For 2025E-Q36(d), when drawing three residues, the key requires correct R groups, correct order and uncapped termini at both ends; missing any one prevents full marks.
 - 2023S-Q31(a) requires first defining primary structure, then using a labelled diagram to explain peptide bond formation, 4 marks in total (also counted in Pattern 6).
 - Common problems in Section Three listed in the 2018 report include "drawing peptide links"; when drawing, check each amide group.
+- MC question 2020M-Q11 asks which pairs of monomers can form peptide bonds; a peptide bond forms from a carboxyl group reacting with an amino group, so diols and diamines cannot form peptide bonds.
 
 **Past questions**: 2016S-Q36(a)(i), 2016S-Q36(a)(ii), 2016S-Q36(b), 2017E-Q40(a), 2018E-Q39(a), 2018E-Q39(b), 2019E-Q41(a), 2019E-Q41(b), 2020M-Q11, 2020E-Q35(e), 2021E-Q34(a), 2023S-Q31(a), 2024E-Q37(e), 2025E-Q36(d)
 
@@ -174,6 +179,7 @@
 - 2024E-Q37(f): a disulfide bond can only form between cysteines; answering “cysteine” is sufficient.
 - The key for 2019E-Q41(c) requires distinguishing primary and secondary structure: primary is the sequence, secondary is the α-helix or β-pleated sheet formed by hydrogen bonding.
 - Report: in this note, the report entries for 2020E-Q35, 2024E-Q37 and 2025E-Q36 are blank, so reasons for lost marks cannot be added from the reports.
+- MC questions test the difference between primary, secondary and tertiary protein structure and the forces that hold them (e.g. 2017M-Q17, 2018M-Q17, 2020M-Q14); the primary structure is the amino acid sequence, and α-helices and β-pleated sheets are held by hydrogen bonds.
 
 **Past questions**: 2016S-Q29(e), 2017M-Q17, 2017M-Q20, 2017E-Q40(b), 2017E-Q40(c), 2017E-Q40(e), 2018M-Q17, 2018E-Q39(e), 2019E-Q41(c), 2020M-Q14, 2020E-Q35(a), 2020E-Q35(b), 2020E-Q35(c), 2020E-Q35(d), 2021E-Q34(b), 2021E-Q34(c), 2022S-Q29(b)(i), 2022S-Q29(b)(ii), 2022S-Q29(c), 2022S-Q29(d), 2023S-Q31(a), 2023S-Q31(b), 2024E-Q37(d), 2024E-Q37(e), 2024E-Q37(f), 2024E-Q37(g), 2025E-Q36(c), 2025E-Q36(e), 2025E-Q36(f)
 

@@ -1,7 +1,7 @@
 # 08 Scientific Inquiry and Data Analysis Problem-solving Strategies
 
 > Basis: pattern definitions for INQ1–INQ7 in the CHE question-type catalogue `tools/catalogue_CHE.json`; evidence notes `evidence/che/notes/INQ.txt` (question stems, marking key lines and report notes for each sub-question); index `evidence/che/notes/INDEX.md` (marks and number of sub-questions). Most INQ questions do not depend on the data booklet; consult `CHE/papers/<年>_CHE_DataBooklet.pdf` only when solubility rules, standard electrode potentials or constants are needed.
-> Question numbering: `2016S-Q26(a)` = 2016 Short answer (S), question 26, part (a); `E` = Extended answer; `2018E-Q35` has no part letter and is labelled as a whole question. Original questions and marking files are kept locally; this document only paraphrases the key's marking points and does not copy the original text.
+> Question numbering: `2016S-Q26(a)` = 2016 Short answer (S), question 26, part (a); `2018M-Q9` = 2018 Section One multiple choice (M), question 9; `E` = Extended answer; `2018E-Q35` has no part letter and is labelled as a whole question. Original questions and marking files are kept locally; this document only paraphrases the key's marking points and does not copy the original text.
 > Review status: draft (catalogue status draft_for_review), not independently reviewed.
 
 ## First, remember: where the marking panel repeatedly deducts marks
@@ -31,7 +31,7 @@
 - 2022E-Q39(a) (2 marks): stating the independent variable, dependent variable and their relationship scores 2 marks; listing only the two variables without a relationship scores 1 mark.
 - 2021E-Q39(b) (1 mark): the question must show the relationship between temperature and biodiesel yield.
 
-**Common errors**: listing variables without a relationship (at most half marks); writing the hypothesis as a fact or an untestable statement; writing only "affects" without direction; not using the information given in the question stem.
+**Common errors**: listing variables without a relationship (at most half marks); writing the hypothesis as a fact or an untestable statement; writing only "affects" without direction; not using the information given in the question stem. MC questions (e.g. 2019M-Q19, 2025M-Q12) ask for a testable hypothesis; a correct hypothesis names the variables and the direction of the relationship.
 
 **Past questions**: 2017E-Q39(g), 2018S-Q33(a), 2019M-Q19, 2021E-Q39(b), 2022E-Q39(a), 2023M-Q6, 2025M-Q12
 
@@ -51,7 +51,7 @@
 - Each correct variable scores 1 mark: 2020S-Q32(a) totals 2 marks (1 mark each for IV and DV); 2022E-Q39(c) totals 2 marks (1–2 marks) and requires different controlled variables to be listed.
 - 2021E-Q37(ai) (1 mark): list all trial numbers that meet the condition.
 
-**Common errors**: writing the DV too vaguely (e.g. "the reaction" or "colour"); confusing controlled variables with the IV, or writing the same quantity twice; in 2021E-Q37(ai), listing only some trial groups and missing other groups with the same conditions.
+**Common errors**: writing the DV too vaguely (e.g. "the reaction" or "colour"); confusing controlled variables with the IV, or writing the same quantity twice; in 2021E-Q37(ai), listing only some trial groups and missing other groups with the same conditions. MC questions (e.g. 2023M-Q7, 2023M-Q8) ask which trials test the effect of one variable; all other variables must stay the same as controlled variables.
 
 **Past questions**: 2017M-Q22, 2020S-Q32(a), 2020S-Q32(b), 2021E-Q37(a)(i), 2022E-Q39(b), 2022E-Q39(c), 2023M-Q7, 2023M-Q8
 
@@ -126,7 +126,7 @@
 - 2021E-Q39(d) (2 marks): state that the yield first increases and reaches a maximum at 55 °C (1 mark); the yield decreases at higher temperatures (1 mark).
 - 2022S-Q27(c) (1 mark): read 104 °C from the line of best fit.
 
-**Common mistakes**: only saying "increases" without stating the position of the maximum (2021E-Q39(d)); not citing graph data when predicting (2020S-Q29(c) requires justify); performing calculations when the question prohibits them; ignoring the shape of the curve when extrapolating and using a linear relationship directly.
+**Common mistakes**: only saying "increases" without stating the position of the maximum (2021E-Q39(d)); not citing graph data when predicting (2020S-Q29(c) requires justify); performing calculations when the question prohibits them; ignoring the shape of the curve when extrapolating and using a linear relationship directly. MC questions (e.g. 2016M-Q22, 2021M-Q17) test data interpretation, including primary and secondary data (2021M-Q17) and trends from tables; do not treat a single data point as the overall trend.
 
 **Past questions**: 2016M-Q22, 2017M-Q23, 2017S-Q34(c)(i), 2020S-Q29(c), 2021M-Q17, 2021S-Q29(a), 2021E-Q37(b), 2021E-Q39(d), 2022S-Q27(c), 2023M-Q13
 
@@ -153,7 +153,7 @@
 - 2020S-Q32(ci) (1 mark): validity requires comparing the effect of different solvents on paint removal, and controlling variables.
 - 2020S-Q32(cii) (1 mark): explain reliability by obtaining consistent results through repeated trials.
 
-**Common mistakes**: reversing the direction of random and systematic error (random error has no fixed direction); giving examples unrelated to this experiment, such as a vague "human error"; using the wrong denominator for the sampling proportion (the denominator is the total number of possible sampling points, 180, not the 59 sampled, then multiply by 100%); writing "reliable" as "lots of data" without mentioning repetition; confusing accuracy (close to the true value) with reliability (consistent on repetition).
+**Common mistakes**: reversing the direction of random and systematic error (random error has no fixed direction); giving examples unrelated to this experiment, such as a vague "human error"; using the wrong denominator for the sampling proportion (the denominator is the total number of possible sampling points, 180, not the 59 sampled, then multiply by 100%); writing "reliable" as "lots of data" without mentioning repetition; confusing accuracy (close to the true value) with reliability (consistent on repetition). MC questions are the most numerous here (e.g. 2016M-Q6, 2017M-Q24, 2019M-Q20, 2023M-Q10); they ask you to separate systematic from random error and to judge validity or reliability; systematic error pushes all readings in one direction, while random error scatters readings on both sides of the true value.
 
 **Past questions**: 2016M-Q6, 2017M-Q24, 2017M-Q25, 2018E-Q36(a), 2018E-Q36(b)(i), 2018E-Q36(b)(ii), 2018E-Q36(b)(iii), 2019M-Q20, 2019S-Q35(c), 2020S-Q32(c)(i), 2020S-Q32(c)(ii), 2021M-Q18, 2022E-Q39(e), 2023M-Q10, 2023M-Q11, 2023M-Q12, 2024M-Q5, 2024M-Q8
 
@@ -204,5 +204,6 @@
 **Common errors**:
 - Treating accurate practice (calibration, repeated measurement) as ethical behaviour (2018M-Q16).
 - Knowing the name of a database but not its purpose: the PDB is a public, shared database of protein 3-D structures (2018M-Q9).
+- MC questions (2018M-Q9, 2018M-Q16) test research ethics and the role of databases only; judge each statement in the stem separately.
 
 **Past questions**: 2018M-Q9, 2018M-Q16

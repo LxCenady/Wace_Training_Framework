@@ -1,7 +1,7 @@
 # 04 Organic Structures Problem-solving Approach
 
-> Basis: from the 2016–2025 Chemistry ATAR past exam questions in Section Two and Section Three that are labelled ORG, 9 patterns in total, 98 label occurrences in total (consistent with INDEX.md; one part may carry multiple labels; excludes Section One multiple-choice questions). Marking points are taken from the marking criteria key, paraphrased, not copied verbatim; the original papers and marking files remain in a local ignored directory.
-> Exam-question numbering format: `2024S-Q35(a)` = 2024 Section Two Question 35(a); `2019E-Q37(e)` = 2019 Section Three Question 37(e). A whole question with no sub-questions is written as `2018S-Q34`.
+> Basis: from the 2016–2025 Chemistry ATAR past exam questions in Section One (multiple choice), Section Two and Section Three that are labelled ORG, 9 patterns in total, 136 label occurrences in total (38 in Section One multiple-choice questions, 98 in Section Two and Section Three; one part may carry multiple labels). Marking points are taken from the marking criteria key, paraphrased, not copied verbatim; the original papers and marking files remain in a local ignored directory.
+> Exam-question numbering format: `2024S-Q35(a)` = 2024 Section Two Question 35(a); `2016M-Q18` = 2016 Section One (multiple choice) Question 18; `2019E-Q37(e)` = 2019 Section Three Question 37(e). A whole question with no sub-questions is written as `2018S-Q34`.
 > Pattern definitions are taken from `tools/catalogue_CHE.json`. This file has undergone independent review (against past exam questions, keys and exam reports); records are in `CHE/methods/审校记录.md`.
 > ★ marker: arranged by total marks for each pattern (INDEX.md), taking approximately the top quarter; this file covers ORG4 and ORG2.
 
@@ -31,6 +31,7 @@
 - Confusing aldehydes and ketones: an aldehyde's C=O is at the end of the chain and attached to H; a ketone's C=O is within the chain. The key for 2025E-Q38(a) requires the correct names and structures of a carboxylic acid and an aldehyde/ketone.
 - A soap structure requires both the carboxylate head and the long hydrocarbon chain (2017E-Q39(cii)); writing only "fatty acid" does not earn full marks.
 - The 2021 report states that questions on identifying structural formulae and naming errors were answered relatively well (average 77.5%); this pattern is a relatively stable source of marks in ORG.
+- MC questions ask you to identify functional groups or the class of an organic compound from a structure (e.g. 2017M-Q16, 2023M-Q2, 2024M-Q17); amide, ester, carboxylic acid and carboxylate are different groups and must not be confused.
 
 **Past questions**: 2016S-Q36(c), 2017M-Q16, 2017E-Q39(c)(i), 2017E-Q39(c)(ii), 2017E-Q40(f), 2018S-Q34, 2019E-Q36(h), 2020M-Q10, 2020S-Q28(b)(i), 2020E-Q40(e)(ii), 2021S-Q26(a), 2021E-Q34(d), 2023M-Q2, 2024M-Q17, 2025E-Q38(a)
 
@@ -61,6 +62,7 @@
 - Missing H atoms or missing bonds. 2025S-Q31 requires "Show all hydrogen atoms and all bonds"; omissions lose marks. The 2025 report states that structural-formula drawing and naming questions were answered relatively well, but each item still needs checking.
 - The key for 2019S-Q33 (12 marks) can be checked directly: the product of pent-2-ene and Br₂(aq) is 2,3-dibromopentane (1 mark each for the chain and Br positions, 1 mark for the name); ethanal is oxidised by acidified KMnO₄ to ethanoic acid (structure and name of ethanoic acid); butanoic acid reacts with Na₂CO₃ to form butanoate (sodium salt). For each row, the reactant structure, product structure and name must all be written in full.
 - 2019E-Q37(c): the soap ion C₁₇H₃₁CO₂⁻ must be drawn with all bonds, including the two C=C bonds, and must contain COO⁻.
+- MC questions give a structure or name and ask for the match (e.g. 2016M-Q18, 2022M-Q24, 2025M-Q17); find the longest carbon chain and the position of the functional group first, then number the substituents and check any cis/trans labelling.
 
 **Past questions**: 2016M-Q18, 2016S-Q28(a), 2016S-Q29(a), 2016S-Q29(b), 2016S-Q35, 2018M-Q4, 2019S-Q33, 2019E-Q36(h), 2019E-Q37(c), 2019E-Q38(b), 2020S-Q26, 2021S-Q26(a), 2021S-Q26(b), 2022M-Q24, 2022S-Q27(a), 2022S-Q32(a), 2022S-Q33(b), 2023E-Q37(c), 2023E-Q37(f)(ii), 2024S-Q35(a), 2025M-Q17, 2025S-Q31
 
@@ -84,6 +86,7 @@
 - Writing a 1-alkene as having cis/trans isomerism: the key for 2023E-Q37(c) gives but-1-ene, cis-/trans-but-2-ene (the C₅H₁₀ version is pent-1-ene, cis-/trans-pent-2-ene); cis/trans isomers occur only in 2-enes.
 - Confusing acids and esters: 2025S-Q34 (C₃H₆O₂) requires one carboxylic acid and two esters; all three structures must be correct, and for esters the two sides of "R–COO–R′" must be distinguished.
 - Reports: the 2023 report states that Question 37 was generally answered well (the report does not comment separately on (c)). The 2025 report states that 2025S-Q34 (drawing three isomers, showing all atoms and bonds) was one of the best-answered questions in Section Two.
+- MC questions ask you to count isomers or decide whether a compound shows cis–trans isomerism (e.g. 2018M-Q11, 2019M-Q15, 2024M-Q19, 2025M-Q8); each carbon of a C=C double bond must carry two different groups.
 
 **Past questions**: 2016S-Q36(d), 2017M-Q14, 2017S-Q35(a), 2018M-Q11, 2018S-Q34, 2019M-Q15, 2019M-Q23, 2019M-Q25, 2020M-Q4, 2021M-Q16, 2022M-Q21, 2023E-Q37(c), 2024M-Q16, 2024M-Q19, 2025M-Q8, 2025S-Q34
 
@@ -107,6 +110,7 @@
 - Explaining the high melting point of ionic crystals or zwitterions as "breaking covalent bonds" (2023E-Q36(c), 2024S-Q29(b)); the key requires writing that ionic bonds (electrostatic attraction) need more energy to overcome.
 - Difficult questions named in the report: 2022S-Q30 (why milk removes the burning sensation of capsaicin better than water, requiring comparison of the forces of fat and water); 2023S-Q32 (reason for dichloromethane as a solvent for caffeine); 2024S-Q28 (ibuprofen); 2025E-Q37(c) (nonanoic acid and methanol).
 - The 2019E-Q41(d) key requires explaining that proteins do not dissolve in water: the dispersion forces between the large molecules are very large, and the forces formed by water molecules are not sufficient to break them.
+- MC questions ask you to compare boiling points, melting points or solubility and give reasons (e.g. 2019M-Q14, 2024M-Q18, 2025M-Q10); identify the main intermolecular force first (dispersion, dipole–dipole or hydrogen bonding); when molar masses are similar, hydrogen bonding usually decides the boiling point.
 
 **Past questions**: 2016S-Q35, 2016S-Q37, 2017S-Q32(a), 2017S-Q32(b), 2017S-Q32(c), 2017E-Q39(a)(ii), 2017E-Q39(a)(iii), 2017E-Q40(d), 2018S-Q33(b), 2019M-Q14, 2019M-Q22, 2019E-Q37(a), 2019E-Q41(d), 2020M-Q13, 2020S-Q32(e), 2021M-Q5, 2021S-Q33, 2022M-Q19, 2022S-Q27(d), 2022S-Q30, 2023S-Q32, 2023E-Q36(c), 2024M-Q18, 2024S-Q28, 2024S-Q29(b), 2025M-Q10, 2025E-Q35(b), 2025E-Q37(c)
 
@@ -129,6 +133,7 @@
 - In hydration equations, water must be written as gaseous H₂O(g) (the 2021E-Q39(a) key explicitly requires this).
 - 2023E-Q37(d) (3 marks) asks students to identify the isomer that reacts with water to form a primary alcohol and write the equation. The key accepts but-1-ene (the C₅H₁₀ version is pent-1-ene), with the equation C₄H₈ + H₂O → CH₃CH₂CH₂CH₂OH. **This answer differs from the general prediction from Markovnikov's rule**: Markovnikov's rule states that when a 1-alkene is hydrated under H⁺ catalysis, H adds to the terminal carbon and OH adds to the internal carbon, giving a secondary alcohol as the major product (butan-2-ol); to obtain a primary alcohol, anti-Markovnikov addition is needed (e.g. hydroboration followed by oxidation), but the question does not give that pathway. When answering, writing the primary alcohol as in the key earns the marks; however, do not memorise "hydration of a 1-alkene gives a primary alcohol" as a general rule. The 2023 report said Question 37 was generally answered well and did not comment separately on (d).
 - Catalyst and conditions are marked separately: in 2021E-Q39(a), the key has a "state the catalyst" mark for each step, and 2022S-Q33(a) requires the conditions for hydration.
+- MC questions ask about reaction types or whether bromine water is decolourised (e.g. 2021M-Q2, 2024M-Q20, 2025M-Q6); alkenes decolourise bromine water by addition, and aldehydes can also decolourise it, but by oxidation rather than addition.
 
 **Past questions**: 2016M-Q19, 2016S-Q30(a), 2017S-Q26(b)(i), 2017S-Q26(b)(ii), 2017S-Q35(b), 2019S-Q33, 2020S-Q33, 2021M-Q2, 2021E-Q39(a), 2022M-Q23, 2022S-Q33(a), 2023E-Q37(d), 2023E-Q39(b)(i), 2024M-Q20, 2025M-Q6
 
@@ -152,6 +157,7 @@
 - Distinguishing aldehydes from acids: an aldehyde can be oxidised further to an acid, so the conditions must be stated (excess oxidant); the 2021S-Q27(a) key gives pentanoic acid under the condition "excess".
 - In 2024S-Q33(b), with excess MnO₄⁻ the product of methanol is written as methanoic acid (HCOOH), not CO₂; when answering, follow the question and the key.
 - The 2025E-Q38(cii) key accepts acidified potassium dichromate or acidified potassium permanganate as the reagent, and the acidic condition (H⁺) must be written. The report did not comment separately on this question type.
+- MC questions ask which products form when an alcohol is oxidised (e.g. 2019M-Q18, 2024M-Q21); primary alcohols oxidise to aldehydes and then carboxylic acids, and secondary alcohols give ketones, so a primary alcohol cannot give a ketone.
 
 **Past questions**: 2016M-Q19, 2016S-Q27(a)(iii), 2016S-Q27(b), 2018S-Q30(c), 2019M-Q18, 2019S-Q33, 2020S-Q33, 2021S-Q27(a), 2021S-Q27(b), 2021S-Q27(c)(i), 2021S-Q27(c)(ii), 2022S-Q32(b), 2023E-Q37(e)(i), 2023E-Q37(e)(ii), 2024M-Q21, 2024S-Q33(b), 2025E-Q38(c)(i), 2025E-Q38(c)(ii)
 
@@ -176,6 +182,7 @@
 - When deducing an alcohol from an ester, omitting the ester's alkoxy group (–OCH₂CH₃ corresponds to ethanol), a common error in 2021E-Q34(e).
 - 2016E-Q38(b) requires writing the two hydrolysis products of acetylcholine: a carboxylic acid (ethanoic acid) and choline (a cation). Both structures must be drawn.
 - The report does not specifically name this pattern, but the key for 2023E-Q37(fi) requires 1 mark each for reactants and products, so these must be checked individually.
+- MC questions give an ester structure and ask for its name or synthesis reactants (e.g. 2018M-Q4); name the alkyl part from the alcohol first, then the acid part as “…oate”.
 
 **Past questions**: 2016M-Q19, 2016S-Q27(a)(i), 2016S-Q30(a), 2016S-Q30(b), 2016E-Q38(b), 2018M-Q4, 2018E-Q40(b), 2019S-Q33, 2019E-Q38(b), 2020S-Q33, 2020E-Q40(c), 2020E-Q40(e)(i), 2021E-Q34(e), 2022S-Q33(b), 2023E-Q37(f)(i), 2025E-Q35(a)
 
@@ -197,6 +204,7 @@
 - Writing only the reagent, not the specific observation, or writing only "reaction occurs" without describing colour, gas or precipitate.
 - The chosen reagent cannot distinguish: e.g. using Br₂(aq) to distinguish two substances that are both saturated is ineffective.
 - Note: the original key only gives "reagent + observation" scoring points; this note does not include the marking basis for other common tests (such as Tollens or Fehling reagent), so refer to the original paper.
+- MC questions ask which reagent distinguishes two organic compounds (e.g. 2022M-Q18, 2024M-Q25); acidified potassium permanganate oxidises an aldehyde but not a ketone, and a carboxylic acid reacts with Na₂CO₃ to release CO₂.
 
 **Past questions**: 2017S-Q35(b), 2018S-Q33(c), 2022M-Q18, 2022S-Q32(b), 2024M-Q25
 

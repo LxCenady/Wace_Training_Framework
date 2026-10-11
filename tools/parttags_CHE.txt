@@ -1,4 +1,4 @@
-# CHE part tags (Sections Two and Three; Section One multiple choice is not tagged). Draft labels, reviewed.
+# CHE part tags: Section One multiple choice (M, one pattern per question), Sections Two and Three (S, E) per part. Reviewed labels.
 2016M 1 -=EQ4
 2016M 2 -=EQ1
 2016M 3 -=EQ8

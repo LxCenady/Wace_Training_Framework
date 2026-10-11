@@ -1,7 +1,7 @@
 # 07 Stoichiometry and Quantitative Analysis Problem-solving Approach
 
 > Based on: the pattern definitions for QNT1–QNT8 in the CHE question-type catalogue `tools/catalogue_CHE.json`; evidence notes `evidence/che/notes/QNT.txt` (per-sub-question stems, marking key lines and report notes); index `evidence/che/notes/INDEX.md` (marks and number of sub-questions); data booklet `CHE/papers/<年>_CHE_DataBooklet.pdf`. The numerical constants are the same in the 2016–2025 booklets: R = 8.314 J K⁻¹ mol⁻¹, the volume of 1.00 mol of an ideal gas at 0.0 °C and 100.0 kPa is 22.71 L, Kw = 1.00 × 10⁻¹⁴, 0.0 °C = 273.15 K (the definition of STP is only stated explicitly from 2018 onwards). The data booklet only gives the periodic table (atomic masses), not molar mass M; M must be worked out yourself or is given in the question stem.
-> Past exam question numbering convention: `2016S-Q26(a)` = 2016 Short answer (S), Question 26, part (a); `E` = Extended answer; `2018E-Q35` has no part letter and is a whole-question label (the whole question contains marks for multiple patterns at once). The original questions and marking files are kept locally; this article only paraphrases the key's marking points and does not copy the original text.
+> Past exam question numbering convention: `2016S-Q26(a)` = 2016 Short answer (S), Question 26, part (a); `2016M-Q9` = 2016 Section One multiple choice (M), Question 9; `E` = Extended answer; `2018E-Q35` has no part letter and is a whole-question label (the whole question contains marks for multiple patterns at once). The original questions and marking files are kept locally; this article only paraphrases the key's marking points and does not copy the original text.
 > Review status: draft (catalogue status draft_for_review), not independently reviewed.
 
 ## First, remember: where the marking panel repeatedly deducts marks
@@ -37,6 +37,7 @@
 - Breaking the unit chain: 2018E-Q36(c) first calculates the amount in mg (698 506 000 mg), then converts to g (698 506 g), and only then calculates n; skipping mg → g makes the later number wrong by three orders of magnitude.
 - Tonne conversion: 2024E-Q40(a) first converts 2245 tonne to 2.245 × 10⁹ g, then calculates n(Ni).
 - Volume after dilution: in 2016E-Q42(f), a 100 mL sample is diluted to 250 mL; the key first calculates n(H⁺) in 250 mL, then divides by the original sample's 0.100 L; omitting this step means the original sample concentration cannot be obtained.
+- MC question 2016M-Q9 tests mole ratios for a polyprotic acid: each mole of a diprotic acid supplies 2 mol H⁺, so 0.5 mol neutralises 1 mol NaOH.
 
 **Past questions**: 2016M-Q9, 2016E-Q39(a), 2016E-Q42(a), 2016E-Q42(f), 2017S-Q29(a), 2017S-Q29(b), 2017S-Q33(c), 2017E-Q36(a), 2017E-Q36(b), 2017E-Q37(b), 2017E-Q37(c), 2018S-Q29(b), 2018E-Q35, 2018E-Q36(c), 2018E-Q40(a), 2018E-Q40(c), 2019S-Q30(b), 2019S-Q32, 2019E-Q38(d), 2019E-Q39(c), 2019E-Q40(a), 2019E-Q40(b), 2019E-Q40(d), 2020E-Q39(a), 2020E-Q39(b), 2022E-Q34, 2022E-Q35(c), 2022E-Q37(f), 2022E-Q38(a), 2023E-Q35(b), 2023E-Q36(b), 2023E-Q37(a), 2023E-Q37(b), 2023E-Q38(a), 2023E-Q38(b), 2024S-Q34, 2024E-Q36(c), 2024E-Q38(a), 2024E-Q38(b), 2024E-Q40(a), 2024E-Q40(b), 2024E-Q40(c), 2025E-Q35(d), 2025E-Q36(a), 2025E-Q36(b), 2025E-Q37(a), 2025E-Q38(d), 2025E-Q39, 2025E-Q40(d)
 
@@ -129,6 +130,7 @@
 - 2016E-Q42(f) working back to the original sample: two scale-ups for dilution and sampling, n(H⁺) × 10, then divide by the original sample volume 0.100 L.
 - Back titration (2024E-Q36(c)): n(OH⁻) reacted = n(OH⁻) added − n(H⁺) titrated; both n values must be shown. In this question, the total n for 5 tablets must be divided by 5 to obtain the n for one tablet (see Pattern 1 for unit and ratio conversions).
 - **Known issue with the official key (2024E-Q36(c))**: the main text of the key calculates using OH⁻ : aspirin = 1 : 1, giving 305 mg/tablet; the key's note says "if a 2:1 ratio is used, m = 152 mg". The two results differ by a factor of two, so the key is internally inconsistent. Aspirin contains one carboxyl group; if OH⁻ consumed by hydrolysis of the ester group is also included, the ratio may be 2 : 1. When answering, students should state the stoichiometric ratio used and the basis for it.
+- MC question 2018M-Q13 asks which titre to use: discard clearly anomalous readings (such as 19.23 mL) before averaging, rather than averaging all of them.
 
 **Past questions**: 2016E-Q42(a), 2016E-Q42(c), 2016E-Q42(e), 2016E-Q42(f), 2017E-Q37(c), 2018M-Q13, 2018E-Q40(c), 2019E-Q39(a), 2019E-Q39(c), 2020E-Q37(a), 2020E-Q37(b), 2020E-Q37(c), 2021E-Q35(c), 2021E-Q36(a), 2022E-Q34, 2022E-Q38(a), 2023E-Q36(b), 2024E-Q36(b), 2024E-Q36(c), 2024E-Q38(b), 2025E-Q38(d)
 

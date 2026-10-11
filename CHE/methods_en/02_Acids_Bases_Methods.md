@@ -1,7 +1,7 @@
 # 02 Acids and Bases Problem-solving approach
 
-> Basis: `evidence/che/notes/AB.txt` (AB1–AB9, 108 sub-question annotations in total, listing the question stem, key and exam report for each sub-question), `tools/parttags_CHE.txt` (sub-question tags), `tools/catalogue_CHE.json` (pattern definitions), `evidence/che/notes/INDEX.md` (mark allocation statistics). Resources available to students are taken from `CHE/papers/2025_CHE_DataBooklet.pdf`, with additional spot checks of the 2016, 2019, 2022 and 2024 data booklets.
-> Past-paper question reference format: `2024S-Q30(a)` = 2024 Section Two (short answer) Question 30 (a); `2019E-Q37(e)` = Section Three (extended answer). `S` and `E` indicate the paper section only.
+> Basis: `evidence/che/notes/AB.txt` (AB1–AB9, 157 sub-question annotations in total: 49 Section One multiple-choice questions and 108 in Section Two and Section Three, the latter listing the question stem, key and exam report for each sub-question), `tools/parttags_CHE.txt` (sub-question tags), `tools/catalogue_CHE.json` (pattern definitions), `evidence/che/notes/INDEX.md` (mark allocation statistics). Resources available to students are taken from `CHE/papers/2025_CHE_DataBooklet.pdf`, with additional spot checks of the 2016, 2019, 2022 and 2024 data booklets.
+> Past-paper question reference format: `2024S-Q30(a)` = 2024 Section Two (short answer) Question 30 (a); `2016M-Q10` = 2016 Section One (multiple choice) Question 10; `2019E-Q37(e)` = Section Three (extended answer). `M`, `S` and `E` indicate the paper section only.
 > ★ marker: ranked by INDEX mark allocation, the top approximately one quarter (9 patterns in this topic, approximately 2): AB9 (71 marks); AB4 and AB5 tied (55 marks each), both marked.
 > Review status: independent review completed (against past exam questions, key and exam report); record at `CHE/methods/审校记录.md`.
 
@@ -45,6 +45,7 @@
 - Reversing the acid and base roles (H₃O⁺ is an acid, not a base).
 - Writing only one equation for an amphoteric species (2018S-Q31(bi) requires two equations).
 - Missing one of the B-L bases when circling bases (the key for 2023S-Q26(c) lists three: H₂O, NO₂⁻, HCOO⁻; all must be circled for full marks).
+- MC questions ask for conjugate acid–base pairs or whether a species acts as an acid or a base (e.g. 2016M-Q10, 2024M-Q3, 2025M-Q25); first mark the proton transferred, then check which species gains or loses H⁺.
 
 **Past questions**: 2016M-Q10, 2016M-Q11, 2016S-Q31(b), 2017S-Q31(a), 2017E-Q40(f), 2018M-Q8, 2018S-Q31(b)(i), 2019M-Q24, 2019E-Q36(a), 2020M-Q2, 2020M-Q15, 2021M-Q21, 2022M-Q14, 2023S-Q26(b), 2023S-Q26(c), 2024M-Q3, 2024S-Q29(a), 2024S-Q32(b), 2025M-Q20, 2025M-Q25
 
@@ -79,6 +80,7 @@
 - Treating “concentrated” as “strong” (2023S-Q34(c) requires a clear distinction).
 - Using Ka to express percentage ionisation, or using pH directly instead of Ka.
 - When using the Arrhenius definition, writing only “H⁺” but not stating that it is produced in aqueous solution (key accepts “produce H⁺ in aqueous solution”).
+- MC questions compare strong and weak acids, the degree of ionisation and Ka, or ask which species are present in solution (e.g. 2018M-Q3, 2024M-Q11, 2025M-Q2); a weak acid is only partly ionised, so compare ion concentrations, not just the acid's name or stated concentration.
 
 **Past questions**: 2016S-Q31(b), 2016S-Q33(b), 2016E-Q42(g), 2017M-Q1, 2018M-Q3, 2018M-Q18, 2018S-Q27(a), 2018S-Q27(b), 2019M-Q8, 2019S-Q31(c), 2019S-Q35(a)(i), 2019S-Q35(a)(ii), 2020M-Q18, 2020S-Q31(a), 2021M-Q3, 2021M-Q8, 2022M-Q11, 2022M-Q13, 2023S-Q26(a), 2023S-Q26(d), 2023S-Q34(b), 2023S-Q34(c), 2024M-Q9, 2024M-Q10, 2024M-Q11, 2024M-Q12, 2025M-Q2, 2025E-Q36(a), 2025E-Q36(b)
 
@@ -108,6 +110,7 @@
 - When comparing the extents of two hydrolysis reactions, writing only “produces OH⁻” without comparing the extents.
 - Mistaking salts of strong acids and strong bases (e.g. KCl, NaNO₃) as undergoing hydrolysis.
 - Omitting “⇌” when writing equations, or writing only one side of the hydrolysis.
+- MC questions ask about the acidity or basicity of salt solutions or hydrolysis equations (e.g. 2021M-Q9, 2023M-Q18, 2025M-Q19); salts of a strong acid and a weak base give acidic solutions, salts of a strong base and a weak acid give basic solutions, and for hydrogen salts compare ionisation with hydrolysis.
 
 **Past questions**: 2016S-Q31(a), 2017E-Q39(e), 2018S-Q27(d), 2018S-Q31(b)(ii), 2019S-Q27(a), 2019S-Q27(b), 2020E-Q37(d), 2021M-Q9, 2022S-Q28, 2023M-Q18, 2023S-Q33(b), 2024M-Q4, 2025M-Q19
 
@@ -142,6 +145,7 @@
 - Explaining pure water in terms of a buffer (pure water is not a buffer system, 2016S-Q32(b)).
 - Missing the double arrow in an equation or getting one species wrong (2018S-Q29(a) notes "one minor error, include lack of double arrow").
 - Confusing buffering capacity with pH, or only saying "the concentration is high" without stating which two components.
+- MC question 2022M-Q5 asks which equimolar pairs give an acidic buffer; a buffer needs a weak acid with its conjugate base, and a strong acid with its salt cannot buffer.
 
 **Past questions**: 2016S-Q32(a), 2016S-Q32(b), 2018S-Q29(a), 2018S-Q29(b), 2018S-Q29(d), 2018S-Q29(e), 2019E-Q36(d), 2019E-Q36(e), 2020S-Q30(b), 2021S-Q28(b)(ii), 2022M-Q5, 2023S-Q28(a), 2023S-Q28(b), 2024S-Q32(a), 2024S-Q32(c), 2024S-Q32(d), 2024S-Q32(e), 2025S-Q29(a), 2025S-Q29(b)
 
@@ -173,6 +177,7 @@
 - Interpreting a pH greater than 7 as "water being basic at high temperature"; pure water satisfies [H⁺] = [OH⁻] at any temperature.
 - Writing only the answer with no intermediate steps (2016E-Q42(f)).
 - Incorrect significant figures (QNT7) and units.
+- MC questions cover converting between pH and [H⁺], solutions with pH below zero, and the self-ionisation of pure water (e.g. 2019M-Q16, 2022M-Q12, 2023M-Q19); pH can be negative, and [H⁺] = 10^(−pH) still applies.
 
 **Past questions**: 2016E-Q42(f), 2016E-Q42(g), 2017S-Q29(c), 2017S-Q31(d), 2017S-Q31(e), 2018S-Q29(c), 2019M-Q16, 2019S-Q32, 2020M-Q5, 2020S-Q30(b), 2021M-Q14, 2021S-Q29(b), 2022M-Q12, 2023M-Q19, 2023S-Q34(b), 2024S-Q34, 2025E-Q36(a)
 
@@ -203,6 +208,7 @@
 - Confusing the equivalence point with the end point, and not stating that the indicator's colour-change point should be close to the equivalence point.
 - Considering only one equivalence point for a polyprotic acid: in 2019S-Q35(b), when titration only reaches the first equivalence point, the key accepts "too low" (with the reason that a smaller amount of NaOH was added), or "unchanged" when accompanied by the reason "the first equivalence point has been reached and the calculation needs correction".
 - Writing only "changes colour" for the colour change, without giving the starting and final colours.
+- MC questions test the nature and choice of indicators (e.g. 2019M-Q1, 2020M-Q17, 2022M-Q1); an indicator is a weak acid or base, and its colour-change range should lie within the titration jump; the equivalence point and end point are not the same (2016M-Q12).
 
 **Past questions**: 2016M-Q12, 2016S-Q34(b), 2017M-Q8, 2017E-Q37(d), 2018M-Q1, 2018S-Q27(d), 2019M-Q1, 2019S-Q35(b), 2020M-Q17, 2020E-Q37(d), 2021S-Q28(a), 2022M-Q1, 2022E-Q38(c), 2023S-Q33(b), 2024M-Q6
 
@@ -233,6 +239,7 @@
 - Giving "relative molecular mass is too small" as the only reason NaOH is not a primary standard, even though the question stem already gives this (the 2018S-Q27(c) stem uses "Other than …").
 - Stating the direction of the error without a reason (you need to explain dilution, a change in amount used, or the indicator's end point).
 - Writing only "high purity" when listing properties of a primary standard, without giving other properties.
+- MC questions ask which technique is least likely to cause error, or which final rinse solution is used for the burette and pipette (e.g. 2016M-Q7, 2020M-Q25, 2022M-Q9); both are rinsed with the solution they will hold, and readings are taken at the bottom of the meniscus.
 
 **Past questions**: 2016M-Q7, 2016E-Q42(b), 2016E-Q42(d), 2018M-Q12, 2018S-Q27(c), 2018E-Q40(d), 2019S-Q35(b), 2019E-Q39(b), 2020M-Q25, 2021E-Q35(a), 2021E-Q35(b), 2022M-Q9, 2022E-Q38(b), 2023E-Q36(a), 2024M-Q7, 2025E-Q38(e)
 
@@ -292,5 +299,6 @@
 - Observations only say “colour change”, without the initial and final colours.
 - Incorrect relationship between H₂CO₃ and CO₂, or missing CO₂ as a product.
 - In 2018S-Q26(c), writing the reaction of HCl with Cu(OH)₂ as producing a gas, when in fact no gas is released.
+- MC questions use solubility rules to decide whether ions can coexist or precipitate (e.g. 2023M-Q3); ions that form insoluble chlorides, such as Ag⁺, are unlikely to be present in large amounts in seawater.
 
 **Past questions**: 2016S-Q27(a)(ii), 2016S-Q33(a), 2017E-Q37(a), 2018S-Q26(a), 2018S-Q26(b), 2018S-Q26(c), 2018E-Q36(c), 2019S-Q26(a), 2019S-Q26(b), 2019S-Q26(c), 2019S-Q27(b), 2019S-Q30(a), 2019E-Q36(c), 2019E-Q37(b), 2020E-Q37(d), 2022E-Q37(b), 2022E-Q37(c), 2022E-Q37(d), 2023M-Q3, 2023M-Q9, 2023S-Q27(a), 2023S-Q30(b), 2023S-Q33(a), 2025E-Q35(c)

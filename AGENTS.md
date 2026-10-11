@@ -114,6 +114,17 @@ Release (only when the owner says so): bump `app/version.txt`, commit, `tools/pa
 triggers the Mac workflow, which attaches `WTF-macOS-arm64*.dmg` and `WTF-macOS-x86_64*.dmg`. README links to
 `releases/latest/download/<fixed name>` — keep those names.
 
+## v2.0 status (2026-10-12)
+
+- Subject packs: phases 1–4 done (Codex: registry, sections, handlers, export/import; Claude: paper manifests with method /
+  Wayback capture / sha256 / need per file in `<S>/sources.tsv`, `tools/sources_meta.py`). Phase 5 (online index) not done.
+- **Chemistry (CHE)** is the fourth subject: one shared paper, `question_mode: mc` for Section One (`tools/segment_mc.py`),
+  `key_style: description-marks` (`markpoints.rubric`), `checker: none`. 400 questions (250 MC + 150 written), 64 patterns,
+  notes zh+en, cheat sheets, `skills/wace-che-questions`. Key split per mark 386/400. `tests/smoke_che.py`.
+  Workflow that built it: `skills/wtf-subject-pack` (stage list, delegation to Haiku, review rounds).
+- Knowledge tree shows one subject at a time (drop-down); the reference-sheet pane follows (公式表 / 数据手册 by year).
+- `translate.py docs <S>` rebuilds English notes of one subject only — running it for all subjects overwrites hand edits.
+
 ## NEXT TASK: subject packs (handed to the next agent on 2026-10-12)
 
 Goal (owner's words: 学科包就是主要的模组/插件，不用动框架了): a subject is added by publishing a **subject pack**,

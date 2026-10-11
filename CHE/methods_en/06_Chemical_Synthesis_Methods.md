@@ -1,7 +1,7 @@
 # 06 Chemical Synthesis — Problem-solving approach
 
-> Basis: sub-questions tagged SYN in Section Two and Section Three of the 2016–2025 Chemistry ATAR past papers, 5 patterns in total, 43 tag occurrences altogether (consistent with INDEX.md; excludes Section One multiple-choice questions). Marking points are taken from the key in the marking criteria, paraphrased rather than copied verbatim; the original papers and marking files remain in the local ignored directory.
-> Past-paper numbering: `2021E-Q38` = 2021 Section Three Question 38 (whole question, no sub-parts); `2023E-Q39(bii)` = 2023 Section Three Question 39 (b)(ii).
+> Basis: sub-questions tagged SYN in Section One (multiple choice), Section Two and Section Three of the 2016–2025 Chemistry ATAR past papers, 5 patterns in total, 61 tag occurrences altogether (18 in Section One multiple-choice questions, 43 in Section Two and Section Three). Marking points are taken from the key in the marking criteria, paraphrased rather than copied verbatim; the original papers and marking files remain in the local ignored directory.
+> Past-paper numbering: `2016M-Q23` = 2016 Section One (multiple choice) Question 23; `2021E-Q38` = 2021 Section Three Question 38 (whole question, no sub-parts); `2023E-Q39(bii)` = 2023 Section Three Question 39 (b)(ii).
 > Pattern definitions are taken from `tools/catalogue_CHE.json`; tags are draft (draft_for_review), and this file has not been independently reviewed.
 > ★ marker: ranked by each pattern's total marks (INDEX.md), taking roughly the top quarter (1 of 5 patterns); this file is SYN4 (67 marks). SYN2 (65 marks) is close behind and remains an important pattern for this topic.
 > Cross-topic overlaps: Pattern 1 overlaps with ORG5–ORG7; Pattern 2 differs from EQ4 — questions that only use Le Châtelier's principle to predict a shift belong to EQ4; Pattern 4 overlaps with ORG4; Pattern 5 overlaps with PRO7 (2020E-Q40(f) counts towards both SYN3 and PRO7, see Pattern 7 in `05_Polymers_Proteins_解题思路.md`).
@@ -33,6 +33,7 @@
 - Omitting CO₂ from the fermentation equation (the keys for both 2022S-Q33(a) and 2023E-Q39(aii) require correct products and balancing).
 - Omitting the catalyst or the phase of the water in ethene hydration (the 2021E-Q39(a) key requires H₂O(g)).
 - 2023E-Q39(aii) instructed candidates to use condensed structures; answers should be written in the representation specified in the question.
+- MC questions give a process flow chart and ask you to name reaction X, gas Y or process Z (2016M-Q23 to Q25); first decide the reaction type (e.g. esterification, fermentation or fractional distillation), then match it to the gas and step in the flow chart.
 
 **Past questions**: 2016M-Q23, 2016M-Q24, 2016M-Q25, 2016S-Q30(a), 2016S-Q30(b), 2018S-Q30(c), 2019S-Q29(a), 2020S-Q33, 2021E-Q39(a), 2022S-Q33(a), 2023E-Q39(a)(ii)
 
@@ -72,6 +73,7 @@
 - Rate explanations that only say "high temperature makes the reaction faster" and do not say "the proportion of collisions with energy greater than or equal to Eₐ increases". The keys for 2023E-Q35(a) and 2021E-Q38 both require this.
 - 2021 report: 2021E-Q38 had an average mark of 35.5%, making it a challenging question on that paper. 2024 report: the "outline and justify" in 2024E-Q36(a) was the hardest sub-question.
 - 2019E-Q37(e) predicts the optimal conditions for soap production (high temperature, high concentration of NaOH, stirring or removing product); stirring only increases surface area and rate, not yield; removing product is what affects yield.
+- MC questions ask for the reason behind industrial conditions or how a condition affects rate and equilibrium yield (e.g. 2018M-Q20, 2018M-Q23, 2025M-Q5); a catalyst speeds up the rate but does not change the equilibrium yield.
 
 **Past questions**: 2016E-Q39(b), 2017S-Q30(a), 2017S-Q30(b), 2018M-Q20, 2018M-Q23, 2018E-Q38(a), 2019S-Q29(b), 2019E-Q37(e), 2021E-Q38, 2023E-Q35(a), 2023E-Q39(b)(ii), 2024E-Q36(a), 2025M-Q5, 2025E-Q37(b)
 
@@ -96,6 +98,7 @@
 - Writing only "greener" or "cheaper" without giving the basis for comparison.
 - Confusing "renewable" with "cheap".
 - The reports do not comment separately on this pattern; evidence is limited (only 3 parts).
+- MC questions ask which feature is least likely to belong to green chemistry (e.g. 2021M-Q6); the principles include renewable feedstocks, less waste and fewer toxic solvents, and energy-intensive processes usually do not fit.
 
 **Past questions**: 2017M-Q11, 2020E-Q40(f), 2020E-Q40(g), 2021M-Q6, 2023E-Q39(c)
 
@@ -131,6 +134,7 @@
 - Describing the hard-water problem as "soap reacts with water" rather than "soap precipitates with Ca²⁺ or Mg²⁺".
 - 2025E-Q35(a) forms soap from caprylic acid and NaOH; this is a carboxylic acid neutralisation reaction (RCOOH + NaOH → RCOO⁻Na⁺ + H₂O), different from saponification of triglycerides. The key requires both NaOH as a reactant and water as a product to be written.
 - Report: the 2024 report lists 2024S-Q31 (similarities and differences between soap and detergent structures and the micelle diagram) as a soap topic, but the hardest questions named in that report are Q28 (solubility) and Q30 (ocean acidification), which are not part of this document.
+- MC questions ask about soap and detergent structures, saponification or micelle formation (e.g. 2017M-Q21, 2018M-Q24, 2020M-Q22, 2020M-Q23, 2022M-Q4, 2023M-Q25); in hard water soap forms a precipitate, whereas synthetic detergents generally do not.
 
 **Past questions**: 2017M-Q21, 2017E-Q39(a)(i), 2017E-Q39(b), 2017E-Q39(d), 2018M-Q24, 2019E-Q37(a), 2019E-Q37(b), 2019E-Q37(d), 2020M-Q9, 2020M-Q22, 2020M-Q23, 2020E-Q40(e)(i), 2022M-Q4, 2022E-Q36(a), 2022E-Q36(b), 2022E-Q36(c), 2023M-Q25, 2024S-Q31(a), 2024S-Q31(b), 2024E-Q37(a)(i), 2025E-Q35(a), 2025E-Q35(b), 2025E-Q35(c), 2025E-Q35(e)
 
@@ -157,5 +161,6 @@
 - Catalyst does not match the method: writing NaOH for lipase, or treating NaOH as an enzyme. The 2024E-Q37(aii) key requires the base catalyst NaOH to be written beside the equilibrium arrow (the base-catalysed method), to distinguish it from the lipase method in the question stem.
 - Writing unsupported comparisons such as "lipase is cheaper" without identifying the specific difference from the base-catalysed method.
 - The marking for 2016S-Q28(b) requires each point to state which method it refers to; otherwise no mark is awarded.
+- MC questions ask about the reactants, catalysts or composition of biodiesel in transesterification (e.g. 2016M-Q5, 2019M-Q11, 2019M-Q13); triglycerides react with methanol to give methyl esters and glycerol, and a base catalyst can cause saponification, lowering the yield.
 
 **Past questions**: 2016M-Q5, 2016S-Q28(b), 2019M-Q11, 2019M-Q13, 2020E-Q40(a), 2021E-Q39(a), 2024E-Q37(a)(ii)

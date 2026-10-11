@@ -20,10 +20,12 @@ The Mac version is new: if something looks off, a screenshot in an [issue](https
 > **老师、同学们：请不要试图通过阅读代码来运行 WTF。** 读代码它是不会跑起来的，我们认真试过了。点上面的链接下载安装包，双击即可（Mac：打开 dmg，把 WTF 拖进「应用程序」，第一次在「应用程序」里右键 WTF →「打开」）。
 
 **Only here for the notes?** Read the PDFs, not the `.md` files — GitHub's Markdown preview and maths are not on speaking terms:
-method notes [MAM](MAM/methods) · [MAS](MAS/methods) · [MAA](MAA/methods) (English: [MAM](MAM/methods_en) · [MAS](MAS/methods_en) · [MAA](MAA/methods_en)), cheat sheets [MAM](cheatsheet/MAM_CheatSheet.pdf) · [MAS](cheatsheet/MAS_CheatSheet.pdf) · [MAA](cheatsheet/MAA_CheatSheet.pdf) (English: [MAM](cheatsheet/MAM_CheatSheet_EN.pdf) · [MAS](cheatsheet/MAS_CheatSheet_EN.pdf) · [MAA](cheatsheet/MAA_CheatSheet_EN.pdf)).
+method notes [MAM](MAM/methods) · [MAS](MAS/methods) · [MAA](MAA/methods) · [Chemistry](CHE/methods) (English: [MAM](MAM/methods_en) · [MAS](MAS/methods_en) · [MAA](MAA/methods_en) · [Chemistry](CHE/methods_en)), cheat sheets [MAM](cheatsheet/MAM_CheatSheet.pdf) · [MAS](cheatsheet/MAS_CheatSheet.pdf) · [MAA](cheatsheet/MAA_CheatSheet.pdf) · [Chemistry](cheatsheet/CHE_CheatSheet.pdf) (English: [MAM](cheatsheet/MAM_CheatSheet_EN.pdf) · [MAS](cheatsheet/MAS_CheatSheet_EN.pdf) · [MAA](cheatsheet/MAA_CheatSheet_EN.pdf) · [Chemistry](cheatsheet/CHE_CheatSheet_EN.pdf)).
 The past papers themselves are not here (see *Copyright* below): the app fetches them for you on its first run, which is why there is no question bank in this repository and never will be.
 
 WTF is a serious, rigorously engineered study system for the Western Australian ATAR courses **Mathematics Methods (MAM)**, **Mathematics Specialist (MAS)** and, since it turned out the framework does not care which maths you hate, **Mathematics Applications (MAA)**, built on the 2016–2025 SCSA past exams. It exists because the average student's revision strategy — "open a past paper, feel bad, close the past paper" — has a measured completion rate of approximately zero.
+
+**New in 2.0: Chemistry.** All 400 questions of the 2016–2025 Chemistry ATAR papers — 250 multiple choice and 150 written — tagged by pattern, the Description/Marks keys split one row per mark, notes for all 64 patterns, the data booklet of each year beside the question. Also new: subjects are now **packs**, which is how Chemistry got in without anyone touching the framework, and how the next subject will.
 
 What it actually does, stated with a straight face:
 
@@ -33,7 +35,7 @@ What it actually does, stated with a straight face:
 - a desktop **GUI** (knowledge tree → pattern → past questions, marking key hidden until you are brave enough) that can ask an LLM of your choice to **write a similar question, solve it independently, check it, and split the answer into mark points before showing you anything**. The AI marks its own homework, then a different AI marks that, then SymPy marks both. Trust issues are a feature;
 - Claude Code **skills** for generating topic quizzes, for when one AI is not enough.
 
-> 中文简介：WACE 数学方法 / 专业数学 / 数学应用刷题系统，名字缩写纯属巧合（并不是）。真题按知识点与小问题型标注，评分标准拆到每一分，每个题型都有解题思路讲义。GUI 里按知识图谱选题型看真题，或者让你自己接入的 AI（OpenAI / Anthropic 格式）出相似题：出题、独立解题、独立核对、SymPy 复算、拆成得分点，全部通过才给答案。AI 不被信任，这是设计。
+> 中文简介：WACE 数学方法 / 专业数学 / 数学应用 / 化学刷题系统（v2 起学科以「学科包」形式接入），名字缩写纯属巧合（并不是）。真题按知识点与小问题型标注，评分标准拆到每一分，每个题型都有解题思路讲义。GUI 里按知识图谱选题型看真题，或者让你自己接入的 AI（OpenAI / Anthropic 格式）出相似题：出题、独立解题、独立核对、SymPy 复算、拆成得分点，全部通过才给答案。AI 不被信任，这是设计。
 
 ## Copyright — the exams are not in this repo (this part is not a joke)
 
@@ -76,7 +78,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 | 掌握度地图 | Ctrl+G | one tile per pattern, coloured by your score rate |
 | Formula sheet | right pane (F2) | the official sheet for the subject you are viewing, resizable |
 | PDF export | 我的 AI 题库 / a finished batch / 真题搜索 / mock exam | question paper (one question per page, rest is working space) + answer paper with ☐ mark boxes |
-| 管理科目 | 题库 → 管理科目 | add or drop subjects later: tick a subject, fetch its papers, rebuild — your AI questions and 错题本 stay |
+| Subject packs | 题库 → 管理科目 → 导入学科包… | since v2.0 every subject is a data-only `.wtfpack` (`pack.json` + notes + tags + a manifest of where each paper comes from, with checksums); the app reads subjects, sections, timers and marking style from the pack, so adding a subject means publishing a pack, not editing the app |`n| 管理科目 | 题库 → 管理科目 | add or drop subjects later: tick a subject, fetch its papers, rebuild — your AI questions and 错题本 stay |
 | English UI | 设置 → 界面语言 | the whole interface, notes and explanations in English |
 | Updates | 帮助 → 检查更新 | download, verify and install new releases without losing your data |
 
@@ -167,7 +169,7 @@ MAM/ MAS/ MAA/
   methods/       NN_Topic_解题思路.md/.pdf   题型 patterns: how to recognise, steps, where the marks are,
                                              examiners'-report warnings, cited past questions; 审校记录 = review log
   papers/ topics/ 题库/ questions.json      (built locally, not in git)
-cheatsheet/      MAM / MAS / MAA cheat sheets (md + pdf, 3 pages each)
+cheatsheet/      MAM / MAS / MAA / CHE cheat sheets (md + pdf, 3 pages each)
 skills/          wace-mam-questions, wace-mas-questions (Claude Code skills; paths resolve live:
                  $WACE_MATHS_ROOT, else the folder above skills/)
 tools/

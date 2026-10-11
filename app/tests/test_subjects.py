@@ -35,7 +35,7 @@ class Profiles(unittest.TestCase):
         self.assertEqual(list(subjects.names(self.root)), ['CHE'])
         self.assertEqual(subjects.section_letter('CHE', 'MC', self.root), 'M')
         self.assertEqual(subjects.section_minutes('CHE', 'MC', self.root), [10, 180])
-        self.assertEqual(list(subjects.names()), ['MAM', 'MAS', 'MAA'])
+        self.assertEqual(list(subjects.names()), ['MAM', 'MAS', 'MAA', 'CHE'])  # the repo's installed packs
         with self.assertRaises(ValueError):
             subjects.section_letter('CHE', 'CalcFree', self.root)
 
