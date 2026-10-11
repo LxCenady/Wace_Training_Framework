@@ -42,6 +42,9 @@ def scan(path, shared=False):
     for i, pg in enumerate(doc):
         ls = lines(pg)
         bands.append(band(pg, ls))
+        if shared and heads and any(t.startswith('Published by the School Curriculum') for _, t in ls) \
+                and any(t == 'Copyright' for _, t in ls) and not any(HEAD.match(t) for _, t in ls):
+            return doc, heads, (i - 1, None), bands
         for b, t in sorted(ls, key=lambda x: x[0][1]):
             # Shared papers repeat supplementary-page instructions at each
             # section entrance. Only the actual spare-page heading ends a paper.

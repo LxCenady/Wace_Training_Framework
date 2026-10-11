@@ -71,6 +71,9 @@ class Profiles(unittest.TestCase):
                         page.insert_text((60, 105), 'Supplementary pages for planning your answers are provided.')
                     page.insert_text((60, 130), question)
                     page.draw_rect(pymupdf.Rect(70, 150, 270, 260), color=(0, 0, 0))
+                page = doc.new_page()
+                page.insert_text((60, 100), 'Published by the School Curriculum and Standards Authority')
+                page.insert_text((60, 140), 'Copyright')
                 doc.save(papers / f'2025_CHE_{kind}.pdf')
         (self.root / 'sources.tsv').write_text('CHE/papers/2025_CHE_Exam.pdf\thttps://example.invalid/exam\n', encoding='utf-8')
         with patch.object(segment, 'ROOT', str(self.root)), patch.dict('os.environ', WACE_MATHS_ROOT=str(self.root)):
@@ -79,6 +82,7 @@ class Profiles(unittest.TestCase):
         self.assertEqual([(q['q'], q['section']) for q in questions], [(26, 'SA'), (27, 'ER')])
         self.assertNotIn('Section Three', questions[0]['text'])
         self.assertNotIn('Supplementary pages', questions[0]['text'])
+        self.assertTrue(all(r[0] < 3 for q in questions for r in q['key_regions']))
         blocks = json.loads((self.root / 'CHE/sections.json').read_text(encoding='utf-8'))
         self.assertEqual(list(blocks[0]['sections']), ['MC', 'SA', 'ER'])
         for question in questions:

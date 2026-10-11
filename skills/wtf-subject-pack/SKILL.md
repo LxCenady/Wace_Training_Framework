@@ -134,4 +134,5 @@ At the end of each stage, tell the user in Chinese, briefly: what was produced, 
 - `references/delegation.md` — prompt templates for Haiku labellers, reviewers, arbiters, note writers, translators.
 - `references/pack-format.md` — the `.wtfpack` protocol (`pack.json` fields, import/export, what the app must read from it).
 - `references/subject-profiles.md` — the assumptions table (maths answers, Chemistry draft) and where each lives in code.
+- `references/rubric-format.md` — draft structured-award design for non-tick keys: atomic tags, any-N, alternative routes, caps and source/visual evidence; not yet a supported runtime format.
 - `scripts/pack_status.py` — parity checklist for one subject: `python scripts/pack_status.py CHE [--root E:\WACE_Maths]`.

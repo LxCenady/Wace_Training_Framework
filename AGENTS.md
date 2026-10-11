@@ -250,9 +250,12 @@ Read-only segmentation preflight located all 87 written questions, with key regi
 count/mark discrepancies against six covers; partmarks.split succeeds for all 87. MC remains a section block.
 Shared scan now rejects MC stimulus references as question headings and ignores repeated supplementary-page
 instructions at section entrances, without changing separate-paper maths scanning. Final questions exclude
-the next section's header. Luna visually reviewed 12 pilot records with 35 region crops; primary spot-checks
+the next section's header and copyright-only key pages are excluded. Luna visually reviewed 12 pilot records with 35 region crops; primary spot-checks
 confirmed graph/structure rubrics and Q38(d)'s official key/public-report titre inconsistency. Full 2025 rubric
-inventory is in progress in ignored evidence; no CHE profile installed, catalogue approved or DB built.
+inventory covers 15 questions/50 scoring units/178 written marks in ignored evidence; retain candidate status.
+Primary recomputation excludes subtotals and chooses one complete alternative route; source inconsistencies
+are retained, not silently fixed. `references/rubric-format.md` records the draft structured-award design;
+it is not a registered runtime handler. No CHE profile installed, catalogue approved or DB built.
 Known baseline audit issue: 2016Sample MAM CF sums to 53 but cover says 52; unchanged from before this migration.
 Test temp copies exhausted C:; final setup/external checks used `evidence/runtime/` on E:. Cleanup of C: test
 folders was rejected by automatic policy, so they were left intact. Never delete unrelated user files.
