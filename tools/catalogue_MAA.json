@@ -1,0 +1,1081 @@
+{
+  "schema_version": 1,
+  "course": "Mathematics Applications ATAR Year 12",
+  "catalogue_status": "draft_for_review",
+  "topic_codes": {
+    "BIV": "Bivariate data analysis",
+    "SEQ": "Growth and decay in sequences",
+    "GRF": "Graphs and networks",
+    "TSI": "Time series analysis",
+    "FIN": "Loans, investments and annuities",
+    "NDM": "Networks and decision mathematics"
+  },
+  "syllabus_sources": {
+    "2025": "https://senior-secondary.scsa.wa.edu.au/__data/assets/pdf_file/0009/1121310/Mathematics-Applications-ATAR-Year-12-Syllabus-for-teaching-from-January-2025_pdf.PDF",
+    "2027": "https://senior-secondary.scsa.wa.edu.au/__data/assets/pdf_file/0018/1262133/Mathematics-Applications-ATAR-Year-12-Syllabus-for-teaching-from-2027.PDF"
+  },
+  "patterns": [
+    {
+      "id": "BIV1",
+      "name_zh": "双向频数表与边际量",
+      "name_en": "Two-way frequency tables and margins",
+      "description": "从双分类数据构造双向频数表，计算行列合计及按行或按列百分比。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.2",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.2",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV2",
+      "name_zh": "分类变量关联的比较描述",
+      "name_en": "Describe association between categorical variables",
+      "description": "比较相应百分比，指出类别间的差异模式，并结合变量含义解释关联。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.3-3.1.4",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.3-3.1.4",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV3",
+      "name_zh": "散点图与数值关联特征",
+      "name_en": "Scatterplots and numerical association",
+      "description": "绘制或读取散点图，并按方向、形状和强弱描述两个数值变量的关系。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.5-3.1.6, 3.1.9",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.5-3.1.6, 3.1.9",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV4",
+      "name_zh": "相关系数的计算与解释",
+      "name_en": "Calculate and interpret correlation",
+      "description": "用技术工具求相关系数 r，并据其符号和大小解释线性关联强度；不把 r 当作因果证据。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.7, 3.1.17-3.1.18",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.7, 3.1.17-3.1.18",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV5",
+      "name_zh": "最小二乘回归线与残差检查",
+      "name_en": "Least-squares line and residual diagnostics",
+      "description": "拟合数值变量间的最小二乘直线模型。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.10",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.10",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV11",
+      "name_zh": "解释变量与响应变量识别",
+      "name_en": "Identify explanatory and response variables",
+      "description": "依据研究问题识别用来解释或预测的变量，以及作为结果的响应变量。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.8",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.8",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV6",
+      "name_zh": "回归斜率与截距的语境解释",
+      "name_en": "Interpret regression slope and intercept",
+      "description": "将拟合直线斜率和截距解释为语境中的变化率与基准值，留意变量单位及截距是否有意义。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.12",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.12",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV7",
+      "name_zh": "决定系数与解释变异",
+      "name_en": "Coefficient of determination",
+      "description": "使用决定系数说明响应变量变异中由线性模型解释的比例，并结合题目语境表达。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.13",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.13",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV8",
+      "name_zh": "线性模型预测与外推判断",
+      "name_en": "Prediction and interpolation versus extrapolation",
+      "description": "代入回归方程作预测，并判断预测是否处于观测范围内、是否属于外推及其局限。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.14-3.1.15",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.14-3.1.15",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV9",
+      "name_zh": "关联、因果与混杂解释",
+      "name_en": "Association, causation and confounding",
+      "description": "说明观察到的关联不能单独证明因果，并识别巧合或共同响应变量等非因果解释。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.17-3.1.18",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.17-3.1.18",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV10",
+      "name_zh": "双变量统计调查结论整合",
+      "name_en": "Bivariate statistical investigation synthesis",
+      "description": "围绕统计问题串联数据、图表或模型分析、语境解释和结论沟通；与具体计算 pattern 可同时标注。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.1, 3.1.16, 3.1.19",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.1, 3.1.16, 3.1.19",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV12",
+      "name_zh": "多分类数据表中的率值筛选与比较",
+      "name_en": "Select and compare rates in categorical tables",
+      "description": "在多分类数据表中检索最大或最小百分率、比较组别差异并按语境解释；只有题目明确讨论变量关联时才另标 BIV2。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.2-3.1.4",
+          "status": "related",
+          "note": "正文明确双向表的百分比与关联描述；本 pattern 还涵盖多分类率值的筛选和横向比较。"
+        },
+        "2027": {
+          "reference": "3.1.2-3.1.4",
+          "status": "related",
+          "note": "正文明确双向表的百分比与关联描述；本 pattern 还涵盖多分类率值的筛选和横向比较。"
+        }
+      }
+    },
+    {
+      "id": "BIV13",
+      "name_zh": "由子群比例反求总体数量",
+      "name_en": "Recover a population total from a subgroup proportion",
+      "description": "已知某子群数量及其占总体的百分比时，反解总体数量并按数据单位表达。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.2",
+          "status": "related",
+          "note": "对应表格百分比与总量运算，但反求总体不是该条明列的独立操作。"
+        },
+        "2027": {
+          "reference": "3.1.2",
+          "status": "related",
+          "note": "对应表格百分比与总量运算，但反求总体不是该条明列的独立操作。"
+        }
+      }
+    },
+    {
+      "id": "SEQ1",
+      "name_zh": "等差数列递推生成",
+      "name_en": "Generate an arithmetic sequence recursively",
+      "description": "根据首项和固定公差写递推关系并逐项生成数列。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.2.1",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.2.1",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "SEQ2",
+      "name_zh": "等差数列通项与项数预测",
+      "name_en": "Arithmetic nth term and prediction",
+      "description": "从常差识别线性离散变化，建立第 n 项规则，并求指定项或反求项数。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.2.2-3.2.4",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.2.2-3.2.4",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "SEQ3",
+      "name_zh": "等差模型表格与离散图像",
+      "name_en": "Tabular and graphical arithmetic models",
+      "description": "用表格或离散点图呈现等差数列，并解释其线性增长或衰减情境。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.2.2, 3.2.4",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.2.2, 3.2.4",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "SEQ4",
+      "name_zh": "等比数列递推生成",
+      "name_en": "Generate a geometric sequence recursively",
+      "description": "根据首项和固定乘数写递推关系并逐项生成数列。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.2.5",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.2.5",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "SEQ5",
+      "name_zh": "等比数列通项与增长衰减预测",
+      "name_en": "Geometric nth term and growth or decay prediction",
+      "description": "由固定公比建立第 n 项规则，判断指数增长或衰减，并用模型预测离散情境。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.2.6-3.2.8",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.2.6-3.2.8",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "SEQ6",
+      "name_zh": "一阶线性递推逐项计算与呈现",
+      "name_en": "Generate and display first-order linear recurrences",
+      "description": "使用一般一阶线性递推式生成各项，并以表格或图像呈现结果。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.2.9",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.2.9",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "SEQ7",
+      "name_zh": "递推长期趋势与稳定值",
+      "name_en": "Long-term behaviour and steady state",
+      "description": "由递推参数或迭代结果判断长期递增、递减或趋于稳定，并求或解释稳定值。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.2.10",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.2.10",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "SEQ8",
+      "name_zh": "递推关系建立与情境分析",
+      "name_en": "Model a practical situation with a recurrence",
+      "description": "将每期变化规律翻译为一阶递推模型，迭代或作图分析实际增长、衰减或趋稳问题。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.2.11",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.2.11",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "GRF1",
+      "name_zh": "图的类型、顶点度数与构造",
+      "name_en": "Graph types, degrees and construction",
+      "description": "按情境建立图或有向图，识别顶点、边、环、度数、子图、完全图、二分图及权重等性质。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.3.1-3.3.2",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.3.1-3.3.2",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "GRF2",
+      "name_zh": "邻接矩阵与多阶段路径计数",
+      "name_en": "Adjacency matrices and multistage counts",
+      "description": "从普通图或有向图写邻接矩阵；对带权网络可将各对顶点间的边权填入权重矩阵。用矩阵幂或多阶段矩阵读取指定步数的路线数量。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.3.3",
+          "status": "explicit",
+          "note": "矩阵构造与多阶段矩阵为明列内容；带权矩阵是目录对图示权重表的操作扩展。"
+        },
+        "2027": {
+          "reference": "3.3.3",
+          "status": "explicit",
+          "note": "矩阵构造与多阶段矩阵为明列内容；带权矩阵是目录对图示权重表的操作扩展。"
+        }
+      }
+    },
+    {
+      "id": "GRF3",
+      "name_zh": "平面图与欧拉公式",
+      "name_en": "Planar graphs and Euler formula",
+      "description": "识别平面图的面，并用顶点、边和面数量关系解决平面图问题。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.3.4-3.3.5",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.3.4-3.3.5",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "GRF4",
+      "name_zh": "加权图最短路径",
+      "name_en": "Shortest path in a weighted graph",
+      "description": "在加权网络中比较可行路线，确定给定两顶点间的最短路径及总权重。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.3.6-3.3.7",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.3.6-3.3.7",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "GRF5",
+      "name_zh": "欧拉迹与欧拉回路判定及构造",
+      "name_en": "Euler trails and circuits",
+      "description": "根据连通性和奇度顶点条件判断欧拉迹或回路是否存在，并在存在时写出路线。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.3.6, 3.3.8",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.3.6, 3.3.8",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "GRF6",
+      "name_zh": "哈密顿路径与回路判定",
+      "name_en": "Hamiltonian paths and cycles",
+      "description": "判断是否存在经过每个顶点一次的哈密顿路径或回路，并结合情境列出可行路线。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.3.9",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.3.9",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "GRF7",
+      "name_zh": "由邻接矩阵还原网络图",
+      "name_en": "Construct a graph from an adjacency matrix",
+      "description": "读取邻接矩阵中的顶点和非零项，画出对应网络；可由矩阵对称性判断是否为无向网络。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.3.3",
+          "status": "related",
+          "note": "该条明确写出由图构造矩阵，没有明确写出反向作图。"
+        },
+        "2027": {
+          "reference": "3.3.3",
+          "status": "related",
+          "note": "该条明确写出由图构造矩阵，没有明确写出反向作图。"
+        }
+      }
+    },
+    {
+      "id": "TSI1",
+      "name_zh": "时间序列图绘制与读图",
+      "name_en": "Plot and read time series",
+      "description": "按时间顺序绘制数据点或读取时间序列图，保留正确时间刻度与数值尺度。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.1.1",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.1.1",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "TSI2",
+      "name_zh": "趋势、季节性、随机波动与异常值",
+      "name_en": "Trend, seasonality, irregular variation and outliers",
+      "description": "辨认并描述长期趋势、周期性季节模式、短期不规则波动和异常值。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.1.2",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.1.2",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "TSI3",
+      "name_zh": "简单移动平均平滑",
+      "name_en": "Simple moving average smoothing",
+      "description": "选定窗口长度，计算简单移动平均以平滑序列，并按周期将结果定位到正确时间点。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.1.3",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.1.3",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "TSI4",
+      "name_zh": "平均百分比法求季节指数",
+      "name_en": "Seasonal indices by average percentage method",
+      "description": "计算各季节实际值相对趋势或周期平均值的百分比，按季节取平均并按需要标准化。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.1.4",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.1.4",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "TSI5",
+      "name_zh": "去季节化数据",
+      "name_en": "Deseasonalise time series",
+      "description": "使用乘法季节指数调整原始观测，得到去季节化数据以分离长期变化。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.1.5",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.1.5",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "TSI6",
+      "name_zh": "时间序列线性趋势回归",
+      "name_en": "Least-squares linear trend",
+      "description": "对时间与去季节化或适当平滑后的数据拟合最小二乘直线，解释趋势参数。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.1.6",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.1.6",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "TSI7",
+      "name_zh": "趋势预测与季节调整",
+      "name_en": "Trend prediction with seasonal adjustment",
+      "description": "先由趋势回归预测，再按目标季节应用季节指数调整预测值。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.1.7",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.1.7",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "TSI8",
+      "name_zh": "时间序列调查结论整合",
+      "name_en": "Time series investigation synthesis",
+      "description": "围绕时间序列问题整合图表、模式描述、平滑或模型结果及语境结论；可与具体计算 pattern 同时标注。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.1.8",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.1.8",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "FIN1",
+      "name_zh": "复利投资或贷款递推建模",
+      "name_en": "Compound interest recurrence model",
+      "description": "按每期计息关系建立递推式，逐期求余额或未来值，并比较利率或计息期数的影响。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.2.1",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.2.1",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "FIN2",
+      "name_zh": "有效年利率与计息频率比较",
+      "name_en": "Effective annual rate and compounding comparison",
+      "description": "将不同计息频率或名义利率换算为有效年利率，并据此比较贷款成本或投资回报。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.2.2",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.2.2",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "FIN3",
+      "name_zh": "复利现值、终值与期限求解",
+      "name_en": "Compound interest value and term calculations",
+      "description": "运用金融计算器或软件求复利贷款、投资或折旧资产的现值、终值、利率或期数，并核对现金流方向与周期单位。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.2.3",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.2.3",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "FIN4",
+      "name_zh": "递减余额贷款递推",
+      "name_en": "Reducing-balance loan recurrence",
+      "description": "建立含利息增长与定期还款的一阶递推，逐期计算贷款余额。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.2.4",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.2.4",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "FIN5",
+      "name_zh": "还款额、利率与清偿时间关系",
+      "name_en": "Repayment, rate and payoff duration",
+      "description": "用递推或数值金融工具分析还款额和利率如何影响清偿期限，并求分期还款方案。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.2.4-4.2.5",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.2.4-4.2.5",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "FIN6",
+      "name_zh": "贷款总利息与末期调整还款",
+      "name_en": "Total loan interest and final adjusted repayment",
+      "description": "由还款表或余额递推确定总利息、剩余欠款及因不足整期造成的末次调整还款。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.2.4-4.2.5",
+          "status": "explicit",
+          "note": "syllabus范围支持贷款计算；总利息和末期还款是具体题目操作"
+        },
+        "2027": {
+          "reference": "4.2.4-4.2.5",
+          "status": "explicit",
+          "note": "syllabus范围支持贷款计算；总利息和末期还款是具体题目操作"
+        }
+      }
+    },
+    {
+      "id": "FIN7",
+      "name_zh": "年金递推与余额变化",
+      "name_en": "Annuity recurrence and balance changes",
+      "description": "按期初本金、利息和定期提取额建立年金递推，逐期计算余额及可持续时间。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.2.6",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.2.6",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "FIN8",
+      "name_zh": "年金现值、期款与期限求解",
+      "name_en": "Annuity value, payment and duration calculations",
+      "description": "使用金融计算器或软件求年金的现值、每期付款、利率或持续期，并正确处理付款时点。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.2.6-4.2.7",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.2.6-4.2.7",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "FIN9",
+      "name_zh": "永续年金与无限期付款",
+      "name_en": "Perpetuity calculations",
+      "description": "把永续年金视为无期限年金特例，根据定期付款和利率求现值或相关量。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.2.7",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.2.7",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM1",
+      "name_zh": "生成树与最小生成树",
+      "name_en": "Spanning trees and minimum spanning trees",
+      "description": "识别生成树，在加权连通图中用观察或 Prim 算法找出总权重最小的生成树。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.1-4.3.2",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.1-4.3.2",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM2",
+      "name_zh": "最小连接方案",
+      "name_en": "Minimum connector problem",
+      "description": "把连接地点或设施的情境建模为加权图，并用最小生成树求最低总连接成本。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.3",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.3",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM3",
+      "name_zh": "项目活动网络建模",
+      "name_en": "Project activity network construction",
+      "description": "根据活动持续时间和先后依赖关系构造项目网络，必要时加入虚活动表达依赖。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.4",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.4",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM4",
+      "name_zh": "正向扫描与最早开始时间",
+      "name_en": "Forward scan and earliest starting times",
+      "description": "沿项目网络正向扫描，计算各活动或事件的最早开始时间。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.5",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.5",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM5",
+      "name_zh": "反向扫描与最迟开始时间",
+      "name_en": "Backward scan and latest starting times",
+      "description": "从项目完工时间反向扫描，计算各活动或事件的最迟开始时间。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.5",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.5",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM6",
+      "name_zh": "关键路径与最短项目工期",
+      "name_en": "Critical path and minimum project duration",
+      "description": "利用最早和最迟时间识别关键活动与关键路径，并确定项目最短完成时间。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.6-4.3.7",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.6-4.3.7",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM7",
+      "name_zh": "非关键活动浮时",
+      "name_en": "Float for non-critical activities",
+      "description": "由最早和最迟时间计算非关键活动的浮时，并解释可延误时间。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.8",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.8",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM8",
+      "name_zh": "最大流与最小割",
+      "name_en": "Maximum flow and minimum cut",
+      "description": "在容量网络中计算可行流量，确定最大流并用最小割验证或解释上限。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.9",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.9",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM9",
+      "name_zh": "分配问题的二分图、表格或矩阵表示",
+      "name_en": "Represent an assignment problem",
+      "description": "把人员、任务或资源分配情境表示为二分图、成本表或矩阵。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.10",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.10",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM10",
+      "name_zh": "最优分配与匈牙利算法",
+      "name_en": "Optimal assignment and Hungarian algorithm",
+      "description": "小型问题通过检查求最优分配；较大问题使用匈牙利算法，列出最优方案及总成本或收益。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.11",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.11",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV14",
+      "name_zh": "残差计算",
+      "name_en": "Calculate residuals",
+      "description": "按观测值减去模型预测值计算残差。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.11",
+          "status": "related",
+          "note": "残差图评估线性模型为明列内容，单独计算残差未单列。"
+        },
+        "2027": {
+          "reference": "3.1.11",
+          "status": "related",
+          "note": "残差图评估线性模型为明列内容，单独计算残差未单列。"
+        }
+      }
+    },
+    {
+      "id": "BIV15",
+      "name_zh": "残差图绘制",
+      "name_en": "Construct a residual plot",
+      "description": "以解释变量为横轴、残差为纵轴绘制或补全残差散点图。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.11",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.11",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "BIV16",
+      "name_zh": "用残差图诊断线性模型",
+      "name_en": "Assess a linear model from a residual plot",
+      "description": "观察残差图是否存在系统模式，判断线性拟合是否合适并说明依据。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.1.11",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.1.11",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "SEQ9",
+      "name_zh": "数列部分和与累计总量",
+      "name_en": "Sequence partial sums and cumulative totals",
+      "description": "将逐期数列项累加，求经过多期的累计增长或总量。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.2.2-3.2.4",
+          "status": "related",
+          "note": "条目涵盖数列模型与预测；累计求和操作未单列。"
+        },
+        "2027": {
+          "reference": "3.2.2-3.2.4",
+          "status": "related",
+          "note": "条目涵盖数列模型与预测；累计求和操作未单列。"
+        }
+      }
+    },
+    {
+      "id": "GRF8",
+      "name_zh": "游走、迹、路径与闭合路线术语",
+      "name_en": "Walk, trail, path and closed-walk terminology",
+      "description": "识别或解释 walk、trail、path、closed walk、cycle 等路线定义，并按定义判断路线性质。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.3.6",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "3.3.6",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM11",
+      "name_zh": "流量守恒与可行流配置",
+      "name_en": "Flow conservation and feasible flow assignment",
+      "description": "在网络各节点维持流入与流出平衡，为弧标注满足容量限制的可行流。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.9",
+          "status": "related",
+          "note": "小型流量网络为明列内容，节点流量守恒是其求解所需操作。"
+        },
+        "2027": {
+          "reference": "4.3.9",
+          "status": "related",
+          "note": "小型流量网络为明列内容，节点流量守恒是其求解所需操作。"
+        }
+      }
+    },
+    {
+      "id": "NDM12",
+      "name_zh": "割容量与流量上界",
+      "name_en": "Cut capacity and flow upper bounds",
+      "description": "计算割的总容量，并用最小割说明网络流量的上界或验证最大流。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.9",
+          "status": "explicit"
+        },
+        "2027": {
+          "reference": "4.3.9",
+          "status": "explicit"
+        }
+      }
+    },
+    {
+      "id": "NDM13",
+      "name_zh": "路径瓶颈与路径流量分配",
+      "name_en": "Path bottlenecks and path-flow allocation",
+      "description": "逐条确定可行路径的瓶颈容量，为路径分配流量并汇总总流量。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.9",
+          "status": "related",
+          "note": "最大流问题为明列内容；路径分解和瓶颈分配方法未规定为唯一算法。"
+        },
+        "2027": {
+          "reference": "4.3.9",
+          "status": "related",
+          "note": "最大流问题为明列内容；路径分解和瓶颈分配方法未规定为唯一算法。"
+        }
+      }
+    },
+    {
+      "id": "NDM14",
+      "name_zh": "增广路径与剩余容量",
+      "name_en": "Augmenting paths and residual capacities",
+      "description": "沿可增广路径更新流量和剩余容量，重复直到不能再增广。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.9",
+          "status": "related",
+          "note": "最大流为明列内容，具体增广路径算法未明列。"
+        },
+        "2027": {
+          "reference": "4.3.9",
+          "status": "related",
+          "note": "最大流为明列内容，具体增广路径算法未明列。"
+        }
+      }
+    },
+    {
+      "id": "GRF9",
+      "name_zh": "访问所有顶点的最短行程",
+      "name_en": "Shortest journey visiting every vertex",
+      "description": "在加权网络中从指定起点出发、访问所有顶点并到达指定终点；允许重复经过顶点，比较完整行程的总权重。",
+      "syllabus": {
+        "2025": {
+          "reference": "3.3.6-3.3.7",
+          "status": "related",
+          "note": "与加权网络路线求解相关；需访问所有顶点的行程目标不同于明列的两顶点最短路径。"
+        },
+        "2027": {
+          "reference": "3.3.6-3.3.7",
+          "status": "related",
+          "note": "与加权网络路线求解相关；需访问所有顶点的行程目标不同于明列的两顶点最短路径。"
+        }
+      }
+    }
+  ]
+}
