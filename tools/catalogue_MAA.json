@@ -1076,6 +1076,40 @@
           "note": "与加权网络路线求解相关；需访问所有顶点的行程目标不同于明列的两顶点最短路径。"
         }
       }
+    },
+    {
+      "id": "FIN10",
+      "name_zh": "名义年利率与每期利率换算",
+      "name_en": "Nominal annual and periodic interest rates",
+      "description": "从递推增长因子识别每期利率，按每年期数换算名义年利率；不把简单相乘当作有效年利率计算。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.2.2",
+          "status": "related"
+        },
+        "2027": {
+          "reference": "4.2.2",
+          "status": "related"
+        }
+      },
+      "notes": "按真实小题要求拆出的基础操作；沿用父类课程点作为相关引用，不宣称纲要独立列出该操作。"
+    },
+    {
+      "id": "NDM15",
+      "name_zh": "流量网络源汇与中间节点识别",
+      "name_en": "Sources, sinks and intermediate nodes in flow networks",
+      "description": "根据容量网络箭头识别源、汇与中间节点，并解释其情境角色；此操作不要求计算最大流或割容量。",
+      "syllabus": {
+        "2025": {
+          "reference": "4.3.9",
+          "status": "related"
+        },
+        "2027": {
+          "reference": "4.3.9",
+          "status": "related"
+        }
+      },
+      "notes": "按真实小题要求拆出的基础操作；沿用父类课程点作为相关引用，不宣称纲要独立列出该操作。"
     }
   ]
 }

@@ -36,6 +36,7 @@ def validate(path, rel):
     with pymupdf.open(path) as doc:
         if not len(doc):
             raise ValueError(f"Empty PDF: {rel}")
+        cover = " ".join(doc[0].get_text().lower().split())
         text = " ".join(doc[i].get_text() for i in range(min(2, len(doc))))
     text = " ".join(text.lower().split())
     year = Path(rel).name[:4]
@@ -50,7 +51,7 @@ def validate(path, rel):
         if not found or found.group(1) != year:
             raise ValueError(f"Examination year/type mismatch: {rel}")
         section = "calculator-free" if "CalcFree" in rel else "calculator-assumed"
-        if section not in text:
+        if section not in cover:
             raise ValueError(f"Section mismatch: {rel}")
         is_key = bool(re.search(r"marking\s*key", text))
         if is_key != ("MarkingKey" in rel) or "sample" in text:

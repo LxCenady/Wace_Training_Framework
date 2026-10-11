@@ -12,14 +12,17 @@ import segment
 ROOT = fetch_maa.ROOT
 
 
-def audit(labels=None):
+def audit(labels=None, years=None):
     errors, missing, invalid, valid = [], [], [], set()
-    sources = fetch_maa.sources()
+    scope = set(years or range(2016, 2026))
+    if not scope or not scope <= set(range(2016, 2026)):
+        raise ValueError("Years must be within 2016–2025")
+    sources = [row for row in fetch_maa.sources() if int(Path(row[0]).name[:4]) in scope]
     expected_core = {f"MAA/papers/{year}_MAA_{kind}_{section}.pdf"
-                     for year in range(2016, 2026) for kind in ("Exam", "MarkingKey")
+                     for year in scope for kind in ("Exam", "MarkingKey")
                      for section in ("CalcFree", "CalcAssumed")}
     if not expected_core <= {row[0] for row in sources}:
-        errors.append("Manifest does not cover all 40 core PDFs")
+        errors.append("Manifest does not cover all core PDFs in scope")
     for rel, _, _ in sources:
         path = ROOT / rel
         if not path.exists():
@@ -32,6 +35,7 @@ def audit(labels=None):
             invalid.append({"path": rel, "error": str(exc)})
     qpath = ROOT / "MAA/questions.json"
     records = json.loads(qpath.read_text(encoding="utf-8")) if qpath.exists() else []
+    records = [q for q in records if int(q["year"]) in scope]
     catalogue = json.loads((ROOT / "tools/catalogue_MAA.json").read_text(encoding="utf-8"))
     patterns = {p["id"] for p in catalogue["patterns"]}
     topics = set(catalogue["topic_codes"])
@@ -83,6 +87,8 @@ def audit(labels=None):
     manual_checks = []
     part_count = 0
     for label in labels or []:
+        if int(label["year"]) not in scope:
+            continue
         ident = (str(label["year"]), label["section"], label["q"])
         if ident in labelled:
             errors.append(f"Duplicate label {ident}")
@@ -123,7 +129,7 @@ def audit(labels=None):
         required = (len(questions) + 4) // 5
         review_coverage.append({"year": group[0], "section": group[1], "reviewed": count, "required": required})
     review_ok = all(row["reviewed"] >= row["required"] for row in review_coverage)
-    return {"expected_core_pdfs": 40, "valid_pdfs": len(valid), "missing": missing, "invalid": invalid,
+    return {"years": sorted(scope), "expected_core_pdfs": len(expected_core), "valid_pdfs": len(valid), "missing": missing, "invalid": invalid,
             "questions": len(records), "labelled_questions": len(labelled & by_id.keys()), "labelled_parts": part_count,
             "unlabelled": [list(i) for i in sorted(by_id.keys() - labelled)], "pending": pending,
             "primary_reviewed": len(reviewed), "part_mark_conflicts": part_conflicts,
@@ -159,9 +165,12 @@ def main():
     parser.add_argument("--labels", type=Path)
     parser.add_argument("--out", type=Path, default=ROOT / "evidence/maa/audit.json")
     parser.add_argument("--export-partial", action="store_true", help="Export non-pending annotations even if some papers are missing")
+    parser.add_argument("--years", nargs="+", type=int, help="Audit selected years only; export still requires the full audit")
     args = parser.parse_args()
     labels = json.loads(args.labels.read_text(encoding="utf-8")) if args.labels else []
-    report = audit(labels)
+    if args.years and args.export_partial:
+        parser.error("Use a full audit to export, so existing years are not overwritten")
+    report = audit(labels, args.years)
     if args.export_partial:
         export_tags(labels, report)
     args.out.parent.mkdir(parents=True, exist_ok=True)
