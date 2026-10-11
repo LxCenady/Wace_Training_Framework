@@ -1,4 +1,4 @@
-# The subject pack file (`.wtfpack`) — protocol v1 (draft)
+# The subject pack file (`.wtfpack`) — protocol v1
 
 The end product of this workflow is **one file** that WTF imports in one click to become a subject:
 `<S>-<version>.wtfpack`, a zip with `pack.json` at its root. The pack carries everything hand-made
@@ -9,8 +9,11 @@ reads the manifest, fetches the papers listed (the wizard's usual download / sav
 
 Packs are WTF's main mods: a subject is added by publishing a pack, never by editing the framework. Packs are **data only** — no code. Behaviour a subject needs (a key parser, an answer checker) is a built-in handler of WTF that the pack names; a new kind of handler is the one case that needs a WTF release, and `requires_wtf` says which.
 
-Status: protocol designed 2026-10; importer/exporter not implemented yet. When implementing, also export
-MAM/MAS/MAA as packs and rebuild from them — byte-identical `wace.db` rows prove the protocol is complete.
+Status: local archive export/inspection/import implemented in `tools/pack.py`; GUI entry in
+题库 → 管理科目 → 导入学科包, also available in the setup wizard. Online index/distribution is not implemented.
+Only built-in `ticks` marking and `sympy`/`none` checkers are supported; unknown handlers are refused.
+MAM/MAS have known parity gaps: strict export refuses them. `--draft` is for local regression, stores
+`quality: draft`, and is explicitly shown in GUI confirmation; it does not declare publication readiness.
 
 ## Layout
 
@@ -64,6 +67,16 @@ Field rules:
 - `paper_layout`: `separate-sections` (maths) or `shared` (one exam/key containing multiple sections, Chemistry). This describes source files, not the number of sections or their timers.
 - `sections[].suggested_minutes`: optional advisory working time within a shared paper. It is separate from `minutes` (reading/working times of an independent paper). Chemistry uses whole-paper `paper_minutes`; do not invent separate reading periods for MC/SA/ER.
 - `sections[].share`: score weight, independent of raw marks. Yearly question counts and raw section totals come from the validated papers, not immutable pack constants. Calculate weighted scores per section before summing.
+- `scoring`: `{mode: "section-weighted", valid_from: 2024, valid_to: 2025, source: "https://…"}`.
+  `raw` uses earned/possible across the supplied questions. Weighted mode requires all positive section shares
+  to sum to 1; complete-paper score is `100 * sum(share * earned / possible)`.
+  For partial coverage, `paper_percent` is null; `weighted_contribution` is the known contribution and
+  `practice_percent` renormalizes only the included section shares. Missing sections are never assigned zero.
+  Caller supplies raw maxima for the exact paper/selection, never median targets. An explicit year outside
+  the verified range is refused. Bundled maths has verified CF/CA 35%/65% for 2024–2025; older years are not
+  certified by this metadata. This is an examination percentage, not a scaled ATAR or school course score.
+- `sketch_mode`: `legacy-maths` uses the existing built-in drawing detector; `words` treats `sketch_words`
+  as literal phrases. Imported packs cannot inject arbitrary executable expressions or drawing regexes.
 - Chemistry stage-0 evidence is in `CHE/README.md`. Its MC key can accept alternative letters; written rubrics can award a capped number of marks from alternatives. A handler must preserve these semantics rather than counting every alternative as an additional mark. Shared question stimuli must survive segmentation.
 - `subject`: 2–4 capital letters, unique; becomes the folder name and the id prefix `<S>-<year><letter>-Q<n>`.
 - `sections[].letter` is what `parttags.txt` uses (`2024A 9 …`); `code` is the file-name section
@@ -73,6 +86,10 @@ Field rules:
   `none`); packs never carry code — the app refuses a pack whose handler it does not have, saying which
   WTF version adds it.
 - `files` hashes every other file in the zip; the importer checks them.
+- Import accepts only the listed data paths, rejects traversal, Windows path aliases, links, duplicate names,
+  unlisted files, unknown handlers and bad hashes. Limits: 2,000 entries, 64 MiB per file, 256 MiB total.
+  Installation registers `pack.json` last and rolls back overwritten files on failure; no database is built
+  until the normal wizard completes. Installed `<S>/sources.tsv` overrides matching bundled manifest paths.
 
 ## Import (one click: 题库 → 管理科目 → 导入学科包…)
 

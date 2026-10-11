@@ -19,7 +19,7 @@ import pymupdf
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
 from build_docs import TOPICS  # noqa: E402
-from markpoints import points  # noqa: E402
+from handlers import key_parser  # noqa: E402
 from partmarks import for_tags, has_figure, is_sketch, split, tagged_texts, texts  # noqa: E402
 
 import subjects as subject_registry
@@ -132,7 +132,7 @@ def build(db_path, subjects=None):
                 parts = []
             if q["key"] not in docs:
                 docs[q["key"]] = pymupdf.open(os.path.join(ROOT, q["key"]))
-            pts = points(key_text(docs[q["key"]], q["key_regions"]))
+            pts = key_parser(subject_registry.info(subj))(key_text(docs[q["key"]], q["key_regions"]))
             printed = split(q["text"], q["marks"])
             paper = for_tags(printed, [l for l, _ in parts]) if printed else None
             # one tick per mark, and per part as printed: a key whose text runs out of order (MAA 2021 CA Q9) would
@@ -158,7 +158,7 @@ def build(db_path, subjects=None):
                     problems.append(f"{qid} ({label}): paper says {paper[label]} marks, key has {ticks} ticks")
                 n, src = (paper[label], "paper") if paper else (ticks, "key") if ticks is not None else (None, None)
                 db.execute("INSERT INTO parts VALUES (?,?,?,?,?,?)",
-                           (qid, label, j, n, src, int(is_sketch(part_text[label]))))
+                           (qid, label, j, n, src, int(is_sketch(part_text[label], subj))))
                 for p in pats:
                     if p not in known:
                         problems.append(f"{qid} {label}: unknown pattern {p}")

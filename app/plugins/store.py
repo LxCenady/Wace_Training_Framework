@@ -346,3 +346,6 @@ class Store:
 
 def setup(k):
     k.provide("store", Store(k.root, k.get("config").get("language", "zh")))
+    import scoring
+    k.provide('score.summary', lambda subject, results, year=None:
+              scoring.score(subjects.info(subject, k.root), results, year))

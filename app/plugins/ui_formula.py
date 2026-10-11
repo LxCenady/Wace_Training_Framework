@@ -41,7 +41,8 @@ def setup(k):
     canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
 
     def newest(s):
-        files = glob.glob(os.path.join(k.root, s, "papers", "*_FormulaSheet.pdf"))
+        files = [path for sheet in subjects.info(s)['sheets']
+                 for path in glob.glob(os.path.join(k.root, s, "papers", f"*_{sheet}.pdf"))]
         year = lambda f: int(re.match(r"(\d{4})", os.path.basename(f)).group(1))  # noqa: E731
         return max(files, key=year) if files else None
 

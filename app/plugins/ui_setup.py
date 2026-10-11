@@ -98,6 +98,7 @@ def setup(k):
 
     head = ttk.Frame(page)
     head.pack(fill="x", padx=16, pady=(14, 4))
+    ttk.Button(head, text='导入学科包…', command=lambda: k.get('subjects.import')()).pack(side='right')
     count = ttk.Label(head, style="H.TLabel")
     count.pack(side="left")
     bar = ttk.Progressbar(head, length=320, maximum=1)  # set in refresh(): the chosen subjects

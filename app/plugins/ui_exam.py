@@ -354,8 +354,15 @@ def setup(k):
         e = state["exam"]
         if e and state["score"] is not None and state["score"].winfo_exists():
             e = store.exam(e["id"])
+            year = int(str(e['refs'][0][1]).split('-')[1][:4]) if e['source'] == 'past' and e['refs'] else None
+            try:
+                summary = k.get('score.summary')(e['subject'],
+                          {e['section']: (e['total'] - e['lost'], e['total'])}, year)
+                extra = (f" · 本部分权重 {100 * summary['coverage']:.0f}%" if summary['coverage'] is not None else '')
+            except ValueError:
+                extra = ' · 此年份权重尚未核实'
             state["score"].configure(text=f"得分 {e['total'] - e['lost']} / {e['total']}"
-                                          f"（{100 * (e['total'] - e['lost']) / max(1, e['total']):.0f}%）")
+                                          f"（{100 * (e['total'] - e['lost']) / max(1, e['total']):.0f}%）" + extra)
 
     def changed():
         refresh_score()

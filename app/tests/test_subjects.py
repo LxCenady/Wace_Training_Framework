@@ -17,6 +17,7 @@ class Profiles(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.root = Path(self.tmp.name)
         self.profile = copy.deepcopy(subjects.info('MAM'))
+        self.profile['scoring'] = {'mode': 'raw'}
         self.profile.update(subject='CHE', course='Chemistry ATAR', order=3,
                             recognise={'title': ['chemistry']}, paper_minutes=[10, 180])
         self.profile['sections'] = [dict(code='MC', letter='M', zh='第一部分',

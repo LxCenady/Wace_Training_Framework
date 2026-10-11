@@ -2,4 +2,6 @@
 config
 i18n
 ui_shell
+ui_subjects
+subject_import
 ui_setup        # import the SCSA papers, build the question bank, restart into the full app

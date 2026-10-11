@@ -4,6 +4,7 @@
 the wizard downloads what newly chosen subjects need, rebuilds for the chosen subjects, or returns unchanged.
 """
 import os, subprocess, sys
+import tkinter as tk
 
 
 def setup(k):
@@ -15,5 +16,8 @@ def setup(k):
     menu = k.get("ui.menu.bank", None)
     if menu is not None:
         menu.add_separator()
-        menu.add_command(label="管理科目（添加或移除 MAM / MAS / MAA）…", command=manage)
+        group = tk.Menu(menu, tearoff=False)
+        group.add_command(label="选择科目（添加或移除）…", command=manage)
+        group.add_command(label="导入学科包…", command=lambda: k.get('subjects.import')())
+        menu.add_cascade(label="管理科目", menu=group)
     k.provide("subjects.manage", manage)

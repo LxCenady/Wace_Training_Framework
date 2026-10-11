@@ -224,7 +224,7 @@ class Pipeline:
             question += "\n\nFigure shown with the question (as data): " + json.dumps(figure, ensure_ascii=False)
         if getattr(self, "need_figure", False) and not figure:
             raise Failed("FIGURE REQUIRED: give the graph / diagram / axes the question works on in \"figure\"")
-        drawing = drawing_parts(stem, labels)
+        drawing = drawing_parts(stem, labels, subj)
         if getattr(self, "need_drawing", False) and not drawing:
             raise Failed("DRAWING PART REQUIRED: no part asks the student to sketch, draw, plot, shade or mark on the "
                          "figure")
@@ -260,7 +260,7 @@ class Pipeline:
             raise Failed(f"verification failed (parts {bad or '—'}): {v.get('feedback', '')}")
 
         # 3b SYMBOLIC CHECK — SymPy recomputes each numeric part; a disagreement sends the question back
-        checks = self.symbolic(parts, solved)
+        checks = self.symbolic(parts, solved) if subjects.info(subj)['checker'] == 'sympy' else {}
 
         # 4 MARKS — split the verified solution into one-mark behaviours
         total = sum(p["marks"] for p in parts)
@@ -329,14 +329,14 @@ class Pipeline:
         return result
 
 
-def drawing_parts(stem, labels):
+def drawing_parts(stem, labels, subject=None):
     """Labels of the parts that ask the student to draw (same rule as the real papers' parts.sketch)."""
     try:
         import partmarks  # tools/
     except ImportError:
         return []
     found = partmarks.tagged_texts(partmarks.texts(stem), labels)
-    return [l for l in labels if partmarks.is_sketch(found.get(l, ""))]
+    return [l for l in labels if partmarks.is_sketch(found.get(l, ""), subject)]
 
 
 def drawing_guide(store, subj, section, codes, roll=random.random):

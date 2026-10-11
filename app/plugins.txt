@@ -35,3 +35,4 @@ export_pdf      # worksheets: AI questions -> question paper + answer paper (PDF
 ui_formula      # official formula sheet pinned on the right, resizable
 updater         # GitHub releases: tell about a newer version, download + install on request
 ui_settings     # provider / base_url / model / API key dialog
+subject_import

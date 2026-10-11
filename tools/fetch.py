@@ -8,6 +8,7 @@ The SCSA site sits behind bot protection, so direct downloads of 2020+ papers ar
 open the printed URLs in a normal browser, save the PDFs, then import them with --from.
 """
 import os, re, shutil, sys, time, urllib.error, urllib.parse, urllib.request
+from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from paperid import identify  # noqa: E402
@@ -20,14 +21,27 @@ ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.p
 def sources(root=None, subjects=None):
     """-> list of (relative path, download URL, official URL, archived?); only `subjects` when given."""
     out = []
-    for line in open(os.path.join(root or ROOT, "sources.tsv"), encoding="utf-8"):
-        if line.strip():
-            path, url = line.rstrip("\n").split("\t")
-            if subjects is not None and path.split("/", 1)[0] not in subjects:
+    data_root = Path(root or ROOT)
+    manifests = [data_root / 'sources.tsv', *sorted(data_root.glob('*/sources.tsv'))]
+    merged = {}
+    for manifest in manifests:
+        if not manifest.exists():
+            continue
+        with manifest.open(encoding='utf-8') as file:
+            lines = file.read().splitlines()
+        for line in lines:
+            if not line.strip():
                 continue
-            archived = url.endswith(" (wayback)")
-            official = url[: -len(" (wayback)")] if archived else url
-            out.append((path, WAYBACK + official if archived else official, official, archived))
+            path, url = line.split("\t")
+            if manifest.parent != data_root and path.split('/', 1)[0] != manifest.parent.name:
+                raise ValueError(f'Source belongs to another subject: {manifest}')
+            merged[path] = url  # an installed pack supersedes the bundled manifest
+    for path, url in merged.items():
+        if subjects is not None and path.split("/", 1)[0] not in subjects:
+            continue
+        archived = url.endswith(" (wayback)")
+        official = url[: -len(" (wayback)")] if archived else url
+        out.append((path, WAYBACK + official if archived else official, official, archived))
     return out
 
 

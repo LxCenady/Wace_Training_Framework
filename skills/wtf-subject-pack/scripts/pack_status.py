@@ -57,7 +57,8 @@ for l in pt.splitlines():
     f = l.split("#")[0].split()
     if f:
         tagged[(f[0], int(f[1]))] = [c for tok in f[2:] for c in tok.split("=")[1].split("+")]
-want = {(f"{q['year']}{'A' if q['section'] == 'CalcAssumed' else 'F' if q['section'] == 'CalcFree' else q['section'][:1]}", q["q"]) for q in qs}
+import subjects
+want = {(f"{q['year']}{subjects.section_letter(S, q['section'], R)}", q["q"]) for q in qs}
 check("every question part-tagged", bool(want) and want <= set(tagged), f"{len(want - set(tagged))} untagged" if want - set(tagged) else f"{len(tagged)} lines")
 used = {c for v in tagged.values() for c in v}
 if codes:
@@ -93,7 +94,7 @@ check("skill blueprint block filled", bool(block and len(block.group(1).strip())
 # 11 app hooks
 for f, what in (("app/plugins/store.py", "SUBJECT_NAMES"), ("app/plugins/ui_setup.py", "SUBJECTS"),
                 ("app/plugins/generator.py", "SUBJECT"), ("tools/paperid.py", "identify")):
-    check(f"app hook {what} ({f})", f'"{S}"' in text(os.path.join(R, f)))
+    check(f"app hook {what} ({f})", S in subjects.names(R) and 'subjects' in text(os.path.join(R, f)))
 
 # 8 database
 db_path = os.path.join(R, "wace.db")

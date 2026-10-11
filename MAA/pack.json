@@ -34,7 +34,8 @@
       "short": "CF",
       "recognise": [
         "calculator-free"
-      ]
+      ],
+      "share": 0.35
     },
     {
       "code": "CalcAssumed",
@@ -48,7 +49,8 @@
       "short": "CA",
       "recognise": [
         "calculator-assumed"
-      ]
+      ],
+      "share": 0.65
     }
   ],
   "topics": [
@@ -96,5 +98,12 @@
   ],
   "sheets": [
     "FormulaSheet"
-  ]
+  ],
+  "scoring": {
+    "mode": "section-weighted",
+    "valid_from": 2024,
+    "valid_to": 2025,
+    "source": "https://senior-secondary.scsa.wa.edu.au/__data/assets/pdf_file/0008/1088936/Mathematics-Applications-ATAR-Year-12-Syllabus-for-teaching-from-January-2024_pdf.PDF"
+  },
+  "sketch_mode": "legacy-maths"
 }

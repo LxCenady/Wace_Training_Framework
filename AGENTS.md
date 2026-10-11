@@ -222,7 +222,19 @@ preserves every section in ignored `sections.json`; `question_mode: section-only
 while retaining the block (Chemistry MC). Synthetic three-section tests preserve drawing regions.
 The registry accepts shared-paper sections with `minutes: null` and whole-paper `paper_minutes`.
 Temporary rebuild compared 8,740 rows across questions, parts, part_patterns, points and patterns: 0 differences
-for MAM/MAS/MAA, also after a full smoke_setup pipeline rebuild. Handlers and pack import/export still need Phases 3–5.
+for MAM/MAS/MAA, also after a full smoke_setup pipeline rebuild.
+Phases 3–4 implemented locally (2026-10-11): built-in handler registry, metadata-selected key parser/checker,
+literal sketch words (legacy maths detector kept), metadata sheet filenames; `tools/pack.py` export/inspect/import,
+hash/version/path checks and failed-install rollback; GUI import via 管理科目 and the setup wizard.
+Installed subject manifests are read from `<S>/sources.tsv`. Online index/distribution (Phase 5) remains open.
+`tools/scoring.py` exposes raw/section-weighted scoring; full-paper percentage is absent on partial coverage.
+Bundled maths weights are verified CF 35% / CA 65% for 2024–2025, with official syllabus URLs and year bounds.
+Older years' weight metadata is not verified; question/part marks and all existing bank rows remain unchanged.
+MAA strict export passes (28/28). MAM/MAS strict export refuses their existing catalogue/points_ok gaps;
+`--draft` archives are marked draft and used only for local roundtrip regression, never declared publishable.
+Three exported/imported packs rebuilt offline into a fresh root: 15 subject/table comparisons, 8,740 rows,
+0 differences. Six app checks + four registry/segmentation tests + four pack/scoring/dialog tests pass;
+English and external English both 0 CJK. Protected files unchanged by SHA-256. No packaged/Mac binary built.
 All six app checks passed; both English smoke checks reported 0 CJK runs. Four registry/pipeline tests passed;
 protected config/generated/wace/external files remained unchanged by SHA-256. Evidence: `evidence/packs/` (ignored).
 The owner confirmed sections must be metadata: maths CF/CA, science Section One/Two/Three; verify science

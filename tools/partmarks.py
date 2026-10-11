@@ -119,6 +119,12 @@ def has_figure(stem):
     return bool(FIGURE.search(stem) or SPARE.search(stem))
 
 
-def is_sketch(text):
+def is_sketch(text, subject=None):
     """True when the part asks the student to draw: sketch / draw / plot / shade / mark or label on a diagram."""
+    if subject is not None:
+        import subjects
+        profile = subjects.info(subject)
+        if profile.get('sketch_mode', 'words') != 'legacy-maths':
+            return any(re.search(r'\b' + re.escape(word) + r'\b', text, re.I)
+                       for word in profile.get('sketch_words', []))
     return bool(SKETCH.search(text) or SPARE.search(text))
