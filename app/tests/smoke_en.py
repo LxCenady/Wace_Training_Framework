@@ -4,8 +4,8 @@ import os, re, sqlite3, subprocess, sys, time
 HERE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, HERE)
 from main import Kernel, find_root, plugin_names  # noqa: E402
-import tempfile as _tf, plugins.config as _config  # noqa: E402
-_config.PATH = os.path.join(_tf.gettempdir(), "wtf-test-config.json")  # never touch the user's settings
+from tests.safe_runtime import isolate  # noqa: E402
+isolate()
 sys.path.insert(0, os.path.join(find_root(), "tools"))  # like main(): tools/ modules are importable
 
 out = sys.argv[1]
@@ -101,8 +101,11 @@ k.get("search.show")()
 shot("en_8_search")
 k.get("mybank.show")()
 shot("en_9_mybank")
+k.get("external.show")()
+shot("en_10_external")
 left = visible_cjk()
 print(len(left), "CJK runs still visible")
 for r, ctx in sorted(left.items())[:40]:
     print(f"  {r!r:24} in {ctx!r}")
 root.destroy()
+assert not left, f"English interface contains {len(left)} untranslated CJK runs"

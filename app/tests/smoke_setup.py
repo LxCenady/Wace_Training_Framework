@@ -15,8 +15,8 @@ for f in subprocess.run(["git", "ls-files", "-z"], cwd=REPO, capture_output=True
 os.environ["WACE_MATHS_ROOT"] = data
 sys.path.insert(0, os.path.join(REPO, "app"))
 import main  # noqa: E402
-import tempfile as _tf, plugins.config as _config  # noqa: E402
-_config.PATH = os.path.join(_tf.gettempdir(), "wtf-test-config.json")  # never touch the user's settings
+from tests.safe_runtime import isolate  # noqa: E402
+isolate()
 
 sys.path.insert(0, os.path.join(data, "tools"))
 from kernel import Kernel  # noqa: E402

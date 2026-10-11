@@ -3,11 +3,14 @@
 config          # user settings (API keys) in the user's profile, not in the shared folder
 i18n            # English interface: translates CJK runs at the Tk boundary (i18n/en.json)
 store           # read-only past-paper DB (wace.db) + generated-question DB
+external_pdf    # external PDF inspection, question crop suggestions and manual rectangles
+external_store  # lazy independent external.db and external/ assets (never in SCSA statistics)
 render          # PDF region crops -> PNG
 llm             # provider registry: chat(system, user) -> text
 llm_openai      # OpenAI chat-completions format (any compatible base_url)
 llm_anthropic   # Anthropic messages format
 llm_mock        # offline provider for testing the pipeline
+external_tagger # user's configured API + shared external tagging skill -> reviewable tag drafts
 symcheck        # SymPy recomputes numeric answers in a sandboxed child process
 mathtext        # LaTeX in text: $...$ rendered with ziamath (Tk images, PDF vectors)
 figure          # figure specs (data, not code) -> exam-style drawings via ziaplot
@@ -19,6 +22,9 @@ ui_question     # past question crop + marking key revealed on demand
 ui_generate     # AI question view; mark points revealed only after verification
 ui_mybank       # 我的 AI 题库: searchable index of every generated question
 ui_search       # 真题搜索: past questions by any mix of patterns / units (cross-topic index)
+ui_external_crop # external PDF rectangle picker
+ui_external_question # external question/answer view and manual tagging review
+ui_external     # separate external library import and search (menu entry)
 ui_workspace    # 工作区: drag questions in from any list, reorder, export as one paper (出卷模式: CF/CA totals)
 ui_mistakes     # self-marking: right-click a part to record lost marks; 错题本 + targeted drills
 ui_explain      # 一键讲解: AI explanation of one recorded mistake (cached)

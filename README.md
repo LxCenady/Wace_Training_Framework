@@ -109,6 +109,37 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 > 6½. **真题搜索**（Ctrl+F，在「AI 生成相似题」旁边）：在左侧选题型或单元，查同时包含（或包含任一）的所有真题，可只看跨单元、含作图小问、有配图；列表下方是常一起出现的题型和单元（跨题型索引）；「导出 PDF」把结果从原卷矢量裁切成试题 + 评分标准。批量 AI 出题完成后也可「导出本批 PDF」。
 > 7. **掌握度地图**（Ctrl+G）：颜色是得分率，数字是该题型历年总分值。分值大又发红的，就是下一小时该去的地方。
 
+## External papers — kept separate from SCSA past questions
+
+Open **外源卷库 / External library** in the menu and import a PDF question paper together with its answer PDF.
+Enter the paper name, school or other source, subject and calculator section. Originals are copied into
+`external/`; crops, marks, text and tags live in a separate `external.db`. External questions are searched only
+in this library and never affect the SCSA knowledge tree, past-question search, paper totals or blueprint.
+
+Recognised `Question N` / `QN` headings produce unconfirmed crop drafts. Rotated or unrecognised layouts
+use manual cropping. Open a question and choose
+**编辑切块与标注** to inspect or redraw question/answer rectangles, add cross-page regions, set marks, and select
+multiple patterns. Unrecognised or scanned papers can be split manually with **新增题目或小问切块**; enter text
+manually for keyword search and AI tagging. OCR is not included. You can also isolate subquestions such as
+`Q1(a)` for their own tags. Answers remain hidden until you choose to reveal them.
+
+**AI 标注选中项** calls the provider, model and API key in your Settings. It reads both question and answer text,
+uses the current subject's pattern definitions and [external tagging skill](skills/wace-external-tagging/SKILL.md),
+and saves proposed tags with reasons for human review. It does not overwrite confirmed tags. Check crops,
+marks and tags before ticking the confirmation box. No API call is made just by importing or searching.
+
+For a batch of unconfirmed questions in one imported paper:
+
+```bat
+.venv\Scripts\python tools\tag_external.py --list
+.venv\Scripts\python tools\tag_external.py --paper <ID>
+```
+
+> 中文：外源试卷与答案成对导入、单独切块和标注；在「外源卷库」中独立检索，绝不混入 SCSA 真卷统计。
+> AI 标注使用你设置中的 API 和模型，题目与答案文字会发送给该服务商；结果是待人工确认的草稿。
+> 扫描件需要手动框选、补充文字，本版本不含 OCR。备份时同时保存 `external.db` 和 `external/`。
+> 外源原件、数据库和提取内容均留在本机，不进入 Git 或发行包。
+
 ## Quick start for developers
 
 ```bat
