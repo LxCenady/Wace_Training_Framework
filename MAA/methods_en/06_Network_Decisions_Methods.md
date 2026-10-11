@@ -2,7 +2,7 @@
 
 > Source: past exam questions from 2016–2025 (excluding 2019, which has no marking key) with sub-questions tagged NDM. These cover 37 questions and 15 patterns: 20 questions from the F paper (Calculator-free) and 17 from the A paper (Calculator-assumed). Pattern definitions are taken from `tools/catalogue_MAA.json`. Tags are drafts (draft_for_review); some have been checked. ★ marks the three patterns with the highest tagged marks (NDM10, NDM1, NDM6; about 20% of the 15 patterns).
 > Figures and mark-earning points are taken from the Specific behaviours in the marking keys and are paraphrased; algorithm steps are general solution methods. The original questions and marking files are kept in the local ignored directory, and this document does not copy question stems.
-> Review status: checked on 2026-10-11 by an independent reviewer against the original papers and keys (results in the Chinese review log `MAA/methods/` for files 04–06). No items remain to be checked in this file (2017A-Q8 is tagged only under FIN).
+> Review status: checked on 2026-10-11 by an independent reviewer against the original papers and keys (results in the Chinese review log `MAA/methods/审校记录.md`). No open review items remain in this file (2017A-Q8 is tagged only under FIN).
 
 ## Marking-key reminders
 
@@ -50,7 +50,7 @@
 
 **Common errors**: forgetting a compulsory connection; calculating cost from length without multiplying by the unit price; after a change, saying only that cost rises without giving the increase as a number; omitting units (metres, kilometres, dollars).
 
-**Past questions**: 2016F-Q1(b), 2018F-Q1(a), 2018F-Q1(b), 2020F-Q5(a)(ii), 2021A-Q15(b), 2022A-Q14(b)(i), 2022A-Q14(b)(ii), 2022A-Q14(c), 2024F-Q4(b), 2025A-Q11(c)(ii), 2025A-Q11(d)
+**Past questions**: 2016F-Q1(b), 2018F-Q1(a), 2018F-Q1(b), 2020F-Q5(a)(ii), 2020F-Q5(b), 2021A-Q15(b), 2021A-Q15(c), 2022A-Q14(b)(i), 2022A-Q14(b)(ii), 2022A-Q14(c), 2024F-Q4(b), 2025A-Q11(c)(ii), 2025A-Q11(d)
 
 ---
 
@@ -79,15 +79,15 @@
 **Steps**
 1. Record the project start time as 0, and calculate from left to right through the network.
 2. For each activity: ES = the maximum of (ES + duration) over all immediate predecessors (take the largest, not the sum).
-3. If the question gives a start clock time or an intermediate break, convert days or hours into clock times (for example, the worker in 2018F-Q6 starts at 6:30 and has a 30-minute break at 12:30; see the note under Pattern 5).
+3. If the question gives a start clock time or an intermediate break, convert days or hours into clock times (an example is in the note under Pattern 5).
 
 **Mark-earning points (typical key wording)**: the value is correct (2016F-Q2(b)(i)); the conversion to clock time is correct.
 
 **Common errors**: taking the sum instead of the maximum; confusing time units (hours and days).
 
-**Past questions**: 2016F-Q2(b)(i), 2017A-Q11(c), 2020A-Q16(b) (the key rewards only the critical activities and the project duration; ES is an intermediate step), 2021A-Q13(d) (the key rewards only the critical path and the duration, as above)
+**Past questions**: 2016F-Q2(b)(i), 2017A-Q11(c)
 
-> Note: Pattern 4 has only 5 tags, so this section is brief.
+> Note: Pattern 4 has only 2 tags, so this section is brief.
 
 ---
 
@@ -104,9 +104,9 @@
 
 **Common errors**: taking the maximum instead of the minimum in a backward scan; treating ES as LST; a date conversion off by one day.
 
-**Past questions**: 2016F-Q2(b)(ii), 2017A-Q11(c), 2018F-Q6(d)(i), 2018F-Q6(d)(ii) (see mark-earning points), 2020A-Q16(b) (the key rewards only the critical activities and the duration; LST is an intermediate step), 2021A-Q13(d) (the key rewards only the critical path and the duration, as above), 2022F-Q4(c), 2025A-Q10(c)
+**Past questions**: 2016F-Q2(b)(ii), 2017A-Q11(c), 2018F-Q6(d)(i), 2018F-Q6(d)(ii), 2022F-Q4(c), 2025A-Q10(c)
 
-> Note: Pattern 5 has only 7 tags, so this section is brief.
+> Note: Pattern 5 has only 6 tags, so this section is brief.
 
 ---
 
@@ -145,7 +145,7 @@
 
 **Common errors**: writing a non-zero float for a critical activity; explanation questions answered with numbers only and no context (the 2025 report requires answers in context); ignoring the mutual effect of float on the same path.
 
-**Past questions**: 2016F-Q2(b)(iii), 2017A-Q11(c), 2018F-Q6(c)(i), 2018F-Q6(c)(ii), 2020A-Q16(c), 2020A-Q16(d), 2020A-Q16(e), 2021A-Q13(e), 2021A-Q13(g), 2021A-Q13(h), 2022F-Q4(d), 2023F-Q6(c), 2023F-Q6(d), 2024A-Q9(c)(i), 2024A-Q9(c)(ii), 2024A-Q9(d), 2025A-Q10(d)(i), 2025A-Q10(d)(ii), 2025A-Q10(e)(ii)
+**Past questions**: 2016F-Q2(b)(iii), 2017A-Q11(c), 2018F-Q6(c)(i), 2018F-Q6(c)(ii), 2020A-Q16(c), 2020A-Q16(d), 2020A-Q16(e), 2021A-Q13(e), 2021A-Q13(h), 2023F-Q6(c), 2023F-Q6(d), 2024A-Q9(c)(i), 2024A-Q9(c)(ii), 2024A-Q9(d), 2025A-Q10(d)(i), 2025A-Q10(d)(ii)
 
 ---
 
@@ -164,7 +164,7 @@
 
 **Common errors**: ignoring arc direction (the arrows determine how the cut capacity is calculated; the 2018 report specifically warns about this); a cut missing a vertex, or counting reverse arcs; path flow exceeding the remaining capacity of a shared arc; confusion of units (per minute and per hour); the 2025 report notes that explaining a cut in a maximum-flow diagram is a weak area.
 
-**Past questions**: 2016A-Q9(a), 2016A-Q9(b), 2017A-Q13(a), 2017A-Q13(b), 2018A-Q17(e)(ii), 2020A-Q15(b), 2020A-Q15(d), 2021A-Q16(c), 2021A-Q16(e), 2022A-Q12(a)(i), 2022A-Q12(a)(ii), 2022A-Q12(b), 2023A-Q11(a), 2024F-Q3(b), 2025A-Q13(d)
+**Past questions**: 2016A-Q9(a), 2016A-Q9(b), 2017A-Q13(a), 2017A-Q13(b), 2017A-Q13(c)(ii), 2018A-Q17(e)(ii), 2020A-Q15(b), 2020A-Q15(d), 2021A-Q16(c), 2021A-Q16(e), 2022A-Q12(b), 2023A-Q11(a), 2024F-Q3(b), 2024F-Q3(e), 2025A-Q13(d)
 
 ---
 
@@ -175,10 +175,10 @@
 **Steps**
 1. On the left, place the people (or workers); on the right, the tasks (or machines). Edges show feasible assignments, labelled with weights (times, costs, outputs).
 2. Matrix: rows correspond to the left side, columns to the right side, and entries are the weights of the corresponding pairs; infeasible positions are filled according to the convention stated.
-3. If the numbers of rows and columns differ, add a column or row of zeros (dummy assignments) to make the matrix square (2018F-Q4(b)), so that the Hungarian algorithm can be applied.
+3. If the numbers of rows and columns differ, add a column or row of zeros (dummy assignments) to make the matrix square, so that the Hungarian algorithm can be applied (see Pattern 10).
 4. To draw a bipartite graph from an adjacency matrix, a position with a 1 means assignment is possible, and the corresponding edge is drawn (2021F-Q2(a)).
 
-**Mark-earning points (typical key wording)**: matrix entries correct (2016F-Q3(a) is banded by the number of correct entries; 2020F-Q3(a)); edges and weights correct (2018F-Q4(a), 2023F-Q5(a)); the reason for adding a column or row of zeros (2018F-Q4(b)).
+**Mark-earning points (typical key wording)**: matrix entries correct (2016F-Q3(a) is banded by the number of correct entries; 2020F-Q3(a)); edges and weights correct (2018F-Q4(a), 2023F-Q5(a)); the reason for adding a column or row of zeros (see Pattern 10).
 
 **Common errors**: rows and columns swapped; infeasible entries missing from the matrix; applying the Hungarian algorithm to a non-square matrix without adding zeros; in 2023F-Q5(b), the key requires a column of zeros to be added, so pay attention to which objects (people or tasks) the added column corresponds to.
 
@@ -234,11 +234,11 @@
 3. If the capacity of some cut equals the value of the maximum flow, that cut is a minimum cut, and the maximum flow is verified.
 4. Explanation questions: when the capacity of one arc changes, only arcs on the minimum cut affect the maximum flow (questions such as 2017A-Q13(c) choose a road on this basis).
 
-**Mark-earning points (typical key wording)**: interpreting the cut correctly, writing an equation and finding x (2020A-Q15(a)); all three cut capacities calculated (2018A-Q17(a)); the minimum cut drawn correctly (2016A-Q9(b), 2017A-Q13(b), 2021A-Q16(e), 2022A-Q12(c), 2023A-Q11(b), 2024F-Q3(c), 2025A-Q13(e)); explaining the cut (2025A-Q13(c)(ii)); arcs that can increase the flow (2016A-Q9(e), 2017A-Q13(c)(i), (ii)).
+**Mark-earning points (typical key wording)**: interpreting the cut correctly, writing an equation and finding x (2020A-Q15(a)); all three cut capacities calculated (2018A-Q17(a)); the minimum cut drawn correctly (2016A-Q9(b), 2017A-Q13(b), 2021A-Q16(e), 2022A-Q12(c), 2023A-Q11(b), 2024F-Q3(c), 2025A-Q13(e)); explaining the cut (2025A-Q13(c)(ii)); arcs that can increase the flow (2017A-Q13(c)(i), (ii); the augmenting-path example is under Pattern 14).
 
 **Common errors**: counting reverse arcs when calculating the cut; an incomplete division of the vertices (a vertex left without assignment to a side); in 2025A-Q13(f) (1 mark), the key requires an explanation of why cut 3 is not valid: the reason is that cut 3 does not separate the sink (H) from the source (A), so it does not satisfy the definition of a cut. The 2025 report notes that explaining cuts in a maximum-flow diagram is a weak area.
 
-**Past questions**: 2016A-Q9(b), 2016A-Q9(e), 2017A-Q13(b), 2017A-Q13(c)(i), 2017A-Q13(c)(ii), 2018A-Q17(a), 2018A-Q17(e)(ii), 2020A-Q15(a), 2020A-Q15(b), 2020A-Q15(d), 2021A-Q16(a)(i), 2021A-Q16(a)(ii), 2021A-Q16(e), 2022A-Q12(c), 2023A-Q11(b), 2024F-Q3(c), 2025A-Q13(c)(i), 2025A-Q13(c)(ii), 2025A-Q13(e), 2025A-Q13(f)
+**Past questions**: 2016A-Q9(b), 2017A-Q13(b), 2017A-Q13(c)(i), 2017A-Q13(c)(ii), 2018A-Q17(a), 2018A-Q17(e)(ii), 2020A-Q15(a), 2020A-Q15(b), 2020A-Q15(d), 2021A-Q16(a)(i), 2021A-Q16(a)(ii), 2021A-Q16(e), 2022A-Q12(c), 2023A-Q11(b), 2024F-Q3(c), 2024F-Q3(e), 2025A-Q13(c)(i), 2025A-Q13(c)(ii), 2025A-Q13(e), 2025A-Q13(f)
 
 ---
 
@@ -269,13 +269,13 @@
 1. From the current feasible flow, find a path from S to T on which every arc still has spare capacity (spare = capacity − current flow).
 2. The flow that can be added = the smallest spare capacity on the path.
 3. Update the flow and spare capacity on each arc, and repeat until no augmenting path exists; the flow is then maximal.
-4. Only if an arc on the minimum cut is upgraded can the maximum flow increase; which segment to upgrade and by how much must be judged from the spare capacities and the cut capacities together (2024F-Q3(e)).
+4. Only if an arc on the minimum cut is upgraded can the maximum flow increase; which segment to upgrade and by how much must be judged from the spare capacities and the cut capacities together (see Patterns 8 and 12).
 
-**Mark-earning points (typical key wording)**: the path is correct (2018A-Q17(e)(i)); the right arcs are chosen and justified (2022A-Q12(d) requires reasons); the correct increment and new maximum flow (2024F-Q3(e)).
+**Mark-earning points (typical key wording)**: the path is correct (2018A-Q17(e)(i)); the right arcs are chosen and justified (2022A-Q12(d) requires reasons); the correct increment and new maximum flow (see Pattern 8).
 
 **Common errors**: spare capacity not reduced; choosing an arc not on the bottleneck for upgrade; only giving the arcs without the reason.
 
-**Past questions**: 2018A-Q17(e)(i), 2022A-Q12(d), 2024F-Q3(e)
+**Past questions**: 2016A-Q9(e), 2018A-Q17(e)(i), 2022A-Q12(d)
 
 > Note: Pattern 14 has only 3 tags, so this section is brief. In the catalogue, this pattern's syllabus status is "related".
 
@@ -294,6 +294,6 @@
 
 **Common errors**: ignoring the arrow direction; confusing a "source" in the situation (such as a supply facility) with a source node in the network.
 
-**Past questions**: 2024F-Q3(a), 2025A-Q13(a), 2025A-Q13(b)
+**Past questions**: 2022A-Q12(a)(i), 2022A-Q12(a)(ii), 2024F-Q3(a), 2025A-Q13(a), 2025A-Q13(b)
 
-> Note: Pattern 15 has only 3 tags, so this section is brief. In the catalogue, this pattern's syllabus status is "related".
+> Note: Pattern 15 has only 5 tags, so this section is brief. In the catalogue, this pattern's syllabus status is "related".

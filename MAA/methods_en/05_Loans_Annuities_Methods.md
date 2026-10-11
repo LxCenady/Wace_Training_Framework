@@ -2,7 +2,7 @@
 
 > Source: past exam questions from 2016–2025 (excluding 2019, which has no marking key) with sub-questions tagged FIN. These cover 25 questions and 10 patterns. Only 2017F-Q4 is from the F paper (Calculator-free); all others are from the A paper (Calculator-assumed). Pattern definitions are taken from `tools/catalogue_MAA.json`. Tags are drafts (draft_for_review); some have been checked.
 > Figures and mark-earning points are taken from the Specific behaviours in the marking keys and are paraphrased; formulas and steps are general solution methods. The original questions and marking files are kept in the local ignored directory, and this document does not copy question stems.
-> Review status: checked on 2026-10-11 by an independent reviewer against the original papers and keys (results in the Chinese review log `MAA/methods/` for files 04–06). The only item still to be checked is the payment timing for 2017A-Q8: the stem says payment at the start of the year, but the key's solution treats payment at the end of the period. Relevant references in this document are marked accordingly (to be checked).
+> Review status: checked on 2026-10-11 by an independent reviewer against the original papers and keys (results in the Chinese review log `MAA/methods/审校记录.md`). The payment timing for 2017A-Q8 is a known issue: the stem says payment at the start of the year, but the key's solution treats payment at the end of the period (key and stem disagree). Relevant references in this document are marked accordingly (known issue). The labelling was revised on 2026-10-12.
 
 ## Marking-key reminders
 
@@ -26,11 +26,11 @@
 3. State the initial value A_0 (principal or current balance); write the recursive rule and the initial value separately.
 4. When specific numbers are needed, substitute period by period, or use the compound interest formula in Pattern 3 to find the answer directly.
 
-**Mark-earning points (typical key wording)**: the two parts of the recursive rule each earn a mark, namely the multiplier (1 + r or an equivalent form) and the initial value (2018A-Q8(a)(ii), 2020A-Q12(a)(ii)); the rate per period must be correct for the compounding frequency in the question (2025A-Q8(b) requires the quarterly rate).
+**Mark-earning points (typical key wording)**: the two parts of the recursive rule each earn a mark, namely the multiplier (1 + r or an equivalent form) and the initial value (2018A-Q8(a)(ii), 2020A-Q12(a)(ii)); the rate per period must be correct for the compounding frequency in the question (quarterly-rate conversion is under Pattern 10).
 
-**Common errors**: using the annual rate directly as the rate per period; leaving out the ± d term when there are regular deposits; in 2020A-Q12(b), the repayment is made at the end of each year, so the time points must be aligned when writing the recursive rule.
+**Common errors**: using the annual rate directly as the rate per period; leaving out the ± d term when there are regular deposits; repayment timing must be aligned with the recursive rule (see Pattern 4).
 
-**Past questions**: 2018A-Q8(a)(ii), 2018A-Q16(d), 2018A-Q16(e), 2020A-Q12(a)(i), 2020A-Q12(a)(ii), 2020A-Q12(b), 2024A-Q10(a)(i), 2024A-Q10(a)(ii), 2025A-Q8(b)
+**Past questions**: 2018A-Q8(a)(ii), 2018A-Q16(e), 2020A-Q12(a)(i), 2020A-Q12(a)(ii)
 
 ---
 
@@ -48,7 +48,7 @@
 
 **Common errors**: comparing nominal rates without conversion; writing m as 360 or 12 for daily compounding; forgetting to divide by 100 when converting a percentage to a decimal. 2018A-Q8(b) asks how the nominal rate needed to reach the same final value changes when the compounding frequency changes; a conclusion without calculation loses marks. The reasons for the borrowing choice in 2017F-Q4(a) (choice of compounding period) must be based on this: at the same nominal rate, more frequent compounding gives a higher effective rate, and a higher cost of borrowing.
 
-**Past questions**: 2016A-Q12(a), 2016A-Q13(b), 2016A-Q16(b)(i), 2016A-Q16(b)(ii), 2016A-Q16(b)(iii), 2017A-Q8(a) (to be checked), 2017A-Q8(b), 2017F-Q4(a), 2018A-Q8(b), 2018A-Q16(a), 2018A-Q16(b), 2018A-Q16(c), 2020A-Q9(b), 2020A-Q9(e), 2021A-Q10(a), 2022A-Q8(a), 2024A-Q10(d), 2024A-Q13(f)
+**Past questions**: 2016A-Q13(b), 2016A-Q16(b)(i), 2016A-Q16(b)(ii), 2016A-Q16(b)(iii), 2017F-Q4(a), 2018A-Q8(b), 2018A-Q16(a), 2018A-Q16(b), 2018A-Q16(c), 2020A-Q9(e), 2022A-Q8(a), 2024A-Q10(d), 2024A-Q13(f), 2025A-Q12(a)(ii)
 
 ---
 
@@ -84,7 +84,7 @@
 
 **Common errors**: interest calculated using the annual rate; forgetting T_0, or writing T_0 as the balance after the first repayment (2021A-Q10(c) asks for the value at period 0 to be explained); using the old PV after a one-off repayment. The context of 2016A-Q12(e) states that if each repayment does not exceed the interest for that period, the balance does not fall and the loan is never repaid.
 
-**Past questions**: 2016A-Q12(b), 2016A-Q12(e), 2017A-Q14(a)(i), 2017A-Q14(a)(ii), 2017A-Q14(b), 2018A-Q14(a)(i), 2020A-Q11(b)(i), 2020A-Q11(b)(ii), 2020A-Q12(c)(i), 2021A-Q10(b), 2021A-Q10(c), 2022A-Q16(a), 2022A-Q16(b), 2023A-Q9(b), 2023A-Q9(c)(i), 2023A-Q9(c)(iii), 2023A-Q9(g), 2024A-Q6(a)(i), 2024A-Q6(a)(ii), 2024A-Q6(d)
+**Past questions**: 2016A-Q12(b), 2016A-Q12(e), 2017A-Q14(a)(i), 2017A-Q14(a)(ii), 2017A-Q14(b), 2018A-Q14(a)(i), 2020A-Q11(b)(i), 2020A-Q11(b)(ii), 2020A-Q11(c), 2020A-Q12(b), 2020A-Q12(c)(i), 2021A-Q10(b), 2021A-Q10(c), 2022A-Q16(a), 2022A-Q16(b), 2023A-Q9(a), 2023A-Q9(b), 2023A-Q9(c)(i), 2023A-Q9(c)(iii), 2023A-Q9(g), 2024A-Q6(a)(i), 2024A-Q6(a)(ii), 2024A-Q6(d)
 
 ---
 
@@ -95,14 +95,14 @@
 **Steps**
 1. For the payoff period, use the solver: PV = loan amount, PMT = each repayment (opposite sign to PV), FV = 0, solve for N. N is usually not a whole number; for the rounding method see Pattern 6.
 2. To clear the loan within a stated period, work back to PMT: PV, FV = 0, N and I are known; solve for PMT. Give the precision the question requires; for example, 2016A-Q12(f) is marked on rounding the payment up to the nearest cent.
-3. Comparing plans: find the number of periods, balance or total repayments for each plan, state which is better, and give the difference (2018A-Q14(c), 2020A-Q11(c)).
+3. Comparing plans: find the number of periods, balance or total repayments for each plan, state which is better, and give the difference (2018A-Q14(c); similar comparisons are under Pattern 4).
 4. If each repayment is no more than the interest for the period, the balance does not fall and the loan is never repaid (2016A-Q12(e)).
 
-**Mark-earning points (typical key wording)**: PMT is correct and rounded as required (2016A-Q12(f)); the number of periods is correct (2021A-Q10(d), 2023A-Q9(d), 2024A-Q6(c)(i), 2025A-Q8(f)(i)); when comparing plans, the balance or total of each is written out and the difference is given (2020A-Q11(c)); the reason for the chosen plan is valid (2018A-Q14(c)).
+**Mark-earning points (typical key wording)**: PMT is correct and rounded as required (2016A-Q12(f)); the number of periods is correct (2021A-Q10(d), 2023A-Q9(d), 2024A-Q6(c)(i), 2025A-Q8(f)(i)); when comparing plans, the balance or total of each is written out and the difference is given (similar comparisons are under Pattern 4); the reason for the chosen plan is valid (2018A-Q14(c)).
 
 **Common errors**: the unit of the number of periods (the question asks for months but the answer is given in years); the reason for paying in instalments must explain that the saving comes from reducing interest (2020A-Q11(a)); ignoring a final partial period's repayment (dealt with under Pattern 6).
 
-**Past questions**: 2016A-Q12(c), 2016A-Q12(e), 2016A-Q12(f), 2017A-Q14(c), 2018A-Q14(a)(ii), 2018A-Q14(c), 2020A-Q11(a), 2020A-Q11(c), 2020A-Q12(c)(ii), 2021A-Q10(d), 2023A-Q9(a), 2023A-Q9(d), 2023A-Q9(g), 2024A-Q6(c)(i), 2024A-Q6(d), 2025A-Q8(f)(i)
+**Past questions**: 2016A-Q12(c), 2016A-Q12(e), 2016A-Q12(f), 2017A-Q14(c), 2018A-Q14(a)(ii), 2018A-Q14(c), 2020A-Q11(a), 2020A-Q12(c)(ii), 2021A-Q10(d), 2023A-Q9(d), 2023A-Q9(g), 2024A-Q6(c)(i), 2024A-Q6(d), 2025A-Q8(f)(i)
 
 ---
 
@@ -132,14 +132,14 @@
 1. Match the rate periods: if interest compounds monthly and withdrawals are annual, first convert the compound rate to the equivalent effective annual rate (the key for 2025A-Q12(a)(ii) first finds the effective annual rate, and then writes the recursive rule).
 2. Initial value T_0 is the starting principal; recursive rule T_{n+1} = (1 + r)T_n − P, where P is the withdrawal per period.
 3. When the question asks for the balance after a withdrawal, take the value at the moment just after the withdrawal.
-4. To find the number of years it can be sustained: use the solver with PV, PMT, I and FV = 0 to obtain N in decimal form, then round it (2016A-Q16(a)(ii)).
+4. To find the number of years it can be sustained: use the solver with PV, PMT, I and FV = 0 to obtain N in decimal form, then round it (similar cases are under Pattern 8).
 5. The largest withdrawal that does not reduce the principal equals the interest each period, i.e. P = r × PV (2016A-Q16(a)(iii): first calculate the 6% interest, then explain that the principal will not fall).
 
 **Mark-earning points (typical key wording)**: the growth rate is correct (2016A-Q16(a)(i)); the withdrawal is correct; T_0 is correctly defined (2016A-Q16(a)(i) marks the growth rate, the withdrawal and T_0 separately); for balance questions, the initial balance and the balance at the time asked are marked separately (2016A-Q16(b)(ii)); the largest withdrawal is rounded down to the nearest hundred (2016A-Q16(b)(iii)); 2025A-Q12(a)(ii) requires the effective annual rate to be written before the recursive rule.
 
 **Common errors**: applying the annual rate directly when the compounding period and withdrawal period differ; calculating the largest withdrawal as a fraction of the principal, rather than as the period's interest; mixing up the timing of withdrawals and balances. The 2016 Q16 question was the hardest of that year (mean 42.26%); this pattern's sub-questions cover recursion, the number of years and the largest withdrawal.
 
-**Past questions**: 2016A-Q16(a)(i), 2016A-Q16(a)(iii), 2016A-Q16(b)(i), 2016A-Q16(b)(ii), 2016A-Q16(b)(iii), 2020A-Q9(a), 2021A-Q14(a)(i), 2021A-Q14(a)(ii), 2021A-Q14(a)(iii), 2022A-Q15(b)(i), 2023A-Q14(a), 2023A-Q14(b), 2024A-Q13(a), 2024A-Q13(b), 2024A-Q13(d)(ii), 2025A-Q12(a)(ii), 2025A-Q12(b)(i), 2025A-Q12(d)
+**Past questions**: 2016A-Q16(a)(i), 2016A-Q16(a)(iii), 2016A-Q16(b)(i), 2016A-Q16(b)(ii), 2016A-Q16(b)(iii), 2020A-Q9(a), 2020A-Q9(c), 2021A-Q14(a)(i), 2021A-Q14(a)(ii), 2021A-Q14(a)(iii), 2022A-Q15(b)(i), 2023A-Q14(a), 2023A-Q14(b), 2024A-Q10(a)(ii), 2024A-Q10(c), 2024A-Q13(a), 2024A-Q13(b), 2024A-Q13(d)(ii), 2025A-Q8(b), 2025A-Q12(a)(ii), 2025A-Q12(b)(i), 2025A-Q12(c), 2025A-Q12(d)
 
 ---
 
@@ -150,7 +150,7 @@
 **Steps**
 1. Parameters: N = total number of payments (years × P/Y); I = nominal annual rate; PV = present value; PMT = payment per period; FV = future value (balance 0 at the end, or the target amount); P/Y and C/Y are the number of payments per year and compoundings per year, entered as the question requires (2018A-Q11(a): both are 12).
 2. Sign convention: for the saver, PV and PMT have the same sign (both outgoing), and FV has the opposite sign if it is a target; for the borrower, PV is the principal received, the repayment PMT has the opposite sign to PV, and FV = 0 when the loan is cleared. Write the value of each parameter on the answer sheet so that it can be checked.
-3. Timing of payments: for payments at the end of each period, use the END mode; if the question states that interest is added before the payment, process it using the recursive rule (2022A-Q15(b)(i)).
+3. Timing of payments: for payments at the end of each period, use the END mode; if the question states that interest is added before the payment, process it using the recursive rule (see Pattern 7).
 4. When N is not a whole number, round it: the key for 2018A-Q11(b)(i) requires N to be rounded down to 12 years; the remainder after rounding is handled under the final-period treatment in Pattern 6.
 5. To find the rate: with N, PV, PMT and FV known, solve for I (2018A-Q11(b)(ii)).
 
@@ -158,7 +158,7 @@
 
 **Common errors**: N given as the number of years rather than the number of payments; deposits and withdrawals given the same sign; forgetting the balance left at the end of the term. 2016A-Q16(a)(ii) asks for the number of years in decimal form first, and then the whole number of years.
 
-**Past questions**: 2016A-Q16(a)(ii), 2017A-Q8(b), 2018A-Q11(a), 2018A-Q11(b)(i), 2018A-Q11(b)(ii), 2018A-Q16(f)(i), 2018A-Q16(f)(ii), 2020A-Q9(c), 2021A-Q10(f), 2022A-Q8(b)(i), 2022A-Q8(b)(ii), 2022A-Q15(b)(ii), 2023A-Q14(a), 2024A-Q10(b), 2024A-Q10(c), 2024A-Q13(d)(i), 2025A-Q8(c), 2025A-Q8(d), 2025A-Q12(b)(ii)
+**Past questions**: 2016A-Q16(a)(ii), 2017A-Q8(b), 2018A-Q11(a), 2018A-Q11(b)(i), 2018A-Q11(b)(ii), 2018A-Q16(f)(i), 2018A-Q16(f)(ii), 2021A-Q10(f), 2022A-Q8(b)(i), 2022A-Q8(b)(ii), 2022A-Q15(b)(ii), 2023A-Q14(a), 2024A-Q10(b), 2024A-Q10(c), 2024A-Q13(d)(i), 2025A-Q8(c), 2025A-Q8(d), 2025A-Q12(b)(ii)
 
 ---
 
@@ -173,11 +173,11 @@
 4. Annuity converting to perpetuity: first find the annuity balance at the time of conversion (this becomes the new PV), then find the payment per period (2023A-Q14(b), 2025A-Q12(c)).
 5. When using the solver, PV and FV should have opposite signs (the key for 2025A-Q12(c) includes this).
 
-**Mark-earning points (typical key wording)**: the rate per period is correct (2017A-Q8(a), to be checked: the key's solution is x = x(1 + 5.9%/12)¹² − 6000, i.e. x = 6000 ÷ i, where the effective annual rate i ≈ 6.06%, giving 98 974; the stem says the payment is made at the start of the year, but the key's solution uses end-of-period timing; with start-of-period payment the answer would be 104 974, so the key and the stem disagree on timing); P/Y, C/Y, PV and FV are all entered correctly (2020A-Q9(d), 2021A-Q14(b), 2024A-Q13(e)); the balance at conversion is correct (2023A-Q14(b)); 2025A-Q12(c) requires the annuity balance to be calculated, the equation set up, and a conclusion drawn; 2025A-Q12(d) requires the balances at year 8 and year 9 to be compared, to determine the longest period.
+**Mark-earning points (typical key wording)**: the rate per period is correct (2017A-Q8(a), known issue (the key and the stem disagree): the key's solution is x = x(1 + 5.9%/12)¹² − 6000, i.e. x = 6000 ÷ i, where the effective annual rate i ≈ 6.06%, giving 98 974; the stem says the payment is made at the start of the year, but the key's solution uses end-of-period timing; with start-of-period payment the answer would be 104 974, so the key and the stem disagree on timing); P/Y, C/Y, PV and FV are all entered correctly (2020A-Q9(d), 2021A-Q14(b), 2024A-Q13(e)); the balance at conversion is correct (2023A-Q14(b)); 2025A-Q12(c) requires the annuity balance to be calculated, the equation set up, and a conclusion drawn; 2025A-Q12(d) requires the balances at year 8 and year 9 to be compared, to determine the longest period.
 
 **Common errors**: dividing the annual rate directly by the number of payments; not converting when payment and compounding frequencies differ; treating a perpetuity as a finite annuity. The key for 2025A-Q12(d) gives two items, the balance at year 9 and the balance at year 8, so both comparison values must be written out before reaching a conclusion.
 
-**Past questions**: 2017A-Q8(a) (to be checked), 2020A-Q9(d), 2021A-Q14(b), 2022A-Q15(a), 2022A-Q15(c), 2023A-Q14(b), 2024A-Q13(e), 2025A-Q12(c), 2025A-Q12(d)
+**Past questions**: 2017A-Q8(a), 2020A-Q9(d), 2021A-Q14(b), 2022A-Q15(a), 2022A-Q15(c), 2023A-Q14(b), 2024A-Q13(e), 2025A-Q12(c), 2025A-Q12(d)
 
 ---
 
@@ -194,6 +194,6 @@
 
 **Common errors**: treating the nominal annual rate as the effective annual rate; using the wrong number of periods per year (12 for monthly, 4 for quarterly, 2 for half-yearly).
 
-**Past questions**: 2024A-Q6(b), 2024A-Q13(c), 2025A-Q8(e), 2025A-Q12(a)(i)
+**Past questions**: 2016A-Q12(a), 2017A-Q8(a), 2018A-Q16(d), 2020A-Q9(b), 2021A-Q10(a), 2022A-Q15(b)(i), 2022A-Q15(c), 2023A-Q9(a), 2023A-Q9(g), 2024A-Q6(b), 2024A-Q10(a)(i), 2024A-Q13(c), 2025A-Q8(b), 2025A-Q8(e), 2025A-Q12(a)(i)
 
-> Note: Pattern 10 (FIN10) has only 4 tags, so this section is brief.
+> Note: Pattern 10 (FIN10) has only 15 tags, so this section is brief.

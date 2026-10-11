@@ -1,7 +1,7 @@
 # MAA · Sequences: Growth and Decay — Patterns and Solution Approaches
 
 > Source: marking keys and exam reports for 23 past exam questions from 2016–2025 (excluding 2019) carrying the SEQ tag, 101 sub-questions in total (one sub-question may belong to several patterns). Based on the Specific behaviours descriptions in each sub-question's marking key, and on the exam reports for each year. 2019 has no marking key and is not included. Tags are drafts; some have been checked by hand. Pattern numbers agree with `evidence/maa/notes/SEQ.txt`. ★ = patterns ranked in roughly the top quarter by marks per sub-question in this topic (for this topic, Patterns 2 and 5).
-> Review status: every item has been checked line by line by an independent reviewer; the record is in the Chinese review log `MAA/methods/` (01–03). Items marked "(to be checked)" have insufficient evidence or raise labelling questions; the reasons are given in the review log.
+> Review status: every item has been checked line by line by an independent reviewer; the record is in the Chinese review log `MAA/methods/审校记录.md`. The labelling was revised on 2026-10-12, and no open review items remain.
 
 ## Marking-key reminders
 
@@ -28,7 +28,7 @@
 
 **Common errors**: whether the subscript starts at 0 or 1 does not match the question; the sign of d reversed; only the recursive rule written, with the initial value omitted.
 
-**Past questions**: 2016F-Q4(b)(i), 2017F-Q1(a), 2021F-Q6(a), 2022F-Q2(a)(i), 2023F-Q3(a), 2024F-Q1(a)(i), 2025A-Q6(a), 2025F-Q1(a) (8 sub-questions in total).
+**Past questions**: 2016F-Q4(b)(i), 2017F-Q1(a), 2021F-Q6(a), 2022F-Q2(a)(i), 2023F-Q3(a), 2024F-Q1(a)(i), 2025A-Q6(a), 2025F-Q1(a)
 
 ---
 
@@ -47,7 +47,7 @@
 
 **Common errors**: rounding the number of terms to the nearest integer instead of up to the next integer; confusing "the nth term" with "the nth week" or with the starting point (for example, the 12th month and the 11th term); using the original common difference after the change.
 
-**Past questions**: 2016F-Q4(c), 2017A-Q10(f), 2017F-Q1(b)(i), 2017F-Q1(b)(ii), 2020A-Q7(a), 2020A-Q7(b), 2020A-Q7(c), 2021F-Q1(a), 2021F-Q1(b), 2021F-Q1(c), 2021F-Q6(d), 2022F-Q2(a)(ii), 2022F-Q2(b), 2022F-Q2(c), 2023F-Q3(b), 2023F-Q3(c), 2023F-Q3(d), 2024F-Q1(a)(ii), 2024F-Q1(b), 2024F-Q1(c), 2024F-Q1(d), 2025F-Q1(c), 2025F-Q1(d) (23 sub-questions in total).
+**Past questions**: 2016F-Q4(c), 2017A-Q10(f), 2017F-Q1(b)(i), 2017F-Q1(b)(ii), 2020A-Q7(a), 2020A-Q7(b), 2020A-Q7(c), 2021F-Q1(a), 2021F-Q1(b), 2021F-Q1(c), 2021F-Q6(d), 2022F-Q2(a)(ii), 2022F-Q2(b), 2022F-Q2(c), 2023F-Q3(b), 2023F-Q3(c), 2023F-Q3(d), 2024F-Q1(a)(ii), 2024F-Q1(b), 2024F-Q1(c), 2024F-Q1(d), 2025F-Q1(c), 2025F-Q1(d)
 
 ---
 
@@ -61,7 +61,7 @@
 
 **Common errors**: joining the discrete points into a line or curve; scale misread (2017 and 2022 reports).
 
-**Past questions**: 2017F-Q1(a), 2025F-Q1(b) (2 sub-questions in total).
+**Past questions**: 2017F-Q1(a), 2025F-Q1(b)
 
 ---
 
@@ -79,7 +79,7 @@
 
 **Common errors**: using the reduction rate directly as the ratio (writing 0.14 instead of 0.86); taking the initial value at the wrong time; forgetting the rounding the question requires.
 
-**Past questions**: 2016A-Q7(a), 2016F-Q4(a)(i), 2016F-Q4(b)(ii), 2018F-Q7(a), 2020A-Q8(a), 2021A-Q11(b)(i), 2022A-Q9(b), 2023A-Q13(c) (8 sub-questions in total).
+**Past questions**: 2016A-Q7(a), 2016F-Q4(a)(i), 2016F-Q4(b)(ii), 2018F-Q7(a), 2020A-Q8(a), 2021A-Q11(b)(i), 2022A-Q9(b), 2023A-Q13(a)(ii), 2023A-Q13(c), 2024A-Q7(b)
 
 Note: 2016F-Q4(b)(ii) gives T_{n+1} = 1.5T_n and the value of T_2, and asks for the first three terms, so the earlier terms must be worked back from a known term (T_n = T_{n+1} ÷ ratio).
 
@@ -87,7 +87,7 @@ Note: 2016F-Q4(b)(ii) gives T_{n+1} = 1.5T_n and the value of T_2, and asks for 
 
 ## Pattern 5: Geometric nth term and growth or decay prediction ★
 
-**Recognition**: A fixed proportional growth or decay is given, and the question asks for the general term, the value at a particular time, when a threshold is reached, or to explain a growth rate. There are 39 sub-questions in the evidence, making this the most common pattern in this topic.
+**Recognition**: A fixed proportional growth or decay is given, and the question asks for the general term, the value at a particular time, when a threshold is reached, or to explain a growth rate. There are 37 sub-questions in the evidence, making this the most common pattern in this topic.
 
 **Approach and steps**
 1. General term: T_n = a·r^n (or a·r^(n−1), following the subscript in the question). The coefficient a is the initial value, and the base r is the common ratio (the key awards these separately, e.g. 2016A-Q7(c), 2024A-Q7(c)).
@@ -106,7 +106,7 @@ Note: 2016F-Q4(b)(ii) gives T_{n+1} = 1.5T_n and the value of T_2, and asks for 
 
 **Note**: 2022A-Q9(a) asks for an explanation of why "1200 × (0.86)^n" is the population after n weeks. The arguments accepted by the key include: a 14% decrease leaves 86% of the original, and 1200 is the initial population. There is also an alternative argument: if 0.86 corresponds to a yearly change, the expression is not one in weeks. (Checked: the question states "a decrease of 14% per year", but the key's main solution treats it as a weekly decrease (r = 0.86, initial value 1200); the alternative solution points out that under a yearly change the expression gives the population after n years, not n weeks.)
 
-**Past questions**: 2016A-Q7(b), 2016A-Q7(c), 2016A-Q7(d), 2016A-Q7(e), 2016F-Q4(a)(ii), 2017A-Q10(a), 2017A-Q10(b), 2017A-Q10(c), 2017A-Q10(d), 2017A-Q10(e), 2018A-Q14(b), 2018F-Q7(b), 2018F-Q7(c), 2020A-Q8(b), 2020A-Q8(c), 2021A-Q11(a)(i), 2021A-Q11(a)(ii), 2021A-Q11(b)(ii), 2021A-Q12(a), 2021A-Q12(b), 2021A-Q12(c), 2021F-Q6(b), 2022A-Q9(a), 2022A-Q9(c), 2022A-Q17(a), 2022A-Q17(b), 2022A-Q17(c), 2023A-Q13(a)(i), 2023A-Q13(a)(ii), 2023A-Q13(b), 2023A-Q13(d), 2023A-Q13(e), 2024A-Q7(a), 2024A-Q7(b), 2024A-Q7(c), 2024A-Q7(d), 2024A-Q7(f)(i), 2025A-Q6(c), 2025A-Q6(d) (39 sub-questions in total).
+**Past questions**: 2016A-Q7(b), 2016A-Q7(c), 2016A-Q7(d), 2016A-Q7(e), 2016F-Q4(a)(ii), 2017A-Q10(a), 2017A-Q10(b), 2017A-Q10(c), 2017A-Q10(d), 2017A-Q10(e), 2018A-Q14(b), 2018F-Q7(b), 2018F-Q7(c), 2020A-Q8(b), 2020A-Q8(c), 2021A-Q11(a)(i), 2021A-Q11(a)(ii), 2021A-Q11(b)(ii), 2021A-Q12(a), 2021A-Q12(b), 2021A-Q12(c), 2021F-Q6(b), 2022A-Q9(a), 2022A-Q9(c), 2022A-Q17(a), 2022A-Q17(b), 2022A-Q17(c), 2023A-Q13(a)(i), 2023A-Q13(b), 2023A-Q13(d), 2023A-Q13(e), 2024A-Q7(a), 2024A-Q7(c), 2024A-Q7(d), 2024A-Q7(f)(i), 2025A-Q6(c), 2025A-Q6(d)
 
 ---
 
@@ -118,13 +118,13 @@ Note: 2016F-Q4(b)(ii) gives T_{n+1} = 1.5T_n and the value of T_2, and asks for 
 1. Identify a, b and the initial value T_0.
 2. Substitute forward term by term from the initial value. Note whether the question asks "at the start of which week", and check that the corresponding term's subscript matches.
 3. When graphing, plot points at the interval the question specifies (e.g. one point every 5 years, starting at n = 5), then look at the trend.
-4. To find a and b from three consecutive terms: substitute into T_{n+1} = aT_n + b to obtain two equations, then solve them simultaneously (as in 2025A-Q6(f) under Pattern 8).
+4. To find a and b from three consecutive terms: substitute into T_{n+1} = aT_n + b to obtain two equations, then solve them simultaneously (method as in Pattern 8).
 
 **Mark-earning points**: term-by-term values correct (2025F-Q1(e)(i); 2018A-Q9(b), see the note below); points correct on the graph and covering all the points the question specifies (2017A-Q16(b): at least two points, all points); the value of the parameter c or k (2018A-Q9(d)(i)).
 
 **Common errors**: subscripts shifted (for example, matching "the start of week 5" to the wrong term); horizontal spacing on a graph not the interval the question requires.
 
-**Past questions**: 2017A-Q16(b), 2018A-Q9(b), 2018A-Q9(d)(i), 2018A-Q9(d)(ii), 2024A-Q7(e), 2025F-Q1(e)(i) (6 sub-questions in total). (2024A-Q7(e): b = 100, see Pattern 8.)
+**Past questions**: 2017A-Q16(b), 2018A-Q9(b), 2018A-Q9(d)(i), 2018A-Q9(d)(ii), 2025F-Q1(e)(i)
 
 **Note (2018A-Q9(b))**: the recursive rule in the question is M_{n+1} = 0.9(M_n − 12) + 15 with M_1 = 50. Calculating term by term, the fifth week gives 47.249, which rounds to about 47. The key's own calculation table also lists 47.249, but its written answer gives 48, which does not match the table. This note takes 47 as correct; the key's 48 is recorded in the review log.
 
@@ -144,7 +144,7 @@ Note: 2016F-Q4(b)(ii) gives T_{n+1} = 1.5T_n and the value of T_2, and asks for 
 
 **Common errors**: steady-state equation written incorrectly (treating T_n and T_{n+1} as different unknowns, or forgetting to bring b in); convergence not checked; rounding in the wrong direction.
 
-**Past questions**: 2017A-Q16(c), 2017A-Q16(d), 2018A-Q9(c), 2018A-Q9(e), 2020A-Q8(d), 2022A-Q9(d), 2024A-Q7(f)(ii), 2025F-Q1(e)(ii) (8 sub-questions in total).
+**Past questions**: 2017A-Q16(c), 2017A-Q16(d), 2018A-Q9(c), 2018A-Q9(e), 2020A-Q8(d), 2021F-Q6(c), 2022A-Q9(d), 2024A-Q7(f)(ii), 2025F-Q1(e)(ii)
 
 **2018A-Q9(c) (checked)**: (c) follows the model given at the start of the question, M_{n+1} = 0.9(M_n − 12) + 15. The steady state is M = 0.9(M − 12) + 15, which gives M = 42, so the key's 42 is correct. The steady state for N_{n+1} = 0.8(N_n − 12) + 15 is 27, which appears in (d)(ii); the key's 27 is also correct. The two models must not be mixed: for (c), the model for M (factor 0.9) is used, not the model for N (factor 0.8).
 
@@ -157,8 +157,8 @@ Note: 2016F-Q4(b)(ii) gives T_{n+1} = 1.5T_n and the value of T_2, and asks for 
 **Standard procedure**
 1. Split the change in each period into two parts: a proportional change (a multiplier: the proportion retained = 1 − loss rate, or 1 + growth rate) and a fixed increase or decrease (adding or subtracting a constant).
 2. Write T_{n+1} = aT_n + b, and state the initial value T_0 (the time given in the question).
-3. Interpret the coefficients: a is the proportion kept each period, and b is the fixed number added each period; write them in terms of the context of the question (2017A-Q16(a)(i), 2024A-Q7(f)(i); the latter carries only the tag SEQ5 in the labels, see the review log).
-4. Analysis: list the iterated values or graph them to see the trend; when comparing options, give reasons (2021F-Q6(c) asks for an explanation of why a particular option is chosen).
+3. Interpret the coefficients: a is the proportion kept each period, and b is the fixed number added each period; write them in terms of the context of the question (2017A-Q16(a)(i), 2024A-Q7(f)(i)).
+4. Analysis: list the iterated values or graph them to see the trend; when comparing options, give reasons (examples of comparing options are under Pattern 7).
 5. Find a and b from given data: take three consecutive terms and write two equations (2025A-Q6(f)).
 
 **Mark-earning points**: a and b each earn 1 mark (2024A-Q7(e)); when interpreting a coefficient, state both "each period" and the quantity that changes (2024A-Q7(f)(i)); 2017A-Q16(a)(ii) separately asks for the value of b.
@@ -167,7 +167,7 @@ Note: 2016F-Q4(b)(ii) gives T_{n+1} = 1.5T_n and the value of T_2, and asks for 
 
 **Checked, 2024A-Q7(e)**: the key gives a = 0.986 and b = 100. a comes from the decay rate changing from 3% to 1.4% (1 − 1.4% = 0.986). The unit of T is thousands of people, and the statement "100 000 new people each week" corresponds to b = 100 (thousands), so the units agree with T.
 
-**Past questions**: 2017A-Q16(a)(i), 2017A-Q16(a)(ii), 2017A-Q16(b), 2017A-Q16(c), 2017A-Q16(d), 2018A-Q9(a), 2018A-Q9(e), 2020A-Q8(d), 2021F-Q6(c), 2023A-Q13(c), 2024A-Q7(e), 2025A-Q6(f) (12 sub-questions in total).
+**Past questions**: 2017A-Q16(a)(i), 2017A-Q16(a)(ii), 2017A-Q16(b), 2017A-Q16(c), 2017A-Q16(d), 2018A-Q9(a), 2018A-Q9(e), 2020A-Q8(d), 2023A-Q13(c), 2024A-Q7(e), 2024A-Q7(f)(i), 2025A-Q6(f)
 
 ---
 
@@ -184,7 +184,7 @@ Note: 2016F-Q4(b)(ii) gives T_{n+1} = 1.5T_n and the value of T_2, and asks for 
 
 **Common errors**: an off-by-one error in the number of terms (only adding up to term n − 1); forgetting the initial quantity; giving only a conclusion when comparing, without the dates for each person.
 
-**Past questions**: 2020A-Q7(d), 2025A-Q6(b), 2025A-Q6(e) (3 sub-questions in total).
+**Past questions**: 2020A-Q7(d), 2025A-Q6(b), 2025A-Q6(e)
 
 ---
 

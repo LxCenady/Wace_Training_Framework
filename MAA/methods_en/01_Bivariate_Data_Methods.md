@@ -1,7 +1,7 @@
 # MAA · Bivariate Data Analysis — Patterns and Solution Approaches
 
 > Source: marking keys and exam reports for 26 past exam questions from 2016–2025 (excluding 2019) carrying the BIV tag, 173 sub-questions in total (one sub-question may belong to several patterns). Based on the Specific behaviours descriptions in each sub-question's marking key, and on the exam reports for each year. 2019 has no marking key and is not included. Tags are drafts; some have been checked by hand. Pattern numbers agree with `evidence/maa/notes/BIV.txt`. ★ = patterns ranked in roughly the top quarter by marks per sub-question in this topic (for this topic, Patterns 1, 4, 5 and 8).
-> Review status: every item has been checked line by line by an independent reviewer; the record is in the Chinese review log `MAA/methods/` (01–03). Items marked "(to be checked)" have insufficient evidence or raise labelling questions; the reasons are given in the review log.
+> Review status: every item has been checked line by line by an independent reviewer; the record is in the Chinese review log `MAA/methods/审校记录.md`. The labelling was revised on 2026-10-12, and no open review items remain.
 
 ## Marking-key reminders
 
@@ -23,14 +23,14 @@
 **Standard procedure**
 1. Row total = sum of the cells in that row; column totals are found the same way. The grand total must agree with both directions, which serves as a check.
 2. Missing cell: work back from the total (total minus the known cells).
-3. For a percentage table, first decide the direction: take percentages within the groups of the explanatory variable, so that each group of the explanatory variable sums to 100%. If the explanatory variable is in the rows, use row percentages (each row sums to 100); if it is in the columns, use column percentages (each column sums to 100). The key's ruling on row or column percentages is exactly this decision (2021F-Q4(c), 2023F-Q1(c)(i), 2024F-Q2(c)(i), etc.). The explanatory variables were checked question by question: the keys for 2017F-Q5(b) and 2022F-Q3(b) state that age is the explanatory variable, age is placed in the rows, and the key uses row percentages; for 2021F-Q4 and 2023F-Q1 the response variables are opinion and category respectively, so age is the explanatory variable, and the key again uses row percentages; the key for 2024F-Q2(b)(i) states that purchase price is set before complaints, so price is the explanatory variable, price is placed in the columns, and the key uses column percentages. The key rulings on all five percentage tables agree with this.
+3. For a percentage table, first decide the direction: take percentages within the groups of the explanatory variable, so that each group of the explanatory variable sums to 100%. If the explanatory variable is in the rows, use row percentages (each row sums to 100); if it is in the columns, use column percentages (each column sums to 100). The key's ruling on row or column percentages is exactly this decision (2021F-Q4(c), 2023F-Q1(c)(i), 2024F-Q2(c)(i), etc.). How the explanatory variable is identified in each question is set out under Pattern 11. The key rulings on all five percentage tables agree with this.
 4. Each percentage = cell frequency ÷ total of its group × 100. Keep enough decimal places on the calculator, then round to one decimal place or a whole number as the question requires.
 
 **Mark-earning points (typical key wording)**: correct cells are awarded in steps (at least 2 or 3 correct, all correct); choosing the right row or column percentage is itself worth marks; when the question says "show how", write out the numerator, denominator and calculation (2017F-Q5(c)(i), 2022F-Q3(c)(i)).
 
 **Common errors**: direction chosen wrongly, which makes the whole table's percentages meaningless; the denominator uses the grand total instead of the group total; forgetting the decimal places the question requires.
 
-**Past questions**: 2016A-Q11(a), 2016F-Q6(a), 2017F-Q5(a), 2017F-Q5(c)(i), 2017F-Q5(c)(ii), 2018A-Q10(a), 2020F-Q1(b), 2021F-Q4(a), 2021F-Q4(c), 2022F-Q3(a), 2022F-Q3(c)(i), 2022F-Q3(c)(ii), 2023F-Q1(a), 2023F-Q1(c)(i), 2024F-Q2(a), 2024F-Q2(c)(i), 2025F-Q2(a), 2025F-Q2(b)(i), 2025F-Q2(b)(ii), 2025F-Q2(c) (20 sub-questions in total).
+**Past questions**: 2016A-Q11(a), 2016F-Q6(a), 2017F-Q5(a), 2017F-Q5(c)(i), 2017F-Q5(c)(ii), 2018A-Q10(a), 2020F-Q1(b), 2021F-Q4(a), 2021F-Q4(c), 2022F-Q3(a), 2022F-Q3(c)(i), 2022F-Q3(c)(ii), 2023F-Q1(a), 2023F-Q1(c)(i), 2024F-Q2(a), 2024F-Q2(c)(i), 2025F-Q2(a), 2025F-Q2(b)(i), 2025F-Q2(b)(ii), 2025F-Q2(c)
 
 ---
 
@@ -48,7 +48,7 @@
 
 **Common errors**: saying only "there is an association" without the direction; comparing frequencies instead of proportions; comparing groups that do not correspond (2016F-Q6(c)(iii) compares A with the combined B and C).
 
-**Past questions**: 2016F-Q6(b), 2016F-Q6(c)(i), 2016F-Q6(c)(ii), 2016F-Q6(c)(iii), 2017F-Q5(d), 2020F-Q1(c), 2021F-Q4(d), 2022F-Q3(d), 2023F-Q1(c)(ii), 2024F-Q2(c)(ii), 2025F-Q2(d)(i), 2025F-Q2(d)(ii) (12 sub-questions in total).
+**Past questions**: 2016F-Q6(b), 2016F-Q6(c)(i), 2016F-Q6(c)(ii), 2016F-Q6(c)(iii), 2017F-Q5(d), 2018A-Q10(c), 2020F-Q1(c), 2021F-Q4(d), 2022F-Q3(d), 2023F-Q1(c)(ii), 2024F-Q2(c)(ii), 2025F-Q2(d)(i), 2025F-Q2(d)(ii)
 
 ---
 
@@ -65,7 +65,7 @@
 
 **Common errors**: axes not labelled; scale misread; saying "positive correlation" without the strength; describing a curved relationship as linear.
 
-**Past questions**: 2016A-Q8(b), 2016A-Q8(c), 2017A-Q12(a), 2017A-Q12(b), 2017A-Q12(d), 2018A-Q15(a), 2018F-Q3(a), 2020F-Q4(a), 2021A-Q9(b), 2022A-Q11(a), 2022A-Q11(c), 2023A-Q7(b), 2023A-Q7(d), 2024A-Q11(b), 2025A-Q9(b) (15 sub-questions in total).
+**Past questions**: 2016A-Q8(b), 2016A-Q8(c), 2017A-Q12(a), 2017A-Q12(d), 2018A-Q15(a), 2018F-Q3(a), 2020F-Q4(a), 2021A-Q9(b), 2022A-Q11(a), 2023A-Q7(b), 2023A-Q7(d), 2024A-Q11(b), 2025A-Q9(b)
 
 ---
 
@@ -76,14 +76,14 @@
 **Standard procedure**
 1. Enter all the data in the calculator's two-variable statistics mode and read off r (the regression equation and r² can be read at the same time).
 2. Sign: r has the same sign as the slope of the least-squares line. If only r² is given, r = ±√r², and the sign is set by the slope (2024A-Q11(a): the key requires both r² and r to be found, and accepts a negative value).
-3. Description: direction (positive or negative) + strength (using the numerical value of r given in the question) + linear. In the evidence for this topic, a key with r ≈ −0.6 is described as moderate (2020F-Q4(b)); r = 0.814 and 0.97 are described as strong (2023A-Q7(d), 2017A-Q9(a)(iv)).
+3. Description: direction (positive or negative) + strength (using the numerical value of r given in the question) + linear. In the evidence for this topic, a key with r ≈ −0.6 is described as moderate (2020F-Q4(b)); r = 0.97 is described as strong (2017A-Q9(a)(iv)), and r = 0.814 is a similar case under Pattern 3.
 4. Explanation questions (in context): name both variables, and state that r describes only the strength and direction of a linear association.
 
 **Mark-earning points**: the value of r (1 mark on its own, e.g. 2021A-Q9(e)(i)); direction and strength, 1 mark each (2021A-Q9(e)(iii), 2022A-Q11(d)); explanation questions must mention both variables (2022A-Q13(b)).
 
 **Common errors**: treating r² as r; dropping the minus sign (2023A-Q10(g) asks for an explanation of why r is negative, and needs the link between the square root and the slope); describing r as "causing" something (see Pattern 9); for "choose the most likely r" questions such as 2017A-Q12(c), look at both the direction and the spread of the graph.
 
-**Past questions**: 2016A-Q8(c), 2016A-Q8(f)(i), 2017A-Q9(a)(iv), 2017A-Q12(c), 2018A-Q15(b)(i), 2018A-Q15(b)(ii), 2020A-Q10(a), 2020F-Q4(b), 2021A-Q9(e)(i), 2021A-Q9(e)(ii), 2021A-Q9(e)(iii), 2021F-Q7(d), 2022A-Q11(b), 2022A-Q11(d), 2022A-Q13(b), 2023A-Q10(a), 2023A-Q10(g), 2023A-Q10(h), 2024A-Q11(a), 2024A-Q11(c), 2025A-Q9(c), 2025A-Q9(g), 2025F-Q5(f) (23 sub-questions in total; 2023A-Q10(h) and 2025A-Q9(g) are covered under Patterns 8 and 16 respectively).
+**Past questions**: 2016A-Q8(c), 2016A-Q8(f)(i), 2017A-Q9(a)(iv), 2017A-Q12(c), 2018A-Q15(b)(i), 2018A-Q15(b)(ii), 2020A-Q10(a), 2020F-Q4(b), 2021A-Q9(e)(i), 2021A-Q9(e)(ii), 2021A-Q9(e)(iii), 2021F-Q7(d), 2022A-Q11(b), 2022A-Q11(d), 2022A-Q13(b), 2023A-Q10(a), 2023A-Q10(g), 2023A-Q10(h), 2024A-Q11(a), 2024A-Q11(c), 2025A-Q9(c), 2025A-Q9(g), 2025F-Q5(f)
 
 ---
 
@@ -101,7 +101,7 @@
 
 **Common errors**: intercept and slope written the wrong way round; variable names not taken from the question; only one point plotted, or the two points used to draw the line not stated; line not drawn with a ruler.
 
-**Past questions**: 2016A-Q8(d)(i), 2016A-Q8(d)(ii), 2017A-Q9(a)(i), 2018A-Q15(b)(i), 2020A-Q10(b), 2021A-Q9(c), 2021A-Q9(g)(ii), 2022A-Q11(b), 2022A-Q11(c), 2023A-Q7(c), 2023A-Q10(a), 2023A-Q10(f), 2024A-Q11(d), 2024A-Q11(i), 2025A-Q9(c), 2025A-Q9(d), 2025F-Q5(c) (17 sub-questions in total).
+**Past questions**: 2016A-Q8(d)(i), 2016A-Q8(d)(ii), 2017A-Q9(a)(i), 2017A-Q12(b), 2018A-Q15(b)(i), 2020A-Q10(b), 2021A-Q9(c), 2021A-Q9(g)(ii), 2022A-Q11(b), 2022A-Q11(c), 2023A-Q7(c), 2023A-Q10(a), 2023A-Q10(f), 2024A-Q11(d), 2024A-Q11(i), 2025A-Q9(c), 2025A-Q9(d), 2025F-Q5(c)
 
 ---
 
@@ -118,7 +118,7 @@
 
 **Common errors**: writing "increase" when the slope is negative (the key for 2024A-Q11(e) requires "decrease"); omitting the unit; saying only "for each unit increase" without stating the unit of x (2020A-Q10(c) requires the wording "per 1 cm").
 
-**Past questions**: 2016A-Q8(d)(iii), 2017A-Q9(a)(iii), 2018A-Q15(b)(iii), 2018F-Q3(c)(i), 2020A-Q10(c), 2021A-Q9(d), 2022A-Q13(a), 2023A-Q10(b), 2023A-Q10(i), 2024A-Q11(e), 2024A-Q11(f), 2025A-Q9(e) (12 sub-questions in total).
+**Past questions**: 2016A-Q8(d)(iii), 2017A-Q9(a)(iii), 2018A-Q15(b)(iii), 2018F-Q3(c)(i), 2020A-Q10(c), 2021A-Q9(d), 2022A-Q13(a), 2023A-Q10(b), 2023A-Q10(i), 2024A-Q11(e), 2024A-Q11(f), 2025A-Q9(e)
 
 ---
 
@@ -136,7 +136,7 @@
 
 **Common errors**: mixing percentages and decimals; confusing "explained" with "unexplained"; giving the number without the context; forgetting the sign when finding r.
 
-**Past questions**: 2016A-Q8(e), 2017A-Q9(a)(v), 2018A-Q15(b)(iv), 2018F-Q3(b), 2020A-Q10(f), 2020F-Q4(c), 2020F-Q4(d), 2021A-Q9(f), 2022A-Q11(e), 2023A-Q7(e), 2024A-Q11(a), 2025A-Q9(i) (12 sub-questions in total).
+**Past questions**: 2016A-Q8(e), 2017A-Q9(a)(v), 2018A-Q15(b)(iv), 2018F-Q3(b), 2020A-Q10(f), 2020F-Q4(c), 2020F-Q4(d), 2021A-Q9(f), 2022A-Q11(e), 2023A-Q7(e), 2024A-Q11(a), 2025A-Q9(i)
 
 ---
 
@@ -156,7 +156,7 @@
 
 **Common errors**: judging the range using the value of r rather than the values of x; writing "not valid" without writing extrapolation; writing "reliable" when r is only moderate; substituting without a consistent variable coding.
 
-**Past questions**: 2016A-Q8(f)(i), 2016A-Q8(f)(ii), 2017A-Q9(a)(ii), 2018A-Q15(d), 2018F-Q3(c)(ii), 2020A-Q10(g)(i), 2020A-Q10(g)(ii), 2020F-Q4(e), 2020F-Q4(f), 2021A-Q9(g)(i), 2021A-Q9(h), 2022A-Q11(g)(i), 2022A-Q11(g)(ii), 2022A-Q13(c)(i), 2022A-Q13(c)(ii), 2023A-Q10(e), 2023A-Q10(h), 2024A-Q11(g), 2024A-Q11(h), 2025A-Q9(f)(i), 2025A-Q9(f)(ii), 2025A-Q9(f)(iii), 2025F-Q5(a), 2025F-Q5(b) (24 sub-questions in total).
+**Past questions**: 2016A-Q8(f)(i), 2016A-Q8(f)(ii), 2017A-Q9(a)(ii), 2018A-Q15(d), 2018F-Q3(c)(ii), 2020A-Q10(g)(i), 2020A-Q10(g)(ii), 2020F-Q4(e), 2020F-Q4(f), 2021A-Q9(g)(i), 2021A-Q9(h), 2022A-Q11(g)(i), 2022A-Q11(g)(ii), 2022A-Q13(c)(i), 2022A-Q13(c)(ii), 2023A-Q10(e), 2023A-Q10(h), 2024A-Q11(g), 2024A-Q11(h), 2025A-Q9(f)(i), 2025A-Q9(f)(ii), 2025A-Q9(f)(iii), 2025F-Q5(a), 2025F-Q5(b)
 
 ---
 
@@ -174,7 +174,7 @@
 
 **Common errors**: concluding causation because r is strong; reasons too general, with no specific factor named in context; for 2-mark questions, writing only that correlation is not causation without giving the context.
 
-**Past questions**: 2017A-Q12(e), 2018F-Q3(d), 2020F-Q4(g), 2021A-Q9(i), 2022A-Q11(f), 2022A-Q13(f), 2022A-Q13(g), 2023A-Q10(j), 2025A-Q9(h) (9 sub-questions in total).
+**Past questions**: 2017A-Q12(e), 2018F-Q3(d), 2020F-Q4(g), 2021A-Q9(i), 2022A-Q11(f), 2022A-Q13(f), 2022A-Q13(g), 2023A-Q10(j), 2025A-Q9(h)
 
 ---
 
@@ -188,7 +188,7 @@
 
 **Common errors**: statements with no context, which only restate numbers.
 
-**Past questions**: 2024A-Q11(k), 2025F-Q2(e) (2 sub-questions in total; examples are few, so the key's mark form is the main guide).
+**Past questions**: 2024A-Q11(k), 2025F-Q2(e)
 
 ---
 
@@ -202,7 +202,7 @@
 
 **Common errors**: the two roles reversed; writing only "age" instead of the full variable name; ignoring the causal direction given in the question.
 
-**Past questions**: 2016A-Q8(a), 2017F-Q5(b), 2020F-Q1(a), 2021A-Q9(a), 2021F-Q4(b), 2022F-Q3(b), 2023A-Q7(a), 2023F-Q1(b), 2024F-Q2(b)(i), 2024F-Q2(b)(ii), 2025A-Q9(a) (11 sub-questions, 1 mark each).
+**Past questions**: 2016A-Q8(a), 2017F-Q5(b), 2020F-Q1(a), 2021A-Q9(a), 2021F-Q4(b), 2022F-Q3(b), 2023A-Q7(a), 2023F-Q1(b), 2024F-Q2(b)(i), 2024F-Q2(b)(ii), 2024F-Q2(c)(i), 2025A-Q9(a)
 
 ---
 
@@ -220,9 +220,8 @@
 
 **Common errors**: comparing counts instead of rates; leaving out the base group for comparison.
 
-**Past questions**: 2016A-Q11(b), 2016A-Q11(c), 2016A-Q11(d), 2018A-Q10(b), 2018A-Q10(c), 2018A-Q10(d) (6 sub-questions from 2 questions).
+**Past questions**: 2016A-Q11(b), 2016A-Q11(c), 2016A-Q11(d), 2018A-Q10(b), 2018A-Q10(d)
 
-(To be checked (labelling): 2018A-Q10(c) asks for a description of the association between sales counts of two vehicle types, and the key awards only 1 mark; the conclusion is that sales of passenger vehicles are always higher than sales of sport utility vehicles, with no percentages involved. The catalogue rule says that when a question explicitly discusses association, it is also tagged BIV2; this sub-question carries only BIV12. Whether to add BIV2 is pending the labelling review. This note does not change the tags.)
 
 ---
 
@@ -236,7 +235,7 @@
 
 **Common errors**: percentage not converted to a decimal; unit conversion forgotten.
 
-**Past questions**: 2016A-Q11(e) (1 sub-question in total). (Key checked: 61.4% × Total = 1449.6 (thousands), giving Total ≈ 2 360 912 people, i.e. 2.36 million. This pattern has only this one sub-question, so no wider rule can be drawn from it.)
+**Past questions**: 2016A-Q11(e)
 
 ---
 
@@ -254,7 +253,7 @@
 
 **Common errors**: residual direction reversed (predicted minus observed); wrong variable substituted into the equation; explaining a residual only as "high" or "low" without saying relative to the prediction.
 
-**Past questions**: 2017A-Q9(b)(i), 2018A-Q15(c)(i), 2020A-Q10(d), 2020A-Q10(h), 2021F-Q7(a), 2022A-Q13(d), 2023A-Q10(c), 2024A-Q11(j), 2025F-Q5(d) (9 sub-questions in total).
+**Past questions**: 2017A-Q9(b)(i), 2018A-Q15(c)(i), 2020A-Q10(d), 2020A-Q10(h), 2021F-Q7(a), 2022A-Q13(d), 2023A-Q10(c), 2024A-Q11(j), 2025F-Q5(d)
 
 ---
 
@@ -271,7 +270,7 @@
 
 **Common errors**: horizontal axis wrongly chosen; negative residuals plotted above the zero line; scale misread.
 
-**Past questions**: 2017A-Q9(b)(ii), 2018A-Q15(c)(i), 2020A-Q10(d), 2021F-Q7(b), 2022A-Q13(d), 2023A-Q10(c), 2024A-Q11(j), 2025F-Q5(d) (8 sub-questions in total).
+**Past questions**: 2017A-Q9(b)(ii), 2018A-Q15(c)(i), 2020A-Q10(d), 2021F-Q7(b), 2022A-Q13(d), 2023A-Q10(c), 2024A-Q11(j), 2025F-Q5(d)
 
 ---
 
@@ -287,8 +286,8 @@
 
 **Mark-earning points**: the conclusion is correct (appropriate or not appropriate); the basis is correct (state that there is no pattern, or state the pattern that is present).
 
-**Common errors**: writing "not appropriate" without describing the residual pattern; using the size of r in place of the residual plot as the basis (the key for 2021F-Q7(d) treats the size of r as a separate basis, and the two must be written separately).
+**Common errors**: writing "not appropriate" without describing the residual pattern; using the size of r in place of the residual plot as the basis (the size of r is a separate basis, covered under Pattern 4, and the two must be written separately).
 
-**Past questions**: 2017A-Q9(b)(iii), 2018A-Q15(c)(ii), 2020A-Q10(e), 2021F-Q7(c), 2022A-Q13(e), 2023A-Q10(d), 2025A-Q9(g), 2025F-Q5(e) (8 sub-questions in total).
+**Past questions**: 2017A-Q9(b)(iii), 2018A-Q15(c)(ii), 2020A-Q10(e), 2021F-Q7(c), 2022A-Q13(e), 2023A-Q10(d), 2025A-Q9(g), 2025F-Q5(e)
 
 ---

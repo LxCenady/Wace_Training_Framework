@@ -1,6 +1,6 @@
 # MAA · Time Series Analysis — Patterns and Solution Approaches
 
-> Source: marking keys and exam reports for 10 past exam questions from 2016–2025 containing time series material, 68 sub-question tags (one sub-question may belong to several patterns; 64 distinct sub-questions after removing duplicates). 2019 has no marking key and is not included. Tags are drafts; on 2026-10-11 they were checked by an independent reviewer against the original papers and keys (results in the Chinese review log `MAA/methods/` for files 04–06). The original questions and marking keys are not published with the repository; see the local `evidence/maa`.
+> Source: marking keys and exam reports for 10 past exam questions from 2016–2025 containing time series material, 68 sub-question tags (one sub-question may belong to several patterns; 64 distinct sub-questions after removing duplicates). 2019 has no marking key and is not included. Tags are drafts; on 2026-10-11 they were checked by an independent reviewer against the original papers and keys (results in the Chinese review log `MAA/methods/审校记录.md`). The original questions and marking keys are not published with the repository; see the local `evidence/maa`.
 > Numbering: `2023A-Q8(h)` = sub-question (h) of question 8 of the 2023 Calculator-assumed paper; `F` = Calculator-free. ★ = patterns ranked highest by marks per sub-question in this topic (roughly the top quarter): TSI4 and TSI7.
 > Values marked as "author's check" were calculated by the note's author from the data in the evidence table, to illustrate the method. They are not the answers in the keys.
 
@@ -27,9 +27,8 @@
 4. The time numbering must match the question: if the equation has Q = 1 for the first quarter, do not start counting from 0.
 
 **Mark-earning points (typical key wording)**
-- Vertical intercept correct and slope correct (2017A-Q15(b)(iv), 2 marks).
+- The marks for the intercept and slope are set out under Pattern 6.
 - At least two points plotted correctly; all points plotted correctly and joined into a line (2018A-Q13(a), 2 marks).
-- The correct value at Q = 1 is marked on the graph, and a line with the correct slope is drawn (2018A-Q13(b)(i)).
 - A correct point is plotted first, then a second point is plotted and the least-squares line is extended through the given data (2021A-Q8(d)).
 
 **Common errors**
@@ -37,7 +36,7 @@
 - The line does not pass through the data region, or only one point is plotted.
 - The 2017 report advises that when drawing the least-squares line, the points used to draw it must be clearly marked.
 
-**Past questions**: 2017A-Q15(b)(iv), 2018A-Q13(a), 2018A-Q13(b)(i), 2021A-Q8(d)
+**Past questions**: 2018A-Q13(a), 2021A-Q8(d)
 
 ---
 
@@ -48,7 +47,7 @@
 **Approach**
 1. Trend: look at the overall direction over the long run. A negative slope of the least-squares line means a long-run decrease; a positive slope means a long-run increase (the key for 2016A-Q10(c)(i) judges a decrease on this basis).
 2. Seasonality: identify the regular peaks and troughs, i.e. high and low seasons, and name the season or the day of the week (2018A-Q13(b)(ii)).
-3. Irregular variation: the fluctuation that remains after the trend and seasonal components are removed. None of the time series sub-questions for 2016–2025 asks for outliers to be identified; the outlier question in 2024A-Q11(b) concerns bivariate data (BIV) and is outside the scope of this note.
+3. Irregular variation: the fluctuation that remains after the trend and seasonal components are removed. None of the time series sub-questions for 2016–2025 asks for outliers to be identified; outlier questions in bivariate data (BIV) are outside the scope of this note.
 4. Choosing a period for staff leave (2020A-Q14(d)): to minimise the effect on business, choose the period with the lowest seasonal index (a low season), and use the seasonal indices as evidence. The key's answer is winter, on the basis that the winter seasonal index of 74.6 is the lowest of the four seasons.
 
 **Mark-earning points (typical key wording)**
@@ -61,7 +60,7 @@
 - Writing only "increasing" or "decreasing" without describing the seasonal pattern.
 - Confusing the sign of the slope with whether the trend rises or falls, or stating the slope without explaining it in context.
 
-**Past questions**: 2016A-Q10(c)(i), 2018A-Q12(c) (multi-label, also Pattern 3), 2018A-Q13(b)(ii), 2020A-Q14(d)
+**Past questions**: 2016A-Q10(c)(i), 2018A-Q12(c), 2018A-Q13(b)(ii), 2020A-Q14(d)
 
 ---
 
@@ -93,7 +92,7 @@
 - Placing moving average values in the wrong row, away from the central period.
 - In 2018A-Q12(c), the 3-point or 4-point column cannot be chosen; the key chooses the 5-point column.
 
-**Past questions**: 2017A-Q15(a)(i), 2017A-Q15(a)(ii), 2018A-Q12(a), 2018A-Q12(b), 2018A-Q12(c) (multi-label, also Pattern 2), 2018A-Q13(c), 2021A-Q8(a), 2022F-Q5(a) (multi-label, also Pattern 4), 2023A-Q8(a) (multi-label, also Pattern 4), 2025A-Q7(a)
+**Past questions**: 2017A-Q15(a)(i), 2017A-Q15(a)(ii), 2018A-Q12(a), 2018A-Q12(b), 2018A-Q12(c), 2018A-Q13(c), 2021A-Q8(a), 2022F-Q5(a), 2023A-Q8(a), 2025A-Q7(a)
 
 ---
 
@@ -126,7 +125,7 @@
 - The mean used in the calculation is for the wrong period (the position of the seasonal mean).
 - The 2017, 2022 and 2023 reports note that basic arithmetic is a common weak point; take care with division and conversion between percentages.
 
-**Past questions**: 2016A-Q10(a), 2016A-Q10(b)(i), 2017A-Q15(b)(i), 2017A-Q15(b)(ii), 2018A-Q13(d)(i), 2020A-Q14(a), 2020A-Q14(b), 2021A-Q8(b), 2021A-Q8(c), 2022F-Q5(a) (multi-label, also Pattern 3), 2022F-Q5(b), 2023A-Q8(a) (multi-label, also Pattern 3), 2023A-Q8(b), 2023A-Q8(c), 2024A-Q8(a), 2024A-Q8(b), 2024A-Q8(d), 2024A-Q8(e) (multi-label, also Pattern 5), 2025A-Q7(b), 2025A-Q7(c)
+**Past questions**: 2016A-Q10(a), 2016A-Q10(b)(i), 2017A-Q15(b)(i), 2017A-Q15(b)(ii), 2018A-Q13(d)(i), 2020A-Q14(a), 2020A-Q14(b), 2021A-Q8(b), 2021A-Q8(c), 2022F-Q5(a), 2022F-Q5(b), 2023A-Q8(a), 2023A-Q8(b), 2023A-Q8(c), 2024A-Q8(a), 2024A-Q8(b), 2024A-Q8(d), 2024A-Q8(e), 2025A-Q7(b), 2025A-Q7(c)
 
 ---
 
@@ -154,12 +153,12 @@
 - 2025A-Q7(d): use the correct seasonal index and find A (2 marks).
 
 **Common errors**
-- Operations reversed: deseasonalising is division by the index, and restoring actual values is multiplication by it (the key for 2025A-Q7(e) also requires multiplication by the correct index).
+- Operations reversed: deseasonalising is division by the index, and restoring actual values is multiplication by it (a similar case is under Pattern 7).
 - Using a percentage index instead of converting it to a decimal.
 - Forgetting the units in the question (e.g. hundreds of dollars).
 - Estimating a weekly total of visits as a single day's value (the key for 2024A-Q8(e) requires an estimate for the week).
 
-**Past questions**: 2016A-Q10(b)(ii), 2017A-Q15(b)(iii), 2018A-Q13(d)(ii), 2020A-Q14(c), 2022F-Q5(c)(i), 2022F-Q5(c)(ii), 2023A-Q8(d), 2023A-Q8(e), 2024A-Q8(c), 2024A-Q8(e) (multi-label, also Pattern 4), 2024A-Q8(f), 2025A-Q7(d)
+**Past questions**: 2016A-Q10(b)(ii), 2017A-Q15(b)(iii), 2018A-Q13(d)(ii), 2018A-Q13(d)(iii), 2020A-Q14(c), 2022F-Q5(c)(i), 2022F-Q5(c)(ii), 2023A-Q8(d), 2023A-Q8(e), 2024A-Q8(c), 2024A-Q8(e), 2024A-Q8(f), 2025A-Q7(d)
 
 ---
 
@@ -184,7 +183,7 @@
 - Writing the equation as y = t + ... with variable names that do not match the question.
 - Giving only the slope, without explaining what it means.
 
-**Past questions**: 2020A-Q14(e), 2022F-Q5(d), 2023A-Q8(f), 2023A-Q8(g)
+**Past questions**: 2017A-Q15(b)(iv), 2018A-Q13(b)(i), 2020A-Q14(e), 2022F-Q5(d), 2023A-Q8(f), 2023A-Q8(g)
 
 ---
 
@@ -218,7 +217,7 @@
 - Treating an extrapolated result as a reliable prediction.
 - Not converting the units in the stem (hundreds of dollars).
 
-**Past questions**: 2016A-Q10(c)(ii), 2017A-Q15(b)(v), 2017A-Q15(b)(vi) (exception, see mark-earning points), 2018A-Q13(d)(iii), 2020A-Q14(f), 2021A-Q8(e)(i), 2021A-Q8(e)(ii), 2022F-Q5(e), 2023A-Q8(h), 2023A-Q8(i), 2024A-Q8(g), 2025A-Q7(e), 2025A-Q7(f)
+**Past questions**: 2016A-Q10(c)(ii), 2017A-Q15(b)(v), 2017A-Q15(b)(vi), 2020A-Q14(f), 2021A-Q8(e)(i), 2021A-Q8(e)(ii), 2022F-Q5(e), 2023A-Q8(h), 2023A-Q8(i), 2024A-Q8(g), 2025A-Q7(e), 2025A-Q7(f)
 
 ---
 
@@ -239,7 +238,7 @@
 - Saying only that the data fluctuate a lot, without giving the long-run direction.
 - The conclusion does not cite the slope.
 
-**Past questions**: 2020A-Q14(g) (this pattern has only 1 sub-question, so the conclusions are thin).
+**Past questions**: 2020A-Q14(g)
 
 ---
 
@@ -252,4 +251,4 @@ The following items that were previously marked for checking have been verified 
 - Pattern 5: the key for 2024A-Q8(c) is 45 ÷ 0.883 ≈ 51.0.
 - Pattern 7: the key for 2024A-Q8(g) also uses t = 30; the key for 2017A-Q15(b)(vi) judges the prediction reliable (within one cycle); this is written into the mark-earning points.
 - Pattern 8: this pattern has only one sub-question (2020A-Q14(g)), so its conclusions are thin.
-- Suggestions for labelling (tags not changed) are in the Chinese review log `MAA/methods/` for files 04–06.
+- The labelling was revised on 2026-10-12 to match the final tags; see the Chinese review log `MAA/methods/审校记录.md`.

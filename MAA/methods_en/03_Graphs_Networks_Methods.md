@@ -1,7 +1,7 @@
 # MAA · Graphs and Networks — Patterns and Solution Approaches
 
-> Source: marking keys and exam reports for 23 past exam questions from 2016–2025 containing graph and network material, 96 sub-question tags (one sub-question may belong to several patterns; 91 distinct sub-questions after removing duplicates). 2019 has no marking key and is not included. Checked line by line by an independent reviewer; the record is in the Chinese review log `MAA/methods/` (01–03). Items still marked "(to be checked)" have their reasons given in the review log. The original questions and marking keys are not published with the repository; see the local `evidence/maa`.
-> Numbering: `2023A-Q8(h)` = sub-question (h) of question 8 of the 2023 Calculator-assumed paper; `F` = Calculator-free. ★ = patterns ranked in roughly the top quarter by marks per sub-question: GRF3 (29 marks) is first, and GRF1 and GRF5 are joint second (28 marks each).
+> Source: marking keys and exam reports for 23 past exam questions from 2016–2025 containing graph and network material, 98 sub-question tags (one sub-question may belong to several patterns; 91 distinct sub-questions after removing duplicates). 2019 has no marking key and is not included. Checked line by line by an independent reviewer; the record is in the Chinese review log `MAA/methods/审校记录.md`. No open review items remain after the 2026-10-12 labelling revision. The original questions and marking keys are not published with the repository; see the local `evidence/maa`.
+> Numbering: `2023A-Q8(h)` = sub-question (h) of question 8 of the 2023 Calculator-assumed paper; `F` = Calculator-free. ★ = patterns ranked in roughly the top quarter by marks per sub-question: GRF4 (31 marks) is first, then GRF3 (29 marks) and GRF1 (28 marks) (recomputed from wace.db after the 2026-10-12 tag revision).
 > Boundary with NDM (Network and Decision Mathematics): project critical paths, minimum spanning trees, maximum flow and similar topics belong to NDM and are not covered in this note.
 
 ## Marking-key reminders
@@ -39,7 +39,7 @@
 - Giving only the edge in a bridge question, without its name (2021F-Q3(d)(ii) carries a separate mark).
 - For 2024F-Q5(a)(ii), which asks what else the planar graph shows, the key answer is "connected", which is the premise for Euler's formula. The question and key are consistent.
 
-**Past questions**: 2017F-Q3(b)(i), 2017F-Q3(b)(ii), 2017F-Q3(b)(iii), 2018F-Q5(a)(ii), 2018F-Q5(b)(ii), 2020F-Q2(a)(i), 2020F-Q2(a)(ii), 2020F-Q2(b)(i), 2021F-Q2(b)(ii), 2021F-Q2(c), 2021F-Q3(d)(i), 2021F-Q3(d)(ii), 2022F-Q1(a), 2024F-Q4(c)(ii), 2024F-Q5(a)(ii), 2024F-Q5(d), 2025F-Q3(a), 2025F-Q3(b) (multi-label)
+**Past questions**: 2017F-Q3(b)(i), 2017F-Q3(b)(ii), 2017F-Q3(b)(iii), 2018F-Q5(a)(ii), 2018F-Q5(b)(ii), 2020F-Q2(a)(i), 2020F-Q2(a)(ii), 2020F-Q2(b)(i), 2021F-Q2(b)(ii), 2021F-Q2(c), 2021F-Q3(d)(i), 2021F-Q3(d)(ii), 2022F-Q1(a), 2024F-Q4(c)(ii), 2024F-Q5(a)(ii), 2024F-Q5(d), 2025F-Q3(a), 2025F-Q3(b)
 
 ---
 
@@ -92,11 +92,11 @@
 - Calling a non-planar graph planar without indicating the redrawn graph.
 - The 2024 report notes that correctly verifying Euler's formula is a weak area.
 
-**Past questions**: 2016A-Q14(a), 2016F-Q5(a)(i), 2016F-Q5(a)(ii), 2016F-Q5(a)(iii), 2016F-Q5(b), 2017F-Q3(a)(i), 2017F-Q3(a)(ii), 2020F-Q2(a)(iii), 2021F-Q2(b)(i), 2021F-Q3(a), 2022F-Q1(c), 2023A-Q12(a), 2023A-Q12(b), 2024F-Q5(a)(i), 2025F-Q3(b) (multi-label)
+**Past questions**: 2016A-Q14(a), 2016F-Q5(a)(i), 2016F-Q5(a)(ii), 2016F-Q5(a)(iii), 2016F-Q5(b), 2017F-Q3(a)(i), 2017F-Q3(a)(ii), 2020F-Q2(a)(iii), 2021F-Q2(b)(i), 2021F-Q3(a), 2022F-Q1(c), 2023A-Q12(a), 2023A-Q12(b), 2024F-Q5(a)(i), 2025F-Q3(b)
 
 ---
 
-## Pattern 4: Shortest path in a weighted graph
+## Pattern 4: Shortest path in a weighted graph ★
 
 **Recognition**: A weighted network is given (numbers on the edges are distances, times or costs), and the question asks for the shortest route from A to B and its length, time or cost; or asks how the shortest route changes after a road is added or shortened.
 
@@ -120,11 +120,11 @@
 - Forgetting unit conversion (hundreds of metres, kilometres, minutes, dollars).
 - The 2020 report advises marking routes in a bold pen so that they are not confused.
 
-**Past questions**: 2018F-Q2(c), 2020A-Q13(b), 2020A-Q13(c), 2021F-Q5(a), 2021F-Q5(c)(ii), 2022A-Q10(c), 2023A-Q11(c), 2024F-Q4(e), 2025F-Q3(c), 2025F-Q3(d)
+**Past questions**: 2018F-Q2(c), 2020A-Q13(a), 2020A-Q13(b), 2020A-Q13(c), 2021F-Q5(a), 2021F-Q5(c)(ii), 2022A-Q10(b)(ii), 2022A-Q10(c), 2023A-Q11(c), 2024F-Q4(e), 2025F-Q3(c), 2025F-Q3(d)
 
 ---
 
-## Pattern 5: Euler trails and circuits ★
+## Pattern 5: Euler trails and circuits
 
 **Recognition**: The question asks whether a graph is Eulerian or semi-Eulerian, with reasons; asks whether a route can traverse every edge exactly once; asks for a feasible route, for an edge to add to make a route feasible, or for suggested stopping points or start points.
 
@@ -136,7 +136,7 @@
    - 4 or more: neither Eulerian nor semi-Eulerian (the conclusion of 2024F-Q4(d) is neither).
 3. Making the graph semi-Eulerian or Eulerian: add an edge between two odd vertices (2018F-Q5(c)(i)); after adding it, check that the edge is not a bridge (requirement of 2017F-Q7(a)(ii)).
 4. Writing the route: a route that does not return to the start must start at one of the two odd vertices (in 2022F-Q1(d), the key accepts D as the stopping point, on the basis that the route does not need to return to the stopping point).
-5. Naming the route: closed (returning to the start) is a circuit; not closed is a trail. The key for 2021F-Q3(c) is "semi-Eulerian trail" (the route in the question traverses each edge once, with different start and end points).
+5. Naming the route: closed (returning to the start) is a circuit; not closed is a trail. Examples of naming are under Pattern 8.
 6. When explaining the conclusion, state the number of odd vertices, e.g. the graph has two odd vertices, so it is semi-Eulerian.
 
 **Mark-earning points (typical key wording)**
@@ -153,7 +153,7 @@
 - Assuming a graph with two odd vertices can be closed.
 - 2025F-Q3(b) is a multi-label sub-question; the scoring rule for the three terms is given under Pattern 1.
 
-**Past questions**: 2016F-Q5(c), 2017F-Q3(a)(iv), 2017F-Q7(a)(i), 2017F-Q7(a)(ii), 2018F-Q5(c)(i), 2018F-Q5(c)(ii), 2020F-Q2(b)(ii), 2021F-Q3(b), 2021F-Q3(c), 2022A-Q10(a), 2022F-Q1(b), 2022F-Q1(d), 2023A-Q12(c), 2023F-Q2(d), 2024F-Q4(d), 2024F-Q5(b), 2025F-Q3(b) (multi-label)
+**Past questions**: 2016F-Q5(c), 2017F-Q3(a)(iv), 2017F-Q7(a)(i), 2017F-Q7(a)(ii), 2018F-Q5(c)(i), 2018F-Q5(c)(ii), 2020F-Q2(b)(ii), 2021F-Q3(b), 2022A-Q10(a), 2022F-Q1(b), 2022F-Q1(d), 2023A-Q12(c), 2023F-Q2(d), 2024F-Q4(d), 2024F-Q5(b), 2025F-Q3(b)
 
 ---
 
@@ -180,7 +180,7 @@
 - Revisiting a vertex (this breaks the definition of Hamiltonian; note that the shortest journey in Pattern 9 allows repetition).
 - Calling a Hamiltonian path a cycle, forgetting that it is not closed.
 
-**Past questions**: 2016A-Q14(c), 2016A-Q14(d), 2017F-Q3(a)(iii), 2018F-Q2(d), 2020F-Q2(b)(iii), 2021F-Q5(c)(i), 2021F-Q5(c)(ii) (also GRF4), 2022A-Q10(b)(i) (also GRF8), 2023A-Q12(d)(i), 2023A-Q12(d)(ii), 2024F-Q5(c), 2025F-Q3(b) (multi-label)
+**Past questions**: 2016A-Q14(c), 2016A-Q14(d), 2017F-Q3(a)(iii), 2018F-Q2(d), 2020A-Q13(a), 2020F-Q2(b)(iii), 2021F-Q5(c)(i), 2021F-Q5(c)(ii), 2022A-Q10(b)(i), 2022A-Q10(b)(ii), 2023A-Q12(d)(i), 2023A-Q12(d)(ii), 2024F-Q5(c), 2025F-Q3(b)
 
 ---
 
@@ -230,7 +230,7 @@
 - Calling a trail a path (a trail allows repeated vertices).
 - Saying only that the route returns to the start, without stating that each edge is traversed once.
 
-**Past questions**: 2016A-Q14(b), 2018F-Q2(b), 2021F-Q5(b), 2022A-Q10(b)(i) (multi-label, also in Pattern 6)
+**Past questions**: 2016A-Q14(b), 2018F-Q2(b), 2021F-Q3(c), 2021F-Q5(b), 2022A-Q10(b)(i)
 
 ---
 
@@ -246,19 +246,16 @@
 
 **Mark-earning points (typical key wording)**
 - Listing a route that visits all vertices, listing the shortest route, and giving the shortest time: each is worth 1 mark (2017F-Q6(a)).
-- 2022A-Q10(b)(ii): the key route is CBAGHFEDC (starting and ending at C, with each other vertex visited once), length 47, distance 4700 m; each of the three items is worth 1 mark.
-- 2020A-Q13(a): give a route visiting all vertices, identify the correct route, and give the length (1 mark each).
 
 **Common errors**
-- The routes in the keys for 2020A-Q13(a) and 2022A-Q10(b)(ii) do not revisit any vertex (the former is a Hamiltonian path, the latter a Hamiltonian cycle), which does not match this pattern's definition of allowing repetition. By definition they belong to GRF6 (the length part can also be classed under GRF4). Their tag is GRF9; this is a labelling matter recorded in the review log, and this note has not changed the tag (to be checked).
+- This pattern only includes questions that allow revisiting vertices (currently only 2017F-Q6(a)); routes that visit every vertex without revisiting (Hamiltonian paths or cycles) belong to GRF6, see Pattern 6.
 - Giving only the route, without the total weight.
 - Wrong end vertex (the question requires finishing at a specific vertex).
 
-**Past questions**: 2017F-Q6(a) (the only sub-question in this pattern that explicitly allows repetition), 2020A-Q13(a) (to be checked, see above), 2022A-Q10(b)(ii) (to be checked, see above)
+**Past questions**: 2017F-Q6(a)
 
 ---
 
-## Items to be checked
+## Review checks
 
-- Pattern 9: the tags for 2020A-Q13(a) and 2022A-Q10(b)(ii) are GRF9, but their keys require that no vertex is revisited, so they should be read as GRF6. The labels are set by the labeller; this note has not changed them, pending review.
-- The following entries have been checked against the original key and their text has already been revised: 2024F-Q5(a)(ii) (Pattern 1), 2025F-Q3(d) (Pattern 4), 2020A-Q13(c) (Pattern 4), 2021F-Q3(c) (Pattern 5), 2016A-Q14(c) (Pattern 6); see the review log for details.
+- The following entries have been checked against the original key and their text has already been revised: 2024F-Q5(a)(ii) (Pattern 1), 2025F-Q3(d) (Pattern 4), 2020A-Q13(c) (Pattern 4), 2021F-Q3(c) (Pattern 8), 2016A-Q14(c) (Pattern 6); see the review log for details.
