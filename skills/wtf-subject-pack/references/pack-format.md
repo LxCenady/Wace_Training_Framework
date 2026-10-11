@@ -7,6 +7,8 @@ and anything cut from them are never inside a pack, so a pack can be shared and 
 reads the manifest, fetches the papers listed (the wizard's usual download / save-in-browser flow), and runs
 `build_all` for that subject.
 
+Packs are WTF's main mods: a subject is added by publishing a pack, never by editing the framework. Packs are **data only** — no code. Behaviour a subject needs (a key parser, an answer checker) is a built-in handler of WTF that the pack names; a new kind of handler is the one case that needs a WTF release, and `requires_wtf` says which.
+
 Status: protocol designed 2026-10; importer/exporter not implemented yet. When implementing, also export
 MAM/MAS/MAA as packs and rebuild from them — byte-identical `wace.db` rows prove the protocol is complete.
 
@@ -21,7 +23,6 @@ methods/NN_Topic_解题思路.md    notes, zh   (+ 审校记录.md; PDFs optiona
 methods_en/NN_Topic_Methods.md notes, en
 cheatsheet/<S>_CheatSheet.md, <S>_CheatSheet_EN.md (+ PDFs optional)
 skill/SKILL.md, skill/topics/*.md   → skills/wace-<s>-questions/ (blueprint block is regenerated after build)
-plugins/                       optional subject-specific code: key parser, answer checker (see "Hooks")
 ```
 
 ## pack.json
@@ -62,7 +63,7 @@ Field rules:
   (`2024_<S>_Exam_<code>.pdf`). One paper with several sections: the exam and key are one file each
   (`<year>_<S>_Exam.pdf`), and segmentation assigns each question its section by the section headings.
 - `key_style` and `checker` name built-in handlers (`ticks`, `description-marks`, `mc-grid`; `sympy`, `chem`,
-  `none`) or a module in `plugins/` — the app refuses a pack whose handler it does not have, saying which
+  `none`); packs never carry code — the app refuses a pack whose handler it does not have, saying which
   WTF version adds it.
 - `files` hashes every other file in the zip; the importer checks them.
 
@@ -76,6 +77,16 @@ Field rules:
    sections, recognition words and generator course name are read from these files instead of Python dicts.
 5. Tick the subject in the wizard and continue there (download / import papers → `build_all.run([S])` →
    `blueprint.py`). No partial bank: the same "不配齐不建库" rule.
+
+## Distribution
+
+- **Online index**: `packs.json` in the repo lists every published pack `{subject, version, requires_wtf, url, sha256, size}`; `url` points at a GitHub Release asset (same channel as the app updater). 管理科目 shows the list (installed /
+  update available / not installed); ticking one downloads, checks the hash, installs, then the wizard fetches papers and builds.
+- **Pack updates** are independent of app releases: a newer pack version in the index shows 「数据包有更新」.
+- **Local file**: 管理科目 → 导入学科包… accepts any `.wtfpack` (USB, WeChat, Drive, a teacher's own pack); a pack whose
+  hash is not in the official index gets a one-line 「非官方来源」 confirmation. Safe because packs are data only.
+- **Bundled**: the installer ships the MAM/MAS/MAA packs so the first run works offline; new subjects come from the index.
+- Packs contain no SCSA material, so they can be public.
 
 ## Export (developer side, end of this workflow)
 
