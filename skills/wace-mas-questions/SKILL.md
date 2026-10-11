@@ -86,7 +86,7 @@ Use this when writing a set or a mock paper: **randomise** (vary question count,
 - Cross-topic questions: 5% of real questions combine two topics. How likely each topic is to pair, and with what (P(partner | topic) in real cross-topic questions):
 
   - **Rates of change & differential equations** — 75% of its questions are cross-topic; pairs with Integration techniques & applications 100%, Functions & sketching graphs 67%.
-  - **Integration techniques & applications** — 15% of its questions are cross-topic; pairs with Functions & sketching graphs 75%, Rates of change & differential equations 75%.
+  - **Integration techniques & applications** — 15% of its questions are cross-topic; pairs with Rates of change & differential equations 75%, Functions & sketching graphs 75%.
   - **Functions & sketching graphs** — 13% of its questions are cross-topic; pairs with Integration techniques & applications 100%, Rates of change & differential equations 67%.
 
 - **Marks one pattern carries within a question** (middle half of real questions, and the largest seen). A question is the sum of its patterns' parts: a 10-mark question is three or four patterns' parts, or one pattern that real papers really do run that long — never one routine step inflated to fill the marks:

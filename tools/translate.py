@@ -59,13 +59,17 @@ def chunks(md, limit=4500):
     return out
 
 
-def docs(k):
+def docs(k, only=None):
+    """`only`: subject codes to (re)write, default every installed pack. English files are rebuilt from the Chinese
+    ones, so hand edits made to an English file are lost — name the subject you are translating."""
     chat, cache = k.get("llm.chat"), load_cache()
     jobs = []
-    for src in sorted(glob.glob(os.path.join(ROOT, "M??", "methods", "*.md"))):
+    import subjects  # every installed subject pack, not just the maths ones
+    chosen = [s for s in subjects.names(ROOT) if not only or s in only]
+    for src in sorted(f for s in chosen for f in glob.glob(os.path.join(ROOT, s, "methods", "*.md"))):
         name = os.path.basename(src).replace("_解题思路", "_Methods").replace("审校记录", "Review_log")
         jobs.append((src, os.path.join(os.path.dirname(os.path.dirname(src)), "methods_en", name)))
-    for src in sorted(glob.glob(os.path.join(ROOT, "cheatsheet", "*_CheatSheet.md"))):
+    for src in sorted(f for s in chosen for f in glob.glob(os.path.join(ROOT, "cheatsheet", f"{s}_CheatSheet.md"))):
         jobs.append((src, src[:-3] + "_EN.md"))
     pieces = [(dst, i, c) for src, dst in jobs for i, c in enumerate(chunks(open(src, encoding="utf-8").read()))]
     todo = [c for _, _, c in pieces if hashlib.sha1(c.encode()).hexdigest() not in cache and HAS_CJK.search(c)]
@@ -139,7 +143,8 @@ def ui(k):
 
 
 if __name__ == "__main__":
-    what = sys.argv[1:] or ["docs", "ui"]
+    what = [a for a in sys.argv[1:] if a in ("docs", "ui")] or ["docs", "ui"]
+    only = [a for a in sys.argv[1:] if a not in ("docs", "ui")]  # e.g. translate.py docs CHE
     k = kernel()
     for w in what:
-        {"docs": docs, "ui": ui}[w](k)
+        docs(k, only) if w == "docs" else ui(k)

@@ -4,6 +4,7 @@ One job: questions.json + tags -> <subj>/题库/NN_Topic_题库.pdf
 """
 import json, os, sys
 import pymupdf
+import subjects
 from build_docs import TOPICS, read_tags, Layout, ROOT, A4, MARGIN, CJK
 
 
@@ -16,7 +17,8 @@ def build(subj):
     src = lambda p: cache.setdefault(p, pymupdf.open(f"{ROOT}/{p}"))
     for code, (fname, zh, en) in TOPICS[subj].items():
         sel = [q for q in qs if code in tags[(q["year"], q["section"], q["q"])]]
-        sel.sort(key=lambda q: (-int(q["year"]), q["section"] != "CalcFree", q["q"]))
+        order = subjects.section_codes(subj)
+        sel.sort(key=lambda q: (-int(q["year"]), order.index(q["section"]), q["q"]))
         out = pymupdf.open()
         lay = Layout(out)
         lay.new_page()
@@ -27,7 +29,7 @@ def build(subj):
                              fontsize=10, fontname="helv")
         toc = []
         for q in sel:
-            sec = "Calculator-free" if q["section"] == "CalcFree" else "Calculator-assumed"
+            sec = subjects.section_name(subj, q["section"], "en")
             head = f"{q['year']} {sec} - Question {q['q']} - {q['marks']} marks"
             lay.new_page()
             lay.bar(head, (0.12, 0.22, 0.45))

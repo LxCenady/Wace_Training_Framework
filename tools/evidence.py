@@ -5,6 +5,7 @@ One job: questions.json + tags + PDFs -> evidence/<subj>_<topic>.txt and <subj>_
 """
 import json, os, re, sys, glob
 import pymupdf
+import subjects
 
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "tools"))
@@ -56,7 +57,7 @@ def main(subj):
             t = tags[(q["year"], q["section"], q["q"])]
             if code not in t:
                 continue
-            sec = "F" if q["section"] == "CalcFree" else "A"
+            sec = subjects.section_letter(subj, q["section"])
             stem = re.sub(r"\s+", " ", re.sub(r"DO NOT WRITE IN THIS AREA AS IT WILL BE CUT OFF", "", q["text"]))
             lines.append(f"\n## {q['year']}{sec}-Q{q['q']} [{q['marks']}m] tags={','.join(t)}")
             lines.append("STEM: " + stem[:900])

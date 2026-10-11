@@ -248,6 +248,8 @@ def markdown(db, subj):
            "**cross-topic** (two topics in one question), using only pairings that real papers use.", ""]
     for section, label in subject_profiles.section_labels(subj, "en").items():
         bp = blueprint(db, subj, section)
+        if not bp["question_count"]:
+            continue  # a section kept whole (Chemistry multiple choice): no questions in the bank to describe
         marks = sorted(bp["question_marks"])
         out += [f"### {label}", "",
                 f"- Questions per paper (2020–2025): {min(bp['question_count'])}–{max(bp['question_count'])}; "

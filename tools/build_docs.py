@@ -20,7 +20,7 @@ def read_tags(subj):
         if line.startswith("#") or not line.strip():
             continue
         p, *items = line.split()
-        sec = "CalcFree" if p[4] == "F" else "CalcAssumed"
+        sec = {s["letter"]: s["code"] for s in subjects.sections(subj)}[p[4:]]
         for it in items:
             q, t = it.split(":")
             tags[(p[:4], sec, int(q))] = t.split(",")
@@ -102,7 +102,8 @@ def build(subj):
     summary = []
     for code, (fname, zh, en) in TOPICS[subj].items():
         sel = [q for q in qs if code in tags[(q["year"], q["section"], q["q"])]]
-        sel.sort(key=lambda q: (q["year"], q["section"] != "CalcFree", q["q"]))
+        order = subjects.section_codes(subj)
+        sel.sort(key=lambda q: (q["year"], order.index(q["section"]), q["q"]))
         out = pymupdf.open()
         lay = Layout(out)
         # cover
@@ -121,7 +122,7 @@ def build(subj):
         for q in sel:
             t = tags[(q["year"], q["section"], q["q"])]
             star = "★" if t[0] == code else "☆"
-            sec = "Calculator-free" if q["section"] == "CalcFree" else "Calculator-assumed"
+            sec = subjects.section_name(subj, q["section"], "en")
             others = "+".join(x for x in t if x != code)
             head = f"{star} {q['year']} {sec} · Question {q['q']} · {q['marks']} marks" + (f" · also: {others}" if others else "")
             lay.new_page()

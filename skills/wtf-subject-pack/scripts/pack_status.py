@@ -23,7 +23,8 @@ def text(path):
 
 
 # 1 sources
-lines = [l.split("\t")[0] for l in text(os.path.join(R, "sources.tsv")).splitlines() if l.startswith(S + "/")]
+manifest = os.path.join(R, S, "sources.tsv") if os.path.isfile(os.path.join(R, S, "sources.tsv")) else os.path.join(R, "sources.tsv")
+lines = [l.split("\t")[0] for l in text(manifest).splitlines() if l.startswith(S + "/")]
 missing = [l for l in lines if not os.path.isfile(os.path.join(R, l))]
 check("sources listed", bool(lines), f"{len(lines)} files")
 check("papers on disk", bool(lines) and not missing, f"missing {len(missing)}: {missing[:3]}" if missing else "")

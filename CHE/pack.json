@@ -1,0 +1,99 @@
+{
+  "wtf_pack": 1,
+  "subject": "CHE",
+  "version": "2026.10.1",
+  "order": 3,
+  "name": {
+    "zh": "Chemistry 化学",
+    "en": "Chemistry ATAR"
+  },
+  "course": "Chemistry ATAR (Units 3-4)",
+  "requires_wtf": ">=2.0.0",
+  "papers": {
+    "years": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
+    "excluded": {
+      "2016Sample": "sample paper: not an examination",
+      "Section One": "multiple-choice section kept whole as a block: not split into questions, not tagged"
+    }
+  },
+  "paper_layout": "shared",
+  "recognise": {
+    "title": [
+      "chemistry"
+    ],
+    "kinds": {
+      "DataBooklet": [
+        "data booklet"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "code": "MC",
+      "letter": "M",
+      "zh": "选择题",
+      "en": "Multiple-choice",
+      "short": "MC",
+      "minutes": null,
+      "suggested_minutes": 50,
+      "share": 0.25,
+      "headings": ["Section One:"],
+      "question_mode": "section-only"
+    },
+    {
+      "code": "SA",
+      "letter": "S",
+      "zh": "简答题",
+      "en": "Short answer",
+      "short": "SA",
+      "minutes": null,
+      "suggested_minutes": 60,
+      "share": 0.35,
+      "headings": ["Section Two:"]
+    },
+    {
+      "code": "ER",
+      "letter": "E",
+      "zh": "综合论述题",
+      "en": "Extended answer",
+      "short": "ER",
+      "minutes": null,
+      "suggested_minutes": 70,
+      "share": 0.40,
+      "headings": ["Section Three:"]
+    }
+  ],
+  "paper_minutes": [10, 180],
+  "topics": [
+    {"code": "EQ", "file": "01_Equilibrium", "zh": "化学平衡与反应速率", "en": "Chemical equilibrium and rates"},
+    {"code": "AB", "file": "02_Acids_Bases", "zh": "酸与碱", "en": "Acids and bases"},
+    {"code": "RX", "file": "03_Redox_Electrochemistry", "zh": "氧化还原与电化学", "en": "Oxidation, reduction and electrochemistry"},
+    {"code": "ORG", "file": "04_Organic_Structure", "zh": "有机物的结构、性质与反应", "en": "Organic structure, properties and reactions"},
+    {"code": "PRO", "file": "05_Polymers_Proteins", "zh": "聚合物、氨基酸与蛋白质", "en": "Polymers, amino acids and proteins"},
+    {"code": "SYN", "file": "06_Chemical_Synthesis", "zh": "化学合成与工业过程", "en": "Chemical synthesis and industrial processes"},
+    {"code": "QNT", "file": "07_Quantitative", "zh": "化学计量与定量分析", "en": "Stoichiometry and quantitative analysis"},
+    {"code": "INQ", "file": "08_Science_Inquiry", "zh": "科学探究与数据分析", "en": "Science inquiry and data analysis"}
+  ],
+  "key_style": "description-marks",
+  "checker": "none",
+  "sketch_mode": "words",
+  "sketch_words": [
+    "sketch",
+    "draw",
+    "on the axes",
+    "on the diagram",
+    "complete the diagram",
+    "label",
+    "plot",
+    "graph"
+  ],
+  "sheets": [
+    "DataBooklet"
+  ],
+  "scoring": {
+    "mode": "section-weighted",
+    "valid_from": 2024,
+    "valid_to": 2025,
+    "source": "https://senior-secondary.scsa.wa.edu.au/__data/assets/pdf_file/0005/1089527/Chemistry-ATAR-Year-12-Syllabus-for-teaching-from-January-2024_pdf.PDF"
+  }
+}
