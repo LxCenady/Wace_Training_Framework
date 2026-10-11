@@ -1,6 +1,6 @@
 # AGENTS.md — handover for coding agents (Codex, Claude Code, …)
 
-Read this first. It is the state of the project as of 2026-10-12 and the rules the owner works by.
+Read this first — then go to **NEXT TASK: subject packs**. It is the state of the project as of 2026-10-12 and the rules the owner works by.
 Machine-specific details (paths on the owner's PC, the Google Drive sync, their settings) are in
 `HANDOFF.local.md` (not in git) — read it too if it exists.
 
@@ -114,6 +114,66 @@ Release (only when the owner says so): bump `app/version.txt`, commit, `tools/pa
 triggers the Mac workflow, which attaches `WTF-macOS-arm64*.dmg` and `WTF-macOS-x86_64*.dmg`. README links to
 `releases/latest/download/<fixed name>` — keep those names.
 
+## NEXT TASK: subject packs (handed to the next agent on 2026-10-12)
+
+Goal (owner's words: 学科包就是主要的模组/插件，不用动框架了): a subject is added by publishing a **subject pack**,
+never by editing the framework. A pack is a `.wtfpack` zip with a `pack.json` index; it carries only hand-made data
+(catalogue, tags, notes, cheat sheets, question skill, subject profile) and the URLs of the papers, **never SCSA
+material and never code**. WTF imports it in one click, fetches the listed papers (same wizard flow, same
+不配齐不建库 rule) and builds the subject. Full protocol: `skills/wtf-subject-pack/references/pack-format.md`; where
+the code assumes maths: `skills/wtf-subject-pack/references/subject-profiles.md`. Read both first.
+
+Do it in phases, one commit (or a few) per phase, **never push**, and after every phase prove non-regression:
+build into a temp file and compare with the current `wace.db` — MAM, MAS and MAA must have **0 differing rows** in
+questions, parts, part_patterns, points, patterns (script pattern: `build_db.build(<tmp>)`, then compare
+`SELECT … WHERE subject=?` row sets) — and run every test in "Run, test, build". Keep the owner's rules: KISS, one
+module one job, main.py thin glue, Chinese UI text + `tools/translate.py ui` for new strings (check 真题 = past questions).
+
+**Phase 1 — subject registry, no behaviour change.**
+- Write `MAM/pack.json`, `MAS/pack.json`, `MAA/pack.json` (committed; schema in pack-format.md): names, course,
+  topics (from `build_docs.TOPICS`), sections `[{code: CalcFree, letter: F, zh, en, minutes: [5, 50]}, {code: CalcAssumed,
+  letter: A, …, minutes: [10, 100]}]`, recognise words (from `paperid.identify`), `key_style: ticks`, `checker: sympy`,
+  `sketch_words` (from `partmarks.SKETCH`), `sheets: [FormulaSheet]`.
+- New `tools/subjects.py` (one job: read every `<ROOT>/<S>/pack.json`; tools/ is already on sys.path in the app):
+  `names()`, `info(S)`, `topics(S)`, `sections(S)`, `section_letter(S, code)`, … Validate with plain checks, fail loudly.
+- Replace the literals with it: `store.SUBJECT_NAMES` and `ui_setup.SUBJECTS` (merge the duplicate), `generator.SUBJECT`,
+  `build_docs.TOPICS` (may stay as a dict built from the registry so callers keep working), `paperid` course titles,
+  `build_db.SECTION`, `fetch.subjects()`.
+- Done when: 0 differing rows, all tests pass, `grep '"MAM"'` in app/ and tools/ only finds tests and pack files.
+
+**Phase 2 — sections from the pack.** `CalcFree/CalcAssumed`, CF/CA labels and the 50/100-minute timers are hard-coded
+in ~15 places (list in subject-profiles.md: store, export_pdf, external_store, generator, llm_mock, ui_exam, ui_explain,
+ui_external, ui_generate, ui_mybank, ui_pattern, ui_question, ui_search, ui_tree, ui_workspace (出卷模式 meters),
+segment, paperid, audit_totals, blueprint). Read them from `subjects.sections(S)`. Maths output must look identical:
+compare smoke_gui / smoke_en screenshots before and after. Keep it boring: a section is `{code, letter, zh, en, minutes}`.
+
+**Phase 3 — handlers named by the pack.** `markpoints.points` behind a tiny registry `{"ticks": points}`; the
+generator's SymPy step runs only when `checker == "sympy"`; `partmarks.is_sketch` uses the pack's `sketch_words`;
+`ui_formula` shows the pack's `sheets`. No new handlers yet (Chemistry's `description-marks` key parser and `chem`
+checker come with Chemistry). A pack naming an unknown handler is refused with a plain message.
+
+**Phase 4 — export and import.**
+- `tools/pack.py export <S> [--out dist/]`: zip `pack.json`, the subject's `sources.tsv` lines, catalogue (if any),
+  tags, parttags, `methods/`, `methods_en/`, cheat sheets, `skills/wace-<s>-questions/`; write sha256 of every file into
+  `pack.json["files"]`; **refuse** if anything SCSA-derived would go in (`questions.json`, `papers/`, `topics/`, `题库/`,
+  `wace.db`, `evidence/`). Refuse unless `skills/wtf-subject-pack/scripts/pack_status.py <S>` passes (except pack.json).
+- `tools/pack.py import <file>` (+ the same function for the GUI): check `wtf_pack` version, handlers, hashes; copy into
+  place; subject sources go to `<S>/sources.tsv` and `fetch.sources()` reads those too.
+- GUI: 题库 → 管理科目 → 「导入学科包…」 (file dialog) → the wizard with that subject ticked.
+- Acceptance: on an empty data root, import the three exported maths packs, let the wizard fetch (smoke_setup-style,
+  offline with local PDFs) and build: 0 differing rows against the current wace.db. Add this as a test.
+
+**Phase 5 — distribution.** `packs.json` in the repo lists published packs `{subject, version, requires_wtf, url,
+sha256, size}`, `url` = a GitHub release asset. 管理科目 lists them (installed / update available / not installed);
+installing = download + hash check + import. A pack not in the official index asks one 「非官方来源」 confirmation.
+`tools/package_win.py` / the Mac build bundle the three maths packs so the first run works offline. Downloads need the
+owner's go-ahead; publishing release assets only when the owner says 发布.
+
+**Then Chemistry** starts at stage 0 of `skills/wtf-subject-pack/SKILL.md` *with the owner* (paper structure, key
+style, data booklet, answer checks — the Chemistry column in subject-profiles.md is an unverified first draft).
+
+Not part of this task: changing tags or notes, the MAS points_ok gap (180/193), catalogues for MAM/MAS.
+
 ## Adding a subject
 
 Follow `skills/wtf-subject-pack/SKILL.md` (stages 0–12, delegation templates, the `.wtfpack` protocol draft).
@@ -154,12 +214,8 @@ arbitration on 2026-10-12 (41 parts changed; files in `evidence/maa/tag_review/`
 follow the tags; MAM/MAS rows unchanged. 2017 CA Q8: the official key's 98 974 is an end-of-period perpetuity while the
 stem says start of year — a known key inconsistency, noted in the notes, not a tag issue.
 
-Next planned work: subject packs (`.wtfpack`, `pack.json` index) as WTF's main mods — data only (no code), distributed
-via a `packs.json` index of GitHub release assets + local-file import, maths packs bundled in the installer. First a
-one-time generalisation so subject names, sections (CalcFree/CalcAssumed is hard-coded in ~15 plugins), key style,
-answer checker and sketch words come from packs (`skills/wtf-subject-pack/references/pack-format.md`,
-`subject-profiles.md`); verify by rebuilding MAM/MAS/MAA from their packs with 0 differing rows; then Chemistry
-(one paper with MC / short / extended sections, description-marks keys, data booklet, no SymPy).
+Next planned work: subject packs — see **NEXT TASK** below.
+
 Open items, roughly by value:
 0. **Completed locally**: AI mock papers and 工作区 now both use `store.paper_totals` (MAM 51 / 100,
    MAS 48 / 89 in the current data); `BLUEPRINT` was deleted. Everything statistical is computed from wace.db
