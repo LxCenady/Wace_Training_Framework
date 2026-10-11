@@ -209,7 +209,7 @@ def setup(k):
         state["downloading"] = True
         todo = [m for m in missing() if m[3]]
         say(f"开始下载 {len(todo)} 个存档文件（同时 {PARALLEL} 个）…")
-        t0, done = time.time(), []
+        t0, done, hinted = time.time(), [], set()
 
         def eta():
             if not done:
@@ -226,6 +226,10 @@ def setup(k):
                 return None
             except Exception as e:
                 post(lambda m=f"✗ {rel}：{type(e).__name__} {e}（稍后自动再试）": say(m, "warn"))
+                kind, advice = fetch.hint(e)
+                if kind and kind not in hinted:  # each kind of trouble is explained once, not per file
+                    hinted.add(kind)
+                    post(lambda a=advice: say("怎么办：" + a, "sub"))
                 return item
 
         def work():

@@ -41,6 +41,21 @@ def missing(root=None):
     return [s for s in sources(root) if not is_pdf(os.path.join(root, s[0]))]
 
 
+def hint(error):
+    """(kind, what to do) for a download error a student can act on, else (None, "")."""
+    text = f"{type(error).__name__} {error}"
+    if "CERTIFICATE_VERIFY_FAILED" in text or "certificate verify failed" in text:
+        return "cert", ("网络在中间替换了 HTTPS 证书（学校 / 公司网络、VPN、代理或杀毒软件的网络防护都会这样），"
+                        "而这台电脑不信任它。可以：换一个网络（例如手机热点）再点「开始下载」；或暂时关掉 VPN / "
+                        "代理 / 杀毒软件的 HTTPS 检查；若是学校网络，请向老师或 IT 要学校的根证书并装进系统。")
+    if any(s in text for s in ("Errno 61", "Errno 111", "WinError 10061", "Connection refused")):
+        return "refused", ("连接被拒绝：常见原因是系统里设置了代理但代理软件没在运行（检查 VPN / 代理软件，或在"
+                           "系统网络设置里关掉代理），也可能是所在网络屏蔽了 web.archive.org。换个网络再试最快。")
+    if any(s in text for s in ("timed out", "Errno 60", "WinError 10060", "getaddrinfo failed", "nodename nor servname")):
+        return "network", "连不上网络或 web.archive.org 响应太慢：检查网络连接，稍后会自动再试。"
+    return None, ""
+
+
 def download(rel, url, root=None, timeout=60, tries=5, wait=lambda s: time.sleep(s)):
     """Fetch one file, retrying dropped connections, timeouts and 429/5xx with growing pauses
     (Retry-After honoured). Raises on a final failure, on 4xx refusals (e.g. 403) and on a non-PDF reply."""

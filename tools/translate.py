@@ -96,7 +96,8 @@ def docs(k):
 def ui_runs():
     """{fragment: context line} from app code, plus fragments recorded at run time (i18n/missing.txt)."""
     runs = {}
-    for f in sorted(glob.glob(os.path.join(APP, "**", "*.py"), recursive=True)) + [os.path.join(APP, "setup.txt")]:
+    shown = [os.path.join(ROOT, "tools", "fetch.py")]  # tools whose messages appear in the app (download advice)
+    for f in sorted(glob.glob(os.path.join(APP, "**", "*.py"), recursive=True)) + [os.path.join(APP, "setup.txt")] + shown:
         for line in open(f, encoding="utf-8"):
             if line.lstrip().startswith("#"):
                 continue

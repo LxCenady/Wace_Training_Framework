@@ -7,6 +7,7 @@ HERE = getattr(sys, "_MEIPASS", None) or os.path.dirname(os.path.abspath(__file_
 sys.path.insert(0, HERE)
 from kernel import Kernel  # noqa: E402
 import plat  # noqa: E402
+plat.use_system_certificates()  # before any download: HTTPS trusts the system (school networks, VPNs, macOS)
 
 
 def find_root():
@@ -72,6 +73,13 @@ def selftest(root):
     figure.setup(k)
     step("figure", lambda: f"{len(k.get('figure.svg')({'items': [{'curve': 'x**2'}]})[0])} bytes of SVG")
     step("SymPy check", lambda: symcheck.evaluate([("a", "integrate(x**2, (x, 0, 1))", [("s", "1/3")])])["a"][0])
+
+    def https():
+        import ssl
+        if not ssl.SSLContext.__module__.startswith("truststore"):
+            raise RuntimeError("Python's own CA list only (truststore missing): school networks / VPNs will fail")
+        return "system certificate store (truststore)"
+    step("HTTPS", https)
     step("question bank", lambda: f"{sqlite3.connect(os.path.join(root, 'wace.db')).execute('SELECT COUNT(*) FROM questions').fetchone()[0]} questions")
     with open(os.path.join(root, "WTF.log"), "a", encoding="utf-8") as f:
         f.write("\n--- selftest ---\n" + "\n".join(results) + "\n")

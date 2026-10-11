@@ -20,6 +20,19 @@ _PDF_FONTS = ([("/System/Library/Fonts", "Hiragino Sans GB.ttc", "Apple Symbols.
               [(os.path.join(os.environ.get("WINDIR", r"C:\Windows"), "Fonts"), "msyh.ttc", "seguisym.ttf")])
 
 
+def use_system_certificates():
+    """HTTPS trusts what the operating system trusts (macOS Keychain, Windows certificate store), like the browser.
+    A packaged Python otherwise only knows its own CA list: on a school network, behind a VPN or an antivirus
+    that inspects HTTPS, every download then fails with CERTIFICATE_VERIFY_FAILED although the browser works.
+    Certificates the system does not trust are still refused. Without truststore, nothing changes."""
+    try:
+        import truststore
+        truststore.inject_into_ssl()
+        return True
+    except Exception:
+        return False
+
+
 def pdf_fonts():
     """(folder, CJK font file name, symbol font file name) for PDF output on this computer."""
     for folder, cjk, sym in _PDF_FONTS:

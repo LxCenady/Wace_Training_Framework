@@ -3,5 +3,6 @@ markdown>=3.5
 sympy>=1.13
 ziamath>=0.13
 ziaplot>=0.9
+truststore>=0.9  # HTTPS trusts the OS certificate store (school networks, VPNs, macOS)
 # optional, for verifying questions by hand / in the skills
 scipy
