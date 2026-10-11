@@ -20,10 +20,10 @@ The Mac version is new: if something looks off, a screenshot in an [issue](https
 > **老师、同学们：请不要试图通过阅读代码来运行 WTF。** 读代码它是不会跑起来的，我们认真试过了。点上面的链接下载安装包，双击即可（Mac：打开 dmg，把 WTF 拖进「应用程序」，第一次在「应用程序」里右键 WTF →「打开」）。
 
 **Only here for the notes?** Read the PDFs, not the `.md` files — GitHub's Markdown preview and maths are not on speaking terms:
-method notes [MAM](MAM/methods) · [MAS](MAS/methods) (English: [MAM](MAM/methods_en) · [MAS](MAS/methods_en)), cheat sheets [MAM](cheatsheet/MAM_CheatSheet.pdf) · [MAS](cheatsheet/MAS_CheatSheet.pdf) (English: [MAM](cheatsheet/MAM_CheatSheet_EN.pdf) · [MAS](cheatsheet/MAS_CheatSheet_EN.pdf)).
+method notes [MAM](MAM/methods) · [MAS](MAS/methods) · [MAA](MAA/methods) (English: [MAM](MAM/methods_en) · [MAS](MAS/methods_en) · [MAA](MAA/methods_en)), cheat sheets [MAM](cheatsheet/MAM_CheatSheet.pdf) · [MAS](cheatsheet/MAS_CheatSheet.pdf) · [MAA](cheatsheet/MAA_CheatSheet.pdf) (English: [MAM](cheatsheet/MAM_CheatSheet_EN.pdf) · [MAS](cheatsheet/MAS_CheatSheet_EN.pdf) · [MAA](cheatsheet/MAA_CheatSheet_EN.pdf)).
 The past papers themselves are not here (see *Copyright* below): the app fetches them for you on its first run, which is why there is no question bank in this repository and never will be.
 
-WTF is a serious, rigorously engineered study system for the Western Australian ATAR courses **Mathematics Methods (MAM)** and **Mathematics Specialist (MAS)**, built on the 2016–2025 SCSA past exams. It exists because the average student's revision strategy — "open a past paper, feel bad, close the past paper" — has a measured completion rate of approximately zero.
+WTF is a serious, rigorously engineered study system for the Western Australian ATAR courses **Mathematics Methods (MAM)**, **Mathematics Specialist (MAS)** and, since it turned out the framework does not care which maths you hate, **Mathematics Applications (MAA)**, built on the 2016–2025 SCSA past exams. It exists because the average student's revision strategy — "open a past paper, feel bad, close the past paper" — has a measured completion rate of approximately zero.
 
 What it actually does, stated with a straight face:
 
@@ -33,7 +33,7 @@ What it actually does, stated with a straight face:
 - a desktop **GUI** (knowledge tree → pattern → past questions, marking key hidden until you are brave enough) that can ask an LLM of your choice to **write a similar question, solve it independently, check it, and split the answer into mark points before showing you anything**. The AI marks its own homework, then a different AI marks that, then SymPy marks both. Trust issues are a feature;
 - Claude Code **skills** for generating topic quizzes, for when one AI is not enough.
 
-> 中文简介：WACE 数学方法 / 专业数学刷题系统，名字缩写纯属巧合（并不是）。真题按知识点与小问题型标注，评分标准拆到每一分，每个题型都有解题思路讲义。GUI 里按知识图谱选题型看真题，或者让你自己接入的 AI（OpenAI / Anthropic 格式）出相似题：出题、独立解题、独立核对、SymPy 复算、拆成得分点，全部通过才给答案。AI 不被信任，这是设计。
+> 中文简介：WACE 数学方法 / 专业数学 / 数学应用刷题系统，名字缩写纯属巧合（并不是）。真题按知识点与小问题型标注，评分标准拆到每一分，每个题型都有解题思路讲义。GUI 里按知识图谱选题型看真题，或者让你自己接入的 AI（OpenAI / Anthropic 格式）出相似题：出题、独立解题、独立核对、SymPy 复算、拆成得分点，全部通过才给答案。AI 不被信任，这是设计。
 
 ## Copyright — the exams are not in this repo (this part is not a joke)
 
@@ -47,7 +47,7 @@ On a Mac, step 1 is the .dmg above (drag to Applications, right-click → Open t
 
 1. Download **[WTF-Setup.exe](https://github.com/LxCenady/Wace_Training_Framework/releases/latest/download/WTF-Setup.exe)** (always the newest version) and double-click it. It installs for you only (no administrator rights, default `%LOCALAPPDATA%\Programs\WTF`), adds desktop and Start-menu shortcuts and starts the app. Running a newer setup over an old install upgrades it and keeps your papers, AI questions and mistakes, because deleting a student's 错题本 is how wars start. (Allergic to installers? `WTF-Windows-vX.Y.Z.zip` is the same app — extract anywhere, a USB stick works.)
    Windows SmartScreen will warn you because the app is not code-signed. Code signing costs money; this README is free. *More info → Run anyway.*
-2. The first run opens the **import wizard**, which starts working before you have finished reading it:
+2. The first run opens the **import wizard**. Tick the subjects you actually take (MAM, MAS, MAA — nobody takes all three, and the wizard will not judge you either way); only their papers are fetched. Then it starts working before you have finished reading this:
    - ① the 2016–2019 papers download by themselves from the Wayback Machine, three at a time, with an ETA. The Internet Archive is a national treasure running on what appears to be a single hamster; please be patient with the hamster;
    - ② 2020–2025: click 「打开下一批」 to open 6 official links at a time in your browser, press Ctrl+S on each PDF and just click Save — the browser's default, the Downloads folder, is the only place the wizard looks. Then click 「我存好了，检查下载文件夹」. File names do not matter: each paper is recognised from its first page. Name them `asdf (3).pdf` if you must; we have seen worse;
    - ③ the bank is built only when **every** paper is in — then by itself (~1 min) — and the app restarts into the full interface. There is no half-built bank to wonder about. A banner at the top always says what to do next, in case reading this README did not go well either.
@@ -76,6 +76,7 @@ Your AI questions and 错题本 live in `generated.db` next to `WTF.exe`. Teache
 | 掌握度地图 | Ctrl+G | one tile per pattern, coloured by your score rate |
 | Formula sheet | right pane (F2) | the official sheet for the subject you are viewing, resizable |
 | PDF export | 我的 AI 题库 / a finished batch / 真题搜索 / mock exam | question paper (one question per page, rest is working space) + answer paper with ☐ mark boxes |
+| 管理科目 | 题库 → 管理科目 | add or drop subjects later: tick a subject, fetch its papers, rebuild — your AI questions and 错题本 stay |
 | English UI | 设置 → 界面语言 | the whole interface, notes and explanations in English |
 | Updates | 帮助 → 检查更新 | download, verify and install new releases without losing your data |
 
@@ -155,18 +156,18 @@ app\WACE学习系统.bat
 ## English edition
 
 - **App**: 设置 (Settings) → 模型与 API key → 界面语言 / Language → English, then restart (the first-run wizard has the same switch). Pattern names, method notes and AI explanations switch to English too.
-- **Notes**: `MAM/methods_en/`, `MAS/methods_en/` (method notes + review logs, md + pdf) and `cheatsheet/*_CheatSheet_EN.*`.
+- **Notes**: `MAM/methods_en/`, `MAS/methods_en/`, `MAA/methods_en/` (method notes + review logs, md + pdf) and `cheatsheet/*_CheatSheet_EN.*`.
 - **How it is made**: `tools/translate.py docs` translates the Chinese notes chunk by chunk with the configured model (DeepSeek by default — outsourcing, essentially) and caches every chunk; `tools/translate.py ui` builds `app/i18n/en.json` from the Chinese fragments in the code plus any fragment the running app reported missing. The interface code stays single-language: the `i18n` plugin translates text at the exact moment it reaches Tk, which is either elegant or unhinged depending on who you ask. Glossary: 题型 = pattern, 知识点 = topic, 错题本 = mistake book, 得分点 = mark points, 评分标准 = marking key.
 - `app/tests/smoke_en.py` opens every main view in English and lists any Chinese still on screen (currently none; it was very thorough about this).
 
 ## Layout
 
 ```
-MAM/ MAS/
+MAM/ MAS/ MAA/
   methods/       NN_Topic_解题思路.md/.pdf   题型 patterns: how to recognise, steps, where the marks are,
                                              examiners'-report warnings, cited past questions; 审校记录 = review log
   papers/ topics/ 题库/ questions.json      (built locally, not in git)
-cheatsheet/      MAM / MAS cheat sheets (md + pdf, 3 pages each)
+cheatsheet/      MAM / MAS / MAA cheat sheets (md + pdf, 3 pages each)
 skills/          wace-mam-questions, wace-mas-questions (Claude Code skills; paths resolve live:
                  $WACE_MATHS_ROOT, else the folder above skills/)
 tools/

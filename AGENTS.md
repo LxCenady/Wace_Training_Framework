@@ -20,7 +20,8 @@ Machine-specific details (paths on the owner's PC, the Google Drive sync, their 
 
 ## What this is
 
-WTF (WACE Training Framework): a desktop study system for WA ATAR Mathematics Methods (MAM) and Specialist (MAS),
+WTF (WACE Training Framework): a desktop study system for WA ATAR Mathematics Methods (MAM), Specialist (MAS) and
+Applications (MAA, since 2026-10),
 built on the 2016–2025 SCSA past exams. Public repo `LxCenady/Wace_Training_Framework`, releases for Windows
 (Setup.exe + portable zip) and macOS (two .dmg, built by GitHub Actions). Current version: `app/version.txt` (1.8.0).
 README.md describes every feature for users (deadpan-humorous tone on purpose; keep the copyright part serious).
@@ -36,7 +37,7 @@ app/                      the GUI (Python 3.12 + Tk), run: .venv\Scripts\python 
   plugins/*.py            one job each: config, i18n, store, render, llm(+openai/anthropic/mock), symcheck, mathtext,
                           figure, generator, ui_shell, ui_tree, ui_pattern, ui_question, ui_generate, ui_mybank,
                           ui_search, ui_workspace, ui_mistakes, ui_explain, ui_exam, ui_mastery, export_pdf,
-                          ui_formula, updater, ui_settings, ui_setup (wizard)
+                          ui_formula, updater, ui_settings, ui_setup (wizard; also 管理科目 via --setup), ui_subjects
                           external_pdf, external_store, external_tagger, ui_external*: independent external library
   i18n/en.json            English UI: CJK fragments -> English (built by tools/translate.py ui)
   tests/                  test_providers.py, smoke_gui.py <dir>, smoke_en.py <dir>, smoke_setup.py <dir> <repo>
@@ -52,7 +53,8 @@ tools/                    data pipeline (also bundled into the packaged app)
                           per-pattern marks / figure / drawing rates; also writes the skills' blueprint block
   tags_*.txt parttags_*.txt   the hand-made labels (the most valuable data in the repo)
   package_win.py package_mac.py installer.py translate.py render_*.py audit*.py
-MAM/ MAS/ methods/ methods_en/   method notes (Chinese + English), cheatsheet/, skills/ (Claude Code skills)
+MAM/ MAS/ MAA/ methods/ methods_en/   method notes (Chinese + English), cheatsheet/, skills/ (Claude Code skills;
+                          skills/wtf-subject-pack = how to add a subject, incl. the .wtfpack protocol draft)
 .github/workflows/build-mac.yml  Mac build on release (and on pushes to branch `mac`)
 ```
 
@@ -116,11 +118,21 @@ triggers the Mac workflow, which attaches `WTF-macOS-arm64*.dmg` and `WTF-macOS-
 - `winfo_containing` depends on the OS window stacking; use geometry for drop targets.
 - The running app holds `wace.db` open: rebuilding fails with WinError 32 — ask the owner to close WTF.
 - The 2025 MAM calculator-free paper really is 47 marks (not a data error).
+- Download errors on Macs / school networks: HTTPS uses the OS certificate store (`plat.use_system_certificates`,
+  truststore; `--selftest` checks it). Never turn certificate verification off.
+- `ui_setup.restart(args)` takes arguments: test doubles must accept them (a lambda without parameters made
+  smoke_setup report "build did not finish" because the TypeError was swallowed by Tk).
 
-## State and open items (2026-10-11)
+## State and open items (2026-10-12)
 
-Unpushed local commits since v1.7.0: 设置 → 导出文件夹; 常一起考的题型 panel; 工作区 (drag-and-drop basket,
-合并导出, 出卷模式); rotated/trimmed setter examples; this file. The owner may want them released as v1.8.0.
+Unpushed local commits since v1.8.0: Mac download certificate fix; MAA as a third subject (sources, notes zh+en,
+cheat sheets, question skill, 67-pattern catalogue, reviewed tags); optional subjects in the wizard and 题库 → 管理科目;
+the wtf-subject-pack skill. The owner decides when to release.
+
+Next planned work: subject packs (`.wtfpack`, `pack.json` index) as WTF's main mods — data only, distributed via a
+`packs.json` index of release assets + local-file import; first a one-time generalisation so sections, key style,
+answer checker and subject names come from packs (see `skills/wtf-subject-pack/references/pack-format.md` and
+`subject-profiles.md`); verify by rebuilding MAM/MAS/MAA from their packs; then Chemistry.
 
 Open items, roughly by value:
 0. **Completed locally**: AI mock papers and 工作区 now both use `store.paper_totals` (MAM 51 / 100,

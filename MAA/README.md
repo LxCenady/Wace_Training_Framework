@@ -30,38 +30,28 @@ Pattern ID 由 topic code 和序号组成，例如 `TSI4` 表示时间序列主�
 - [SCSA Mathematics Applications ATAR Year 12 syllabus, effective 2025](https://senior-secondary.scsa.wa.edu.au/__data/assets/pdf_file/0009/1121310/Mathematics-Applications-ATAR-Year-12-Syllabus-for-teaching-from-January-2025_pdf.PDF)
 - [SCSA Mathematics Applications ATAR Year 12 syllabus, teaching from 2027](https://senior-secondary.scsa.wa.edu.au/__data/assets/pdf_file/0018/1262133/Mathematics-Applications-ATAR-Year-12-Syllabus-for-teaching-from-2027.PDF)
 
-目录完成审阅后，再把正式 pattern 标签写入独立的 MAA 标签文件；本 README 不复制题目、评分标准或其图像。题目 PDF、结构化题目文本和标注证据应留在仓库忽略规则覆盖的本地数据目录中。
+本 README 不复制题目、评分标准或其图像。
 
-## 独立数据流程
+## 数据流程（已并入通用管线）
 
-`tools/sources_MAA.tsv` 包含 2016–2025 的 40 份试卷/评分 key，以及 10 份考试报告。2020–2025 链接来自 SCSA 当前课程与历年考试页面；2016–2019 的旧官方 URL 从历史目录恢复，下载使用 Wayback。没有 sample 卷。清单不加入根目录 `sources.tsv`，现有安装向导仍只要求 MAM/MAS。
+MAA 自 2026-10 起是 WTF 的正式科目，与 MAM/MAS 走同一条管线，做法记录在 skill `skills/wtf-subject-pack/`：
 
-```powershell
-.venv/Scripts/python tools/fetch_maa.py
-.venv/Scripts/python tools/fetch_maa.py --years 2016 2017 2018 2019
-.venv/Scripts/python tools/fetch_maa.py --years 2020 --archive-year 2021
-.venv/Scripts/python tools/fetch_maa.py --from C:/Users/you/Downloads
-.venv/Scripts/python tools/fetch_maa.py --check
-.venv/Scripts/python tools/segment_maa.py
-.venv/Scripts/python tools/audit_maa.py --labels evidence/maa/labels.json
-```
+- 来源：根目录 `sources.tsv` 的 MAA 行（40 份试卷与评分 key、10 份考试报告、4 份公式表）。2016–2018 与 2020/2021 公式表经 Wayback 下载，其余来自 SCSA 官网（被 403 拦截时在浏览器保存后用 `tools/fetch.py --from <下载文件夹>` 导入）。`tools/paperid.py` 按 PDF 正文识别科目、年份和卷型。
+- **2019 不纳入**：两份评分 key 一份缺失、一份在存档中被截断，无法标注和核对分值。
+- 切题：`tools/segment.py MAA`（只切 `sources.tsv` 中列出的试卷）→ 本地 `MAA/questions.json`（不提交）。
+- 题型目录：`tools/catalogue_MAA.json`，6 个主题、67 个题型。
+- 标注：`evidence/maa/labels.json`（本地，不提交）→ 导出 `tools/tags_MAA.txt`、`tools/parttags_MAA.txt`。
+- 建库：`tools/build_all.py` → `wace.db`；`tools/blueprint.py` 把真卷统计写入 `skills/wace-maa-questions/SKILL.md`。
 
-下载/导入按 PDF 正文核对科目、年份、section、exam/key 类型，拒绝 sample 与零页文件。下载先写临时文件，校验后替换；历史存档可能被截断，不能把带 `%PDF-` 文件头当作成功。`segment_maa.py` 只切已校验的 exam/key 配对，沿用现有 `(page, y0, y1)` 格式，关闭 PDF 后写入被忽略的 `MAA/questions.json`。
+## 标注过程
 
-Luna 必须读具体题目与评分 key，必要时查看原卷图，逐小题推理标签。`evidence/maa/labels.json` 保存理由、分值、置信度、图像检查、待复核原因；不能以关键词脚本代替读题。主代理至少按 year/section 抽查 20%，并复核混合主题、切块/分值冲突和疑点。已复核数量是覆盖数据，不是准确率估计。
+1. 子代理逐题读题干与评分 key（必要时渲染原图）标注到小题，写理由与置信度；主代理复核 47/138 题（34%），覆盖每个 year/section。
+2. `tools/audit_maa.py --labels evidence/maa/labels.json`：题号、分值（小题分值合计 = 题目分值 = 试卷总分）、标签合法性。0 错误（"缺 1、无效 1"即 2019 的两份评分 key）。
+3. 2026-10-12 三个独立复核子代理分年份段复核全部小题，提出 48 条修改；按统一口径（FIN10 只在评分 key 单独给利率换算分时标注；哈密顿路线求最短 = GRF6 + GRF4，GRF9 只用于允许重复经过顶点的行程；关键路径题只有在评分 key 给浮时分时才加 NDM7 等）仲裁，41 个小题改标。记录见 `evidence/maa/tag_review/`（本地）与 `MAA/methods/审校记录.md`。
+4. 2017 CalcAssumed Q8：评分 key 的 98 974 对应期末付款的永续年金，题干写年初付款。这是评分 key 自身的问题，讲义中注明为"已知问题"；标签按操作确定，已解除复核标记。
 
-审计检查来源配对、题号序列、exam/key 分值、子题分值与覆盖、合法标签、重复、未标注与人工抽查覆盖。仍有缺失/无效 PDF、疑点或未标注时，报告 `complete=false` 并退出 1。如需保存已完成部分，可显式运行 `--export-partial` 导出非 pending 的原创标签；文件头保留 PARTIAL。不能据此声称十年数据已完成。
+## 现状（2026-10-12）
 
-所有上述命令不调用 `build_db.py`，不修改 `wace.db`、`generated.db`、`external.db` 或用户配置，也不接入 GUI。原卷、切块文本、图像和证据保持在忽略路径内；只有来源清单、原创目录/标签与工具可以提交。
-
-来源目录：[SCSA 当前课程](https://senior-secondary.scsa.wa.edu.au/syllabus-and-support-materials/mathematics/mathematics-applications)、[SCSA 历年考试](https://senior-secondary.scsa.wa.edu.au/further-resources/past-atar-course-exams/mathematics-past-atar-course-exams)、[历史 URL 目录](https://fuckscsa.github.io/list/mathematics_applications_file_listing.html)。历史目录只用于发现官方 URL，不代替科目/年份/类型校验。
-
-## 本地检查点（2026-10-11）
-
-已验证 31/50 份 PDF，其中试卷和评分 key 为 24/40。2016、2017、2018、2020、2021 两个 section 的配对完整；Luna 已标注 81 道题、394 个子题，主代理复核 27 道，每个 year/section 均达到至少 20% 覆盖。导出 80 道非 pending 题的原创标签；2017 CalcAssumed Q8 的付款时点疑点仍待核证。
-
-十年全集尚未完成：18 份文件缺失，另有一份历史评分 key 被存档服务截断，审计为 `complete=false`。详细缺项和复核理由保存在本地忽略文件 `evidence/maa/audit.json` 与 `labels.json`。
-
-2021 CalcAssumed Q9 的独立小题 `(i)` 被通用 `partmarks` 解析器误作 `(h)` 的罗马子题。本次保留真实标签 `i`，用显式人工分值核验记录处理；正式接入数据库前必须修正共享解析器，不能直接把这份部分标签用于建库。
-
-独立工具的三个合成测试通过；四项应用测试通过，英文测试报告 0 处残留中文，测试前后用户配置与数据库哈希未变。尚未做 MAA 的 GUI、数据库接入或 Mac 实机验证。
+- 138 题、698 个小题全部标注，67 个题型都有真题；`points_ok` 134/138（按每分一个勾拆出评分点）。2021 CalcAssumed Q9 的评分 key 文本顺序错乱，按设计显示评分 key 原图。
+- 中英文解题思路讲义（每个题型一节）、审校记录、速查表（中英文）、出题 skill 均已完成，并已渲染 PDF。
+- 原卷、切块文本、`questions.json`、`wace.db`、`evidence/` 均不提交。
