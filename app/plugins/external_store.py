@@ -6,6 +6,7 @@ import shutil
 import sqlite3
 import threading
 import uuid
+from plugins.store import SUBJECT_NAMES
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS papers (
@@ -51,7 +52,7 @@ class ExternalStore:
         title, source = title.strip(), source.strip()
         if not title or not source:
             raise ValueError("请填写试卷名称和来源")
-        if subject not in ("MAM", "MAS") or section not in ("CalcFree", "CalcAssumed"):
+        if subject not in SUBJECT_NAMES or section not in ("CalcFree", "CalcAssumed"):
             raise ValueError("科目或卷型无效")
         if Path(exam).resolve() == Path(answer).resolve():
             raise ValueError("试卷和答案必须是不同的文件")

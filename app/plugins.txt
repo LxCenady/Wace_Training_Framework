@@ -21,6 +21,7 @@ ui_pattern      # pattern method notes
 ui_question     # past question crop + marking key revealed on demand
 ui_generate     # AI question view; mark points revealed only after verification
 ui_mybank       # 我的 AI 题库: searchable index of every generated question
+ui_subjects     # 题库 → 管理科目: reopen the wizard to add or drop subjects (main.py --setup)
 ui_search       # 真题搜索: past questions by any mix of patterns / units (cross-topic index)
 ui_external_crop # external PDF rectangle picker
 ui_external_question # external question/answer view and manual tagging review

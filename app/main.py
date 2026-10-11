@@ -102,7 +102,8 @@ def main():
             write("build error", traceback.format_exc())
             sys.exit(1)
     k = Kernel(root)
-    ready = os.path.isfile(os.path.join(root, "wace.db"))
+    # the import wizard runs before the bank exists, and on 题库 → 管理科目 (--setup: add / drop subjects)
+    ready = os.path.isfile(os.path.join(root, "wace.db")) and "--setup" not in sys.argv[1:]
     k.load(plugin_names(None if ready else os.path.join(HERE, "setup.txt")))
     k.get("ui.run")()
 

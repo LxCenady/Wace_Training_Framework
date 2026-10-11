@@ -31,7 +31,7 @@ def offline(*a, **kw):  # the wizard starts archive downloads by itself: keep th
 fetch.download = offline
 
 restarted = []
-ui_setup.restart = lambda: restarted.append(True)
+ui_setup.restart = lambda args=None: restarted.append(True)
 k = Kernel(data)
 k.load(main.plugin_names(os.path.join(REPO, "app", "setup.txt")))
 root = k.get("ui.root")
@@ -49,6 +49,7 @@ def pump(sec):
 
 
 k.get("setup.folder")(downloads)  # stands in for the user's Downloads folder
+k.get("setup.choose")(["MAM", "MAS", "MAA"])  # a fresh install asks for the subjects first
 pump(1)
 random.seed(7)
 pdfs = sorted(glob.glob(os.path.join(papers_root, "*", "papers", "*.pdf")))

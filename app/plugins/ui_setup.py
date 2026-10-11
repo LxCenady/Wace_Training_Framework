@@ -5,6 +5,11 @@ The papers are © SCSA and are not shipped with the app. Everything is fixed, no
 their own browser (the site refuses scripts) and saves with the browser's default — the Downloads folder — then
 presses one button that checks that folder once (files are recognised by name or by content, tools/paperid.py).
 The bank is built only when every paper is in, and then by itself.
+
+Subjects are chosen first (students take one or two of the maths courses, rarely all): only their papers are
+downloaded and checked, and the bank holds only them. The choice is kept in the settings (`subjects`).
+题库 → 管理科目 reopens this wizard over an existing bank (main.py --setup) to add or drop subjects; it rebuilds
+when the newly needed papers are all in, or on request, and can return to the app without rebuilding.
 """
 import ctypes, os, subprocess, sys, threading, time, uuid, webbrowser
 import tkinter as tk
@@ -34,23 +39,33 @@ def downloads_folder():
     return os.path.join(os.path.expanduser("~"), name)
 
 
-def restart():
+SUBJECTS = {"MAM": "Mathematics Methods 数学方法", "MAS": "Mathematics Specialist 专业数学",
+            "MAA": "Mathematics Applications 数学应用"}
+
+
+def restart(args=None):
+    """Start the app again: with `args` (e.g. [] after building), else the same arguments (a language switch keeps
+    --setup)."""
     main = [] if getattr(sys, "frozen", False) else [os.path.abspath(sys.modules["__main__"].__file__)]
-    subprocess.Popen([sys.executable, *main], close_fds=True)
+    subprocess.Popen([sys.executable, *main, *(sys.argv[1:] if args is None else args)], close_fds=True)
 
 
 def setup(k):
     import fetch, build_all  # tools/, on sys.path via main.py
+    from build_docs import TOPICS  # subjects the bank can be built for
     root, post = k.root, k.get("ui.post")
     C = k.get("ui.colors")
-    page = k.get("ui.tab")("setup", "第一次使用：导入真题")
+    cfg = k.get("config")
+    managing = os.path.isfile(os.path.join(root, "wace.db"))  # 题库 → 管理科目 (main.py --setup)
+    page = k.get("ui.tab")("setup", "管理科目：添加或移除科目" if managing else "第一次使用：导入真题")
     k.get("ui.root").title("WACE Maths 学习系统 — 导入真题")
     left = k.get("ui.left")
     ttk.Label(left, text="欢迎", style="H.TLabel").pack(anchor="w", padx=12, pady=(12, 4))
     ttk.Label(left, wraplength=400, justify="left", text=(
         "SCSA的真题、评分标准和公式表受版权保护，不随程序分发；需要你自己从官方网站下载一次，"
         "导入后，题库、知识图谱和评分标准会保存在本机；AI 出题需要先在设置中配置模型服务，并保持联网。\n\n"
-        "全部文件约 75 MB，下载与建库只需做一次。")).pack(anchor="w", padx=12)
+        "每门课约 37 MB，下载与建库只需做一次；之后可以在「题库 → 管理科目」随时添加或移除科目。")).pack(
+        anchor="w", padx=12)
 
     lang = tk.StringVar(value="English" if k.get("config").get("language") == "en" else "中文")
 
@@ -68,25 +83,41 @@ def setup(k):
     box.bind("<<ComboboxSelected>>", switch_language)
 
     state = {"folder": downloads_folder(), "opened": set(), "busy": False}
+    offered = [s for s in fetch.subjects(root) if s in TOPICS]  # can be fetched and built
+    on_disk = [s for s in offered if any(fetch.is_pdf(os.path.join(root, x[0])) for x in fetch.sources(root, [s]))]
+    chosen = [s for s in cfg.get("subjects", on_disk) if s in offered]  # old installs: what is already there
+
     def needed(items):  # the 2016 sample papers never enter the bank: the wizard ignores them
         return [x for x in items if "Sample" not in x[0]]
 
     def missing():
-        return needed(fetch.missing(root))
+        return needed(fetch.missing(root, chosen))
 
-    all_sources = needed(fetch.sources(root))
-    archived = [s for s in all_sources if s[3]]
-    browser = [s for s in all_sources if not s[3]]
+    def all_sources():
+        return needed(fetch.sources(root, chosen))
 
     head = ttk.Frame(page)
     head.pack(fill="x", padx=16, pady=(14, 4))
     count = ttk.Label(head, style="H.TLabel")
     count.pack(side="left")
-    bar = ttk.Progressbar(head, length=320, maximum=len(all_sources))
+    bar = ttk.Progressbar(head, length=320, maximum=1)  # set in refresh(): the chosen subjects
     bar.pack(side="left", padx=12)
     nxt = tk.Label(page, anchor="w", justify="left", wraplength=1000, bg=C["accent"], fg="#ffffff", padx=12, pady=8,
                    font=(FONT, 11, "bold"))  # what to do now, in one line
     nxt.pack(fill="x", padx=16, pady=(4, 2))
+
+    # choose the subjects first
+    s0 = ttk.LabelFrame(page, text="选择科目（只下载你选的科目；之后可以在「题库 → 管理科目」随时增减）", padding=10)
+    s0.pack(fill="x", padx=16, pady=6)
+    picks = {}
+    for subj, name in SUBJECTS.items():
+        var = tk.BooleanVar(value=subj in chosen)
+        box = ttk.Checkbutton(s0, text=name, variable=var, command=lambda s=subj: toggle(s))
+        box.pack(side="left", padx=(0, 18))
+        if subj not in offered:
+            box.state(["disabled"])
+            box.configure(text=name + "（整理中，暂不可选）")
+        picks[subj] = var
 
     # ① archived years
     s1 = ttk.LabelFrame(page, text="① 2016–2019：自动下载（Wayback Machine 存档）", padding=10)
@@ -140,11 +171,23 @@ def setup(k):
         write(log, msg + "\n", *tags)
         log.see("end")
 
+    def toggle(subj):
+        if picks[subj].get() and subj not in chosen:
+            chosen.append(subj)
+        elif not picks[subj].get() and subj in chosen:
+            chosen.remove(subj)
+        chosen.sort(key=offered.index)
+        cfg["subjects"] = list(chosen)
+        k.get("config.save")()
+        refresh()
+        if chosen and not state["busy"] and not state.get("downloading") and any(m[3] for m in missing()):
+            download_archived()  # a newly chosen subject: its archived years start at once
+
     def refresh():
-        miss = missing()
-        have = len(all_sources) - len(miss)
-        count.configure(text=f"已导入 {have} / {len(all_sources)} 个文件")
-        bar.configure(value=have)
+        miss, every = missing(), all_sources()
+        have = len(every) - len(miss)
+        count.configure(text=f"已导入 {have} / {len(every)} 个文件" if chosen else "先选择科目")
+        bar.configure(value=have, maximum=max(1, len(every)))
         folder_lbl.configure(text=f"下载文件夹：{state['folder']}")
         table.delete(*table.get_children())
         for rel, url, official, arch in miss:
@@ -155,15 +198,21 @@ def setup(k):
         b2.state(["disabled"] if not miss_browser else ["!disabled"])
         s3_msg.configure(text="全部就绪 ✓" if not miss else f"还缺 {len(miss)} 个文件：全部到齐后自动开始")
         if not state["busy"]:
-            b3.state(["disabled"] if miss else ["!disabled"])  # never a partial bank
+            b3.state(["disabled"] if miss or not chosen else ["!disabled"])  # never a partial bank
+            b1.state(["disabled"] if not miss_arch or state.get("downloading") else ["!disabled"])
+            if not chosen:
+                b2.state(["disabled"])
         nxt.configure(text=next_step(miss_arch, miss_browser))
         return miss
 
     def next_step(miss_arch, miss_browser):
+        if not chosen:
+            return "先在上面勾选你读的科目（可以多选），只会下载这些科目的真题。"
         if state["busy"]:
             return "正在建立题库，约 1 分钟，完成后自动进入学习系统。请不要关闭窗口。"
         if not miss_arch and not miss_browser:
-            return "全部文件已到齐，马上自动建库。"
+            return ("所选科目的文件已全部就绪：点「按所选科目重建题库」，或「返回学习系统」不作改动。" if managing
+                    else "全部文件已到齐，马上自动建库。")
         if miss_arch and not state.get("downloading"):
             retry = f"第 ① 步还有 {miss_arch} 个存档没下载成功：点「开始下载」重试。"
             return retry + (f"　第 ② 步还差 {miss_browser} 个（浏览器保存）。" if miss_browser else "")
@@ -181,7 +230,9 @@ def setup(k):
         for rel in got:
             say(f"✓ 导入 {rel}", "ok")
         miss = refresh()
-        if not miss:
+        if not chosen:
+            return
+        if not miss and (got or not managing):  # managing: rebuild only when new papers completed a subject
             say("所有真题都已就绪，自动建立题库…", "sub")
             build()
         elif not quiet and not got and any(not m[3] for m in miss):
@@ -245,13 +296,16 @@ def setup(k):
             post(lambda: (b1.state(["!disabled"]), state.update(downloading=False), refresh(),
                           say(f"存档下载完成（用时 {took}）。" if not failed else
                               f"存档下载结束，{len(failed)} 个仍失败：点「开始下载」再试。"),
-                          not missing() and not state["busy"] and build()))  # the archive was the last to arrive
+                          chosen and not missing() and not state["busy"] and done and build()))  # last to arrive
 
         threading.Thread(target=work, daemon=True).start()
 
     def build():
         miss = missing()
-        if miss:  # never a partial bank: the question bank always holds every paper
+        if not chosen:
+            say("先选择至少一个科目。", "warn")
+            return
+        if miss:  # never a partial bank: the question bank always holds every paper of the chosen subjects
             say(f"还缺 {len(miss)} 个文件，到齐后会自动建库。", "warn")
             return
         state["busy"] = True
@@ -262,7 +316,7 @@ def setup(k):
 
         def work():
             try:
-                problems = build_all.run(log=lambda m: post(lambda m=m: say(m, "mono")))
+                problems = build_all.run(list(chosen), log=lambda m: post(lambda m=m: say(m, "mono")))
                 post(lambda: say(f"完成（{len(problems)} 条提示）。正在启动学习系统…", "ok"))
                 post(lambda: k.get("ui.root").after(800, finish))
             except Exception as e:
@@ -272,7 +326,7 @@ def setup(k):
         threading.Thread(target=work, daemon=True).start()
 
     def finish():
-        restart()
+        restart([])
         k.get("ui.root").destroy()
 
     b1.configure(command=download_archived)
@@ -280,9 +334,21 @@ def setup(k):
     b3.configure(command=build)
     b_check.configure(command=check)
     table.bind("<Double-1>", lambda e: table.focus() and webbrowser.open(
-        next(s[2] for s in all_sources if s[0] == table.focus())))
+        next(s[2] for s in all_sources() if s[0] == table.focus())))
+    if managing:
+        b3.configure(text="按所选科目重建题库")
+        ttk.Button(s3, text="返回学习系统（不改动）", command=lambda: (restart([]), k.get("ui.root").destroy())).pack(
+            side="right")
+
     def ready():
+        refresh()
+        if not chosen:
+            return  # nothing to fetch until the student picks a subject
         k.get("ui.root").after(300, lambda: check(quiet=True))  # papers saved before the wizard was opened
+        if managing:
+            if any(m[3] for m in missing()):
+                k.get("ui.root").after(800, download_archived)
+            return
         if not missing():  # e.g. right after an update
             say("所有真题都已就绪，自动重建题库…", "sub")
             k.get("ui.root").after(800, build)
@@ -295,7 +361,7 @@ def setup(k):
         if state["busy"]:
             if not messagebox.askyesno("正在建库", "题库正在建立，现在关闭会中断，下次打开要重新建。确定关闭吗？"):
                 return
-        elif miss and not messagebox.askyesno(
+        elif miss and chosen and not managing and not messagebox.askyesno(
                 "还没导入完", f"还差 {len(miss)} 个文件，题库还没建立。\n已下载的文件都会保留，下次打开从这里继续。确定关闭吗？"):
             return
         k.get("ui.root").destroy()
@@ -305,4 +371,6 @@ def setup(k):
     k.get("ui.status")("第一次使用：导入真题后自动进入学习系统")
     k.provide("setup.folder", lambda folder: (state.update(folder=folder), refresh()))  # tests: a stand-in Downloads
     k.provide("setup.check", check)
+    k.provide("setup.choose", lambda subjects: [picks[s].set(s in subjects) or toggle(s) for s in SUBJECTS
+                                                if s in offered])  # tests
     k.provide("setup.refresh", refresh)

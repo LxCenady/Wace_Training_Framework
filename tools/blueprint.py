@@ -295,9 +295,16 @@ def markdown(db, subj):
     return "\n".join(out)
 
 
+def subjects(db):
+    return [r[0] for r in db.execute("SELECT DISTINCT subject FROM questions ORDER BY subject")]
+
+
 def write_skills(db):
-    for subj in ("MAM", "MAS"):
+    """Rewrite the "Paper blueprint" block of every subject's question skill that exists (MAM, MAS, MAA …)."""
+    for subj in subjects(db):
         path = os.path.join(ROOT, "skills", f"wace-{subj.lower()}-questions", "SKILL.md")
+        if not os.path.exists(path):
+            continue
         s = open(path, encoding="utf-8").read()
         block = markdown(db, subj)
         if "<!-- blueprint:start" in s:
@@ -311,7 +318,7 @@ def write_skills(db):
 if __name__ == "__main__":
     db = sqlite3.connect(os.path.join(ROOT, "wace.db"))
     if sys.argv[1:] == ["--print"]:
-        for subj in ("MAM", "MAS"):
+        for subj in subjects(db):
             print(markdown(db, subj), "\n")
     else:
         write_skills(db)

@@ -2,6 +2,7 @@
 import threading
 import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
+from plugins.store import SUBJECT_NAMES
 
 
 def setup(k):
@@ -19,7 +20,7 @@ def setup(k):
         for row, (caption, variable) in enumerate((("试卷名称（可含年份）", title), ("来源（学校或机构）", source))):
             ttk.Label(form, text=caption).grid(row=row, column=0, sticky="w")
             ttk.Entry(form, textvariable=variable, width=48).grid(row=row, column=1, padx=6, pady=4)
-        for row, (caption, variable, values) in enumerate((("科目", subject, ["MAM", "MAS"]),
+        for row, (caption, variable, values) in enumerate((("科目", subject, list(SUBJECT_NAMES)),
                                                            ("卷型", section, ["CalcFree", "CalcAssumed"])), 2):
             ttk.Label(form, text=caption).grid(row=row, column=0, sticky="w")
             ttk.Combobox(form, textvariable=variable, values=values, state="readonly").grid(row=row, column=1, sticky="w", padx=6, pady=4)
@@ -111,7 +112,7 @@ def setup(k):
         filters.pack(fill="x")
         subject, section, words = tk.StringVar(value=""), tk.StringVar(value=""), tk.StringVar()
         confirmed = tk.BooleanVar()
-        for caption, variable, values, width in (("科目", subject, ["", "MAM", "MAS"], 6), ("卷型", section, ["", "CalcFree", "CalcAssumed"], 14)):
+        for caption, variable, values, width in (("科目", subject, ["", *SUBJECT_NAMES], 6), ("卷型", section, ["", "CalcFree", "CalcAssumed"], 14)):
             ttk.Label(filters, text=caption).pack(side="left")
             ttk.Combobox(filters, textvariable=variable, values=values, width=width, state="readonly").pack(side="left", padx=4)
         word_row = ttk.Frame(page, padding=(10, 3))
