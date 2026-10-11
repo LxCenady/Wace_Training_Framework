@@ -87,14 +87,11 @@ def setup(k):
     on_disk = [s for s in offered if any(fetch.is_pdf(os.path.join(root, x[0])) for x in fetch.sources(root, [s]))]
     chosen = [s for s in cfg.get("subjects", on_disk) if s in offered]  # old installs: what is already there
 
-    def needed(items):  # the 2016 sample papers never enter the bank: the wizard ignores them
-        return [x for x in items if "Sample" not in x[0]]
-
     def missing():
-        return needed(fetch.missing(root, chosen))
+        return fetch.missing(root, chosen)  # required papers only: sample papers and reports are optional
 
     def all_sources():
-        return needed(fetch.sources(root, chosen))
+        return fetch.sources(root, chosen, optional=False)
 
     head = ttk.Frame(page)
     head.pack(fill="x", padx=16, pady=(14, 4))
@@ -227,9 +224,12 @@ def setup(k):
         """Look in the Downloads folder once: import every paper there (by name or content), build when all are in."""
         if state["busy"]:
             return
-        got = fetch.import_dir(state["folder"], root)
+        wrong = []
+        got = fetch.import_dir(state["folder"], root, wrong)
         for rel in got:
             say(f"✓ 导入 {rel}", "ok")
+        for reason in wrong:  # e.g. an older upload of the same paper: its crops would land in the wrong place
+            say(f"✗ {reason}。请删掉它，从向导打开的链接重新保存。", "warn")
         miss = refresh()
         if not chosen:
             return

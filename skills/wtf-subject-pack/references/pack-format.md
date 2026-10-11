@@ -19,7 +19,7 @@ MAM/MAS have known parity gaps: strict export refuses them. `--draft` is for loc
 
 ```
 pack.json                      the index (below)
-sources.tsv                    this subject's manifest lines, same format as the repo's sources.tsv
+sources.tsv                    the subject's paper manifest with download metadata (below); installed as <S>/sources.tsv
 catalogue.json                 pattern catalogue (tools/catalogue_<S>.json)
 tags.txt  parttags.txt         tools/tags_<S>.txt, tools/parttags_<S>.txt
 methods/NN_Topic_解题思路.md    notes, zh   (+ 审校记录.md; PDFs optional — the importer can render)
@@ -27,6 +27,25 @@ methods_en/NN_Topic_Methods.md notes, en
 cheatsheet/<S>_CheatSheet.md, <S>_CheatSheet_EN.md (+ PDFs optional)
 skill/SKILL.md, skill/topics/*.md   → skills/wace-<s>-questions/ (blueprint block is regenerated after build)
 ```
+
+## sources.tsv (paper manifest)
+
+Every subject — bundled or imported — has its own `<S>/sources.tsv`; there is no shared root manifest any more
+(a legacy root `sources.tsv` in an old install is still read, and a subject's own file supersedes it). One paper per line,
+tab-separated, first line `#path url method capture sha256 bytes pages need`:
+
+| column | meaning |
+|---|---|
+| `path` | `<S>/papers/<year>_<S>_<Kind>[_<Section>].pdf` |
+| `url` | the official SCSA address (even when the copy comes from the Wayback Machine) |
+| `method` | `wayback` (downloaded automatically from the capture below), `browser` (the student saves it from the official site — scripts get HTTP 403), `direct` |
+| `capture` | Wayback timestamp (14 digits) of the exact copy; only for `wayback` |
+| `sha256` | of the exact copy the tags and crops were made on. A download or import with another hash is refused with 「不是题库标注所用的那一版 PDF」: a re-issued or truncated PDF would put every crop in the wrong place |
+| `bytes` `pages` | progress, and a quick check for truncated archive copies |
+| `need` | `required` (the bank is built from it; the wizard waits for every one) or `optional` (sample papers, examination reports) |
+
+`tools/sources_meta.py <S>` fills method/capture/sha256/bytes/pages/need from the papers on disk; it finds the capture by
+matching the Wayback content digest (base32 SHA-1) against the local file. A pack's manifest must have all eight columns.
 
 ## pack.json
 
@@ -37,7 +56,7 @@ skill/SKILL.md, skill/topics/*.md   → skills/wace-<s>-questions/ (blueprint bl
   "version": "2026.11.0",
   "name": {"zh": "Chemistry 化学", "en": "Chemistry ATAR"},
   "course": "Chemistry ATAR (Units 3-4)",
-  "requires_wtf": ">=1.8.0",
+  "requires_wtf": ">=2.0.0",
   "recognise": {"title": ["chemistry"], "kinds": {"DataBooklet": ["data booklet"]}},
   "papers": {"years": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
              "excluded": {"2016Sample": "not an exam"}},
@@ -62,6 +81,9 @@ Maths packs say `"sections": [{"code": "CalcFree", "letter": "F", "zh": "计算�
 
 Field rules:
 - `order`: optional integer for stable subject ordering (the bundled maths packs use 0, 1, 2).
+- `papers`: `{years: [...], excluded: {"2019": "why"}}` — the years covered and the reason for every year or paper left out
+  (MAA 2019: keys unobtainable). Shown to people, never used to skip files (that is `sources.tsv` `need`).
+- `quality`: written by export — `ready` when `pack_status.py` passes, `draft` for `--draft` exports.
 - `sections[].short`: compact label (maths CF/CA); defaults to `code`. `recognise` lists section title words used to distinguish separate source files. `minutes: null` means use whole-paper `paper_minutes`; advisory per-section time belongs in `suggested_minutes`.
 - Sections are subject metadata, never a framework-wide CA/CF enum. Use stable `code`/`letter` identifiers and localized display names. Maths keeps CF/CA; a shared science paper can display Section One/Two/Three with its question-type name. Verify each subject's official structure before creating its profile.
 - `paper_layout`: `separate-sections` (maths) or `shared` (one exam/key containing multiple sections, Chemistry). This describes source files, not the number of sections or their timers.
@@ -89,7 +111,7 @@ Field rules:
 - Import accepts only the listed data paths, rejects traversal, Windows path aliases, links, duplicate names,
   unlisted files, unknown handlers and bad hashes. Limits: 2,000 entries, 64 MiB per file, 256 MiB total.
   Installation registers `pack.json` last and rolls back overwritten files on failure; no database is built
-  until the normal wizard completes. Installed `<S>/sources.tsv` overrides matching bundled manifest paths.
+  until the normal wizard completes.
 
 ## Import (one click: 题库 → 管理科目 → 导入学科包…)
 
@@ -118,9 +140,9 @@ Field rules:
 `scripts/pack_status.py <S>` is not all green or if anything SCSA-derived would be included
 (`questions.json`, `wace.db`, `papers/`, topic PDFs, `evidence/`).
 
-## What the app must read from packs instead of code (implementation list)
+## What the app reads from packs (implemented in v2.0: `tools/subjects.py` + `tools/handlers.py`)
 
-| Today (hard-coded) | From pack.json |
+| Formerly hard-coded | From pack.json |
 |---|---|
 | `store.SUBJECT_NAMES`, `ui_setup.SUBJECTS` | `name` |
 | `build_docs.TOPICS` | `topics` |

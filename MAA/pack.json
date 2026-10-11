@@ -1,14 +1,30 @@
 {
   "wtf_pack": 1,
   "subject": "MAA",
-  "version": "2026.10.0",
+  "version": "2026.10.1",
   "order": 2,
   "name": {
     "zh": "Mathematics Applications 数学应用",
     "en": "Mathematics Applications ATAR"
   },
   "course": "Mathematics Applications ATAR (Units 3-4)",
-  "requires_wtf": ">=1.8.0",
+  "requires_wtf": ">=2.0.0",
+  "papers": {
+    "years": [
+      2016,
+      2017,
+      2018,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "excluded": {
+      "2019": "marking keys unobtainable (one never published, the archived one is truncated)"
+    }
+  },
   "paper_layout": "separate-sections",
   "recognise": {
     "title": [

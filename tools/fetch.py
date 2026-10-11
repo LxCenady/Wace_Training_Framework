@@ -7,42 +7,74 @@ The papers are © School Curriculum and Standards Authority and are not redistri
 The SCSA site sits behind bot protection, so direct downloads of 2020+ papers are usually refused (HTTP 403);
 open the printed URLs in a normal browser, save the PDFs, then import them with --from.
 """
-import os, re, shutil, sys, time, urllib.error, urllib.parse, urllib.request
+import hashlib, os, re, shutil, sys, time, urllib.error, urllib.parse, urllib.request
 from pathlib import Path
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from paperid import identify  # noqa: E402
 import subjects as subject_registry
 
-WAYBACK = "https://web.archive.org/web/2020id_/"
+WAYBACK = "https://web.archive.org/web/{}id_/"
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# <S>/sources.tsv, one paper per line (a first line starting with "#" names the columns):
+#   path     where the paper goes, e.g. MAA/papers/2016_MAA_Exam_CalcFree.pdf
+#   url      the official SCSA address
+#   method   wayback: downloaded from the Wayback Machine | browser: the student saves it from the official site
+#            (scripts get HTTP 403 there) | direct: plain download
+#   capture  Wayback timestamp of the exact copy the tags were made on (wayback only)
+#   sha256   of that exact copy: a different version would put every crop in the wrong place, so it is refused
+#   bytes pages   for progress and to spot truncated archive copies
+#   need     required: the bank is built from it | optional: sample papers, examination reports
+# Old two-column lines ("path<TAB>url[ (wayback)]") still read, without the checks.
+COLUMNS = ("path", "url", "method", "capture", "sha256", "bytes", "pages", "need")
 
 
-def sources(root=None, subjects=None):
-    """-> list of (relative path, download URL, official URL, archived?); only `subjects` when given."""
-    out = []
+def entries(root=None, subjects=None):
+    """-> [{path, url, method, capture, sha256, bytes, pages, need}] from <S>/sources.tsv (and a legacy root
+    sources.tsv, which a subject's own manifest supersedes); only `subjects` when given."""
     data_root = Path(root or ROOT)
-    manifests = [data_root / 'sources.tsv', *sorted(data_root.glob('*/sources.tsv'))]
     merged = {}
-    for manifest in manifests:
+    for manifest in [data_root / "sources.tsv", *sorted(data_root.glob("*/sources.tsv"))]:
         if not manifest.exists():
             continue
-        with manifest.open(encoding='utf-8') as file:
-            lines = file.read().splitlines()
-        for line in lines:
-            if not line.strip():
+        for line in manifest.read_text(encoding="utf-8").splitlines():
+            if not line.strip() or line.startswith("#"):
                 continue
-            path, url = line.split("\t")
-            if manifest.parent != data_root and path.split('/', 1)[0] != manifest.parent.name:
-                raise ValueError(f'Source belongs to another subject: {manifest}')
-            merged[path] = url  # an installed pack supersedes the bundled manifest
-    for path, url in merged.items():
-        if subjects is not None and path.split("/", 1)[0] not in subjects:
-            continue
-        archived = url.endswith(" (wayback)")
-        official = url[: -len(" (wayback)")] if archived else url
-        out.append((path, WAYBACK + official if archived else official, official, archived))
-    return out
+            row = dict(zip(COLUMNS, line.split("\t")))
+            if manifest.parent != data_root and row["path"].split("/", 1)[0] != manifest.parent.name:
+                raise ValueError(f"Source belongs to another subject: {manifest}")
+            if not row.get("method"):  # legacy line
+                archived = row["url"].endswith(" (wayback)")
+                row["url"] = row["url"].removesuffix(" (wayback)")
+                row["method"] = "wayback" if archived else "browser"
+            if row["method"] not in ("wayback", "browser", "direct"):
+                raise ValueError(f"Unknown download method in {manifest}: {row['method']}")
+            row.setdefault("need", "required")
+            row["need"] = row["need"] or "required"
+            merged[row["path"]] = {c: row.get(c, "") for c in COLUMNS}
+    return [r for p, r in merged.items() if subjects is None or p.split("/", 1)[0] in subjects]
+
+
+def download_url(entry):
+    if entry["method"] == "wayback":
+        return WAYBACK.format(entry["capture"] or "2020") + entry["url"]
+    return entry["url"]
+
+
+def sources(root=None, subjects=None, optional=True):
+    """-> list of (relative path, download URL, official URL, archived?); only `subjects` when given."""
+    return [(e["path"], download_url(e), e["url"], e["method"] == "wayback") for e in entries(root, subjects)
+            if optional or e["need"] == "required"]
+
+
+def verify(path, rel, root=None):
+    """None when the PDF at `path` is the copy `rel` lists (or the manifest has no hash), else why not."""
+    want = next((e for e in entries(root) if e["path"] == rel), {}).get("sha256")
+    if not want:
+        return None
+    with open(path, "rb") as f:
+        got = hashlib.sha256(f.read()).hexdigest()
+    return None if got == want else f"{os.path.basename(rel)}：不是题库标注所用的那一版 PDF（内容不同），已跳过"
 
 
 def subjects(root=None):
@@ -59,9 +91,10 @@ def is_pdf(path):
         return False
 
 
-def missing(root=None, subjects=None):
+def missing(root=None, subjects=None, optional=False):
+    """Listed papers not on disk yet; the bank needs only the required ones (optional=True adds the rest)."""
     root = root or ROOT
-    return [s for s in sources(root, subjects) if not is_pdf(os.path.join(root, s[0]))]
+    return [s for s in sources(root, subjects, optional) if not is_pdf(os.path.join(root, s[0]))]
 
 
 def hint(error):
@@ -102,6 +135,10 @@ def download(rel, url, root=None, timeout=60, tries=5, wait=lambda s: time.sleep
     if not is_pdf(dest + ".part"):
         os.remove(dest + ".part")
         raise ValueError("reply was not a PDF")
+    wrong = verify(dest + ".part", rel, root)
+    if wrong:
+        os.remove(dest + ".part")
+        raise ValueError(wrong)
     os.replace(dest + ".part", dest)
 
 
@@ -122,8 +159,9 @@ def match(path, root=None):
     return rel if rel in {s[0] for s in listed} else None
 
 
-def import_file(path, root=None):
-    """Copy one PDF into place if it is a listed, still-missing paper. Returns its relative path or None."""
+def import_file(path, root=None, rejected=None):
+    """Copy one PDF into place if it is a listed, still-missing paper. Returns its relative path or None;
+    a listed paper in a different version than the manifest's goes to `rejected` (a list) with the reason."""
     root = root or ROOT
     rel = match(path, root)
     if not rel:
@@ -131,16 +169,21 @@ def import_file(path, root=None):
     dest = os.path.join(root, rel)
     if is_pdf(dest):
         return None
+    wrong = verify(path, rel, root)
+    if wrong:
+        if rejected is not None:
+            rejected.append(wrong)
+        return None
     os.makedirs(os.path.dirname(dest), exist_ok=True)
     shutil.copyfile(path, dest)
     return rel
 
 
-def import_dir(folder, root=None):
+def import_dir(folder, root=None, rejected=None):
     got = []
     for name in sorted(os.listdir(folder)):
         if name.lower().endswith(".pdf"):
-            rel = import_file(os.path.join(folder, name), root)
+            rel = import_file(os.path.join(folder, name), root, rejected)
             if rel:
                 got.append(rel)
     return got
@@ -151,13 +194,13 @@ def main(args):
         for rel in import_dir(args[1]):
             print("ok  ", rel)
     else:
-        for rel, url, _, _ in missing():
+        for rel, url, _, _ in missing(optional=True):
             try:
                 download(rel, url)
                 print("ok  ", rel)
             except Exception as e:
                 print("MISS", rel, f"({type(e).__name__}: {e})")
-    left = missing()
+    left = missing(optional=True)
     print(f"\n{len(left)} file(s) missing")
     for _, _, official, _ in left:
         print(official)

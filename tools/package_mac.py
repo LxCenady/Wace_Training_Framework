@@ -1,7 +1,7 @@
 """Build the macOS app. One job: repo -> dist/WTF.app and a drag-to-Applications disk image (runs on a Mac).
 
 Layout: WTF.app holds Python + PyMuPDF + Tk + app + build tools (PyInstaller --windowed --onedir) and, under
-data/, the same original files the Windows zip carries (notes, tags, skills, sources.tsv …). The app never
+data/, the same original files the Windows zip carries (notes, tags, skills, <S>/pack.json and sources.tsv …). The app never
 writes inside itself: plat.frozen_root copies data/ to ~/Library/Application Support/WTF on first start of each
 version, and papers, wace.db and generated.db live there.
 

@@ -1,14 +1,31 @@
 {
   "wtf_pack": 1,
   "subject": "MAM",
-  "version": "2026.10.0",
+  "version": "2026.10.1",
   "order": 0,
   "name": {
     "zh": "Mathematics Methods 数学方法",
     "en": "Mathematics Methods ATAR"
   },
   "course": "Mathematics Methods ATAR (Units 3-4)",
-  "requires_wtf": ">=1.8.0",
+  "requires_wtf": ">=2.0.0",
+  "papers": {
+    "years": [
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025
+    ],
+    "excluded": {
+      "2016Sample": "sample papers: optional, not in the bank"
+    }
+  },
   "paper_layout": "separate-sections",
   "recognise": {
     "title": [

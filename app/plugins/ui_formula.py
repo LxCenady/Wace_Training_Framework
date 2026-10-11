@@ -1,7 +1,8 @@
-"""Formula sheet. One job: keep the official formula sheet beside everything else.
+"""Formula sheet / data booklet. One job: keep the official reference sheet beside everything else.
 
-A right-hand pane (drag its edge to resize; re-rendered sharp at every width) showing the newest
-<subj>/papers/*_FormulaSheet.pdf. Follows the subject of whatever is selected; switch by hand too; F2 hides it.
+A right-hand pane (drag its edge to resize; re-rendered sharp at every width) showing <subj>/papers/<year>_<subj>_<sheet>.pdf
+for the sheets the subject's pack names. Two drop-downs: the installed subjects, and the years on this computer. It follows
+whatever is selected — a past question gets the sheet of its own year (else the latest one before it); F2 hides it.
 """
 import base64, glob, os, re
 import tkinter as tk
@@ -10,22 +11,33 @@ import pymupdf
 import subjects
 
 SHARE = 0.26  # initial share of the window width
+SHEET_NAME = {"FormulaSheet": "公式表", "DataBooklet": "数据手册"}
 
 
 def setup(k):
     pane, C = k.get("ui.pane"), k.get("ui.colors")
     frame = ttk.Frame(pane)
     pane.add(frame, weight=0)
-    have = k.get("store").subjects() or list(subjects.names(k.root))
-    state = {"subj": have[0], "doc": None, "path": None, "width": 0, "job": None, "shown": True, "images": []}
+    english = k.get("config").get("language") == "en"
+    names = subjects.names(k.root, "en" if english else "zh")  # installed subject packs, in pack order
+    have = list(names)
+    state = {"subj": None, "year": None, "doc": None, "width": 0, "job": None, "shown": True, "images": []}
 
     head = ttk.Frame(frame)
     head.pack(fill="x", padx=8, pady=(8, 4))
-    ttk.Label(head, text="公式表", style="H.TLabel").pack(side="left")
-    subj = tk.StringVar(value=have[0])
-    for s in have:
-        ttk.Radiobutton(head, text=s, value=s, variable=subj, command=lambda: switch(subj.get())).pack(side="left",
-                                                                                                    padx=(8, 0))
+    heading = ttk.Label(head, text="公式表", style="H.TLabel")
+    heading.pack(side="left")
+    labels = {f"{s} · {names[s].removesuffix(' ATAR') if english else names[s].split()[-1]}": s
+              for s in have}  # "MAM · 数学方法" / "MAM · Mathematics Methods"
+    subj = tk.StringVar()
+    pick_subj = ttk.Combobox(head, textvariable=subj, values=list(labels), state="readonly",
+                             width=max(sum(2 if ord(c) > 0x2E80 else 1 for c in x) for x in labels) + 2 if labels else 12)  # CJK = 2 columns
+    pick_subj.pack(side="left", padx=(10, 0))
+    pick_subj.bind("<<ComboboxSelected>>", lambda e: switch(labels[subj.get()]))
+    year = tk.StringVar()
+    pick_year = ttk.Combobox(head, textvariable=year, state="readonly", width=6)
+    pick_year.pack(side="left", padx=(6, 0))
+    pick_year.bind("<<ComboboxSelected>>", lambda e: show(state["subj"], int(year.get())))
     title = ttk.Label(frame, style="Muted.TLabel")
     title.pack(anchor="w", padx=10)
 
@@ -40,11 +52,19 @@ def setup(k):
     canvas.bind("<Enter>", lambda e: canvas.bind_all("<MouseWheel>", wheel))
     canvas.bind("<Leave>", lambda e: canvas.unbind_all("<MouseWheel>"))
 
-    def newest(s):
-        files = [path for sheet in subjects.info(s)['sheets']
-                 for path in glob.glob(os.path.join(k.root, s, "papers", f"*_{sheet}.pdf"))]
-        year = lambda f: int(re.match(r"(\d{4})", os.path.basename(f)).group(1))  # noqa: E731
-        return max(files, key=year) if files else None
+    def sheets(s):
+        """{year: path} of the subject's reference sheets on this computer."""
+        out = {}
+        for sheet in subjects.info(s, k.root)["sheets"]:
+            for path in glob.glob(os.path.join(k.root, s, "papers", f"*_{sheet}.pdf")):
+                m = re.match(r"(\d{4})_", os.path.basename(path))
+                if m:
+                    out[int(m.group(1))] = path
+        return out
+
+    def sheet_name(s):
+        kinds = subjects.info(s, k.root)["sheets"]
+        return SHEET_NAME.get(kinds[0], kinds[0]) if kinds else "公式表"
 
     def render():
         state["job"] = None
@@ -53,7 +73,7 @@ def setup(k):
         doc = state["doc"]
         if doc is None:
             canvas.create_text(12, 12, anchor="nw", fill=C["muted"], width=max(200, state["width"] - 24),
-                               text=f"本机还没有 {state['subj']} 的公式表（导入真题后自动出现）。")
+                               text=f"本机还没有 {state['subj']} 的{sheet_name(state['subj'])}（导入真题后自动出现）。")
             return
         y, width = 6, max(200, state["width"] - 12)
         pages = [p for p in doc if len(p.get_text().split()) >= 40] or list(doc)  # skip cover / index pages
@@ -76,27 +96,39 @@ def setup(k):
             state["width"] = e.width
             schedule()
 
-    def switch(s):
-        if s == state["subj"] and state["doc"] is not None:
+    def show(s, wanted=None):
+        """Subject `s`, the sheet of year `wanted` (else the latest one before it, else the newest)."""
+        if s not in names:
             return
-        state["subj"] = s
-        subj.set(s)
-        path = newest(s)
-        state["doc"] = pymupdf.open(path) if path else None
-        title.configure(text=f"{os.path.basename(path)[:4]} {s} 官方公式表 · 拖动左边缘调宽度" if path else "")
+        found = sheets(s)
+        years = sorted(found, reverse=True)
+        pick = next((y for y in years if wanted is None or y <= wanted), years[-1] if years else None)
+        if (s, pick) == (state["subj"], state["year"]) and state["doc"] is not None:
+            return
+        state["subj"], state["year"] = s, pick
+        subj.set(next(label for label, code in labels.items() if code == s))
+        pick_year.configure(values=[str(y) for y in years])
+        year.set(str(pick) if pick else "")
+        heading.configure(text=sheet_name(s))
+        state["doc"] = pymupdf.open(found[pick]) if pick else None
+        title.configure(text=f"官方{sheet_name(s)} · 拖动左边缘调宽度" if pick else "")
         canvas.yview_moveto(0)
         schedule()
+
+    def switch(s):  # kept for other plugins (formula.switch): the subject's newest sheet
+        show(s)
 
     def follow(ref):
         """select.* events: a pattern list, a question id like 'MAS-2024A-Q9', or a generated item id."""
         if isinstance(ref, list) and ref:
-            switch(ref[0].split(".")[0])
+            show(ref[0].split(".")[0], state["year"] if ref[0].split(".")[0] == state["subj"] else None)
         elif isinstance(ref, str):
-            switch(ref.split("-")[0])
+            m = re.match(r"([A-Z]+)-(\d{4})", ref)
+            show(ref.split("-")[0], int(m.group(2)) if m else None)
         elif isinstance(ref, int):
             item = k.get("store").generated(ref)
             if item["patterns"]:
-                switch(item["patterns"][0].split(".")[0])
+                show(item["patterns"][0].split(".")[0])
 
     def toggle(_=None):
         if state["shown"]:
@@ -117,5 +149,6 @@ def setup(k):
                          accelerator="F2")
     k.get("ui.menu").add_cascade(label="视图", menu=menu)
     k.get("ui.root").bind_all("<F2>", toggle)
-    k.on("ui.ready", lambda: switch(have[0]))
+    first = (k.get("store").subjects() or have or [None])[0]
+    k.on("ui.ready", lambda: show(first) if first else None)
     k.provide("formula.switch", switch)

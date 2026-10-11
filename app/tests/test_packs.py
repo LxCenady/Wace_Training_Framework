@@ -21,7 +21,9 @@ class Packs(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.root = Path(self.tmp.name)
         self.profile = copy.deepcopy(subjects.info('MAM'))
-        self.payload = {'sources.tsv': b'MAM/papers/2025_MAM_Exam_CalcFree.pdf\thttps://example.invalid/exam.pdf\n',
+        self.payload = {'sources.tsv': b'#path\turl\tmethod\tcapture\tsha256\tbytes\tpages\tneed\n'
+                                       b'MAM/papers/2025_MAM_Exam_CalcFree.pdf\thttps://example.invalid/exam.pdf\tbrowser\t\t'
+                                       + b'0' * 64 + b'\t1000\t12\trequired\n',
                         'tags.txt': b'original tags', 'parttags.txt': b'original part tags', 'skill/SKILL.md': b'original skill'}
 
     def tearDown(self):
@@ -80,6 +82,42 @@ class Packs(unittest.TestCase):
                 pack.destination(path, 'MAM')
         with self.assertRaises(ValueError):
             pack.validate_sources(b'MAM/papers/NUL.pdf\thttps://example.invalid/null.pdf', 'MAM')
+        good = b'MAM/papers/2025_MAM_Exam_CalcFree.pdf\thttps://example.invalid/e.pdf\t%s\t%s\t' + b'0' * 64 + b'\t1\t1\t%s'
+        pack.validate_sources(good % (b'wayback', b'20250101000000', b'required'), 'MAM')
+        for bad in (good % (b'wayback', b'', b'required'), good % (b'browser', b'20250101000000', b'required'),
+                    good % (b'ftp', b'', b'required'), good % (b'browser', b'', b'maybe'),
+                    b'MAM/papers/2025_MAM_Exam_CalcFree.pdf\thttps://example.invalid/e.pdf'):  # no metadata
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                pack.validate_sources(bad, 'MAM')
+
+    def test_manifest_metadata_and_wrong_version_refused(self):
+        import fetch
+        root = self.root / 'manifest'
+        (root / 'MAM').mkdir(parents=True)
+        right = b'%PDF-1.4 the copy the tags were made on'
+        (root / 'MAM/sources.tsv').write_text(
+            '#' + '\t'.join(fetch.COLUMNS) + '\n'
+            f'MAM/papers/2017_MAM_Exam_CalcFree.pdf\thttps://example.invalid/a.pdf\twayback\t20180326152405\t'
+            f'{hashlib.sha256(right).hexdigest()}\t{len(right)}\t1\trequired\n'
+            'MAM/papers/2017_MAM_ExamReport.pdf\thttps://example.invalid/r.pdf\tbrowser\t\t' + '0' * 64 + '\t1\t1\toptional\n',
+            encoding='utf-8')
+        (root / 'sources.tsv').write_text('MAM/papers/2016_MAM_Exam_CalcFree.pdf\thttps://example.invalid/old.pdf (wayback)\n',
+                                          encoding='utf-8')  # a legacy root manifest of an old install still reads
+        rows = {e['path']: e for e in fetch.entries(root)}
+        self.assertEqual(rows['MAM/papers/2016_MAM_Exam_CalcFree.pdf']['method'], 'wayback')
+        self.assertEqual(fetch.download_url(rows['MAM/papers/2017_MAM_Exam_CalcFree.pdf']),
+                         'https://web.archive.org/web/20180326152405id_/https://example.invalid/a.pdf')
+        missing = [m[0] for m in fetch.missing(root)]  # optional reports never block the bank
+        self.assertNotIn('MAM/papers/2017_MAM_ExamReport.pdf', missing)
+        self.assertIn('MAM/papers/2017_MAM_ExamReport.pdf', [m[0] for m in fetch.missing(root, optional=True)])
+        downloads = self.root / 'downloads'
+        downloads.mkdir()
+        (downloads / 'a.pdf').write_bytes(b'%PDF-1.4 a re-issued copy')
+        wrong = []
+        self.assertEqual(fetch.import_dir(downloads, root, wrong), [])
+        self.assertEqual(len(wrong), 1)
+        (downloads / 'a.pdf').write_bytes(right)
+        self.assertEqual(fetch.import_dir(downloads, root), ['MAM/papers/2017_MAM_Exam_CalcFree.pdf'])
 
     def test_weights_and_partial_chemistry(self):
         maths = scoring.score(self.profile, {'CalcFree': (50, 50), 'CalcAssumed': (0, 100)}, 2025)

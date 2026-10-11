@@ -1,6 +1,6 @@
 """Thin glue: locate the data folder, load the plugins listed in plugins.txt (or setup.txt before the
 question bank exists), run."""
-import os, sys
+import glob, os, sys
 
 FROZEN = getattr(sys, "frozen", False)  # packaged by tools/package_win.py
 HERE = getattr(sys, "_MEIPASS", None) or os.path.dirname(os.path.abspath(__file__))
@@ -12,7 +12,7 @@ plat.use_system_certificates()  # before any download: HTTPS trusts the system (
 
 def find_root():
     env = os.environ.get("WACE_MATHS_ROOT")
-    if env and os.path.isfile(os.path.join(env, "sources.tsv")):
+    if env and (glob.glob(os.path.join(env, "*", "pack.json")) or os.path.isfile(os.path.join(env, "sources.tsv"))):
         return env
     return plat.frozen_root(HERE) if FROZEN else os.path.dirname(HERE)
 
@@ -32,7 +32,7 @@ def headless(root, args):
             if a == "--import" and i + 1 < len(args):
                 for rel in fetch.import_dir(args[i + 1], root):
                     say(f"imported {rel}")
-        miss = [m[0] for m in fetch.missing(root) if "Sample" not in m[0]]
+        miss = [m[0] for m in fetch.missing(root)]  # required papers only
         say(f"{len(miss)} paper(s) still missing" + "".join(f"\n  {m}" for m in miss))
         if "--build" in args and miss:
             say("not building: a question bank needs every paper (import the missing ones, then --build)")

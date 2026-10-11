@@ -4,7 +4,7 @@
 
 Layout of the zip (the folder next to WTF.exe is the data root):
   WTF/WTF.exe, WTF/_internal/…           Python + PyMuPDF + Tk + app + build tools (PyInstaller --onedir)
-  WTF/sources.tsv, tools/*.txt, MAM/ MAS/ methods, skills/, cheatsheet/, README.md, LICENSE
+  WTF/<S>/pack.json + sources.tsv, tools/*.txt, MAM/ MAS/ MAA/ methods, skills/, cheatsheet/, README.md, LICENSE
 SCSA papers are NOT included; the first-run wizard fetches/imports them and builds the question bank.
 """
 import glob, os, shutil, subprocess, sys, zipfile

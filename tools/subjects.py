@@ -132,6 +132,12 @@ def validate_profile(data, path):
         raise ValueError(f'Invalid sketch mode: {path}')
     if any(not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', sheet) for sheet in data['sheets']):
         raise ValueError(f'Unsafe sheet identifier: {path}')
+    papers = data.get('papers', {'years': [], 'excluded': {}})  # coverage, and why a year is left out
+    if (not isinstance(papers, dict) or not isinstance(papers.get('years', []), list)
+            or any(type(y) is not int for y in papers.get('years', []))
+            or not isinstance(papers.get('excluded', {}), dict)
+            or any(not isinstance(v, str) or not v.strip() for v in papers.get('excluded', {}).values())):
+        raise ValueError(f'Invalid papers: {path}')
     scoring.validate(data)
     handlers.validate(data)
     return data

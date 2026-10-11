@@ -15,6 +15,7 @@ import subjects
 ROOT = Path(__file__).resolve().parent.parent
 MAX_FILE = 64 * 1024 * 1024
 MAX_TOTAL = 256 * 1024 * 1024
+APP_VERSION = (ROOT / 'app' / 'version.txt').read_text(encoding='utf-8').strip() if (ROOT / 'app' / 'version.txt').exists() else '0.0.0'
 
 
 def destination(name, subject):
@@ -44,29 +45,35 @@ def version(value):
 
 
 def validate_sources(data, subject):
+    """The columns are described in fetch.py; a pack's manifest must carry the full metadata."""
+    import fetch
     seen = set()
     for line in data.decode('utf-8').splitlines():
-        if not line.strip():
+        if not line.strip() or line.startswith('#'):
             continue
         fields = line.split('\t')
-        if len(fields) != 2:
-            raise ValueError('Invalid sources.tsv line')
-        path, url = fields
+        if len(fields) != len(fetch.COLUMNS):
+            raise ValueError('Invalid sources.tsv line (needs ' + ', '.join(fetch.COLUMNS) + ')')
+        path, url, method, capture, sha256, size, pages, need = fields
+        if (method not in ('wayback', 'browser', 'direct') or need not in ('required', 'optional')
+                or (method == 'wayback') != bool(re.fullmatch(r'\d{14}', capture)) or (capture and method != 'wayback')
+                or not re.fullmatch(r'[0-9a-f]{64}', sha256) or not size.isdigit() or not pages.isdigit()):
+            raise ValueError(f'Invalid source metadata: {path}')
+        archived = method == 'wayback'
         parts = PurePosixPath(path).parts
         if (len(parts) != 3 or parts[:2] != (subject, 'papers') or not parts[2].endswith('.pdf')
                 or str(PurePosixPath(path)) != path or '\\' in path or ':' in path or path.casefold() in seen):
             raise ValueError(f'Invalid source path: {path}')
         destination('methods/' + parts[2], subject)  # same safe filename rules as archive payloads
         seen.add(path.casefold())
-        archived = url.endswith(' (wayback)')
-        parsed = urlsplit(url.removesuffix(' (wayback)'))
+        parsed = urlsplit(url)
         if parsed.scheme not in (('https', 'http') if archived else ('https',)) or not parsed.hostname or parsed.username or parsed.password:
             raise ValueError('Paper sources must use HTTPS without credentials')
     if not seen:
         raise ValueError('Empty paper sources')
 
 
-def inspect(file, app_version='1.8.0'):
+def inspect(file, app_version=APP_VERSION):
     with zipfile.ZipFile(file) as archive:
         entries = archive.infolist()
         names = [entry.filename for entry in entries]
@@ -110,7 +117,7 @@ def inspect(file, app_version='1.8.0'):
     return profile, payload
 
 
-def install(file, root, overwrite=False, app_version='1.8.0'):
+def install(file, root, overwrite=False, app_version=APP_VERSION):
     profile, payload = inspect(file, app_version)
     root = Path(root).resolve()
     subject = profile['subject']
@@ -172,9 +179,7 @@ def export(subject, root=ROOT, out=None, draft=False):
         if archive_name:
             destination(archive_name, subject)
             payload[archive_name] = (root / name).read_bytes()
-    import fetch
-    payload['sources.tsv'] = ''.join(f'{path}\t{url}' + (' (wayback)' if archived else '') + '\n'
-                                     for path, _, url, archived in fetch.sources(root, [subject])).encode('utf-8')
+    payload['sources.tsv'] = (root / subject / 'sources.tsv').read_bytes()
     profile['files'] = {name: 'sha256:' + hashlib.sha256(data).hexdigest() for name, data in payload.items()}
     target = Path(out or root / 'dist') / f'{subject}-{profile["version"]}.wtfpack'
     target.parent.mkdir(parents=True, exist_ok=True)
