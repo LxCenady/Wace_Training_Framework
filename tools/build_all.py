@@ -8,8 +8,11 @@ import os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 
-def run(subjects=("MAM", "MAS"), log=print):
-    import segment, build_docs, build_bank, build_db  # noqa: E401 (import late: ROOT is read at import time)
+def run(subjects=None, log=print):
+    """Build `subjects` (default: every subject with papers listed in sources.tsv and topics in build_docs)."""
+    import segment, build_docs, build_bank, build_db, fetch  # noqa: E401 (import late: ROOT is read at import time)
+    if subjects is None:
+        subjects = [s for s in fetch.subjects(build_db.ROOT) if s in build_docs.TOPICS]
     for name, step in (("segment", segment.main), ("topic PDFs", build_docs.build), ("question banks", build_bank.build)):
         for s in subjects:
             log(f"{name}: {s}")
@@ -23,4 +26,4 @@ def run(subjects=("MAM", "MAS"), log=print):
 
 
 if __name__ == "__main__":
-    run(sys.argv[1:] or ("MAM", "MAS"))
+    run(sys.argv[1:] or None)
