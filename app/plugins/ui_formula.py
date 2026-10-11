@@ -150,6 +150,7 @@ def setup(k):
                          accelerator="F2")
     k.get("ui.menu").add_cascade(label="视图", menu=menu)
     k.get("ui.root").bind_all("<F2>", toggle)
-    first = (k.get("store").subjects() or have or [None])[0]
+    shown_first = k.get("config").get("tree.subject")  # the subject the knowledge tree opens on
+    first = shown_first if shown_first in have else (k.get("store").subjects() or have or [None])[0]
     k.on("ui.ready", lambda: show(first) if first else None)
     k.provide("formula.switch", switch)

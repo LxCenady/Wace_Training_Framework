@@ -21,11 +21,20 @@ def short(title):
 
 
 def setup(k):
-    store, left = k.get("store"), k.get("ui.left")
+    store, left, cfg = k.get("store"), k.get("ui.left"), k.get("config")
     head = ttk.Frame(left)
-    head.pack(fill="x", padx=10, pady=(10, 4))
+    head.pack(fill="x", padx=10, pady=(10, 0))
     ttk.Label(head, text="知识图谱", style="H.TLabel").pack(side="left")
-    ttk.Label(head, text="选单元按真题分布出题 · Ctrl+点击多选题型", style="Muted.TLabel").pack(side="right")
+    english = cfg.get("language") == "en"
+    names = subjects.names(k.root, "en" if english else "zh")
+    have = [s for s in store.subjects() if s in names]  # subjects with questions in the bank, in pack order
+    labels = {f"{s} · {names[s].removesuffix(' ATAR') if english else names[s].split()[-1]}": s for s in have}
+    subj = tk.StringVar()
+    pick_subj = ttk.Combobox(head, textvariable=subj, values=list(labels), state="readonly",
+                             width=max([sum(2 if ord(c) > 0x2E80 else 1 for c in x) for x in labels] or [10]) + 2)
+    pick_subj.pack(side="right")
+    ttk.Label(left, text="选单元按真题分布出题 · Ctrl+点击多选题型", style="Muted.TLabel").pack(anchor="w", padx=10,
+                                                                                         pady=(2, 4))
 
     body = ttk.Frame(left)
     body.pack(fill="both", expand=True, padx=(10, 0))
@@ -43,8 +52,8 @@ def setup(k):
     section, marks = tk.StringVar(value=sec_shown[0]), tk.IntVar(value=0)
     level, count = tk.StringVar(value=lvl_shown[1]), tk.IntVar(value=1)
     ttk.Label(foot, text="卷型").grid(row=0, column=0, sticky="w")
-    ttk.Combobox(foot, textvariable=section, values=sec_shown, state="readonly", width=16).grid(row=0, column=1,
-                                                                                                    padx=4)
+    pick_sec = ttk.Combobox(foot, textvariable=section, values=sec_shown, state="readonly", width=16)
+    pick_sec.grid(row=0, column=1, padx=4)
     ttk.Label(foot, text="总分(0=自动)").grid(row=0, column=2, sticky="w", padx=(8, 0))
     ttk.Spinbox(foot, from_=0, to=20, textvariable=marks, width=4).grid(row=0, column=3, padx=4)
     ttk.Label(foot, text="难度").grid(row=1, column=0, sticky="w", pady=(6, 0))
@@ -59,13 +68,30 @@ def setup(k):
     k.provide("ui.tree.actions", actions)
     foot.columnconfigure(1, weight=1)
 
-    for subj in store.subjects():
-        s = tree.insert("", "end", f"S:{subj}", text=NAMES.get(subj, subj), open=True)
-        for code, zh, en, n in store.topics(subj):
-            t = tree.insert(s, "end", f"T:{code}", text=f"{zh}  ·  {n} 题")
+    def show_subject(s):
+        """One subject at a time (the list grows with every installed pack); the 卷型 filter offers its sections."""
+        nonlocal sec_shown, sec_code
+        tree.delete(*tree.get_children())
+        node = tree.insert("", "end", f"S:{s}", text=NAMES.get(s, s), open=True)
+        for code, zh, en, n in store.topics(s):
+            t = tree.insert(node, "end", f"T:{code}", text=f"{zh}  ·  {n} 题")
             for pcode, num, title, cnt in store.patterns(code):
                 p = tree.insert(t, "end", f"P:{pcode}", text=f"题型 {num}  {short(title)}  ·  {cnt}")
                 tree.insert(p, "end", f"X:{pcode}", text="…")  # lazy placeholder
+        with_questions = set(store.paper_totals(s))  # a section kept whole (Chemistry MC) has none to generate from
+        options = [label for label, code in subjects.section_options(s).items()
+                   if code == "any" or code in with_questions]
+        sec_shown, sec_code = pick(options)
+        pick_sec.configure(values=sec_shown)
+        if section.get() not in sec_shown:
+            section.set(sec_shown[0])
+        subj.set(next(label for label, code in labels.items() if code == s))
+        cfg["tree.subject"] = s
+        k.get("formula.switch", lambda _: None)(s)
+
+    pick_subj.bind("<<ComboboxSelected>>", lambda e: (show_subject(labels[subj.get()]), k.get("config.save")()))
+    if have:
+        show_subject(cfg.get("tree.subject") if cfg.get("tree.subject") in have else have[0])
 
     def fill(pcode):
         node = f"P:{pcode}"
@@ -160,6 +186,7 @@ def setup(k):
     tree.bind("<<TreeviewSelect>>", on_select)
     k.provide("tree.selection", lambda: (unit(), codes()))  # (selected unit code or None, selected pattern codes)
     k.provide("tree.widget", tree)  # e.g. 工作区 makes its question rows draggable
+    k.provide("tree.show", show_subject)  # switch the tree to one subject
 
     def generate():
         c, u = codes(), unit()
@@ -167,7 +194,8 @@ def setup(k):
             k.get("ui.status")("先在知识图谱里选中一个单元，或至少一个题型")
             return
         n = max(1, min(20, count.get()))
-        sec, m, lvl = SECTIONS[sec_code(section.get())], marks.get(), lvl_code(level.get())
+        sec = subjects.section_options(labels.get(subj.get()))[sec_code(section.get())]
+        m, lvl = marks.get(), lvl_code(level.get())
         plan = None
         if u:
             import blueprint  # tools/: real-paper statistics

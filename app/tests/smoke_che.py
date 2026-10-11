@@ -52,6 +52,7 @@ root.lift(); root.attributes("-topmost", True)
 pump(1.0)
 assert "CHE" in st.subjects(), st.subjects()
 tree = find_all(root, "Treeview")[0]
+k.get("tree.show")("CHE")
 che = next(i for i in tree.get_children() if "Chemistry" in tree.item(i, "text"))
 tree.item(che, open=True)
 print("CHE topics in tree:", len(tree.get_children(che)))

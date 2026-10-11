@@ -139,6 +139,7 @@ assert finished[-1] == (2, 2), finished
 # unit questions: select a unit title -> overview of its real statistics; generate -> real question shapes
 done_items = []
 k.on("gen.done", done_items.append)
+k.get("tree.show")("MAS")  # the tree shows one subject at a time (知识图谱 subject drop-down)
 tree.selection_set("T:MAS.DE"); tree.see("T:MAS.DE")
 pump(0.5)
 shot("6b_unit_overview")
@@ -156,6 +157,7 @@ units = [item["patterns"] for item in done_items[-3:]]
 print("unit questions:", units)
 assert all(any(c.startswith("MAS.DE.") for c in codes) for codes in units), units
 count_var.set(1)
+k.get("tree.show")("MAM")
 
 # related patterns: one pattern selected -> the patterns sharing its past questions are highlighted
 tree.selection_set(("P:MAM.D.6",))
