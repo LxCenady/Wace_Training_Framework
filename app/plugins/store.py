@@ -1,8 +1,8 @@
 """Data access. One job: queries over wace.db (read-only past papers) and generated.db (AI items)."""
 import json, os, sqlite3, threading, time
 
-SUBJECT_NAMES = {"MAM": "Mathematics Methods 数学方法", "MAS": "Mathematics Specialist 专业数学",
-                 "MAA": "Mathematics Applications 数学应用"}
+import subjects
+SUBJECT_NAMES = subjects.names()
 
 GEN_SCHEMA = """
 CREATE TABLE IF NOT EXISTS generated (id INTEGER PRIMARY KEY, created TEXT, patterns TEXT, provider TEXT,

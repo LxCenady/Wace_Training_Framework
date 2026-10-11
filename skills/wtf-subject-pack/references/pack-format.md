@@ -58,6 +58,8 @@ Maths packs say `"sections": [{"code": "CalcFree", "letter": "F", "zh": "计算�
 `"checker": "sympy"`, `"sheets": ["FormulaSheet"]`.
 
 Field rules:
+- `order`: optional integer for stable subject ordering (the bundled maths packs use 0, 1, 2).
+- Sections are subject metadata, never a framework-wide CA/CF enum. Use stable `code`/`letter` identifiers and localized display names. Maths keeps CF/CA; a shared science paper can display Section One/Two/Three with its question-type name. Verify each subject's official structure before creating its profile.
 - `paper_layout`: `separate-sections` (maths) or `shared` (one exam/key containing multiple sections, Chemistry). This describes source files, not the number of sections or their timers.
 - `sections[].suggested_minutes`: optional advisory working time within a shared paper. It is separate from `minutes` (reading/working times of an independent paper). Chemistry uses whole-paper `paper_minutes`; do not invent separate reading periods for MC/SA/ER.
 - `sections[].share`: score weight, independent of raw marks. Yearly question counts and raw section totals come from the validated papers, not immutable pack constants. Calculate weighted scores per section before summing.

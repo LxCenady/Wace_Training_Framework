@@ -8,6 +8,7 @@ import tkinter as tk
 import tkinter.font as tkfont
 from tkinter import ttk
 import plat
+import subjects
 
 TILE_W, TILE_H, GAP = 168, 54, 6
 
@@ -39,7 +40,7 @@ def setup(k):
         page = k.get("ui.tab")("mastery", "掌握度")
         head = ttk.Frame(page, padding=(12, 8))
         head.pack(fill="x")
-        have = store.subjects() or ["MAM"]
+        have = store.subjects() or list(subjects.names(k.root))
         subj = tk.StringVar(value=k.get("mastery.subject", have[0]) if k.get("mastery.subject", have[0]) in have
                             else have[0])
         ttk.Label(head, text="掌握度地图", style="H.TLabel").pack(side="left")

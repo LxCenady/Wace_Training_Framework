@@ -22,7 +22,7 @@ from build_docs import TOPICS  # noqa: E402
 from markpoints import points  # noqa: E402
 from partmarks import for_tags, has_figure, is_sketch, split, tagged_texts, texts  # noqa: E402
 
-SECTION = {"CalcAssumed": "A", "CalcFree": "F"}
+import subjects as subject_registry
 SCHEMA = """
 CREATE TABLE topics   (code TEXT PRIMARY KEY, subject TEXT, ord INT, file TEXT, zh TEXT, en TEXT);
 CREATE TABLE patterns (code TEXT PRIMARY KEY, topic TEXT, n INT, title TEXT, method TEXT,
@@ -124,7 +124,7 @@ def build(db_path, subjects=None):
         for q in json.load(open(os.path.join(ROOT, subj, "questions.json"), encoding="utf-8")):
             if not q["year"].isdigit():
                 continue  # 2016 Sample papers are excluded
-            ys = q["year"] + SECTION[q["section"]]
+            ys = q["year"] + subject_registry.section_letter(subj, q["section"])
             qid = f"{subj}-{ys}-Q{q['q']}"
             parts = tags.pop((ys, q["q"]), None)
             if parts is None:

@@ -5,6 +5,7 @@ first page says — subject, document type, section, year — not on the file na
 """
 import re
 import pymupdf
+import subjects
 
 
 def identify(path):
@@ -16,14 +17,11 @@ def identify(path):
         return None
     t = re.sub(r"\s+", " ", text)
     low = t.lower()
-    if "mathematics methods" in low:
-        subj = "MAM"
-    elif "mathematics specialist" in low:
-        subj = "MAS"
-    elif "mathematics applications" in low:
-        subj = "MAA"
-    else:
+    matches = [s for s, p in subjects.profiles().items()
+               if any(title.lower() in low for title in p['recognise']['title'])]
+    if len(matches) != 1:
         return None
+    subj = matches[0]
     # order matters: an exam's cover lists "Formula sheet" among materials; reports quote "marking key"
     if "question/answer booklet" in low:
         kind, m = "Exam", re.search(r"examination,? (20\d\d)", low)

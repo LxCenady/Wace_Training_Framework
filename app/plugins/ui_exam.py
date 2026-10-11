@@ -28,7 +28,7 @@ def setup(k):
         f = ttk.Frame(page, padding=14)
         f.pack(fill="x")
         ttk.Label(f, text="模拟考试", style="H.TLabel").grid(row=0, column=0, columnspan=6, sticky="w")
-        subj, sec, src = tk.StringVar(value="MAM"), tk.StringVar(value="CalcAssumed"), tk.StringVar(value="past")
+        subj, sec, src = tk.StringVar(value=store.subjects()[0]), tk.StringVar(value="CalcAssumed"), tk.StringVar(value="past")
         years = sorted({r[0] for r in store.q("SELECT DISTINCT year FROM questions")}, reverse=True)
         year = tk.StringVar(value=str(years[0]))
         ttk.Label(f, text="科目").grid(row=1, column=0, sticky="w", pady=6)

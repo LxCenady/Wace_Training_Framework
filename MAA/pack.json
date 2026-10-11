@@ -1,0 +1,92 @@
+{
+  "wtf_pack": 1,
+  "subject": "MAA",
+  "version": "2026.10.0",
+  "order": 2,
+  "name": {
+    "zh": "Mathematics Applications 数学应用",
+    "en": "Mathematics Applications ATAR"
+  },
+  "course": "Mathematics Applications ATAR (Units 3-4)",
+  "requires_wtf": ">=1.8.0",
+  "paper_layout": "separate-sections",
+  "recognise": {
+    "title": [
+      "mathematics applications"
+    ],
+    "kinds": {
+      "FormulaSheet": [
+        "formula sheet",
+        "formulae and data sheet"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "code": "CalcFree",
+      "letter": "F",
+      "zh": "计算器禁用",
+      "en": "Calculator-free",
+      "minutes": [
+        5,
+        50
+      ]
+    },
+    {
+      "code": "CalcAssumed",
+      "letter": "A",
+      "zh": "计算器可用",
+      "en": "Calculator-assumed",
+      "minutes": [
+        10,
+        100
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "code": "BIV",
+      "file": "01_Bivariate_Data",
+      "zh": "双变量数据分析",
+      "en": "Bivariate data analysis"
+    },
+    {
+      "code": "SEQ",
+      "file": "02_Sequences",
+      "zh": "数列增长与衰减",
+      "en": "Growth and decay in sequences"
+    },
+    {
+      "code": "GRF",
+      "file": "03_Graphs_Networks",
+      "zh": "图与网络",
+      "en": "Graphs and networks"
+    },
+    {
+      "code": "TSI",
+      "file": "04_Time_Series",
+      "zh": "时间序列分析",
+      "en": "Time series analysis"
+    },
+    {
+      "code": "FIN",
+      "file": "05_Loans_Annuities",
+      "zh": "贷款、投资与年金",
+      "en": "Loans, investments and annuities"
+    },
+    {
+      "code": "NDM",
+      "file": "06_Network_Decisions",
+      "zh": "网络与决策数学",
+      "en": "Networks and decision mathematics"
+    }
+  ],
+  "key_style": "ticks",
+  "checker": "sympy",
+  "sketch_words": [
+    "(?<!the )\\b(?:sketch|draw|plot|shade)\\b(?![^.\\n]{0,40}\\b(?:is|are|was|were)\\b)|\\b(?:show(?! that)|add|represent|mark|label|indicate|illustrate|locate)\\b[^.\\n]{0,80}\\bon (?:the|this|an?|your) (?:axes|grid|argand diagram|diagram|graph|number line|slope field)|\\bcomplete the (?:graph|graphical|diagram|sketch)"
+  ],
+  "sheets": [
+    "FormulaSheet"
+  ]
+}

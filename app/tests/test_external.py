@@ -14,6 +14,7 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 import pymupdf
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / 'tools'))
 from kernel import Kernel
 from plugins.external_store import ExternalStore
 from plugins.external_tagger import classify

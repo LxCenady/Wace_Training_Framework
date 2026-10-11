@@ -6,34 +6,8 @@ import json, os, re, sys
 import pymupdf
 
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TOPICS = {
-    "MAM": {
-        "D": ("01_Differentiation", "微分及其应用", "Differentiation & applications"),
-        "I": ("02_Integration", "积分及其应用", "Integration & applications"),
-        "M": ("03_Rectilinear_Motion", "直线运动", "Rectilinear motion (kinematics)"),
-        "L": ("04_Exp_Log", "指数与对数函数", "Exponential & logarithmic functions"),
-        "DRV": ("05_Discrete_RV", "离散随机变量与二项分布", "Discrete random variables & binomial"),
-        "CRV": ("06_Continuous_RV_Normal", "连续随机变量与正态分布", "Continuous random variables & normal"),
-        "CI": ("07_Sample_Proportions_CI", "样本比例与置信区间", "Sample proportions & confidence intervals"),
-    },
-    "MAS": {
-        "C": ("01_Complex_Numbers", "复数", "Complex numbers"),
-        "F": ("02_Functions_Graphs", "函数与图像", "Functions & sketching graphs"),
-        "V": ("03_Vectors_3D", "三维向量与线性方程组", "Vectors in 3D, lines, planes, spheres, linear systems"),
-        "VC": ("04_Vector_Calculus", "向量微积分与运动", "Vector calculus & motion"),
-        "I": ("05_Integration", "积分技巧与应用", "Integration techniques & applications"),
-        "DE": ("06_Rates_DiffEq", "变化率与微分方程", "Rates of change & differential equations"),
-        "S": ("07_Statistical_Inference", "统计推断（样本均值）", "Statistical inference (sample means)"),
-    },
-    "MAA": {
-        "BIV": ("01_Bivariate_Data", "双变量数据分析", "Bivariate data analysis"),
-        "SEQ": ("02_Sequences", "数列增长与衰减", "Growth and decay in sequences"),
-        "GRF": ("03_Graphs_Networks", "图与网络", "Graphs and networks"),
-        "TSI": ("04_Time_Series", "时间序列分析", "Time series analysis"),
-        "FIN": ("05_Loans_Annuities", "贷款、投资与年金", "Loans, investments and annuities"),
-        "NDM": ("06_Network_Decisions", "网络与决策数学", "Networks and decision mathematics"),
-    },
-}
+import subjects
+TOPICS = {s: subjects.topics(s) for s in subjects.names()}
 A4 = pymupdf.paper_rect("a4")
 MARGIN, GAP = 28, 8
 FONT = pymupdf.Font("helv")

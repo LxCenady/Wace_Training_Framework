@@ -214,7 +214,15 @@ arbitration on 2026-10-12 (41 parts changed; files in `evidence/maa/tag_review/`
 follow the tags; MAM/MAS rows unchanged. 2017 CA Q8: the official key's 98 974 is an end-of-period perpetuity while the
 stem says start of year — a known key inconsistency, noted in the notes, not a tag issue.
 
-Next planned work: subject packs — see **NEXT TASK** below.
+Subject packs in progress (2026-10-11): Phase 1 migrates the three maths names, courses, topics, recognition
+titles and section letters to `<S>/pack.json`, read by `tools/subjects.py`; packaging includes the registry.
+The registry accepts shared-paper sections with `minutes: null` and whole-paper `paper_minutes`.
+Temporary rebuild compared 8,740 rows across questions, parts, part_patterns, points and patterns: 0 differences
+for MAM/MAS/MAA. Section selectors, timer consumers, handlers and pack import/export still need Phases 2–5.
+All six app checks passed; both English smoke checks reported 0 CJK runs. Two registry tests passed;
+protected config/generated/wace/external files remained unchanged by SHA-256. Evidence: `evidence/packs/` (ignored).
+The owner confirmed sections must be metadata: maths CF/CA, science Section One/Two/Three; verify science
+profiles against official papers. Chemistry stage-0 findings are in `CHE/README.md`; no chemistry pack installed.
 
 Open items, roughly by value:
 0. **Completed locally**: AI mock papers and 工作区 now both use `store.paper_totals` (MAM 51 / 100,
@@ -231,5 +239,5 @@ Open items, roughly by value:
    scans/rotated pages), pattern tags, API proposals + human confirmation, and separate external search.
    OCR is not included; scan text can be entered manually. Real external-school-paper tagging and Mac GUI
    have not been tested; synthetic PDF/database tests and local fake API cover the mechanics.
-5. `ui_setup.SUBJECTS` duplicates `store.SUBJECT_NAMES` — merge when subjects move into packs.
+5. Subject names in setup/store now come from the same pack registry; no duplicate literal list.
 6. rclone's shared Google client_id is retired during 2026 (affects the owner's Drive sync, not the app).

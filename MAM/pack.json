@@ -1,0 +1,98 @@
+{
+  "wtf_pack": 1,
+  "subject": "MAM",
+  "version": "2026.10.0",
+  "order": 0,
+  "name": {
+    "zh": "Mathematics Methods 数学方法",
+    "en": "Mathematics Methods ATAR"
+  },
+  "course": "Mathematics Methods ATAR (Units 3-4)",
+  "requires_wtf": ">=1.8.0",
+  "paper_layout": "separate-sections",
+  "recognise": {
+    "title": [
+      "mathematics methods"
+    ],
+    "kinds": {
+      "FormulaSheet": [
+        "formula sheet",
+        "formulae and data sheet"
+      ]
+    }
+  },
+  "sections": [
+    {
+      "code": "CalcFree",
+      "letter": "F",
+      "zh": "计算器禁用",
+      "en": "Calculator-free",
+      "minutes": [
+        5,
+        50
+      ]
+    },
+    {
+      "code": "CalcAssumed",
+      "letter": "A",
+      "zh": "计算器可用",
+      "en": "Calculator-assumed",
+      "minutes": [
+        10,
+        100
+      ]
+    }
+  ],
+  "topics": [
+    {
+      "code": "D",
+      "file": "01_Differentiation",
+      "zh": "微分及其应用",
+      "en": "Differentiation & applications"
+    },
+    {
+      "code": "I",
+      "file": "02_Integration",
+      "zh": "积分及其应用",
+      "en": "Integration & applications"
+    },
+    {
+      "code": "M",
+      "file": "03_Rectilinear_Motion",
+      "zh": "直线运动",
+      "en": "Rectilinear motion (kinematics)"
+    },
+    {
+      "code": "L",
+      "file": "04_Exp_Log",
+      "zh": "指数与对数函数",
+      "en": "Exponential & logarithmic functions"
+    },
+    {
+      "code": "DRV",
+      "file": "05_Discrete_RV",
+      "zh": "离散随机变量与二项分布",
+      "en": "Discrete random variables & binomial"
+    },
+    {
+      "code": "CRV",
+      "file": "06_Continuous_RV_Normal",
+      "zh": "连续随机变量与正态分布",
+      "en": "Continuous random variables & normal"
+    },
+    {
+      "code": "CI",
+      "file": "07_Sample_Proportions_CI",
+      "zh": "样本比例与置信区间",
+      "en": "Sample proportions & confidence intervals"
+    }
+  ],
+  "key_style": "ticks",
+  "checker": "sympy",
+  "sketch_words": [
+    "(?<!the )\\b(?:sketch|draw|plot|shade)\\b(?![^.\\n]{0,40}\\b(?:is|are|was|were)\\b)|\\b(?:show(?! that)|add|represent|mark|label|indicate|illustrate|locate)\\b[^.\\n]{0,80}\\bon (?:the|this|an?|your) (?:axes|grid|argand diagram|diagram|graph|number line|slope field)|\\bcomplete the (?:graph|graphical|diagram|sketch)"
+  ],
+  "sheets": [
+    "FormulaSheet"
+  ]
+}

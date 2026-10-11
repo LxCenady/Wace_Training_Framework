@@ -11,6 +11,7 @@ import os, re, shutil, sys, time, urllib.error, urllib.parse, urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from paperid import identify  # noqa: E402
+import subjects as subject_registry
 
 WAYBACK = "https://web.archive.org/web/2020id_/"
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -31,8 +32,9 @@ def sources(root=None, subjects=None):
 
 
 def subjects(root=None):
-    """Subjects sources.tsv can fetch, in file order (e.g. ["MAM", "MAS"])."""
-    return list(dict.fromkeys(s[0].split("/", 1)[0] for s in sources(root)))
+    """Registered subjects with manifest entries, in profile order."""
+    available = {s[0].split("/", 1)[0] for s in sources(root)}
+    return [s for s in subject_registry.names(root) if s in available]
 
 
 def is_pdf(path):

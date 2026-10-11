@@ -15,7 +15,7 @@ def setup(k):
         form = ttk.Frame(dlg, padding=12)
         form.pack(fill="both", expand=True)
         title, source = tk.StringVar(), tk.StringVar()
-        subject, section = tk.StringVar(value="MAM"), tk.StringVar(value="CalcFree")
+        subject, section = tk.StringVar(value=next(iter(SUBJECT_NAMES))), tk.StringVar(value="CalcFree")
         paths = {name: tk.StringVar() for name in ("exam", "answer")}
         for row, (caption, variable) in enumerate((("试卷名称（可含年份）", title), ("来源（学校或机构）", source))):
             ttk.Label(form, text=caption).grid(row=row, column=0, sticky="w")

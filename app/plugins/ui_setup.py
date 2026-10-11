@@ -39,8 +39,8 @@ def downloads_folder():
     return os.path.join(os.path.expanduser("~"), name)
 
 
-SUBJECTS = {"MAM": "Mathematics Methods 数学方法", "MAS": "Mathematics Specialist 专业数学",
-            "MAA": "Mathematics Applications 数学应用"}
+import subjects
+SUBJECTS = subjects.names()
 
 
 def restart(args=None):

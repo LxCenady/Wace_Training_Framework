@@ -7,6 +7,7 @@ import base64, glob, os, re
 import tkinter as tk
 from tkinter import ttk
 import pymupdf
+import subjects
 
 SHARE = 0.26  # initial share of the window width
 
@@ -15,12 +16,12 @@ def setup(k):
     pane, C = k.get("ui.pane"), k.get("ui.colors")
     frame = ttk.Frame(pane)
     pane.add(frame, weight=0)
-    state = {"subj": "MAM", "doc": None, "path": None, "width": 0, "job": None, "shown": True, "images": []}
+    have = k.get("store").subjects() or list(subjects.names(k.root))
+    state = {"subj": have[0], "doc": None, "path": None, "width": 0, "job": None, "shown": True, "images": []}
 
     head = ttk.Frame(frame)
     head.pack(fill="x", padx=8, pady=(8, 4))
     ttk.Label(head, text="公式表", style="H.TLabel").pack(side="left")
-    have = k.get("store").subjects() or ["MAM"]  # the subjects in this bank
     subj = tk.StringVar(value=have[0])
     for s in have:
         ttk.Radiobutton(head, text=s, value=s, variable=subj, command=lambda: switch(subj.get())).pack(side="left",

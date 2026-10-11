@@ -12,8 +12,8 @@ answer-like until stage 4 has passed; the full transcript is kept in the item's 
 import json, math, os, random, re, threading
 from concurrent.futures import ThreadPoolExecutor
 
-SUBJECT = {"MAM": "Mathematics Methods ATAR (Units 3-4)", "MAS": "Mathematics Specialist ATAR (Units 3-4)",
-           "MAA": "Mathematics Applications ATAR (Units 3-4)"}
+import subjects
+SUBJECT = {s: p["course"] for s, p in subjects.profiles().items()}
 STYLE = ("Write mathematics in LaTeX between $...$ (inline) or $$...$$ (a displayed line), e.g. $\\frac{dy}{dx}$, "
          "$\\int_0^{\\pi} \\sin x\\,dx$, $\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}$, vectors as $\\underset{\\sim}{a}$; "
          "write money as \\$5 so it is not read as maths. Inside the JSON strings every backslash must be doubled "
