@@ -39,7 +39,10 @@ at export and at import. They hold ids, numbers and catalogue codes only — nev
   "knowledge": ["RX.K4"], "confidence"}}, "questions": {"2022E-37": "a:1,1,1,1,1;b:2"}}`. Award ids are
   `<year><section letter>-<q>-<part or 0>-<n>` as `tools/awards.py` numbers the local key.
 - `splits.json`: `{"2019S-35-aii": {"marks": 2, "structure": "sum|any|best", "take": 2, "awards": [{"n", "marks",
-  "kind": "award|choice"}]}}` — so an install numbers the parts its parser cannot divide exactly as the author did.
+    "kind": "award|choice"}]}}` — so an install numbers the parts its parser cannot divide exactly as the author did.
+    Reviewed splits replace the parser's criteria when the printed part marks still match, even if the parser's
+    total was already correct: an equal total does not prove equal scoring boundaries. This behaviour requires
+    the framework's reviewed-split override fix (after 2.0.1); packs relying on it must require that later release.
 - **Fingerprint rule**: the build recomputes each question's awards from the user's own papers and applies its award
   tags only when the fingerprint (part labels + award marks) is identical; otherwise that question keeps its part
   tags and the build reports it. Statistics credit an "any N of" option with take × mark / options, so award marks

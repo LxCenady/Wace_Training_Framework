@@ -62,7 +62,9 @@ def question(subj, q, parse, docs, done=None):
         part = dict(label=label, marks=marks, status="ok" if ok else "split", awards=awards if ok else [],
                     stem=stems.get(label, ""))
         fixed = (done or {}).get(f"{rec['id']}-{label or 0}")
-        if not ok and fixed and fixed["marks"] == marks:
+        # A matching reviewed split is authoritative even when the parser's sum
+        # happens to agree: equal totals do not prove correct criterion boundaries.
+        if fixed and fixed["marks"] == marks:
             part.update(status="ok", source="split", structure=fixed["structure"], take=fixed.get("take"),
                         awards=[dict(id=f"{rec['id']}-{label or 0}-{a['n']}", marks=a["marks"], text=a.get("text", ""),
                                      kind=a.get("kind", "award")) for a in fixed["awards"]])
