@@ -145,6 +145,22 @@ def main(subj):
         er = regions(eh, es, eb, edoc.page_count)
         kdoc, kh, ks, kb = scan(key, shared=shared)
         kr = regions(kh, ks, kb, kdoc.page_count)
+        # Some shared keys print section instructions between question answers.
+        # Packs opt in with key_headings; existing crop boundaries stay unchanged.
+        if shared and any(s.get('key_headings') for s in profile['sections']):
+            key_sections = []
+            for page, pg in enumerate(kdoc):
+                for box, text in lines(pg):
+                    if any(text.lower().startswith(h.lower()) for s in profile['sections']
+                           for h in s.get('key_headings', [])):
+                        key_sections.append((page, box[1]))
+            for q, page, top, _ in kh:
+                later = [pos for pos in key_sections if pos > (page, top)]
+                if later:
+                    end_page, end_top = min(later)
+                    kr[q] = [[p, y0, min(y1, round(end_top - 3, 1)) if p == end_page else y1]
+                             for p, y0, y1 in kr[q] if p <= end_page]
+                    kr[q] = [r for r in kr[q] if r[2] - r[1] > 12]
         for section in profile['sections'] if shared else []:
             if section.get('question_mode') == 'mc':  # one question per number, answer from the key's grid
                 for item in segment_mc.questions(edoc, blocks[section['code']], eb, kdoc):
