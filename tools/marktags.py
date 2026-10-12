@@ -19,7 +19,7 @@ QUESTION = re.compile(r"(20\d\d)([A-Z])-(\d+)")
 FINGERPRINT = re.compile(r"[a-z0]+:\d+(?:,\d+)*(?:;[a-z0]+:\d+(?:,\d+)*)*")
 PATTERN = re.compile(r"([A-Z]{1,4})([1-9]\d*)")
 ATOM = re.compile(r"([A-Z]{1,4})\.K([1-9]\d*)")
-FIRST_FLOW_WTF = (2, 1, 0)  # packs carrying marktags or splits need this WTF or newer
+FIRST_FLOW_WTF = (2, 0, 1)  # packs carrying marktags or splits need this WTF or newer
 
 
 def fail(message):

@@ -120,7 +120,7 @@ def inspect(file, app_version=APP_VERSION):
 
 
 def validate_tags(payload, subject, required):
-    """Catalogue, award tags and split shapes are data checked by marktags.py; award-level files need WTF 2.1+."""
+    """Catalogue, award tags and split shapes are data checked by marktags.py; award-level files need WTF 2.0.1+."""
     import marktags
     data = {name: json.loads(payload[name].decode('utf-8')) for name in ('catalogue.json', 'marktags.json', 'splits.json')
             if name in payload}

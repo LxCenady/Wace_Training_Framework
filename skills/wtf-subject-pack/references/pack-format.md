@@ -22,7 +22,7 @@ pack.json                      the index (below)
 sources.tsv                    the subject's paper manifest with download metadata (below); installed as <S>/sources.tsv
 catalogue.json                 pattern catalogue (tools/catalogue_<S>.json); schema 2 adds knowledge atoms
 tags.txt  parttags.txt         tools/tags_<S>.txt, tools/parttags_<S>.txt (from the pack flow: derived from marktags)
-marktags.json   (optional)     award-level codes (tools/marktags_<S>.json) — pack flow, needs requires_wtf >= 2.1.0
+marktags.json   (optional)     award-level codes (tools/marktags_<S>.json) — pack flow, needs requires_wtf >= 2.0.1
 splits.json     (optional)     shape of AI-split parts (tools/splits_<S>.json) — shipped only with marktags.json
 methods/NN_Topic_解题思路.md    notes, zh   (+ 审校记录.md; PDFs optional — the importer can render)
 methods_en/NN_Topic_Methods.md notes, en
@@ -30,7 +30,7 @@ cheatsheet/<S>_CheatSheet.md, <S>_CheatSheet_EN.md (+ PDFs optional)
 skill/SKILL.md, skill/topics/*.md   → skills/wace-<s>-questions/ (blueprint block is regenerated after build)
 ```
 
-### Award-level files (protocol v1, additive since WTF 2.1)
+### Award-level files (protocol v1, additive since WTF 2.0.1)
 
 Written by the pack flow (`tools/packflow.py export`, `flowjobs.py merge split`), checked by `tools/marktags.py`
 at export and at import. They hold ids, numbers and catalogue codes only — never key or paper text.
@@ -46,7 +46,7 @@ at export and at import. They hold ids, numbers and catalogue codes only — nev
   always add up to the printed marks.
 - Database (additive tables, existing rows unchanged): `knowledge(code, topic, name_en, name_zh, definition)`,
   `award_tags(qid, label, n, marks, kind 'pattern'|'knowledge', code)`.
-- A pack containing either file must say `"requires_wtf": ">=2.1.0"`; WTF 2.0 refuses such a pack (unknown file),
+- A pack containing either file must say `"requires_wtf": ">=2.0.1"`; WTF 2.0.0 refuses such a pack (unknown file),
   which is the safe failure. `pack.json` `papers.acknowledged` records source discrepancies found by `pairs.py`.
 
 ## sources.tsv (paper manifest)

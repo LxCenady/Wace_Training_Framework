@@ -143,11 +143,11 @@ class PackTags(unittest.TestCase):
     def test_pack_needs_wtf_2_1_for_award_files(self):
         import pack
         payload = {'catalogue.json': json.dumps(self.cat).encode(), 'marktags.json': json.dumps(self.tags).encode()}
-        pack.validate_tags(payload, 'CHE', (2, 1, 0))
+        pack.validate_tags(payload, 'CHE', (2, 0, 1))
         with self.assertRaises(ValueError):
             pack.validate_tags(payload, 'CHE', (2, 0, 0))
         with self.assertRaises(ValueError):
-            pack.validate_tags({'marktags.json': payload['marktags.json']}, 'CHE', (2, 1, 0))
+            pack.validate_tags({'marktags.json': payload['marktags.json']}, 'CHE', (2, 0, 1))
 
 
 if __name__ == '__main__':
