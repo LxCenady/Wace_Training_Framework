@@ -255,7 +255,8 @@ class Store:
     def mastery(self):
         """{pattern: {"attempted": marks, "lost": marks, "parts": n}} over everything the student has revealed."""
         out = {}
-        for marks, pats in self.gen.execute("SELECT marks, patterns FROM attempts").fetchall():
+        # marked scripts (source "mark": a teacher marking students' papers) are not the user's own practice
+        for marks, pats in self.gen.execute("SELECT marks, patterns FROM attempts WHERE source != 'mark'").fetchall():
             for c in json.loads(pats):
                 g = out.setdefault(c, {"attempted": 0, "lost": 0, "parts": 0})
                 g["attempted"] += marks or 0
@@ -286,9 +287,9 @@ class Store:
             self.gen.execute("DELETE FROM mistakes WHERE source=? AND ref=? AND label=?", (source, str(ref), label))
             self.gen.commit()
 
-    def mistakes(self):
-        """-> list of dicts, newest first."""
-        cur = self.gen.execute("SELECT * FROM mistakes ORDER BY id DESC")
+    def mistakes(self, marked=False):
+        """-> list of dicts, newest first: the user's own mistakes, or (marked=True) the lost marks of marked scripts."""
+        cur = self.gen.execute("SELECT * FROM mistakes WHERE (source = 'mark') = ? ORDER BY id DESC", (int(marked),))
         names = [c[0] for c in cur.description]
         out = [dict(zip(names, r)) for r in cur.fetchall()]
         for d in out:
@@ -296,7 +297,8 @@ class Store:
         return out
 
     def mistake(self, source, ref, label):
-        return next((m for m in self.mistakes() if (m["source"], m["ref"], m["label"]) == (source, str(ref), label)),
+        return next((m for m in self.mistakes(marked=source == "mark")
+                     if (m["source"], m["ref"], m["label"]) == (source, str(ref), label)),
                     None)
 
     # ---- mock exams: refs = [["past", qid] | ["gen", id], …]; score = total − marks lost on them since start
