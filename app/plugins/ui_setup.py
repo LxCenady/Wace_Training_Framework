@@ -4,6 +4,8 @@ The papers are © SCSA and are not shipped with the app. Everything is fixed, no
 2016-2019 come from the Wayback Machine straight into the bank's papers folders; 2020-2025 the student opens in
 their own browser (the site refuses scripts) and saves with the browser's default — the Downloads folder — then
 presses one button that checks that folder once (files are recognised by name or by content, tools/paperid.py).
+Saved somewhere else, or on a Mac that keeps the app out of Downloads: "选择已下载的文件…" picks the files in the
+system dialog (a file the user picks is always readable, macOS privacy included), wherever they are.
 The bank is built only when every paper is in, and then by itself.
 
 Subjects are chosen first (students take one or two of the maths courses, rarely all): only their papers are
@@ -14,12 +16,16 @@ when the newly needed papers are all in, or on request, and can return to the ap
 import ctypes, os, subprocess, sys, threading, time, uuid, webbrowser
 import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
-from tkinter import messagebox, ttk
+from tkinter import filedialog, messagebox, ttk
 import plat
 
 BATCH = 6  # links opened per click
 PARALLEL = 3  # archive downloads at the same time
 FONT = plat.UI_FONT
+SAVE = plat.MOD_NAME + "S"  # ⌘S on a Mac, Ctrl+S elsewhere
+SAVE_HOW = ("⌘S（Safari 也可以用菜单「文件 → 存储为…」），保存位置选「下载」" if plat.MAC
+            else "Ctrl+S（或点浏览器的下载按钮），直接点「保存」——不要改位置，存进「下载」文件夹")
+NOT_PDF = "不是 PDF：存下来的是网页或官网的验证页面。请在浏览器里等 PDF 显示出来后再保存"
 DOWNLOADS = "{374DE290-123F-4565-9164-39C4925E467B}"  # Windows known folder: the browser's default save place
 
 
@@ -130,15 +136,18 @@ def setup(k):
     s2.pack(fill="x", padx=16, pady=6)
     ttk.Label(s2, wraplength=900, justify="left", text=(
         f"1. 点「打开下一批」，浏览器会打开 {BATCH} 个官方 PDF。\n"
-        "2. 在每个 PDF 页面按 Ctrl+S（或点浏览器的下载按钮），直接点「保存」——不要改位置，存进「下载」文件夹；"
-        "文件名随意。\n"
-        "3. 这一批存好后，点「我存好了，检查下载文件夹」。全部到齐后自动建库并进入学习系统。")).pack(anchor="w")
+        f"2. 在每个 PDF 页面按 {SAVE_HOW}；文件名随意。\n"
+        "3. 这一批存好后，点「我存好了，检查下载文件夹」。全部到齐后自动建库并进入学习系统。\n"
+        "存到了别的地方，或者检查不到？点「选择已下载的文件…」，在弹出的窗口里直接选中这些 PDF（可以一次全选）。")).pack(
+        anchor="w")
     row = ttk.Frame(s2)
     row.pack(fill="x", pady=(8, 0))
     b2 = ttk.Button(row, text=f"打开下一批（{BATCH} 个）", style="Accent.TButton")
     b2.pack(side="left")
     b_check = ttk.Button(row, text="我存好了，检查下载文件夹", style="Accent.TButton")
     b_check.pack(side="left", padx=8)
+    b_pick = ttk.Button(row, text="选择已下载的文件…")
+    b_pick.pack(side="left")
     folder_lbl = ttk.Label(row, style="Muted.TLabel")
     folder_lbl.pack(side="left", padx=10)
 
@@ -215,8 +224,8 @@ def setup(k):
             retry = f"第 ① 步还有 {miss_arch} 个存档没下载成功：点「开始下载」重试。"
             return retry + (f"　第 ② 步还差 {miss_browser} 个（浏览器保存）。" if miss_browser else "")
         if miss_browser:
-            now = (f"第 ② 步：点「打开下一批」→ 浏览器里每个 PDF 按 Ctrl+S → 保存 → 回来点「我存好了，检查下载文件夹」。"
-                   f"还差 {miss_browser} 个。")
+            now = (f"第 ② 步：点「打开下一批」→ 浏览器里每个 PDF 按 {SAVE} → 保存 → 回来点「我存好了，检查下载文件夹」"
+                   f"（存到别处就点「选择已下载的文件…」）。还差 {miss_browser} 个。")
             return now + (f"　（第 ① 步同时在自动下载，还差 {miss_arch} 个，不用管它。）" if miss_arch else "")
         return f"第 ① 步正在自动下载 2016–2019 存档，还差 {miss_arch} 个，不用操作，等它完成。"
 
@@ -224,23 +233,54 @@ def setup(k):
         """Look in the Downloads folder once: import every paper there (by name or content), build when all are in."""
         if state["busy"]:
             return
-        wrong = []
-        got = fetch.import_dir(state["folder"], root, wrong)
+        wrong, skipped = [], []
+        try:
+            got = fetch.import_dir(state["folder"], root, wrong, skipped)
+        except OSError as e:  # macOS keeps unsigned apps out of Downloads until the user allows it
+            if not quiet:
+                say(f"读不了下载文件夹（{type(e).__name__}）。" + (
+                    "macOS 没有允许本程序访问「下载」：打开「系统设置 → 隐私与安全性 → 文件和文件夹」，"
+                    "在 WTF 下面打开「下载文件夹」；或者直接点「选择已下载的文件…」选中这些 PDF（不需要任何授权）。"
+                    if plat.MAC else "请点「选择已下载的文件…」直接选中这些 PDF。"), "warn")
+            return
+        skipped = [x for x in skipped if x[1] == "not-pdf"]  # other PDFs in Downloads are none of our business
+        imported(got, wrong, skipped, quiet, "下载文件夹")
+
+    def pick():
+        """The student picks the saved papers in the system dialog, wherever they are."""
+        if state["busy"]:
+            return
+        paths = filedialog.askopenfilenames(
+            parent=k.get("ui.root"), title="选择下载好的真题 PDF（可以多选）", initialdir=state["folder"],
+            filetypes=[("PDF", "*.pdf *.PDF"), ("全部文件", "*")])
+        if paths:
+            import_paths(paths)
+
+    def import_paths(paths):
+        wrong, skipped = [], []
+        got = fetch.import_files(paths, root, wrong, skipped)
+        imported(got, wrong, skipped, False, "选中的文件", picked=len(paths))
+
+    def imported(got, wrong, skipped, quiet, where, picked=None):
         for rel in got:
             say(f"✓ 导入 {rel}", "ok")
         for reason in wrong:  # e.g. an older upload of the same paper: its crops would land in the wrong place
             say(f"✗ {reason}。请删掉它，从向导打开的链接重新保存。", "warn")
+        for name, why in skipped:
+            say(f"✗ {name}：" + (NOT_PDF if why == "not-pdf" else "不是所选科目清单里的真题" if why == "not-listed"
+                                 else "文件不存在"), "warn")
         miss = refresh()
         if not chosen:
             return
         if not miss and (got or not managing):  # managing: rebuild only when new papers completed a subject
             say("所有真题都已就绪，自动建立题库…", "sub")
             build()
-        elif not quiet and not got and any(not m[3] for m in miss):
-            say(f"下载文件夹里没有找到新的真题。\n"
-                "· 是否只是在浏览器里打开了 PDF、还没按 Ctrl+S 保存？\n"
-                f"· 保存时是否换了位置？请存进「{state['folder']}」。\n"
-                "· 页面要求验证：在浏览器里完成验证后再保存即可（官网有防机器人保护）。", "warn")
+        elif not quiet and not got and not skipped and any(not m[3] for m in miss):
+            say(f"{where}里没有找到新的真题。\n" + (
+                f"· 选中的 {picked} 个文件都已经导入过了。\n" if picked else
+                f"· 是否只是在浏览器里打开了 PDF、还没按 {SAVE} 保存？\n"
+                f"· 保存时是否换了位置？请存进「{state['folder']}」，或者点「选择已下载的文件…」直接选中它们。\n") +
+                "· 页面要求验证：在浏览器里完成验证、等 PDF 显示出来后再保存（官网有防机器人保护）。", "warn")
         elif not quiet:
             say(f"这次导入 {len(got)} 个，还差 {sum(1 for m in miss if not m[3])} 个要用浏览器保存。", "sub")
 
@@ -252,7 +292,7 @@ def setup(k):
         for rel, url, _, _ in todo[:BATCH]:
             state["opened"].add(rel)
             webbrowser.open(url)
-        say(f"已在浏览器打开 {min(BATCH, len(todo))} 个链接：每个按 Ctrl+S 保存，然后点「我存好了，检查下载文件夹」")
+        say(f"已在浏览器打开 {min(BATCH, len(todo))} 个链接：每个按 {SAVE} 保存，然后点「我存好了，检查下载文件夹」")
 
     def download_archived():
         """Wayback copies, PARALLEL at a time (more makes the archive throttle harder); failures get a second
@@ -311,7 +351,7 @@ def setup(k):
             return
         state["busy"] = True
         refresh()
-        for b in (b1, b2, b3):
+        for b in (b1, b2, b3, b_pick):
             b.state(["disabled"])
         say("开始建库…", "sub")
 
@@ -334,6 +374,7 @@ def setup(k):
     b2.configure(command=open_batch)
     b3.configure(command=build)
     b_check.configure(command=check)
+    b_pick.configure(command=pick)
     table.bind("<Double-1>", lambda e: table.focus() and webbrowser.open(
         next(s[2] for s in all_sources() if s[0] == table.focus())))
     if managing:
@@ -372,6 +413,7 @@ def setup(k):
     k.get("ui.status")("第一次使用：导入真题后自动进入学习系统")
     k.provide("setup.folder", lambda folder: (state.update(folder=folder), refresh()))  # tests: a stand-in Downloads
     k.provide("setup.check", check)
+    k.provide("setup.import_paths", import_paths)  # tests: what 选择已下载的文件… does after the dialog
     k.provide("setup.choose", lambda subjects: [picks[s].set(s in subjects) or toggle(s) for s in SUBJECTS
                                                 if s in offered])  # tests
     k.provide("setup.refresh", refresh)

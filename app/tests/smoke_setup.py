@@ -5,8 +5,10 @@ import glob, os, random, shutil, subprocess, sys, time
 work, papers_root = sys.argv[1], sys.argv[2]
 REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 data, downloads = os.path.join(work, "data"), os.path.join(work, "Downloads")
+desktop = os.path.join(work, "Desktop")  # where a Mac's Safari may save instead: picked with 选择已下载的文件…
 shutil.rmtree(work, ignore_errors=True)
 os.makedirs(downloads)
+os.makedirs(desktop)
 for f in subprocess.run(["git", "ls-files", "-z"], cwd=REPO, capture_output=True, text=True,
                         encoding="utf-8").stdout.split("\0"):
     if f and not f.startswith("app/"):
@@ -64,6 +66,16 @@ def find(w, text):
             return r
 
 
+def log_text(w):
+    """Everything the wizard has written to its log."""
+    out = ""
+    for c in w.winfo_children():
+        if c.winfo_class() == "Text":
+            out += c.get("1.0", "end")
+        out += log_text(c)
+    return out
+
+
 def banner(w):
     for c in w.winfo_children():
         if c.winfo_class() == "Label" and str(c.cget("text")).startswith("第"):
@@ -74,7 +86,11 @@ def banner(w):
 
 
 check = find(root, "我存好了，检查下载文件夹")
-for i, f in enumerate(pdfs):  # like a browser: random names in the Downloads folder
+assert find(root, "选择已下载的文件…"), "the wizard must offer picking the files wherever they were saved"
+# a saved verification page with a .pdf name: the student must be told, not left wondering
+open(os.path.join(downloads, "2024_Exam.pdf"), "w").write("<html>Checking your browser…</html>")
+elsewhere = pdfs[-8:]  # the last ones were saved to the Desktop
+for i, f in enumerate(pdfs[:-8]):  # like a browser: random names in the Downloads folder
     shutil.copyfile(f, os.path.join(downloads, f"download_{random.randint(0, 10**9)}.pdf"))
     if i == 30:  # half the papers saved, then the button: imported, but never a partial bank
         pump(4)
@@ -84,13 +100,25 @@ for i, f in enumerate(pdfs):  # like a browser: random names in the Downloads fo
         print("half imported, banner:", banner(root))
         assert find(root, "重新建库").instate(["disabled"]) and not restarted, "a partial bank must not be built"
         assert "第" in (banner(root) or ""), "the banner must say what to do next"
+        assert "不是 PDF" in log_text(root), "a saved web page must be reported"
+        k.get("setup.folder")(os.path.join(work, "no access"))  # macOS: Downloads not allowed / gone
+        check.invoke()
+        pump(1)
+        assert "读不了下载文件夹" in log_text(root), "an unreadable Downloads folder must be explained"
+        k.get("setup.folder")(downloads)
 before = len(__import__("fetch").missing(data))
 pump(4)  # no watching: nothing arrives until the button is pressed
 assert len(__import__("fetch").missing(data)) == before, "the wizard must not import without the button"
 check.invoke()
 pump(1)
+saved_elsewhere = []
+for f in elsewhere:
+    saved_elsewhere.append(os.path.join(desktop, f"Screenshot {random.randint(0, 10**9)}.pdf"))
+    shutil.copyfile(f, saved_elsewhere[-1])
+k.get("setup.import_paths")(saved_elsewhere + [os.path.join(downloads, "2024_Exam.pdf")])  # what the dialog returns
+pump(1)
 left = __import__("fetch").missing(data)
-print("missing after checking Downloads:", [m[0] for m in left])
+print("missing after checking Downloads and picking the Desktop files:", [m[0] for m in left])
 assert all("Sample_MAS_MarkingKey" in m[0] for m in left), left  # only the scanned sample keys can't be recognised
 
 ui_setup.messagebox.askyesno = lambda *a, **kw: True

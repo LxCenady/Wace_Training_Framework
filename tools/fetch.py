@@ -179,14 +179,33 @@ def import_file(path, root=None, rejected=None):
     return rel
 
 
-def import_dir(folder, root=None, rejected=None):
+def why_not(path, root=None):
+    """Why a file was not imported, as a code the wizard words: 'missing', 'not-pdf' (a saved web or verification
+    page), 'not-listed' (some other PDF); None when it is a listed paper that is already in place."""
+    if not os.path.isfile(path):
+        return "missing"
+    if not is_pdf(path):
+        return "not-pdf"
+    return None if match(path, root) else "not-listed"
+
+
+def import_files(paths, root=None, rejected=None, skipped=None):
+    """Import the given files (e.g. picked in a file dialog). `skipped` collects (file name, why_not code)."""
     got = []
-    for name in sorted(os.listdir(folder)):
-        if name.lower().endswith(".pdf"):
-            rel = import_file(os.path.join(folder, name), root, rejected)
-            if rel:
-                got.append(rel)
+    for path in paths:
+        rel = import_file(path, root, rejected) if is_pdf(path) else None
+        if rel:
+            got.append(rel)
+        elif skipped is not None and (reason := why_not(path, root)):
+            skipped.append((os.path.basename(path), reason))
     return got
+
+
+def import_dir(folder, root=None, rejected=None, skipped=None):
+    """Import every .pdf in `folder` (not its subfolders). Raises OSError when the folder cannot be read
+    (macOS: the app was not allowed into Downloads)."""
+    names = [n for n in sorted(os.listdir(folder)) if n.lower().endswith(".pdf")]
+    return import_files([os.path.join(folder, n) for n in names], root, rejected, skipped)
 
 
 def main(args):
