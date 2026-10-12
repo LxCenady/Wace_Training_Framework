@@ -7,12 +7,13 @@ import json, os
 import plat
 
 PATH = os.path.join(plat.user_dir("wace-maths"), "config.json")
-# Default: DeepSeek through its OpenAI-compatible endpoint, thinking mode at max effort.
+# Default: DeepSeek through its OpenAI-compatible endpoint, thinking mode at high effort (measured 2026-10-12:
+# about 40% cheaper and twice as fast as max, with the same verification pass rate).
 # extra_body is merged into every request body (provider-specific switches such as reasoning effort).
 DEFAULTS = {
     "provider": "openai",
     "openai": {"base_url": "https://api.deepseek.com", "model": "deepseek-flash", "api_key": "",
-               "extra_body": {"thinking": {"type": "enabled"}, "reasoning_effort": "max"}},
+               "extra_body": {"thinking": {"type": "enabled"}, "reasoning_effort": "high"}},
     "anthropic": {"base_url": "https://api.anthropic.com", "model": "claude-sonnet-5-5", "api_key": "",
                   "extra_body": {}},
     # WTF account (school pilot / subscription): the account server holds the model key and the daily quota;

@@ -100,7 +100,7 @@ def setup(k):
         ttk.Label(f, text=f"API key 只保存在本机：{k.get('config.path')}\n留空则读取环境变量 DEEPSEEK_API_KEY / OPENAI_API_KEY / "
                           "ANTHROPIC_API_KEY。Base URL 可改成任何兼容该格式的服务。\n"
                           "额外参数会并入每次请求，例如 DeepSeek 思考强度："
-                          '{"thinking": {"type": "enabled"}, "reasoning_effort": "max"}',
+                          '{"thinking": {"type": "enabled"}, "reasoning_effort": "high"}',
                   style="Muted.TLabel", justify="left").grid(row=row, column=0, columnspan=2, sticky="w", pady=8)
         row += 1
         result = tk.StringVar()
