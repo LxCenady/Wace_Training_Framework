@@ -58,7 +58,7 @@ def setup(k):
     cfg = k.get("config")
     managing = os.path.isfile(os.path.join(root, "wace.db"))  # 题库 → 管理科目 (main.py --setup)
     page = k.get("ui.tab")("setup", "管理科目：添加或移除科目" if managing else "第一次使用：导入真题")
-    k.get("ui.root").title("WACE Maths 学习系统 — 导入真题")
+    k.get("ui.root").title(k.get("edition", {}).get("name", "WACE Maths 学习系统") + " — 导入真题")
     left = k.get("ui.left")
     ttk.Label(left, text="欢迎", style="H.TLabel").pack(anchor="w", padx=12, pady=(12, 4))
     ttk.Label(left, wraplength=400, justify="left", text=(

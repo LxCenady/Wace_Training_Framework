@@ -108,6 +108,9 @@ def launch_apply(src, dst, work):
 
 
 def setup(k):
+    global REPO, API
+    REPO = k.get("edition", {}).get("repo", REPO)  # a derived edition (WTF Studio) updates from its own releases
+    API = f"https://api.github.com/repos/{REPO}/releases/latest"
     root, cfg = k.get("ui.root"), k.get("config")
     post = k.get("ui.post")
     work = os.path.join(k.root, "_update")
@@ -189,7 +192,7 @@ def setup(k):
     menu.add_command(label="检查更新", command=lambda: check(manual=True))
     menu.add_command(label="打开发布页", command=lambda: webbrowser.open(f"https://github.com/{REPO}/releases"))
     menu.add_separator()
-    menu.add_command(label=f"关于 WTF v{here}", command=lambda: webbrowser.open(f"https://github.com/{REPO}"))
+    menu.add_command(label=f"关于 {k.get('edition', {}).get('short', 'WTF')} v{here}", command=lambda: webbrowser.open(f"https://github.com/{REPO}"))
     k.get("ui.menu").add_cascade(label="帮助", menu=menu)
     k.on("ui.ready", lambda: root.after(3000, startup_check))
     k.provide("updater.check", check)

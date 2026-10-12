@@ -51,11 +51,14 @@ def setup(k):
         f = ttk.Frame(top, padding=16)
         f.pack(fill="both")
         prov = tk.StringVar(value=cfg["provider"])
+        restricted = bool(k.get("edition", {}).get("providers"))  # e.g. WTF Studio: the WTF account only
+        shown = {p: label for p, label in PROVIDERS.items()
+                 if k.get("edition.allows", lambda _: True)(p) and not (restricted and p == "mock")}
         ttk.Label(f, text="接口格式").grid(row=0, column=0, sticky="w")
-        for i, (key, label) in enumerate(PROVIDERS.items()):
+        for i, (key, label) in enumerate(shown.items()):
             ttk.Radiobutton(f, text=label, value=key, variable=prov).grid(row=i, column=1, sticky="w")
         vars_, row = {}, 3
-        for name in ("anthropic", "openai"):
+        for name in [p for p in ("anthropic", "openai") if p in shown]:
             row += 1
             ttk.Label(f, text=PROVIDERS[name], style="H.TLabel").grid(row=row, column=0, columnspan=2, sticky="w",
                                                                     pady=(12, 2))
@@ -97,11 +100,12 @@ def setup(k):
         ttk.Label(f, text="设置后导出的 PDF 直接存进这个文件夹（重名自动加序号）；留空 = 每次导出时询问",
                   style="Muted.TLabel").grid(row=row, column=1, sticky="w")
         row += 1
-        ttk.Label(f, text=f"API key 只保存在本机：{k.get('config.path')}\n留空则读取环境变量 DEEPSEEK_API_KEY / OPENAI_API_KEY / "
-                          "ANTHROPIC_API_KEY。Base URL 可改成任何兼容该格式的服务。\n"
-                          "额外参数会并入每次请求，例如 DeepSeek 思考强度："
-                          '{"thinking": {"type": "enabled"}, "reasoning_effort": "high"}',
-                  style="Muted.TLabel", justify="left").grid(row=row, column=0, columnspan=2, sticky="w", pady=8)
+        if not restricted:  # an edition without API keys (WTF Studio) has nothing to explain here
+            ttk.Label(f, text=f"API key 只保存在本机：{k.get('config.path')}\n留空则读取环境变量 DEEPSEEK_API_KEY / OPENAI_API_KEY / "
+                              "ANTHROPIC_API_KEY。Base URL 可改成任何兼容该格式的服务。\n"
+                              "额外参数会并入每次请求，例如 DeepSeek 思考强度："
+                              '{"thinking": {"type": "enabled"}, "reasoning_effort": "high"}',
+                      style="Muted.TLabel", justify="left").grid(row=row, column=0, columnspan=2, sticky="w", pady=8)
         row += 1
         result = tk.StringVar()
         ttk.Label(f, textvariable=result, wraplength=520).grid(row=row + 1, column=0, columnspan=2, sticky="w")

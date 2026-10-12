@@ -1,5 +1,6 @@
 # First run (no wace.db yet): only what the import wizard needs.
 config
+edition
 i18n
 ui_shell
 ui_subjects

@@ -34,6 +34,8 @@ def setup(k):
     def chat(system, user):
         cfg = k.get("config")
         name = cfg["provider"]
+        if not k.get("edition.allows", lambda p: True)(name):
+            raise ProviderError("这个版本不支持自己的 API key：请在「设置 → 账号」登录 WTF 账号")
         settings = dict(cfg.get(name, {}))
         if name in ENV_KEYS and not settings.get("api_key"):
             settings["api_key"] = next((os.environ[v] for v in ENV_KEYS[name] if os.environ.get(v)), "")
