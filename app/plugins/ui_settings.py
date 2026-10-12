@@ -8,7 +8,7 @@ import tkinter as tk
 from tkinter import filedialog, ttk
 
 PROVIDERS = {"anthropic": "Anthropic 格式 (/v1/messages)", "openai": "OpenAI 格式 (/chat/completions，默认 DeepSeek)",
-             "mock": "离线测试 (不调用 API)"}
+             "wtf": "WTF 账号（学校/订阅，无需 API key；在「设置 → 账号」登录）", "mock": "离线测试 (不调用 API)"}
 
 
 def setup(k):
@@ -41,7 +41,7 @@ def setup(k):
 
     def describe():
         name = cfg["provider"]
-        model = cfg.get(name, {}).get("model", "") if name != "mock" else ""
+        model = cfg.get(name, {}).get("model", "") if name not in ("mock", "wtf") else ""
         k.get("ui.status")(f"模型：{PROVIDERS[name]} {model}" + ("   — 在「设置」里接入你自己的 API key" if name == "mock" else ""))
 
     def dialog():
@@ -156,4 +156,5 @@ def setup(k):
     menu = tk.Menu(k.get("ui.menu"), tearoff=False)
     menu.add_command(label="模型与 API key…", command=dialog)
     k.get("ui.menu").add_cascade(label="设置", menu=menu)
+    k.provide("ui.menu.settings", menu)  # e.g. 设置 → 账号… (plugins/ui_account.py)
     k.on("ui.ready", describe)

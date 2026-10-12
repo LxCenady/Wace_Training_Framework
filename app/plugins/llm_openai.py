@@ -10,6 +10,7 @@ def setup(k):
         body.update(s.get("extra_body") or {})
         r = post(s["base_url"].rstrip("/") + "/chat/completions",
                  {"authorization": f"Bearer {s['api_key']}"}, body, timeout)
+        k.emit("llm.usage", s["model"], r.get("usage") or {})  # token counts: cost estimates, daily quotas
         return r["choices"][0]["message"]["content"]
 
     k.get("llm.providers")["openai"] = chat

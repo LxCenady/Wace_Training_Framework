@@ -9,6 +9,8 @@ render          # PDF region crops -> PNG
 llm             # provider registry: chat(system, user) -> text
 llm_openai      # OpenAI chat-completions format (any compatible base_url)
 llm_anthropic   # Anthropic messages format
+account         # WTF account: sign-in (e-mail code, Google), session, quota — docs/account_api.md
+llm_wtf         # provider "wtf": AI questions through the WTF account server (no API key)
 llm_mock        # offline provider for testing the pipeline
 external_tagger # user's configured API + shared external tagging skill -> reviewable tag drafts
 symcheck        # SymPy recomputes numeric answers in a sandboxed child process
@@ -35,4 +37,5 @@ export_pdf      # worksheets: AI questions -> question paper + answer paper (PDF
 ui_formula      # official formula sheet pinned on the right, resizable
 updater         # GitHub releases: tell about a newer version, download + install on request
 ui_settings     # provider / base_url / model / API key dialog
+ui_account      # 设置 → 账号…
 subject_import

@@ -15,6 +15,10 @@ DEFAULTS = {
                "extra_body": {"thinking": {"type": "enabled"}, "reasoning_effort": "max"}},
     "anthropic": {"base_url": "https://api.anthropic.com", "model": "claude-sonnet-5-5", "api_key": "",
                   "extra_body": {}},
+    # WTF account (school pilot / subscription): the account server holds the model key and the daily quota;
+    # "server" is empty until a service exists. token is this computer's session, never a model API key.
+    "account": {"server": "", "email": "", "token": ""},
+    "wtf": {"model": ""},  # provider "wtf" (plugins/llm_wtf.py): empty model = the server's default
     "retries": 2,
     "timeout": 900,
     "parallel": 4,  # questions generated at the same time in a batch
