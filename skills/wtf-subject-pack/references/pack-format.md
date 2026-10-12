@@ -132,6 +132,9 @@ Field rules:
 - `key_style` and `checker` name built-in handlers (`ticks`, `description-marks`, `mc-grid`; `sympy`, `chem`,
   `none`); packs never carry code — the app refuses a pack whose handler it does not have, saying which
   WTF version adds it.
+- `key_band_continuation` is an optional boolean for `description-marks` (default false; WTF ≥2.0.2).
+  It retains an unnumbered description tail between the final mark-range row and its Total, without
+  adding marks or merging the next numbered criterion. Other key styles refuse the option.
 - `files` hashes every other file in the zip; the importer checks them.
 - Import accepts only the listed data paths, rejects traversal, Windows path aliases, links, duplicate names,
   unlisted files, unknown handlers and bad hashes. Limits: 2,000 entries, 64 MiB per file, 256 MiB total.

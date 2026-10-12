@@ -24,7 +24,7 @@ REDUCED = re.compile(r"\b(?:minor|partial|partially|incorrect|incomplete|missing
 ROMAN_LABEL = ("i", "ii", "iii", "iv", "v", "vi")
 
 
-def rubric(text):
+def rubric(text, band_continuation=False):
     """Description/Marks tables (science keys): one entry per mark, the description repeated for a 2-mark row.
 
     Each part's first table counts; a second table after its "Total" is an alternative solution and is skipped,
@@ -32,6 +32,7 @@ def rubric(text):
     A row with fewer marks than the row above it, worded as a reduced award, is skipped. A mark row with no
     description text (a structure drawn in the key) still counts. Roman labels before any letter part are text."""
     out, part, desc, done, skip_number, top = [], "", [], False, False, 0
+    band = None  # last range row; an unnumbered tail before Total can continue its description
     lines = [raw.strip() for raw in text.splitlines()]
     lines = [t for t in lines if t]
     start, pending, soft = 0, [], []  # pending: mark rows with no description, counted only if the table's Total agrees
@@ -46,10 +47,16 @@ def rubric(text):
             else:
                 part = part[:1] + g if sub else g
             desc, done, top, start, pending, soft = [], False, 0, len(out), [], []
+            band = None
             continue
         if done:
             continue
         if re.fullmatch(r"(Sub)?[Tt]otal", t):
+            if band_continuation and band and desc:
+                tail = " ".join(desc).strip()
+                for row in out[band[0]:band[1]]:
+                    row[1] += " " + tail
+            band = None
             value = int(lines[i + 1]) if i + 1 < len(lines) and lines[i + 1].isdigit() else None
             if soft and value is not None and len(out) - start > value:
                 drop, left = set(), len(out) - start
@@ -69,6 +76,7 @@ def rubric(text):
         if re.fullmatch(r"Description|Marks|Description\s+Marks", t) or JUNK.fullmatch(t) or t.startswith("©"):
             if t.startswith("Description"):
                 desc, start, pending, soft = [], len(out), [], []
+                band = None
             continue
         n = MARKS.match(t)
         if n:
@@ -86,11 +94,13 @@ def rubric(text):
                 continue
             reduced = bool(top and marks < top and REDUCED.search(text_))
             lower = bool(top and marks < top) and not reduced
+            row_start = len(out)
             if marks and not reduced and not PARTIAL.match(text_):
                 note = f" ({marks} marks)" if marks > 1 else ""
                 if lower:
                     soft.append((len(out), len(out) + marks))
                 out += [[part, text_ + note] for _ in range(marks)]
+            band = (row_start, len(out)) if n.group(2) and len(out) > row_start else None
             if marks and not reduced and not lower:
                 top = marks
             desc = []
