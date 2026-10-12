@@ -8,8 +8,9 @@ The subject's key parser (handlers.py) gives one entry per mark; consecutive ide
 multi-mark criterion (a 2-mark row stays indivisible). A part is "ok" when its awards add up to the marks printed
 on the paper; otherwise it is "split" and goes to the AI job that reads the key (jobs/split.md) — nothing is
 invented or truncated here. Multiple-choice questions are one 1-mark award, the key's letter.
-The split job's checked answers (evidence/<s>/flow/split.json, written by flowjobs.py merge) are applied on every
-run, so re-running this tool never loses them; an answer whose part marks no longer match is ignored.
+The split job's checked answers are applied on every run, so re-running this tool never loses them: the local
+evidence/<s>/flow/split.json (with the award texts), else the pack's tools/splits_<S>.json (shape only, no text —
+what an installed pack has). An answer whose part marks no longer match is ignored.
 """
 import json, os, sys
 
@@ -63,7 +64,7 @@ def question(subj, q, parse, docs, done=None):
         fixed = (done or {}).get(f"{rec['id']}-{label or 0}")
         if not ok and fixed and fixed["marks"] == marks:
             part.update(status="ok", source="split", structure=fixed["structure"], take=fixed.get("take"),
-                        awards=[dict(id=f"{rec['id']}-{label or 0}-{a['n']}", marks=a["marks"], text=a["text"],
+                        awards=[dict(id=f"{rec['id']}-{label or 0}-{a['n']}", marks=a["marks"], text=a.get("text", ""),
                                      kind=a.get("kind", "award")) for a in fixed["awards"]])
         elif not ok:
             part["parser_awards"] = [dict(marks=a["marks"], text=a["text"]) for a in awards]
@@ -75,14 +76,22 @@ def question(subj, q, parse, docs, done=None):
     return rec
 
 
+def splits(subj):
+    """{part id: split answer}: the local split job's answers, else the pack's splits file, else none."""
+    for path in (os.path.join(ROOT, "evidence", subj.lower(), "flow", "split.json"),
+                 os.path.join(ROOT, "tools", f"splits_{subj}.json")):
+        if os.path.isfile(path):
+            with open(path, encoding="utf-8") as f:
+                return json.load(f)
+    return {}
+
+
 def run(subj):
     parse, docs = key_parser(subjects.info(subj)), {}
     qs = [q for q in json.load(open(os.path.join(ROOT, subj, "questions.json"), encoding="utf-8"))
           if str(q["year"]).isdigit()]
     folder = os.path.join(ROOT, "evidence", subj.lower(), "flow")
-    done_path = os.path.join(folder, "split.json")
-    done = json.load(open(done_path, encoding="utf-8")) if os.path.isfile(done_path) else {}
-    out = [question(subj, q, parse, docs, done) for q in qs]
+    out = [question(subj, q, parse, docs, splits(subj)) for q in qs]
     os.makedirs(folder, exist_ok=True)
     json.dump(out, open(os.path.join(folder, "awards.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     return out

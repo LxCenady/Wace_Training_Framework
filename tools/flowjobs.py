@@ -60,12 +60,13 @@ def catalogue(subj, proposed=False):
 
 
 def awards(subj):
-    """[(question, part, award)] for every award of every ok part."""
+    """[(question, part, award)] for every award of every ok part; award["credit"] = its marks in statistics."""
+    from marktags import credit
     out = []
     for q in load(flow(subj, "awards.json"), []):
         for p in q["parts"]:
-            for a in p["awards"]:
-                out.append((q, p, a))
+            for a, c in zip(p["awards"], credit(p)):
+                out.append((q, p, dict(a, credit=c)))
     return out
 
 
@@ -151,10 +152,10 @@ def pattern_stats(subj):
     total = {y: 0 for y in years}
     st = {}
     for q, p, a in awards(subj):
-        total[q["year"]] += a["marks"]
+        total[q["year"]] += a["credit"]
         for code in assigned.get(a["id"], {}).get("patterns", []):
             s = st.setdefault(code, dict(years=set(), parts={}, marks=0.0))
-            share = a["marks"] / len(assigned[a["id"]]["patterns"])
+            share = a["credit"] / len(assigned[a["id"]]["patterns"])
             s["years"].add(q["year"])
             s["parts"].setdefault(part_id(q, p), 0)
             s["parts"][part_id(q, p)] += share
@@ -395,9 +396,14 @@ def merge(subj, job, force=False):
         raise SystemExit(f"not merged: {len(problems)} problems, {len(missing)} batches missing — run check")
     done = outputs(subj, job)
     if job == "split":
-        save(flow(subj, "split.json"), {o["id"]: dict(o, marks=i["marks"]) for _, inp, out in done
-                                        for i in inp["items"] for o in out["items"] if o["id"] == i["id"]})
-        return "evidence/…/flow/split.json — re-run tools/awards.py to apply"
+        answers = {o["id"]: dict(o, marks=i["marks"]) for _, inp, out in done
+                   for i in inp["items"] for o in out["items"] if o["id"] == i["id"]}
+        save(flow(subj, "split.json"), answers)  # local, with the award texts
+        save(os.path.join(ROOT, "tools", f"splits_{subj}.json"),  # the pack's copy: shape only (marktags.py)
+             {i: dict(marks=a["marks"], structure=a.get("structure", "sum"), take=a.get("take"),
+                      awards=[dict(n=x["n"], marks=x["marks"], kind=x.get("kind", "award")) for x in a["awards"]])
+              for i, a in sorted(answers.items())})
+        return f"evidence/…/flow/split.json and tools/splits_{subj}.json — re-run tools/awards.py to apply"
     if job == "label":
         save(flow(subj, "labels.json"), {o["id"]: o for _, _, out in done for o in out["items"]})
         return "evidence/…/flow/labels.json"
@@ -429,7 +435,7 @@ def merge_atomise(subj, done):
         for p in out["patterns"]:
             members = [by_id[i] for i in p["members"] if i in by_id]
             cat["patterns"].append(dict({k: v for k, v in p.items() if k != "members"},
-                                        marks=sum(a["marks"] for _, a in members), awards=len(members),
+                                        marks=round(sum(a["credit"] for _, a in members), 1), awards=len(members),
                                         years=len({q["year"] for q, _ in members})))
         cat["knowledge"] += out["knowledge"]
         cat["unplaced"] += out.get("unplaced", [])

@@ -20,13 +20,34 @@ MAM/MAS have known parity gaps: strict export refuses them. `--draft` is for loc
 ```
 pack.json                      the index (below)
 sources.tsv                    the subject's paper manifest with download metadata (below); installed as <S>/sources.tsv
-catalogue.json                 pattern catalogue (tools/catalogue_<S>.json)
-tags.txt  parttags.txt         tools/tags_<S>.txt, tools/parttags_<S>.txt
+catalogue.json                 pattern catalogue (tools/catalogue_<S>.json); schema 2 adds knowledge atoms
+tags.txt  parttags.txt         tools/tags_<S>.txt, tools/parttags_<S>.txt (from the pack flow: derived from marktags)
+marktags.json   (optional)     award-level codes (tools/marktags_<S>.json) — pack flow, needs requires_wtf >= 2.1.0
+splits.json     (optional)     shape of AI-split parts (tools/splits_<S>.json) — shipped only with marktags.json
 methods/NN_Topic_解题思路.md    notes, zh   (+ 审校记录.md; PDFs optional — the importer can render)
 methods_en/NN_Topic_Methods.md notes, en
 cheatsheet/<S>_CheatSheet.md, <S>_CheatSheet_EN.md (+ PDFs optional)
 skill/SKILL.md, skill/topics/*.md   → skills/wace-<s>-questions/ (blueprint block is regenerated after build)
 ```
+
+### Award-level files (protocol v1, additive since WTF 2.1)
+
+Written by the pack flow (`tools/packflow.py export`, `flowjobs.py merge split`), checked by `tools/marktags.py`
+at export and at import. They hold ids, numbers and catalogue codes only — never key or paper text.
+
+- `marktags.json`: `{"schema": 1, "subject", "awards": {"2022E-37-a-3": {"marks", "patterns": ["RX3"],
+  "knowledge": ["RX.K4"], "confidence"}}, "questions": {"2022E-37": "a:1,1,1,1,1;b:2"}}`. Award ids are
+  `<year><section letter>-<q>-<part or 0>-<n>` as `tools/awards.py` numbers the local key.
+- `splits.json`: `{"2019S-35-aii": {"marks": 2, "structure": "sum|any|best", "take": 2, "awards": [{"n", "marks",
+  "kind": "award|choice"}]}}` — so an install numbers the parts its parser cannot divide exactly as the author did.
+- **Fingerprint rule**: the build recomputes each question's awards from the user's own papers and applies its award
+  tags only when the fingerprint (part labels + award marks) is identical; otherwise that question keeps its part
+  tags and the build reports it. Statistics credit an "any N of" option with take × mark / options, so award marks
+  always add up to the printed marks.
+- Database (additive tables, existing rows unchanged): `knowledge(code, topic, name_en, name_zh, definition)`,
+  `award_tags(qid, label, n, marks, kind 'pattern'|'knowledge', code)`.
+- A pack containing either file must say `"requires_wtf": ">=2.1.0"`; WTF 2.0 refuses such a pack (unknown file),
+  which is the safe failure. `pack.json` `papers.acknowledged` records source discrepancies found by `pairs.py`.
 
 ## sources.tsv (paper manifest)
 

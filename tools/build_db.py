@@ -34,6 +34,8 @@ CREATE TABLE parts    (qid TEXT, label TEXT, ord INT, marks INT, marks_src TEXT,
                        PRIMARY KEY (qid, label));
 CREATE TABLE part_patterns (qid TEXT, label TEXT, pattern TEXT);
 CREATE TABLE points   (qid TEXT, label TEXT, ord INT, text TEXT);
+CREATE TABLE knowledge (code TEXT PRIMARY KEY, topic TEXT, name_en TEXT, name_zh TEXT, definition TEXT);
+CREATE TABLE award_tags (qid TEXT, label TEXT, n INT, marks REAL, kind TEXT, code TEXT);
 CREATE VIEW q_patterns AS SELECT DISTINCT qid, pattern FROM part_patterns;
 CREATE VIEW pattern_marks AS
   SELECT q.id AS qid, q.subject, q.section, q.year, q.marks AS question_marks, pp.pattern,
@@ -44,6 +46,7 @@ CREATE VIEW pattern_marks AS
   WHERE p.marks IS NOT NULL GROUP BY q.id, pp.pattern;
 CREATE INDEX pp_pattern ON part_patterns(pattern);
 CREATE INDEX pt_qid ON points(qid);
+CREATE INDEX at_code ON award_tags(code);
 """
 HEAD = re.compile(r"^## (?:题型|Pattern)\s*(\d+)\s*[：:]\s*(.+)$")
 
@@ -94,6 +97,35 @@ def read_parttags(subj):
 
 def key_text(doc, regs):
     return "\n".join(doc[p].get_text("text", clip=pymupdf.Rect(20, y0, 575, y1)) for p, y0, y1 in regs)
+
+
+def award_level(db, subj, docs):
+    """tools/marktags_<S>.json (pack flow) -> knowledge + award_tags rows, for the questions whose awards this build
+    numbers exactly as the pack did (marktags.py fingerprints). Subjects without the file get no rows."""
+    path = os.path.join(ROOT, "tools", f"marktags_{subj}.json")
+    if not os.path.isfile(path):
+        return []
+    import awards, marktags  # awards.py imports this module: import it late
+    with open(path, encoding="utf-8") as f:
+        tags = json.load(f)
+    with open(os.path.join(ROOT, "tools", f"catalogue_{subj}.json"), encoding="utf-8") as f:
+        cat = json.load(f)
+    try:
+        marktags.validate_marktags(tags, cat, subj)
+    except ValueError as e:
+        return [f"{subj}: marktags not used: {e}"]
+    for a in cat["knowledge"]:
+        db.execute("INSERT INTO knowledge VALUES (?,?,?,?,?)", (marktags.db_code(subj, a["id"]),
+                   f"{subj}.{a['id'].split('.')[0]}", a["name_en"], a.get("name_zh", ""), a.get("definition", "")))
+    parse, splits, problems = key_parser(subject_registry.info(subj)), awards.splits(subj), []
+    for q in json.load(open(os.path.join(ROOT, subj, "questions.json"), encoding="utf-8")):
+        if not q["year"].isdigit():
+            continue
+        qid = f"{subj}-{q['year']}{subject_registry.section_letter(subj, q['section'])}-Q{q['q']}"
+        rows, problem = marktags.rows(subj, qid, awards.question(subj, q, parse, docs, splits), tags)
+        db.executemany("INSERT INTO award_tags VALUES (?,?,?,?,?,?)", rows)
+        problems += [problem] if problem else []
+    return problems
 
 
 def build(db_path, subjects=None):
@@ -169,6 +201,7 @@ def build(db_path, subjects=None):
             if ok and parts and {p[0] for p in pts} != {l for l, _ in parts}:
                 problems.append(f"{qid}: part labels tags={[l for l, _ in parts]} key={sorted({p[0] for p in pts})}")
         problems += [f"{subj} {k}: tag line has no question" for k in tags]
+        problems += award_level(db, subj, docs)
     db.commit()
     return db, problems
 

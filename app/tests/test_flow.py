@@ -63,8 +63,8 @@ class Export(unittest.TestCase):
     def test_part_and_question_tags_come_from_awards(self):
         q = {'id': '2022E-37', 'year': 2022}
         pa, pb = {'label': 'a'}, {'label': 'b'}
-        rows = [(q, pa, {'id': '2022E-37-a-1', 'marks': 1}), (q, pa, {'id': '2022E-37-a-2', 'marks': 2}),
-                (q, pb, {'id': '2022E-37-b-1', 'marks': 1})]
+        rows = [(q, pa, {'id': '2022E-37-a-1', 'marks': 1, 'credit': 1}), (q, pa, {'id': '2022E-37-a-2', 'marks': 2, 'credit': 2}),
+                (q, pb, {'id': '2022E-37-b-1', 'marks': 1, 'credit': 1})]
         assigned = {'2022E-37-a-1': {'patterns': ['QNT2'], 'knowledge': ['QNT.K1'], 'confidence': 0.9},
                     '2022E-37-a-2': {'patterns': ['RX3'], 'knowledge': ['RX.K4'], 'confidence': 0.9},
                     '2022E-37-b-1': {'patterns': ['RX3'], 'knowledge': ['RX.K4'], 'confidence': 0.8}}
@@ -80,6 +80,74 @@ class Export(unittest.TestCase):
             marktags = json.loads((tools / 'marktags_CHE.json').read_text(encoding='utf-8'))
             self.assertEqual(marktags['awards']['2022E-37-a-2'], {'marks': 2, 'patterns': ['RX3'],
                                                                   'knowledge': ['RX.K4'], 'confidence': 0.9})
+
+
+class PackTags(unittest.TestCase):
+    """The pack protocol's award-level files (marktags.py) and how pack.py gates them."""
+    def setUp(self):
+        import marktags
+        self.mt = marktags
+        self.cat = {'schema_version': 2, 'topic_codes': {'RX': 'Redox'},
+                    'patterns': [{'id': 'RX1', 'name_en': 'Half-equations'}, {'id': 'RX2', 'name_en': 'Cells'}],
+                    'knowledge': [{'id': 'RX.K1', 'name_en': 'Oxidation numbers', 'definition': 'own words'}]}
+        self.tags = {'schema': 1, 'subject': 'CHE', 'questions': {'2022E-37': 'a:1,2'},
+                     'awards': {'2022E-37-a-1': {'marks': 1, 'patterns': ['RX1'], 'knowledge': ['RX.K1'], 'confidence': 0.9},
+                                '2022E-37-a-2': {'marks': 2, 'patterns': ['RX2'], 'knowledge': ['RX.K1'], 'confidence': 0.8}}}
+
+    def test_valid_marktags(self):
+        self.mt.validate_marktags(self.tags, self.cat, 'CHE')
+
+    def test_refuse_bad_marktags(self):
+        import copy
+        bad = [lambda t, c: t['awards']['2022E-37-a-1'].update(text='copied key wording'),
+               lambda t, c: t['awards']['2022E-37-a-1'].update(patterns=['RX9']),
+               lambda t, c: t['awards']['2022E-37-a-1'].update(knowledge=[]),
+               lambda t, c: t['questions'].clear(),
+               lambda t, c: t.update(subject='MAM'),
+               lambda t, c: t['awards'].update({'2022E-37-a-x': {}}),
+               lambda t, c: c.update(schema_version=1),
+               lambda t, c: c['knowledge'][0].update(definition='x' * 601)]
+        for mutate in bad:
+            t, c = copy.deepcopy(self.tags), copy.deepcopy(self.cat)
+            mutate(t, c)
+            with self.subTest(mutate=mutate), self.assertRaises(ValueError):
+                self.mt.validate_marktags(t, c, 'CHE')
+
+    def test_splits_shape_only(self):
+        good = {'2019S-35-aii': {'marks': 2, 'structure': 'any', 'take': 2,
+                                 'awards': [{'n': i, 'marks': 1, 'kind': 'choice'} for i in (1, 2, 3, 4)]}}
+        self.mt.validate_splits(good)
+        for bad in ({'2019S-35-aii': dict(good['2019S-35-aii'], take=3)},
+                    {'2019S-35-aii': dict(good['2019S-35-aii'], awards=[{'n': 1, 'marks': 2, 'kind': 'award', 'text': 'x'}])},
+                    {'../x': good['2019S-35-aii']}):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                self.mt.validate_splits(bad)
+
+    def test_any_n_credit_adds_up_to_the_part(self):
+        part = {'take': 2, 'awards': [{'marks': 1, 'kind': 'choice'}] * 4}
+        self.assertEqual(self.mt.credit(part), [0.5] * 4)
+        self.assertEqual(self.mt.credit({'awards': [{'marks': 2}, {'marks': 1}]}), [2, 1])
+
+    def test_rows_only_when_the_build_numbers_awards_alike(self):
+        rec = {'id': '2022E-37', 'parts': [{'label': 'a', 'awards': [{'id': '2022E-37-a-1', 'marks': 1},
+                                                                     {'id': '2022E-37-a-2', 'marks': 2}]}]}
+        rows, problem = self.mt.rows('CHE', 'CHE-2022E-Q37', rec, self.tags)
+        self.assertIsNone(problem)
+        self.assertIn(('CHE-2022E-Q37', 'a', 2, 2, 'pattern', 'CHE.RX.2'), rows)
+        self.assertIn(('CHE-2022E-Q37', 'a', 1, 1, 'knowledge', 'CHE.RX.K1'), rows)
+        rec['parts'][0]['awards'][1]['marks'] = 1  # the local key now divides differently
+        rows, problem = self.mt.rows('CHE', 'CHE-2022E-Q37', rec, self.tags)
+        self.assertEqual(rows, [])
+        self.assertIn('part tags only', problem)
+
+    def test_pack_needs_wtf_2_1_for_award_files(self):
+        import pack
+        payload = {'catalogue.json': json.dumps(self.cat).encode(), 'marktags.json': json.dumps(self.tags).encode()}
+        pack.validate_tags(payload, 'CHE', (2, 1, 0))
+        with self.assertRaises(ValueError):
+            pack.validate_tags(payload, 'CHE', (2, 0, 0))
+        with self.assertRaises(ValueError):
+            pack.validate_tags({'marktags.json': payload['marktags.json']}, 'CHE', (2, 1, 0))
 
 
 if __name__ == '__main__':

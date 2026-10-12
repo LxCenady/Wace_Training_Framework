@@ -119,7 +119,9 @@ def export(subj):
     """Award codes are the source; part tags = the patterns of a part's awards (most marks first), question topics =
     the topics of its patterns. Writes the three files the build and the pack read; the old ones are kept as .bak."""
     assigned = fj.load(fj.flow(subj, "assign.json"), {})
-    marktags = dict(schema=1, subject=subj, awards={})
+    import marktags as mt
+    marktags = dict(schema=1, subject=subj, awards={},
+                    questions={q["id"]: mt.fingerprint(q["parts"]) for q in fj.load(fj.flow(subj, "awards.json"), [])})
     parts, papers = {}, {}
     for q, p, a in fj.awards(subj):
         got = assigned.get(a["id"])
@@ -129,7 +131,7 @@ def export(subj):
                                            confidence=got["confidence"])
         weight = parts.setdefault((q["id"], p["label"]), {})
         for code in got["patterns"]:
-            weight[code] = weight.get(code, 0) + a["marks"]
+            weight[code] = weight.get(code, 0) + a["credit"]
     tools = os.path.join(ROOT, "tools")
     stamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     for name in (f"marktags_{subj}.json", f"parttags_{subj}.txt", f"tags_{subj}.txt"):
@@ -187,7 +189,7 @@ def knowledge_stats(subj):
         for k in assigned.get(a["id"], {}).get("knowledge", []):
             s = out.setdefault(k, dict(awards=0, marks=0))
             s["awards"] += 1
-            s["marks"] += a["marks"]
+            s["marks"] += a["credit"]
     return out
 
 

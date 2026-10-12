@@ -1,0 +1,589 @@
+{
+ "2016S-35-0": {
+  "marks": 9,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018E-35-0": {
+  "marks": 16,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 7,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 8,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 9,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 10,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 11,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 12,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 13,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 14,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 15,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 16,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018E-40-d": {
+  "marks": 6,
+  "structure": "any",
+  "take": 2,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 3,
+    "kind": "choice"
+   },
+   {
+    "n": 2,
+    "marks": 3,
+    "kind": "choice"
+   }
+  ]
+ },
+ "2018S-31-a": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   }
+  ]
+ },
+ "2019E-39-a": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2019S-35-ai": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2019S-35-aii": {
+  "marks": 2,
+  "structure": "any",
+  "take": 2,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "choice"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "choice"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "choice"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "choice"
+   }
+  ]
+ },
+ "2019S-35-b": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2020E-36-a": {
+  "marks": 4,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2020E-37-a": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2020S-27-0": {
+  "marks": 8,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 7,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 8,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023E-35-b": {
+  "marks": 6,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023E-36-b": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023E-37-c": {
+  "marks": 9,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023E-37-d": {
+  "marks": 3,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023E-37-ei": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023E-37-eii": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023E-37-fi": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023E-37-fii": {
+  "marks": 1,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025E-36-a": {
+  "marks": 6,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025E-40-d": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ }
+}

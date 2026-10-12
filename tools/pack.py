@@ -26,7 +26,8 @@ def destination(name, subject):
         raise ValueError(f'Unsafe archive path: {name}')
     fixed = {'pack.json': f'{subject}/pack.json', 'sources.tsv': f'{subject}/sources.tsv',
              'tags.txt': f'tools/tags_{subject}.txt', 'parttags.txt': f'tools/parttags_{subject}.txt',
-             'catalogue.json': f'tools/catalogue_{subject}.json', 'marktags.json': f'tools/marktags_{subject}.json'}
+             'catalogue.json': f'tools/catalogue_{subject}.json', 'marktags.json': f'tools/marktags_{subject}.json',
+             'splits.json': f'tools/splits_{subject}.json'}
     if name in fixed:
         return fixed[name]
     if path.parts[0] in ('methods', 'methods_en') and path.suffix in ('.md', '.pdf'):
@@ -114,7 +115,25 @@ def inspect(file, app_version=APP_VERSION):
             if required not in payload:
                 raise ValueError(f'Missing required payload: {required}')
         validate_sources(payload['sources.tsv'], subject)
+        validate_tags(payload, subject, version(requirement[2:]))
     return profile, payload
+
+
+def validate_tags(payload, subject, required):
+    """Catalogue, award tags and split shapes are data checked by marktags.py; award-level files need WTF 2.1+."""
+    import marktags
+    data = {name: json.loads(payload[name].decode('utf-8')) for name in ('catalogue.json', 'marktags.json', 'splits.json')
+            if name in payload}
+    if ('marktags.json' in data or 'splits.json' in data) and required < marktags.FIRST_FLOW_WTF:
+        raise ValueError('Award-level tags need requires_wtf >= ' + '.'.join(map(str, marktags.FIRST_FLOW_WTF)))
+    if 'catalogue.json' in data:
+        marktags.validate_catalogue(data['catalogue.json'])
+    if 'marktags.json' in data:
+        if 'catalogue.json' not in data:
+            raise ValueError('marktags.json needs catalogue.json')
+        marktags.validate_marktags(data['marktags.json'], data['catalogue.json'], subject)
+    if 'splits.json' in data:
+        marktags.validate_splits(data['splits.json'])
 
 
 def install(file, root, overwrite=False, app_version=APP_VERSION):
@@ -175,10 +194,13 @@ def export(subject, root=ROOT, out=None, draft=False):
             archive_name = name
         else:
             archive_name = {f'tools/tags_{subject}.txt': 'tags.txt', f'tools/parttags_{subject}.txt': 'parttags.txt',
-                            f'tools/catalogue_{subject}.json': 'catalogue.json', f'tools/marktags_{subject}.json': 'marktags.json'}.get(name)
+                            f'tools/catalogue_{subject}.json': 'catalogue.json', f'tools/marktags_{subject}.json': 'marktags.json',
+                            f'tools/splits_{subject}.json': 'splits.json'}.get(name)
         if archive_name:
             destination(archive_name, subject)
             payload[archive_name] = (root / name).read_bytes()
+    if 'marktags.json' not in payload:  # split shapes only number awards for marktags: without them, WTF 2.0 can install
+        payload.pop('splits.json', None)
     payload['sources.tsv'] = (root / subject / 'sources.tsv').read_bytes()
     profile['files'] = {name: 'sha256:' + hashlib.sha256(data).hexdigest() for name, data in payload.items()}
     target = Path(out or root / 'dist') / f'{subject}-{profile["version"]}.wtfpack'
