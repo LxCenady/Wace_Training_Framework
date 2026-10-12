@@ -195,9 +195,14 @@ def past_papers(items, root, path, title, name, first=None, header=True, numbere
             state["y"] = T
 
         def write(text, size, color=(0, 0, 0), height=None):
+            # insert_textbox writes nothing at all when the text does not fit its box (a long pattern list in a
+            # question's heading vanished this way): grow the box a line at a time until it fits
             height = height or size * 1.9
-            state["page"].insert_textbox(pymupdf.Rect(L, state["y"], R, state["y"] + height), text, fontname="yh",
-                                         fontsize=size, color=color)
+            for _ in range(12):
+                rect = pymupdf.Rect(L, state["y"], R, state["y"] + height)
+                if state["page"].insert_textbox(rect, text, fontname="yh", fontsize=size, color=color) >= 0:
+                    break
+                height += size * 1.45
             state["y"] += height
 
         for n, d in enumerate(items):
