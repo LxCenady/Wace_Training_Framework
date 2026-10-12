@@ -12,7 +12,7 @@ real-paper blueprint, and the few app hooks that list the subject. MAM and MAS w
 sessions; MAA was the first pack built with this workflow (2026-10), and Chemistry is next.
 
 The repo is `E:\WACE_Maths` (GitHub `LxCenady/Wace_Training_Framework`); `<ROOT>` below means that folder,
-the Python is `<ROOT>\.venv\Scripts\python`. Read `<ROOT>\AGENTS.md` first in a new session — it is the
+the Python is `<ROOT>\.venv\Scripts\python`. Read `<ROOT>\AGENTS.md` (a local file, not in git) first in a new session — it is the
 handover and has the current state.
 
 ## What "done" means (parity)

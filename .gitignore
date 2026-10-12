@@ -26,3 +26,7 @@ generated_backup_*.db
 
 HANDOFF.local.md
 */sections.json
+# agent handover notes: local only (they describe the owner's machine and working rules)
+AGENTS.md
+HANDOFF*.md
+CLAUDE.md
