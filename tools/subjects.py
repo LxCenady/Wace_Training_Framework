@@ -136,8 +136,9 @@ def validate_profile(data, path):
     papers = data.get('papers', {'years': [], 'excluded': {}})  # coverage, and why a year is left out
     if (not isinstance(papers, dict) or not isinstance(papers.get('years', []), list)
             or any(type(y) is not int for y in papers.get('years', []))
-            or not isinstance(papers.get('excluded', {}), dict)
-            or any(not isinstance(v, str) or not v.strip() for v in papers.get('excluded', {}).values())):
+            or any(not isinstance(papers.get(field, {}), dict)  # acknowledged: source discrepancies checked by hand
+                   or any(not isinstance(v, str) or not v.strip() for v in papers.get(field, {}).values())
+                   for field in ('excluded', 'acknowledged'))):
         raise ValueError(f'Invalid papers: {path}')
     scoring.validate(data)
     handlers.validate(data)

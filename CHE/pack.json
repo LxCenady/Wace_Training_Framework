@@ -13,6 +13,9 @@
     "years": [2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025],
     "excluded": {
       "2016Sample": "sample paper: not an examination"
+    },
+    "acknowledged": {
+      "2019": "official documents disagree: the exam prints Q40 (22 marks) and Q41 (12 marks), the key Q40 (21 marks) and Q41 (15 marks); the bank uses the exam's marks and shows these keys as images"
     }
   },
   "paper_layout": "shared",

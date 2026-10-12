@@ -34,7 +34,47 @@ which are missing:
    with the existing subjects' rows **identical** to before (non-regression).
 9. It exports as one `.wtfpack` that a clean WTF imports (题库 → 管理科目 → 导入学科包) and rebuilds into the same rows.
 
-## The pipeline at a glance
+## The pack flow (start here)
+
+Since 2026-10 a subject is built by one flow of six stages. Each stage is its own tool with a gate that checks
+something printed on the paper; every step that needs a language model is a **fixed job** (`jobs/*.md`): the same
+specification, input and output shape and checks whoever runs it (Haiku subagent, DeepSeek via `flowjobs.py run`,
+or you). English comes first everywhere; Chinese is translated from it.
+
+```
+python tools/packflow.py <S>          # where the subject stands, and the exact next command
+```
+
+| # | Stage | Tool / job | Gate |
+|---|---|---|---|
+| 1 | **pair** — resource judgement | `packflow.py <S> run pair` (`pairs.py`) | every exam has its own key: covers identify both, same question numbers, same marks; a real source discrepancy is checked by hand and written in `pack.json papers.acknowledged` |
+| 2 | **cut** — PDF segmentation and mark points | `run cut` (`segment.py`, `audit_totals.py`, `awards.py`) → job **split** for parts the parser could not divide | section totals; every part's awards add up to its printed marks |
+| 3 | **label** — bottom-up, per mark point | job **label** (Haiku) | every award has topic, skill, operation, 1–3 knowledge names |
+| 4 | **atomise** — patterns and knowledge atoms | job **atomise** (strong model) → `packflow.py <S> approve` (the user signs off) → job **assign** → job **review** (blind 20%) → `packflow.py <S> export` | every award in one pattern; review agreement ≥ 90%; part tags and question topics are *derived* from award codes |
+| 5 | **build** — database and statistics | `run build` → `evidence/<s>/flow/check.db`, `stats.json` | build problems = 0; frequency, marks per appearance, share of a paper, co-occurrence, knowledge coverage |
+| 6 | **notes** — English notes, then Chinese | job **notes** → job **translate** → `render_methods.py` | one section per pattern; every cited past question carries that pattern |
+
+AI job cycle, the same for every job:
+```
+python tools/flowjobs.py tasks  <S> <job>          # input batches (evidence/<s>/flow/<job>/in/)
+python tools/flowjobs.py prompt <S> <job> <batch>  # the exact prompt: give it to a Haiku agent unchanged
+python tools/flowjobs.py check  <S> <job>          # schema + invariants; low-confidence count
+python tools/flowjobs.py merge  <S> <job>          # into the flow's files (refuses while check fails)
+```
+Run independent batches in parallel (background Haiku agents, one batch each). `atomise` and arbitration of
+review disputes need the strong model: do them yourself. Never edit a job's output by hand to pass `check` — fix
+the input or the specification and re-run the batch.
+
+Why bottom-up (label → atomise): describing each mark point first and clustering afterwards makes the catalogue
+come from what the keys actually reward (cf. LLM knowledge-component generation: Moore et al. 2024, Duan et al.
+2025), and a pattern's marks become the marks of its awards instead of a part's marks split by guesswork.
+
+Subjects built before the flow (MAM, MAS, MAA, CHE) keep their reviewed tags; the flow's stages 1–2 run on them as
+checks, and stages 3–4 only when the user asks to rebuild a catalogue.
+
+The older stage-by-stage notes below (`references/pipeline.md`) still describe the tools the flow calls.
+
+### The tools behind the flow (reference)
 
 ```
 sources.tsv ─fetch.py/paperid.py─▶ <S>/papers/*.pdf ─segment.py─▶ <S>/questions.json
@@ -44,27 +84,9 @@ evidence.py ─▶ evidence packs ─writers+reviewers─▶ <S>/methods/*.md �
 build_all.py (segment → build_docs → build_bank → build_db) ─▶ wace.db ─blueprint.py─▶ skills/wace-<s>-questions
 ```
 
-Stages, in order. Each has a reference section with the exact commands, files and checks — read
-`references/pipeline.md` before starting a stage, it is short per stage.
-
-| # | Stage | Output | Who does it |
-|---|---|---|---|
-| 0 | **Subject profile** — what differs from maths (sections, sheets, marking style) | decisions in `<S>/README.md` | you + the user |
-| 1 | Sources: manifest lines, fetch, identify | `sources.tsv`, `<S>/papers/` | script; user saves 403-protected files in a browser |
-| 2 | Segmentation and part marks | `<S>/questions.json` | script, then you audit |
-| 3 | Pattern catalogue from the syllabus + papers | `tools/catalogue_<S>.json` | you (strong model), user signs off |
-| 4 | Labelling, review, audit, export | `labels.json` → `tags_/parttags_<S>.txt` | Haiku labellers → you review ≥20% → Haiku reviewers per year range → arbiter |
-| 5 | Mark points from keys | rows in `points` | script (`markpoints.py`), you fix parser cases |
-| 6 | Evidence packs | `evidence/<s>/notes/*.txt` | script |
-| 7 | Notes zh, review, EN, PDF | `<S>/methods*/` | 3 Haiku writers → 2 Haiku reviewers → you fix → translate → render |
-| 8 | Build + non-regression | `wace.db` | script; diff old subjects row by row |
-| 9 | Cheat sheet, formula/data sheets | `cheatsheet/<S>_CheatSheet*` | Haiku writer, you check |
-| 10 | Question-generation skill + blueprint | `skills/wace-<s>-questions/` | Haiku writer → `blueprint.py` |
-| 11 | App hooks, i18n, tests, docs, commit | code + README/AGENTS.md | you |
-| 12 | **Pack**: compress everything into one importable file | `<S>-<ver>.wtfpack` (`pack.json` index) | `tools/pack.py export` |
-
-Stage 0 is the one that matters most for a non-maths subject; do not skip it. Stages 3–4 are where the
-quality of the whole pack is decided — a bad catalogue makes every later number wrong.
+Besides the six stages, a pack also needs (unchanged): stage 0 subject profile, cheat sheet, the
+question-generation skill + `blueprint.py`, app hooks/tests/docs, and `pack.py export` — see below and
+`references/pipeline.md` §9–11.
 
 ## The deliverable: one pack file
 
@@ -131,7 +153,8 @@ At the end of each stage, tell the user in Chinese, briefly: what was produced, 
 ## Reference files
 
 - `references/pipeline.md` — per stage: commands, file formats, checks, the pitfalls MAA hit.
-- `references/delegation.md` — prompt templates for Haiku labellers, reviewers, arbiters, note writers, translators.
+- `jobs/README.md` + `jobs/*.md` — the fixed AI jobs of the pack flow (split, label, atomise, assign, review, notes, translate).
+- `references/delegation.md` — older free-form prompt templates (per-part labelling); prefer the fixed jobs.
 - `references/pack-format.md` — the `.wtfpack` protocol (`pack.json` fields, import/export, what the app must read from it).
 - `references/subject-profiles.md` — the assumptions table (maths answers, Chemistry draft) and where each lives in code.
 - `references/rubric-format.md` — draft structured-award design for non-tick keys: atomic tags, any-N, alternative routes, caps and source/visual evidence; not yet a supported runtime format.

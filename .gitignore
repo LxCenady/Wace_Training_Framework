@@ -30,3 +30,5 @@ HANDOFF.local.md
 AGENTS.md
 HANDOFF*.md
 CLAUDE.md
+# pack flow: backups of exported tags and approved catalogues
+tools/*.bak
