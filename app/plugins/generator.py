@@ -161,7 +161,9 @@ class Pipeline:
         examples = "\n\n".join(example_text(q, codes) for q in pick_examples(store, codes, section))
         want = (f"Section: {subjects.section_name(subj, section, 'en').lower()}. "
                 if section in subjects.section_codes(subj) else "Section: choose the more natural one. ")
-        if next((s for s in subjects.sections(subj) if s["code"] == section), {}).get("question_mode") == "mc":
+        self.multiple_choice = next((s for s in subjects.sections(subj) if s["code"] == section), {}).get(
+            "question_mode") == "mc"
+        if self.multiple_choice:
             want += ("MULTIPLE CHOICE: write a stem and exactly four options labelled (a), (b), (c), (d) inside "
                      "\"question\" (no '(n marks)'): one correct option and three plausible distractors built on typical "
                      "student errors. Give exactly one part: label \"\", marks 1, answer = the correct letter and a "
@@ -221,6 +223,8 @@ class Pipeline:
         labels = [p["label"] for p in parts]
         # the app numbers questions itself; models often open with their own "Question 3 (10 marks)"
         stem = question = re.sub(r"^\s*Question\s*\d*\s*\(\s*\d+\s*marks?\s*\)\s*", "", g["question"]).strip()
+        if "\\n" in stem and "\n" not in stem:  # a model that escaped its newlines twice in the JSON
+            stem = question = stem.replace("\\n", "\n")
         figure = g.get("figure") or None
         if figure:
             problems = self.figure_problems(figure)
@@ -257,10 +261,15 @@ class Pipeline:
             "the solver's answer are mathematically equivalent (allow equivalent forms and stated rounding). If they "
             "differ, re-derive the answer yourself and say which is right. Also check the question is well-posed: "
             "enough information, unique answers, consistent with the stated marks, within the course."),
-            f"Question:\n{question}\n\nAnswers:\n{pairs}\n\n{STYLE}\nSchema: " +
+            f"Question:\n{question}\n\nAnswers:\n{pairs}\n\n{STYLE}\n" +
+            ("This is a multiple-choice question: the answers agree when they choose the same option letter "
+             "(ignore the wording of the reason); check that exactly one option is correct.\n"
+             if getattr(self, "multiple_choice", False) else "") + "Schema: " +
             '{"parts": [{"label": "a", "agree": true, "correct_answer": "…", "note": "…"}], "well_posed": true, '
-            '"verdict": "pass|fail", "feedback": "what the setter must fix"}')
+            '"verdict": "pass|fail", "feedback": "what the setter must fix"}' + f"\nUse exactly these part labels: {labels}.")
         checked = {label_of(p.get("label")): p for p in v.get("parts", [])}
+        if len(labels) == 1 and len(checked) == 1 and labels[0] not in checked:  # a whole question ("-"): any label
+            checked = {labels[0]: next(iter(checked.values()))}
         bad = [l for l in labels if not checked.get(l, {}).get("agree")]
         if v.get("verdict") != "pass" or not v.get("well_posed") or bad:
             raise Failed(f"verification failed (parts {bad or '—'}): {v.get('feedback', '')}")
