@@ -11,6 +11,7 @@ account.verify_code(email, code), account.google(timeout), account.me() -> serve
 Event: account.changed(info).
 """
 import json, secrets, threading, urllib.error, urllib.parse, urllib.request, webbrowser
+import os
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 
@@ -19,6 +20,11 @@ class AccountError(RuntimeError):
 
 
 def setup(k):
+    global AGENT
+    ed = k.get("edition", {})
+    here = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "version.txt")
+    ver = open(here, encoding="utf-8").read().strip() if os.path.isfile(here) else "0"
+    AGENT = f"{(ed.get('short') or 'WTF').replace(' ', '-')}/{ver} (+https://wtf-academy.org)"
     cfg = k.get("config")
     acct = cfg.setdefault("account", {"server": "", "email": "", "token": ""})
 
@@ -29,7 +35,7 @@ def setup(k):
         return url
 
     def call(method, path, body=None, auth=True, timeout=30):
-        headers = {"content-type": "application/json"}
+        headers = {"content-type": "application/json", "user-agent": AGENT}  # named: Cloudflare turns away anonymous scripts
         if auth:
             if not acct.get("token"):
                 raise AccountError("尚未登录 WTF 账号")
