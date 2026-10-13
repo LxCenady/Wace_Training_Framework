@@ -2,7 +2,9 @@
 turn valid marktags into database rows for the awards a local build reproduces.
 
 Files (all hand-made or flow-made data, no SCSA text — only ids, numbers and catalogue codes):
-  tools/catalogue_<S>.json  schema 1: patterns; schema 2 adds knowledge atoms {"id": "RX.K4", "name_en", …}
+  tools/catalogue_<S>.json  schema 1: patterns; schema 2 adds knowledge atoms {"id": "RX.K4", "name_en", …} and may
+                            declare "axes": a topic code whose atoms label another axis of an award (PHY: the award
+                            skill, SKL.K1-K11) — carried in the awards' knowledge lists, built into axis_codes
   tools/marktags_<S>.json   {"schema": 1, "subject", "awards": {award id: {marks, patterns, knowledge, confidence}},
                              "questions": {question id: fingerprint}}
   tools/splits_<S>.json     {part id: {marks, structure, take, awards: [{n, marks, kind}]}} — the shape of the parts
@@ -58,7 +60,25 @@ def validate_catalogue(cat):
             fail("Catalogue schema 2 has no knowledge atoms")
     if not pats:
         fail("Catalogue has no patterns")
+    axes(cat, atoms)
     return pats, atoms
+
+
+def axes(cat, atoms=None):
+    """Optional "axes": [{"id", "prefix", "name_en", "name_zh", "codes": {atom: {"key", "group"}}}] -> {atom: (axis id,
+    key, group)}. An axis owns its prefix's atoms; old WTF versions simply see them as knowledge atoms."""
+    out = {}
+    spec = cat.get("axes", [])
+    if not isinstance(spec, list):
+        fail("Catalogue axes must be a list")
+    for ax in spec:
+        if not isinstance(ax, dict) or not re.fullmatch(r"[a-z]{1,20}", str(ax.get("id", "")))                 or ax.get("prefix") not in cat.get("topic_codes", {}) or not isinstance(ax.get("codes"), dict):
+            fail(f"Catalogue axis {ax.get('id') if isinstance(ax, dict) else ax}: id, a topic-code prefix and codes needed")
+        for atom, v in ax["codes"].items():
+            if not atom.startswith(ax["prefix"] + ".K") or (atoms is not None and atom not in atoms)                     or not isinstance(v, dict) or not isinstance(v.get("key"), str):
+                fail(f"Catalogue axis {ax['id']}: bad code {atom}")
+            out[atom] = (ax["id"], v["key"], str(v.get("group", "")))
+    return out
 
 
 def validate_marktags(data, cat, subject):

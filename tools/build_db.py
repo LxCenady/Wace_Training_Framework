@@ -36,6 +36,10 @@ CREATE TABLE part_patterns (qid TEXT, label TEXT, pattern TEXT);
 CREATE TABLE points   (qid TEXT, label TEXT, ord INT, text TEXT);
 CREATE TABLE knowledge (code TEXT PRIMARY KEY, topic TEXT, name_en TEXT, name_zh TEXT, definition TEXT);
 CREATE TABLE award_tags (qid TEXT, label TEXT, n INT, marks REAL, kind TEXT, code TEXT);
+CREATE TABLE axis_codes (code TEXT PRIMARY KEY, subject TEXT, axis TEXT, key TEXT, grp TEXT, name_en TEXT, name_zh TEXT);
+CREATE VIEW award_axes AS
+  SELECT a.qid, a.label, a.n, a.marks, c.axis, c.code, c.key, c.grp
+  FROM award_tags a JOIN axis_codes c ON c.code = a.code;
 CREATE VIEW q_patterns AS SELECT DISTINCT qid, pattern FROM part_patterns;
 CREATE VIEW pattern_marks AS
   SELECT q.id AS qid, q.subject, q.section, q.year, q.marks AS question_marks, pp.pattern,
@@ -99,6 +103,28 @@ def key_text(doc, regs):
     return "\n".join(doc[p].get_text("text", clip=pymupdf.Rect(20, y0, 575, y1)) for p, y0, y1 in regs)
 
 
+def points_from_awards(subj, q, docs, printed):
+    """A key the parser cannot divide (points_ok 0), whose awards the pack flow did divide (tools/awards.py with the
+    pack's splits; subjects with marktags only): one point row per mark from the awards, when every part's awards add up to its printed marks and
+    no part is an "any N of" list. -> [(label, text)] or None."""
+    import awards  # awards.py imports this module: import it late
+    try:
+        rec = awards.question(subj, q, key_parser(subject_registry.info(subj)), docs, awards.splits(subj))
+    except Exception:
+        return None
+    out = []
+    for p in rec["parts"]:
+        if p.get("status") != "ok" or any(a.get("kind") == "choice" for a in p["awards"]):
+            return None
+        if printed and p["label"] in printed and sum(a["marks"] for a in p["awards"]) != printed[p["label"]]:
+            return None
+        # a part divided by the split job carries no key text in a pack (splits are shape only): a neutral label, so a
+        # local build and an installed one write the same rows; the key itself is shown as its image
+        out += [(p["label"], a["text"] if p.get("source") != "split" else f"Criterion {a['id'].rsplit('-', 1)[1]}"
+                 + (f" ({a['marks']} marks)" if a["marks"] > 1 else "")) for a in p["awards"] for _ in range(a["marks"])]
+    return out if len(out) == q["marks"] else None
+
+
 def award_level(db, subj, docs):
     """tools/marktags_<S>.json (pack flow) -> knowledge + award_tags rows, for the questions whose awards this build
     numbers exactly as the pack did (marktags.py fingerprints). Subjects without the file get no rows."""
@@ -114,8 +140,15 @@ def award_level(db, subj, docs):
         marktags.validate_marktags(tags, cat, subj)
     except ValueError as e:
         return [f"{subj}: marktags not used: {e}"]
+    axes = marktags.axes(cat)  # atoms that are another axis of the award (e.g. PHY's award skill), not knowledge
     for a in cat["knowledge"]:
-        db.execute("INSERT INTO knowledge VALUES (?,?,?,?,?)", (marktags.db_code(subj, a["id"]),
+        code = marktags.db_code(subj, a["id"])
+        if a["id"] in axes:
+            axis, key, grp = axes[a["id"]]
+            db.execute("INSERT INTO axis_codes VALUES (?,?,?,?,?,?,?)",
+                       (code, subj, axis, key, grp, a["name_en"], a.get("name_zh", "")))
+            continue
+        db.execute("INSERT INTO knowledge VALUES (?,?,?,?,?)", (code,
                    f"{subj}.{a['id'].split('.')[0]}", a["name_en"], a.get("name_zh", ""), a.get("definition", "")))
     parse, splits, problems = key_parser(subject_registry.info(subj)), awards.splits(subj), []
     for q in json.load(open(os.path.join(ROOT, subj, "questions.json"), encoding="utf-8")):
@@ -151,6 +184,7 @@ def build(db_path, subjects=None):
             if english and set(english) != set(method_sections(md)):
                 problems.append(f"{subj} {fname}: English notes have patterns {sorted(english)}")
         known = {r[0] for r in db.execute("SELECT code FROM patterns WHERE topic LIKE ?", (subj + ".%",))}
+        flow_pack = os.path.isfile(os.path.join(ROOT, "tools", f"marktags_{subj}.json"))  # award-level subjects only
         tags = read_parttags(subj)
         docs = {}
         for q in json.load(open(os.path.join(ROOT, subj, "questions.json"), encoding="utf-8")):
@@ -175,7 +209,12 @@ def build(db_path, subjects=None):
             ok = int(len(pts) == q["marks"])
             if ok and paper and any(sum(1 for p in pts if p[0] == l) != m for l, m in paper.items()):
                 ok = 0
-                problems.append(f"{qid}: key ticks per part differ from the printed part marks (key shown as image)")
+            if not ok and "answer" not in q and flow_pack:
+                fallback = points_from_awards(subj, q, docs, paper)
+                if fallback:
+                    pts, ok = fallback, 1
+                elif len(pts) == q["marks"]:
+                    problems.append(f"{qid}: key ticks per part differ from the printed part marks (key shown as image)")
             if q["exam"] not in docs:
                 docs[q["exam"]] = pymupdf.open(os.path.join(ROOT, q["exam"]))
             figure = int(has_figure(q["text"]) or images_in(docs[q["exam"]], q["exam_regions"]))

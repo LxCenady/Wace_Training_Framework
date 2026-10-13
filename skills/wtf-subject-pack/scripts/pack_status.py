@@ -64,7 +64,10 @@ check("every question part-tagged", bool(want) and want <= set(tagged), f"{len(w
 used = {c for v in tagged.values() for c in v}
 if codes:
     check("tags use catalogue codes only", used <= codes, str(sorted(used - codes))[:80])
-    check("every pattern has a past question", codes <= used, f"unused: {sorted(codes - used)}" if codes - used else "")
+    # a syllabus-based catalogue may list points no paper has set yet: they carry "examined": false
+    unset = {x["id"] for x in cat["patterns"] if x.get("examined") is False} if cat else set()
+    check("every pattern has a past question", codes - unset <= used,
+          f"unused: {sorted(codes - unset - used)}" if codes - unset - used else (f"{len(unset)} declared unexamined" if unset else ""))
 flag = re.search(r"still flagged for review:(.*)", pt)
 check("no questions flagged for review", not (flag and flag.group(1).strip()), flag.group(1).strip() if flag else "")
 
