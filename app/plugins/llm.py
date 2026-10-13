@@ -14,10 +14,13 @@ FATAL = {401: "API key 无效或已失效，请在「设置」里检查", 402: "
 ENV_KEYS ={"openai": ("DEEPSEEK_API_KEY", "OPENAI_API_KEY"), "anthropic": ("ANTHROPIC_API_KEY",)}
 
 
+AGENT = "WTF (+https://wtf-academy.org)"  # named: Cloudflare (api.wtf-academy.org) turns away anonymous scripts
+
+
 def post_json(url, headers, body, timeout):
     """Stdlib HTTP POST; raises RuntimeError with the server's message on HTTP errors."""
     req = urllib.request.Request(url, data=json.dumps(body).encode(), method="POST",
-                                 headers={"content-type": "application/json", **headers})
+                                 headers={"content-type": "application/json", "user-agent": AGENT, **headers})
     try:
         with urllib.request.urlopen(req, timeout=timeout) as r:
             return json.loads(r.read())
@@ -29,6 +32,10 @@ def post_json(url, headers, body, timeout):
 
 
 def setup(k):
+    global AGENT
+    here = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "version.txt")
+    ver = open(here, encoding="utf-8").read().strip() if os.path.isfile(here) else "0"
+    AGENT = f"{(k.get('edition', {}).get('short') or 'WTF').replace(' ', '-')}/{ver} (+https://wtf-academy.org)"
     providers = k.provide("llm.providers", {})
 
     def chat(system, user):
