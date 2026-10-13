@@ -930,5 +930,10 @@
 "：自动下载（": ": automatic download (",
 "：请在「设置": ": please sign in under \"Settings",
 "；在「设置": "; sign in under \"Settings",
-"；文件名随意。": "; any file name is fine."
+"；文件名随意。": "; any file name is fine.",
+"默认是 WTF Academy 官方服务器；学校自建的服务器可在这里改。登录后 AI 出题不需要自己的 API key，按套餐的每日额度使用。": "WTF Academy's server by default; a school running its own can change it here. Once signed in, AI questions need no API key of your own and use your plan's daily quota.",
+"订阅套餐（学生 / 教师）…": "Plans (student / teacher)…",
+"学生档": "Student plan",
+"教师档": "Teacher plan",
+"套餐：": "Plan: "
 }
