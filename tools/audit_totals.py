@@ -1,6 +1,7 @@
 """Compare summed question marks with the section total printed in each paper."""
 import json, re, sys, os, collections, pymupdf
 import subjects
+import paper_selection
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TOTAL = re.compile(r'(Section\s+(?:One|Two|Three|Four).{0,140}?)\((\d+)\s*Marks\)', re.I | re.S)
 
@@ -25,7 +26,7 @@ def audit(subject):
             text = ' '.join(doc[i].get_text() for i in range(doc.page_count if shared else min(6, doc.page_count)))
         section = next(s for s in subjects.sections(subject) if s['code'] == code)
         printed = printed_totals(text, section)
-        total = sum(q['marks'] for q in rows)
+        total = paper_selection.total(section, (q['marks'] for q in rows))
         ok = total in printed
         bad += not ok
         print('OK' if ok else 'BAD', os.path.basename(exam), code, 'sum', total, 'printed', printed)

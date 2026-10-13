@@ -1,5 +1,6 @@
 """Validate score metadata and aggregate section marks without inventing missing results."""
 import math
+import paper_selection
 
 
 def number(value):
@@ -11,6 +12,8 @@ def validate(profile):
     if not isinstance(scoring, dict) or scoring.get('mode') not in ('raw', 'section-weighted'):
         raise ValueError('Invalid scoring mode')
     sections = profile['sections']
+    for section in sections:
+        paper_selection.validate(section)
     if scoring['mode'] == 'section-weighted':
         shares = [s.get('share') for s in sections]
         if any(not number(w) or not 0 < w <= 1 for w in shares) or not math.isclose(sum(shares), 1, abs_tol=1e-9):
@@ -22,7 +25,7 @@ def validate(profile):
         raise ValueError('Invalid scoring year range')
 
 
-def score(profile, results, year=None):
+def score(profile, results, year=None, answered=None):
     """results = {code: (earned, possible)}. Partial coverage never yields a whole-paper percentage."""
     validate(profile)
     config = profile.get('scoring', {'mode': 'raw'})
@@ -37,6 +40,19 @@ def score(profile, results, year=None):
     earned = sum(pair[0] for pair in results.values())
     possible = sum(pair[1] for pair in results.values())
     complete = set(results) == set(sections)
+    answered = {} if answered is None else answered
+    if not isinstance(answered, dict) or set(answered) - set(sections):
+        raise ValueError('Unknown answer selection sections')
+    for code, section in sections.items():
+        count = section.get('answer_count')
+        if count is None or code not in results:
+            continue
+        ids = answered.get(code)
+        if ids is None:
+            complete = False  # practicing both alternatives never implies a valid whole-paper sitting
+        elif (not isinstance(ids, list) or len(ids) != count or any(not isinstance(i, str) or not i for i in ids)
+              or len(set(ids)) != len(ids)):
+            raise ValueError('Invalid explicit answer selection')
     if config['mode'] == 'section-weighted':
         coverage = sum(sections[code]['share'] for code in results)
         contribution = 100 * sum(sections[c]['share'] * e / p for c, (e, p) in results.items())

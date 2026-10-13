@@ -8,7 +8,7 @@ key region, and its answer cell ("c", or "c and d" when the key accepts either) 
 import re
 import pymupdf
 
-NUMBER = re.compile(r"^(\d{1,2})\.$")
+NUMBER = re.compile(r"^(\d{1,2})\.?$")  # some official papers omit the dot on an otherwise identical heading
 STIMULUS = re.compile(r"^(?:Use the (?:following )?information|For Questions?|Questions?\s+\d+\s+(?:and|to|–|-|refers?)|"
                       r"Refer to the (?:following )?information)", re.I)
 SERVES = re.compile(r"Questions?\s+(\d+)(?:\s*(?:and|to|–|-)\s*(\d+))?", re.I)

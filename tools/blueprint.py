@@ -63,6 +63,8 @@ def blueprint(db, subj, section, since=2020):
         if len(ts) > 1:
             crossed.update(ts)
             pair.update((a, b) for a in ts for b in ts if a != b)
+    profile = next(s for s in subject_profiles.sections(subj) if s['code'] == section)
+    answer_count = profile.get('answer_count')
     return {
         "cross_rate": multi / max(1, len(by_question)),  # share of real questions that span two topics
         "topic_cross_rate": {t: crossed[t] / seen[t] for t in seen},  # P(cross-topic | the question has t)
@@ -74,7 +76,8 @@ def blueprint(db, subj, section, since=2020):
         "question_marks": [m for (m,) in q("SELECT marks FROM questions WHERE subject = ? AND section = ? AND year >= ?",
                                            subj, section, since)],
         "question_count": [n for (n,) in q("""SELECT COUNT(*) FROM questions WHERE subject = ? AND section = ?
-                                              AND year >= ? GROUP BY year""", subj, section, since)],
+                                              AND year >= ? GROUP BY year""", subj, section, since)] if answer_count is None else [answer_count],
+        "answer_count": answer_count,
         "cross_topic": cross.most_common(),
         "own_marks": {p: sorted(v) for p, v in own_marks.items()},
         "skeletons": skeletons,
@@ -194,6 +197,12 @@ def unit_plan(db, subj, unit, section, count, rng, marks=0, swap=0.35):
 
 
 def attempt(bp, total, rng, swap):
+    if bp.get('answer_count') == 1:
+        choices = [sk for sk in bp['skeletons'] if sum(sk.values()) == total]
+        if not choices:
+            return None
+        split = dict(rng.choice(choices))
+        return [(sorted(split, key=lambda p: -split[p]), total, LEVELS[1], split)]
     own = bp["own_marks"]
     rng_of = {p: (v[0], v[-1]) for p, v in own.items()}
     cap = max(bp["question_marks"])

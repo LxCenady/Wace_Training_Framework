@@ -35,7 +35,7 @@ def band(page, ls):
     return top, bot
 
 
-def scan(path, shared=False):
+def scan(path, shared=False, first_question=None):
     """Return ordered list of (q, page, y, marks) heads and the stop point (page, y)."""
     doc = pymupdf.open(path)
     heads, seen, stop = [], set(), (doc.page_count - 1, None)
@@ -68,6 +68,8 @@ def scan(path, shared=False):
                 if shared and not re.fullmatch(r"Question\s+\d+\s*(?:\(\d+\s*marks?\))?", t, re.I):
                     continue  # e.g. MC stimulus: 'Question 24 refers to ...'
                 q = int(m.group(1))
+                if first_question is not None and q < first_question:
+                    continue  # worked examples beneath an MC answer grid are not written-question headings
                 if q in seen or (heads and q != heads[-1][0] + 1):
                     continue
                 mk = MARKS.search(t)
@@ -143,7 +145,7 @@ def main(subj):
             section_blocks.append(dict(exam=os.path.relpath(ex, ROOT).replace(os.sep, '/'),
                                        sections=blocks))
         er = regions(eh, es, eb, edoc.page_count)
-        kdoc, kh, ks, kb = scan(key, shared=shared)
+        kdoc, kh, ks, kb = scan(key, shared=shared, first_question=eh[0][0] if shared and eh else None)
         kr = regions(kh, ks, kb, kdoc.page_count)
         # Some shared keys print section instructions between question answers.
         # Packs opt in with key_headings; existing crop boundaries stay unchanged.

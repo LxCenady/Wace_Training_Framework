@@ -5,6 +5,7 @@ from pathlib import Path
 import re
 import scoring
 import handlers
+import paper_selection
 
 
 def profiles(root=None):
@@ -115,6 +116,7 @@ def validate_profile(data, path):
         if not re.fullmatch(r'[A-Za-z0-9_-]+', topic['file']) or not re.fullmatch(r'[A-Za-z0-9_]+', topic['code']):
             raise ValueError(f'Unsafe topic identifier: {path}')
     for section in data['sections']:
+        paper_selection.validate(section)
         if not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', section['code']) or not re.fullmatch(r'[A-Z0-9]{1,4}', section['letter']):
             raise ValueError(f'Unsafe section identifier: {path}')
         minutes = section.get('minutes')
@@ -131,6 +133,8 @@ def validate_profile(data, path):
             raise ValueError(f'Invalid {field}: {path}')
     if data.get('sketch_mode', 'words') not in ('words', 'legacy-maths'):
         raise ValueError(f'Invalid sketch mode: {path}')
+    if type(data.get('nested_part_totals', False)) is not bool:
+        raise ValueError(f'Invalid nested_part_totals: {path}')
     if any(not re.fullmatch(r'[A-Za-z][A-Za-z0-9_-]*', sheet) for sheet in data['sheets']):
         raise ValueError(f'Unsafe sheet identifier: {path}')
     papers = data.get('papers', {'years': [], 'excluded': {}})  # coverage, and why a year is left out

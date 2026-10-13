@@ -202,7 +202,7 @@ def build(db_path, subjects=None):
                 pts, printed = [["", f"Answer: {q['answer']}"]], None  # options (a)–(d) are not parts
             else:
                 pts = key_parser(subject_registry.info(subj))(key_text(docs[q["key"]], q["key_regions"]))
-                printed = split(q["text"], q["marks"])
+                printed = split(q["text"], q["marks"], subject_registry.info(subj).get('nested_part_totals', False))
             paper = for_tags(printed, [l for l, _ in parts]) if printed else None
             # one tick per mark, and per part as printed: a key whose text runs out of order (MAA 2021 CA Q9) would
             # otherwise hang its marks on the wrong parts; such keys are shown as the original image instead

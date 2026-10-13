@@ -18,9 +18,9 @@ sys.path.insert(0, os.path.join(ROOT, "tools"))
 import fetch, paperid, segment, subjects  # noqa: E402
 
 
-def heads(path, shared):
+def heads(path, shared, first_question=None):
     """{question number: printed marks or None} from the "Question N" headings of one PDF."""
-    doc, found, _, _ = segment.scan(path, shared=shared)
+    doc, found, _, _ = segment.scan(path, shared=shared, first_question=first_question)
     doc.close()
     return {q: marks for q, _, _, marks in found}
 
@@ -41,7 +41,8 @@ def judge(subj, rel_exam, listed, shared):
             bad.append(f"cover says {paperid.identify(path)}, manifest says {rel}")
     if bad:
         return out
-    exam, key = heads(os.path.join(ROOT, rel_exam), shared), heads(os.path.join(ROOT, rel_key), shared)
+    exam = heads(os.path.join(ROOT, rel_exam), shared)
+    key = heads(os.path.join(ROOT, rel_key), shared, min(exam) if shared and exam else None)
     out["questions"] = len(exam)
     if not exam:
         bad.append("no 'Question N' headings found in the exam")

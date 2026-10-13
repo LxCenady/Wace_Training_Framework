@@ -8,10 +8,11 @@ difficulty rising with jitter. Marking reuses self-marking (right-click a part i
 minus the marks recorded as lost since the exam started.
 """
 import subjects
+import paper_selection
 import base64, os, random, shutil, threading, time
 import tkinter as tk
 from concurrent.futures import ThreadPoolExecutor
-from tkinter import ttk
+from tkinter import ttk, simpledialog
 import plat
 
 
@@ -149,6 +150,19 @@ def setup(k):
             if not qs:
                 msg.configure(text="本机没有这份试卷（导入真题后再试）")
                 return
+            section = next(s for s in subjects.sections(subj) if s['code'] == sec)
+            if section.get('answer_count') is not None:
+                choices = {str(int(qid.rsplit('Q', 1)[-1])): qid for qid, _ in qs}
+                picked = simpledialog.askstring("选择作答题目", "选择要作答的题号（用逗号分隔）" + "\n" +
+                                                ', '.join(choices), parent=root)
+                if picked is None:
+                    return
+                try:
+                    ids = [choices[number.strip()] for number in picked.replace('，', ',').split(',')]
+                    qs = paper_selection.select(section, qs, ids)
+                except (KeyError, ValueError):
+                    msg.configure(text="选题数量或题号不正确")
+                    return
             eid = store.save_exam(subj, sec, f"past:{year}", [["past", q] for q, _ in qs], sum(m for _, m in qs))
             open_exam(store.exam(eid))
             return

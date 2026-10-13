@@ -2,6 +2,7 @@
 import json, os, sqlite3, threading, time
 
 import subjects
+import paper_selection
 SUBJECT_NAMES = subjects.names()
 
 GEN_SCHEMA = """
@@ -126,9 +127,13 @@ class Store:
     def paper_totals(self, subj, since=2020):
         """{section: marks of a real paper} — the median over recent years (what a full CF / CA paper is worth)."""
         out = {}
-        for sec in subjects.section_codes(subj):
-            totals = sorted(t for (t,) in self.q("""SELECT SUM(marks) FROM questions WHERE subject = ? AND
-                                                    section = ? AND year >= ? GROUP BY year""", subj, sec, since))
+        for section in subjects.sections(subj):
+            sec = section['code']
+            by_year = {}
+            for year, marks in self.q("SELECT year, marks FROM questions WHERE subject = ? AND section = ? AND year >= ?",
+                                      subj, sec, since):
+                by_year.setdefault(year, []).append(marks)
+            totals = sorted(paper_selection.total(section, marks) for marks in by_year.values())
             if totals:
                 out[sec] = totals[len(totals) // 2]
         return out
@@ -349,8 +354,8 @@ class Store:
 def setup(k):
     k.provide("store", Store(k.root, k.get("config").get("language", "zh")))
     import scoring
-    k.provide('score.summary', lambda subject, results, year=None:
-              scoring.score(subjects.info(subject, k.root), results, year))
+    k.provide('score.summary', lambda subject, results, year=None, answered=None:
+              scoring.score(subjects.info(subject, k.root), results, year, answered))
     import rubric
     k.provide('score.rubric', rubric.score)
     k.provide('score.atom_coverage', rubric.coverage)

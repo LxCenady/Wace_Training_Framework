@@ -11,9 +11,10 @@ ROMAN = ["i", "ii", "iii", "iv", "v", "vi"]
 TOKEN = re.compile(r"(?m)^\s*\(([a-hj-l])\)|^\s*\((i{1,3}|iv|v|vi)\)|\((\d+)\s*marks?\)", re.I)
 
 
-def split(stem, total):
+def split(stem, total, nested_totals=False):
     """{label: marks} or None when the printed marks do not add up to the question total."""
     letter, roman, out, header, has_marks = "", "", {}, True, False
+    first = {}
     for m in TOKEN.finditer(stem):
         lt, rm, mk = m.group(1), m.group(2), m.group(3)
         if mk:
@@ -21,6 +22,7 @@ def split(stem, total):
                 header = False  # "Question 7 (8 marks)"
                 continue
             label = letter + roman
+            first.setdefault(label, int(mk))
             out[label] = out.get(label, 0) + int(mk)
             has_marks = True  # current letter part has printed marks
         elif lt and ord(lt) == (ord(letter) + 1 if letter else ord("a")):
@@ -33,6 +35,16 @@ def split(stem, total):
                 roman = rm
     if not out and not header:  # only the header's marks: a question without parts
         out = {"": total}
+    if out and sum(out.values()) != total and nested_totals:
+        candidate = dict(first)
+        for label in list(first):
+            children = [k for k in first if len(label) == 1 and len(k) > 1 and k[:1] == label]
+            if children:
+                if sum(first[k] for k in children) != first[label]:
+                    return None
+                candidate.pop(label, None)
+        if sum(candidate.values()) == total:
+            return candidate
     if not out or sum(out.values()) != total:
         return None
     return out

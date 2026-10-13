@@ -51,7 +51,7 @@ def question(subj, q, parse, docs, done=None):
     if q["key"] not in docs:
         docs[q["key"]] = pymupdf.open(os.path.join(ROOT, q["key"]))
     key = key_text(docs[q["key"]], q["key_regions"])
-    printed = split(q["text"], rec["marks"]) or {"": rec["marks"]}
+    printed = split(q["text"], rec["marks"], subjects.info(subj).get('nested_part_totals', False)) or {"": rec["marks"]}
     entries = group(parse(key))
     stems = texts(q["text"])
     parts = []
