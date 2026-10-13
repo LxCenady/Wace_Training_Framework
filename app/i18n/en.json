@@ -932,8 +932,13 @@
 "；在「设置": "; sign in under \"Settings",
 "；文件名随意。": "; any file name is fine.",
 "默认是 WTF Academy 官方服务器；学校自建的服务器可在这里改。登录后 AI 出题不需要自己的 API key，按套餐的每日额度使用。": "WTF Academy's server by default; a school running its own can change it here. Once signed in, AI questions need no API key of your own and use your plan's daily quota.",
-"订阅套餐（学生 / 教师）…": "Plans (student / teacher)…",
 "学生档": "Student plan",
 "教师档": "Teacher plan",
-"套餐：": "Plan: "
+"套餐：": "Plan: ",
+"订阅：": "Subscribe: ",
+"已在浏览器打开付款页面": "The payment page is open in your browser",
+"在线订阅即将开放。现在想开通": "Online subscription opens soon. To get the ",
+"，请写信到": " now, write to",
+"（注明账号邮箱": " (with your account e-mail",
+"）。": ")."
 }

@@ -118,6 +118,11 @@ def setup(k):
         """{email, plan, quota: {used, limit, unit, resets_at}} from the server."""
         return call("GET", "/v1/me")
 
+    def checkout(plan):
+        """A payment page for `plan` (student / teacher) -> its URL; while online subscription is not open the server
+        answers why and whom to write to (raised as AccountError with that message)."""
+        return call("POST", "/v1/billing/checkout", {"plan": plan})["url"]
+
     def logout():
         try:
             call("POST", "/v1/auth/logout", {})
@@ -131,6 +136,7 @@ def setup(k):
     k.provide("account.verify_code", verify_code)
     k.provide("account.google", google)
     k.provide("account.me", me)
+    k.provide("account.checkout", checkout)
     k.provide("account.logout", logout)
     k.provide("account.call", call)
     k.provide("account.Error", AccountError)

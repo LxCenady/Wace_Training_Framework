@@ -8,7 +8,6 @@ WTF works with the user's own API key without it.
 import threading, webbrowser
 
 OFFICIAL = "https://api.wtf-academy.org"  # WTF Academy's account server (behind Cloudflare)
-PLANS_PAGE = "https://wtf-academy.org/pricing"
 PLAN_NAMES = {"student": "学生档", "teacher": "教师档"}
 import tkinter as tk
 from tkinter import ttk
@@ -51,7 +50,11 @@ def setup(k):
         google.pack(side="left")
         out = ttk.Button(row, text="退出登录")
         out.pack(side="left", padx=8)
-        ttk.Button(row, text="订阅套餐（学生 / 教师）…", command=lambda: webbrowser.open(PLANS_PAGE)).pack(side="left")
+        sub = ttk.Frame(f)
+        sub.grid(row=10, column=0, columnspan=3, sticky="w", pady=(10, 0))
+        ttk.Label(sub, text="订阅：").pack(side="left")
+        for plan, label in (("student", "学生档"), ("teacher", "教师档")):
+            ttk.Button(sub, text=label, command=lambda p=plan: subscribe(p)).pack(side="left", padx=(0, 6))
         ttk.Checkbutton(f, text="AI 出题使用 WTF 账号（不用自己的 API key）", variable=use).grid(
             row=7, column=0, columnspan=3, sticky="w", pady=(10, 0))
         msg = tk.StringVar()
@@ -97,6 +100,9 @@ def setup(k):
                 except Exception as e:
                     post(lambda e=e: msg.set(f"✗ {type(e).__name__}: {e}"))
             threading.Thread(target=work, daemon=True).start()
+
+        def subscribe(plan):  # signed in first; the server opens the payment page (or says it is not open yet)
+            run(lambda: webbrowser.open(k.get("account.checkout")(plan)), "已在浏览器打开付款页面")
 
         send.configure(command=lambda: run(lambda: k.get("account.request_code")(email.get()), "验证码已发送，请查收邮箱"))
         login.configure(command=lambda: run(lambda: k.get("account.verify_code")(email.get(), code.get()), "✓ 已登录"))
