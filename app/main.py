@@ -80,6 +80,8 @@ def selftest(root):
             raise RuntimeError("Python's own CA list only (truststore missing): school networks / VPNs will fail")
         return "system certificate store (truststore)"
     step("HTTPS", https)
+    from wtf_compiler.check import run as compiler_check
+    step("Compiler", compiler_check)
     step("question bank", lambda: f"{sqlite3.connect(os.path.join(root, 'wace.db')).execute('SELECT COUNT(*) FROM questions').fetchone()[0]} questions")
     with open(os.path.join(root, "WTF.log"), "a", encoding="utf-8") as f:
         f.write("\n--- selftest ---\n" + "\n".join(results) + "\n")

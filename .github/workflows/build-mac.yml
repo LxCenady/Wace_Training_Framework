@@ -35,6 +35,7 @@ jobs:
           LOG="$HOME/Library/Application Support/WTF/WTF.log"
           cat "$LOG"
           grep -q "ok    LaTeX" "$LOG" && grep -q "ok    figure" "$LOG" && grep -q "ok    SymPy" "$LOG" && grep -q "ok    HTTPS" "$LOG"
+          grep -q "ok    Compiler" "$LOG"
           test -f "$HOME/Library/Application Support/WTF/MAM/sources.tsv" && test -f "$HOME/Library/Application Support/WTF/MAM/pack.json"
       - uses: actions/upload-artifact@v4
         with:
