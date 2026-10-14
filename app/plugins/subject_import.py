@@ -13,6 +13,10 @@ def setup(k):
             version = Path(__file__).resolve().parents[1] / 'version.txt'
             app_version = version.read_text(encoding='utf-8').strip() if version.exists() else '1.8.0'
             profile, _ = pack.inspect(file, app_version)
+            if profile.get('wtf_pack')==2:
+                k.get('compiler.calls')['compiler_import'](file)
+                k.get('compiler.open')()
+                return
             subject = profile['subject']
             current = Path(k.root) / subject / 'pack.json'
             detail = f"{profile['name']['zh']} · {profile['version']}\n"

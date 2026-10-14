@@ -29,6 +29,8 @@ WTF is a desktop study framework for Western Australian ATAR courses, built on t
 
 What it actually does, stated with a straight face:
 
+**In the source build: WTF Compiler.** Bring written exam PDFs, marking keys and a syllabus, connect your own agent through MCP, and compile a recipe pack. WTF and Studio use the same open-source Compiler core. PDFs stay local and are rebound by SHA256; essay levels, alternatives and follow-through remain scoring structures rather than invented one-mark rows. Compiler is free and uses your own agent, not WTF subscription credits. Your agent does the thinking; the Compiler checks whether the thinking arrived in valid JSON. [Workflow and protocol](docs/compiler.md).
+
 - every past question is split by **topic**, and every **sub-question** is tagged with the specific **题型 (question pattern)** it uses. Per part, not per question, because examiners enjoy putting three topics into one question and calling it "(c)";
 - marking keys are split into **one row per mark** where their structure reconciles with the printed marks; otherwise the original key crop stays visible, because inventing a missing mark is the examiner's job;
 - hand-written, independently reviewed **solving-method notes** for every pattern (Chinese with English terms) and 3-page **cheat sheets**, for those who believe 3 pages is "light reading";

@@ -32,3 +32,5 @@ HANDOFF*.md
 CLAUDE.md
 # pack flow: backups of exported tags and approved catalogues
 tools/*.bak
+# Local Compiler projects, source PDFs, private OCR and installed version databases
+/compiler/

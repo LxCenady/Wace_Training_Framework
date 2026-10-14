@@ -40,3 +40,5 @@ updater         # GitHub releases: tell about a newer version, download + instal
 ui_settings     # provider / base_url / model / API key dialog
 ui_account      # 设置 → 账号…
 subject_import
+compiler
+ui_compiler

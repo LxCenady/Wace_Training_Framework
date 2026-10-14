@@ -87,6 +87,9 @@ def inspect(file, app_version=APP_VERSION):
         if archive.getinfo('pack.json').file_size > 1024 * 1024:
             raise ValueError('Manifest too large')
         profile = json.loads(archive.read('pack.json').decode('utf-8'))
+        if isinstance(profile,dict) and profile.get('wtf_pack')==2:
+            from wtf_compiler.archive import inspect as inspect_recipe
+            return inspect_recipe(file), {}
         if not isinstance(profile, dict):
             raise ValueError('Invalid manifest')
         subject = profile.get('subject', '')
@@ -139,6 +142,9 @@ def validate_tags(payload, subject, required):
 def install(file, root, overwrite=False, app_version=APP_VERSION):
     profile, payload = inspect(file, app_version)
     root = Path(root).resolve()
+    if profile.get('wtf_pack')==2:
+        from wtf_compiler.service import Compiler
+        return Compiler(root/'compiler').library.import_pack(file)
     subject = profile['subject']
     if (root / subject / 'pack.json').exists() and not overwrite:
         raise ValueError('Subject already installed; replacement needs confirmation')
@@ -230,4 +236,4 @@ if __name__ == '__main__':
     im.add_argument('--replace', action='store_true')
     args = parser.parse_args()
     print(export(args.subject, args.root, args.out, args.draft) if args.command == 'export'
-          else install(args.file, args.root, args.replace)['subject'])
+          else install(args.file, args.root, args.replace))

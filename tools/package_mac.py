@@ -34,7 +34,8 @@ def main(version):
            "--add-data", f"{os.path.join(APP, 'version.txt')}:.",
            "--add-data", f"{os.path.join(APP, 'i18n', 'en.json')}:i18n",
            "--add-data", f"{staged}:data",
-           "--hidden-import", "plat", "--collect-submodules", "truststore"]
+           "--hidden-import", "plat", "--collect-submodules", "truststore",
+           "--collect-submodules", "wtf_compiler", "--collect-submodules", "mcp", "--collect-submodules", "uvicorn"]
     for m in plugins + TOOL_MODULES:
         cmd += ["--hidden-import", m]
     for m in ("ziamath", "ziafont", "ziaplot", "latex2mathml"):  # fonts / symbol tables they read at run time

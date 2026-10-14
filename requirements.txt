@@ -4,5 +4,6 @@ sympy>=1.13
 ziamath>=0.13
 ziaplot>=0.9
 truststore>=0.9  # HTTPS trusts the OS certificate store (school networks, VPNs, macOS)
+mcp==1.30.0  # optional local external-agent Compiler entry; never a hosted model route
 # optional, for verifying questions by hand / in the skills
 scipy

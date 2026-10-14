@@ -93,3 +93,12 @@ def shortcut(root, key, handler):
     root.bind_all(f"<Control-{key}>", handler)
     if MAC:
         root.bind_all(f"<Command-{key}>", handler)
+def pick_files(kind='pdf',save=False):
+    """Compiler's explicit user file selection; does not read any file itself."""
+    from tkinter import filedialog
+    extension='.wtfpack' if kind=='pack' else '.pdf'
+    types=[('WTF recipe' if kind=='pack' else 'PDF','*'+extension)]
+    if save:
+        path=filedialog.asksaveasfilename(title='WTF Compiler',defaultextension=extension,filetypes=types)
+        return [path] if path else []
+    return list(filedialog.askopenfilenames(title='WTF Compiler',filetypes=types))
