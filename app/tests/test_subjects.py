@@ -35,7 +35,12 @@ class Profiles(unittest.TestCase):
         self.assertEqual(list(subjects.names(self.root)), ['CHE'])
         self.assertEqual(subjects.section_letter('CHE', 'MC', self.root), 'M')
         self.assertEqual(subjects.section_minutes('CHE', 'MC', self.root), [10, 180])
-        self.assertEqual(list(subjects.names()), ['MAM', 'MAS', 'MAA', 'CHE'])  # the repo's installed packs
+        installed = list(subjects.names())
+        self.assertEqual(installed[:3], ['MAM', 'MAS', 'MAA'])  # bundled maths order stays stable as packs are added
+        self.assertIn('CHE', installed)
+        for code in ('PHY', 'ACF'):
+            if (Path(__file__).resolve().parents[2] / code / 'pack.json').exists():
+                self.assertIn(code, installed)
         with self.assertRaises(ValueError):
             subjects.section_letter('CHE', 'CalcFree', self.root)
 

@@ -1,0 +1,181 @@
+{
+ "wtf_pack": 1,
+ "subject": "PHY",
+ "version": "2026.10.1",
+ "order": 4,
+ "name": {
+  "zh": "Physics 物理",
+  "en": "Physics ATAR"
+ },
+ "course": "Physics ATAR (Units 3-4; tagged to the 2026 and 2027 Year 12 syllabus content)",
+ "requires_wtf": ">=2.0.2",
+ "papers": {
+  "years": [
+   2016,
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ],
+  "excluded": {},
+  "acknowledged": {
+   "2016": "Q16 exam heading prints 13 marks; key heading prints 14, but its four part totals are 5+3+2+3=13. The bank uses the exam and the key's part totals (13), treating the key question heading as a printing error.",
+   "2021": "Q18 exam heading prints 15 marks; key heading prints 14, but its four part totals are 4+2+5+4=15. The bank uses the exam and the key's part totals (15), treating the key question heading as a printing error."
+  }
+ },
+ "paper_layout": "shared",
+ "recognise": {
+  "title": [
+   "physics"
+  ],
+  "kinds": {
+   "DataBooklet": [
+    "formulae and data booklet"
+   ]
+  }
+ },
+ "sections": [
+  {
+   "code": "SR",
+   "letter": "R",
+   "zh": "短答题",
+   "en": "Short response",
+   "short": "SR",
+   "minutes": null,
+   "suggested_minutes": 50,
+   "share": 0.3,
+   "headings": [
+    "Section One:"
+   ],
+   "key_headings": [
+    "Section One:"
+   ]
+  },
+  {
+   "code": "PS",
+   "letter": "P",
+   "zh": "问题求解",
+   "en": "Problem-solving",
+   "short": "PS",
+   "minutes": null,
+   "suggested_minutes": 90,
+   "share": 0.5,
+   "headings": [
+    "Section Two:"
+   ],
+   "key_headings": [
+    "Section Two:"
+   ]
+  },
+  {
+   "code": "CP",
+   "letter": "C",
+   "zh": "材料理解",
+   "en": "Comprehension",
+   "short": "CP",
+   "minutes": null,
+   "suggested_minutes": 40,
+   "share": 0.2,
+   "headings": [
+    "Section Three:"
+   ],
+   "key_headings": [
+    "Section Three:"
+   ]
+  }
+ ],
+ "paper_minutes": [
+  10,
+  180
+ ],
+ "topics": [
+  {
+   "code": "EQB",
+   "file": "01_Equilibrium",
+   "zh": "静力平衡与重心",
+   "en": "Static equilibrium and centre of mass"
+  },
+  {
+   "code": "CIR",
+   "file": "02_Circular_Motion",
+   "zh": "水平与竖直面圆周运动",
+   "en": "Circular motion in horizontal and vertical planes"
+  },
+  {
+   "code": "GRV",
+   "file": "03_Gravity",
+   "zh": "引力、抛体与轨道",
+   "en": "Gravity, projectiles and orbits"
+  },
+  {
+   "code": "REL",
+   "file": "04_Relativity",
+   "zh": "相对论",
+   "en": "Relativity"
+  },
+  {
+   "code": "EMG",
+   "file": "05_Electromagnetism",
+   "zh": "电磁学",
+   "en": "Electromagnetism"
+  },
+  {
+   "code": "ACC",
+   "file": "06_Particle_Accelerators",
+   "zh": "粒子加速器与质能",
+   "en": "Particle accelerators and mass–energy"
+  },
+  {
+   "code": "QNT",
+   "file": "07_Wave_Particle_Quantum",
+   "zh": "波粒二象性与量子理论",
+   "en": "Wave–particle duality and quantum theory"
+  },
+  {
+   "code": "COS",
+   "file": "08_Cosmology",
+   "zh": "宇宙学",
+   "en": "Cosmology"
+  },
+  {
+   "code": "INQ",
+   "file": "09_Science_Inquiry",
+   "zh": "科学探究技能",
+   "en": "Science inquiry skills"
+  },
+  {
+   "code": "OUT",
+   "file": "10_Outside_Syllabus",
+   "zh": "现行大纲外内容",
+   "en": "Outside the 2026–2027 syllabus"
+  }
+ ],
+ "key_style": "description-marks",
+ "key_band_continuation": true,
+ "checker": "none",
+ "sketch_mode": "words",
+ "sketch_words": [
+  "sketch",
+  "draw",
+  "on the axes",
+  "on the diagram",
+  "complete the diagram",
+  "label",
+  "plot",
+  "graph"
+ ],
+ "sheets": [
+  "DataBooklet"
+ ],
+ "scoring": {
+  "mode": "section-weighted",
+  "valid_from": 2016,
+  "valid_to": 2025,
+  "source": "https://senior-secondary.scsa.wa.edu.au/__data/assets/pdf_file/0006/1067892/Physics-Y12-Syllabus-ATAR-minor-syllabus-changes-for-teaching-2024.PDF"
+ }
+}

@@ -1,0 +1,1089 @@
+{
+ "schema_version": 2,
+ "course": "Physics ATAR Year 12 (syllabus content 2026 and 2027)",
+ "catalogue_status": "approved",
+ "approved": "2026-10-13",
+ "topic_codes": {
+  "EQB": "Static equilibrium and centre of mass",
+  "CIR": "Circular motion in horizontal and vertical planes",
+  "GRV": "Gravity, projectiles and orbits",
+  "REL": "Relativity",
+  "EMG": "Electromagnetism",
+  "ACC": "Particle accelerators and mass–energy",
+  "QNT": "Wave–particle duality and quantum theory",
+  "COS": "Cosmology",
+  "INQ": "Science inquiry skills",
+  "OUT": "Outside the 2026–2027 syllabus",
+  "SKL": "Award skills (what a mark is given for)"
+ },
+ "patterns": [
+  {
+   "id": "EQB1",
+   "name_en": "Stability and centre of mass",
+   "name_zh": "稳定性与重心位置",
+   "definition": "Stability and centre of mass",
+   "syllabus": [
+    "S26-U3-SU-01",
+    "S27-U3-SU-01"
+   ],
+   "topic_en": "Static equilibrium and centre of mass",
+   "examined": true
+  },
+  {
+   "id": "EQB2",
+   "name_en": "Torque about a pivot (τ = rF sinθ)",
+   "name_zh": "力矩 τ = rF sinθ",
+   "definition": "Torque about a pivot (τ = rF sinθ)",
+   "syllabus": [
+    "S26-U3-SU-02",
+    "S27-U3-SU-02"
+   ],
+   "topic_en": "Static equilibrium and centre of mass",
+   "examined": true
+  },
+  {
+   "id": "EQB3",
+   "name_en": "Equilibrium: ΣF = 0 and Στ = 0",
+   "name_zh": "刚体平衡：合力与合力矩为零",
+   "definition": "Equilibrium: ΣF = 0 and Στ = 0",
+   "syllabus": [
+    "S26-U3-SU-03",
+    "S27-U3-SU-03"
+   ],
+   "topic_en": "Static equilibrium and centre of mass",
+   "examined": true
+  },
+  {
+   "id": "EQB4",
+   "name_en": "Static equilibrium contexts: ladders, beams, cables",
+   "name_zh": "静力平衡情境：梯子、横梁、悬挂",
+   "definition": "Static equilibrium contexts: ladders, beams, cables",
+   "syllabus": [
+    "S26-U3-SU-04",
+    "S27-U3-SU-04"
+   ],
+   "topic_en": "Static equilibrium and centre of mass",
+   "examined": true
+  },
+  {
+   "id": "CIR1",
+   "name_en": "Horizontal, banked and vertical circular motion",
+   "name_zh": "水平、倾斜弯道与竖直圆周运动",
+   "definition": "Horizontal, banked and vertical circular motion",
+   "syllabus": [
+    "S26-U3-SU-05",
+    "S27-U3-SU-05"
+   ],
+   "topic_en": "Circular motion in horizontal and vertical plane",
+   "examined": true
+  },
+  {
+   "id": "CIR2",
+   "name_en": "Energy conservation in circular motion",
+   "name_zh": "圆周运动中的能量守恒",
+   "definition": "Energy conservation in circular motion",
+   "syllabus": [
+    "S26-U3-SU-06",
+    "S27-U3-SU-06"
+   ],
+   "topic_en": "Circular motion in horizontal and vertical plane",
+   "examined": true
+  },
+  {
+   "id": "GRV1",
+   "name_en": "Newton's law of universal gravitation",
+   "name_zh": "万有引力定律",
+   "definition": "Newton's law of universal gravitation",
+   "syllabus": [
+    "S26-U3-SU-07",
+    "S27-U3-SU-07"
+   ],
+   "topic_en": "Gravity",
+   "examined": true
+  },
+  {
+   "id": "GRV2",
+   "name_en": "Gravitational fields around masses",
+   "name_zh": "质量周围的引力场",
+   "definition": "Gravitational fields around masses",
+   "syllabus": [
+    "S26-U3-SU-08",
+    "S27-U3-SU-08"
+   ],
+   "topic_en": "Gravity",
+   "examined": false
+  },
+  {
+   "id": "GRV3",
+   "name_en": "Weight in a gravitational field (F = mg)",
+   "name_zh": "引力场中的重力 F = mg",
+   "definition": "Weight in a gravitational field (F = mg)",
+   "syllabus": [
+    "S26-U3-SU-09",
+    "S27-U3-SU-09"
+   ],
+   "topic_en": "Gravity",
+   "examined": true
+  },
+  {
+   "id": "GRV4",
+   "name_en": "Work and gravitational potential energy",
+   "name_zh": "引力场中的做功与势能变化",
+   "definition": "Work and gravitational potential energy",
+   "syllabus": [
+    "S26-U3-SU-10",
+    "S27-U3-SU-10"
+   ],
+   "topic_en": "Gravity",
+   "examined": true
+  },
+  {
+   "id": "GRV5",
+   "name_en": "Gravitational field strength",
+   "name_zh": "引力场强度",
+   "definition": "Gravitational field strength",
+   "syllabus": [
+    "S26-U3-SU-11",
+    "S27-U3-SU-11"
+   ],
+   "topic_en": "Gravity",
+   "examined": true
+  },
+  {
+   "id": "GRV6",
+   "name_en": "Inclined planes: components of weight",
+   "name_zh": "斜面上重力的分解",
+   "definition": "Inclined planes: components of weight",
+   "syllabus": [
+    "S26-U3-SU-12",
+    "S27-U3-SU-12"
+   ],
+   "topic_en": "Gravity",
+   "examined": true
+  },
+  {
+   "id": "GRV7",
+   "name_en": "Projectile motion",
+   "name_zh": "抛体运动",
+   "definition": "Projectile motion",
+   "syllabus": [
+    "S26-U3-SU-13",
+    "S27-U3-SU-13"
+   ],
+   "topic_en": "Gravity",
+   "examined": true
+  },
+  {
+   "id": "GRV8",
+   "name_en": "Orbits, satellites and Kepler's third law",
+   "name_zh": "轨道、卫星与开普勒第三定律",
+   "definition": "Orbits, satellites and Kepler's third law",
+   "syllabus": [
+    "S26-U3-SU-14",
+    "S27-U3-SU-14"
+   ],
+   "topic_en": "Gravity",
+   "examined": true
+  },
+  {
+   "id": "GRV9",
+   "name_en": "Artificial satellites: orbits and uses",
+   "name_zh": "人造卫星的轨道与用途",
+   "definition": "Artificial satellites: orbits and uses",
+   "syllabus": [
+    "S26-U3-SHE-01",
+    "S27-U3-SHE-01"
+   ],
+   "topic_en": "Gravity and motion",
+   "examined": false
+  },
+  {
+   "id": "REL1",
+   "name_en": "Postulates of special relativity",
+   "name_zh": "狭义相对论的两条基本假设",
+   "definition": "Postulates of special relativity",
+   "syllabus": [
+    "S26-U3-SU-15",
+    "S27-U3-SU-15"
+   ],
+   "topic_en": "Relativity",
+   "examined": true
+  },
+  {
+   "id": "REL2",
+   "name_en": "High speeds beyond Newtonian physics",
+   "name_zh": "高速运动与牛顿力学的局限",
+   "definition": "High speeds beyond Newtonian physics",
+   "syllabus": [
+    "S26-U3-SU-16",
+    "S27-U3-SU-16"
+   ],
+   "topic_en": "Relativity",
+   "examined": true
+  },
+  {
+   "id": "REL3",
+   "name_en": "Relativity of simultaneity",
+   "name_zh": "同时的相对性",
+   "definition": "Relativity of simultaneity",
+   "syllabus": [
+    "S26-U3-SU-17",
+    "S27-U3-SU-17"
+   ],
+   "topic_en": "Relativity",
+   "examined": true
+  },
+  {
+   "id": "REL4",
+   "name_en": "Time dilation and length contraction",
+   "name_zh": "时间膨胀与长度收缩",
+   "definition": "Time dilation and length contraction",
+   "syllabus": [
+    "S26-U3-SU-18",
+    "S27-U3-SU-18"
+   ],
+   "topic_en": "Relativity",
+   "examined": true
+  },
+  {
+   "id": "REL5",
+   "name_en": "Muons as evidence for special relativity",
+   "name_zh": "μ子：狭义相对论的实验证据",
+   "definition": "Muons as evidence for special relativity",
+   "syllabus": [
+    "S26-U3-SHE-02",
+    "S27-U3-SHE-02"
+   ],
+   "topic_en": "Gravity and motion",
+   "examined": true
+  },
+  {
+   "id": "REL6",
+   "name_en": "General relativity: GPS clocks, black holes, lensing",
+   "name_zh": "广义相对论现象：GPS、黑洞、引力透镜",
+   "definition": "General relativity: GPS clocks, black holes, lensing",
+   "syllabus": [
+    "S26-U3-SHE-03",
+    "S27-U3-SHE-03"
+   ],
+   "topic_en": "Gravity and motion",
+   "examined": true
+  },
+  {
+   "id": "EMG1",
+   "name_en": "Coulomb's law",
+   "name_zh": "库仑定律",
+   "definition": "Coulomb's law",
+   "syllabus": [
+    "S26-U4-SU-01",
+    "S27-U4-SU-01"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG2",
+   "name_en": "Electric fields around charges",
+   "name_zh": "电荷周围的电场",
+   "definition": "Electric fields around charges",
+   "syllabus": [
+    "S26-U4-SU-02",
+    "S27-U4-SU-02"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG3",
+   "name_en": "Force on a charge in an electric field",
+   "name_zh": "电场中电荷的受力",
+   "definition": "Force on a charge in an electric field",
+   "syllabus": [
+    "S26-U4-SU-03",
+    "S27-U4-SU-03"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG4",
+   "name_en": "Work, potential energy and potential difference",
+   "name_zh": "电场中的做功、电势能与电势差",
+   "definition": "Work, potential energy and potential difference",
+   "syllabus": [
+    "S26-U4-SU-04",
+    "S27-U4-SU-04"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG5",
+   "name_en": "Uniform field between parallel plates",
+   "name_zh": "平行板间的匀强电场",
+   "definition": "Uniform field between parallel plates",
+   "syllabus": [
+    "S26-U4-SU-05",
+    "S27-U4-SU-05"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG6",
+   "name_en": "Conventional current and electron flow",
+   "name_zh": "常规电流与电子流向",
+   "definition": "Conventional current and electron flow",
+   "syllabus": [
+    "S26-U4-SU-06",
+    "S27-U4-SU-06"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG7",
+   "name_en": "Magnetic fields of currents, solenoids and electromagnets",
+   "name_zh": "电流、螺线管与电磁铁的磁场",
+   "definition": "Magnetic fields of currents, solenoids and electromagnets",
+   "syllabus": [
+    "S26-U4-SU-07",
+    "S27-U4-SU-07"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG8",
+   "name_en": "Magnetic field diagrams",
+   "name_zh": "磁场图",
+   "definition": "Magnetic field diagrams",
+   "syllabus": [
+    "S26-U4-SU-08",
+    "S27-U4-SU-08"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG9",
+   "name_en": "Magnetic flux density of a current",
+   "name_zh": "电流产生的磁感应强度",
+   "definition": "Magnetic flux density of a current",
+   "syllabus": [
+    "S26-U4-SU-09",
+    "S27-U4-SU-09"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG10",
+   "name_en": "Magnetic force on moving charges and wires",
+   "name_zh": "磁场对运动电荷与导线的作用力",
+   "definition": "Magnetic force on moving charges and wires",
+   "syllabus": [
+    "S26-U4-SU-10",
+    "S27-U4-SU-10"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG11",
+   "name_en": "Torque in a DC motor",
+   "name_zh": "直流电动机的转矩",
+   "definition": "Torque in a DC motor",
+   "syllabus": [
+    "S26-U4-SU-11",
+    "S27-U4-SU-11"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG12",
+   "name_en": "Motional emf of a moving conductor",
+   "name_zh": "运动导体的感应电动势",
+   "definition": "Motional emf of a moving conductor",
+   "syllabus": [
+    "S26-U4-SU-12",
+    "S27-U4-SU-12"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG13",
+   "name_en": "Magnetic flux",
+   "name_zh": "磁通量",
+   "definition": "Magnetic flux",
+   "syllabus": [
+    "S26-U4-SU-13",
+    "S27-U4-SU-13"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG14",
+   "name_en": "Faraday's law and generators",
+   "name_zh": "法拉第定律与发电机",
+   "definition": "Faraday's law and generators",
+   "syllabus": [
+    "S26-U4-SU-14",
+    "S27-U4-SU-14"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG15",
+   "name_en": "Transformers and power distribution",
+   "name_zh": "变压器与输电",
+   "definition": "Transformers and power distribution",
+   "syllabus": [
+    "S26-U4-SU-15",
+    "S27-U4-SU-15"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG16",
+   "name_en": "Lenz's law",
+   "name_zh": "楞次定律",
+   "definition": "Lenz's law",
+   "syllabus": [
+    "S26-U4-SU-16",
+    "S27-U4-SU-16"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG17",
+   "name_en": "Applications: back emf, eddy currents and more",
+   "name_zh": "电磁应用：反电动势、涡流等",
+   "definition": "Applications: back emf, eddy currents and more",
+   "syllabus": [
+    "S26-U4-SU-17",
+    "S27-U4-SU-17"
+   ],
+   "topic_en": "Electromagnetism",
+   "examined": true
+  },
+  {
+   "id": "EMG18",
+   "name_en": "Electromagnetism in society: motors, generators, transformers",
+   "name_zh": "电磁学的社会应用：电动机、发电机、变压器",
+   "definition": "Electromagnetism in society: motors, generators, transformers",
+   "syllabus": [
+    "S26-U4-SHE-01",
+    "S27-U4-SHE-01"
+   ],
+   "topic_en": "",
+   "examined": false
+  },
+  {
+   "id": "ACC1",
+   "name_en": "Fields controlling charged particles in accelerators",
+   "name_zh": "加速器中用电场与磁场控制带电粒子",
+   "definition": "Fields controlling charged particles in accelerators",
+   "syllabus": [
+    "S26-U4-SU-18",
+    "S27-U4-SU-18"
+   ],
+   "topic_en": "Particle accelerators",
+   "examined": true
+  },
+  {
+   "id": "ACC2",
+   "name_en": "Relativistic momentum",
+   "name_zh": "相对论动量",
+   "definition": "Relativistic momentum",
+   "syllabus": [
+    "S26-U4-SU-19",
+    "S27-U4-SU-19"
+   ],
+   "topic_en": "Particle accelerators",
+   "examined": true
+  },
+  {
+   "id": "ACC3",
+   "name_en": "Mass–energy equivalence",
+   "name_zh": "质能等价",
+   "definition": "Mass–energy equivalence",
+   "syllabus": [
+    "S26-U4-SU-20",
+    "S27-U4-SU-20"
+   ],
+   "topic_en": "Particle accelerators",
+   "examined": true
+  },
+  {
+   "id": "ACC4",
+   "name_en": "Total energy: rest energy plus kinetic energy",
+   "name_zh": "总能量：静能加动能",
+   "definition": "Total energy: rest energy plus kinetic energy",
+   "syllabus": [
+    "S26-U4-SU-21",
+    "S27-U4-SU-21"
+   ],
+   "topic_en": "Particle accelerators",
+   "examined": true
+  },
+  {
+   "id": "ACC5",
+   "name_en": "Energy–momentum relation",
+   "name_zh": "能量–动量关系",
+   "definition": "Energy–momentum relation",
+   "syllabus": [
+    "S26-U4-SU-22",
+    "S27-U4-SU-22"
+   ],
+   "topic_en": "Particle accelerators",
+   "examined": false
+  },
+  {
+   "id": "QNT1",
+   "name_en": "Diffraction and interference (Young's experiment)",
+   "name_zh": "衍射与干涉（杨氏双缝）",
+   "definition": "Diffraction and interference (Young's experiment)",
+   "syllabus": [
+    "S26-U4-SU-23",
+    "S27-U4-SU-23"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT2",
+   "name_en": "Light is not a mechanical wave",
+   "name_zh": "光不是机械波",
+   "definition": "Light is not a mechanical wave",
+   "syllabus": [
+    "S26-U4-SU-24",
+    "S27-U4-SU-24"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT3",
+   "name_en": "Polarisation and the transverse wave model",
+   "name_zh": "偏振与横波模型",
+   "definition": "Polarisation and the transverse wave model",
+   "syllabus": [
+    "S26-U4-SU-25",
+    "S27-U4-SU-25"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT4",
+   "name_en": "Electromagnetic waves",
+   "name_zh": "电磁波的结构与性质",
+   "definition": "Electromagnetic waves",
+   "syllabus": [
+    "S26-U4-SU-26",
+    "S27-U4-SU-26"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT5",
+   "name_en": "Oscillating charges and the electromagnetic spectrum",
+   "name_zh": "振荡电荷产生电磁波与电磁波谱",
+   "definition": "Oscillating charges and the electromagnetic spectrum",
+   "syllabus": [
+    "S26-U4-SU-27",
+    "S27-U4-SU-27"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT6",
+   "name_en": "Quantised states of matter and energy",
+   "name_zh": "物质与能量状态的量子化",
+   "definition": "Quantised states of matter and energy",
+   "syllabus": [
+    "S26-U4-SU-28",
+    "S27-U4-SU-28"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT7",
+   "name_en": "Black-body radiation",
+   "name_zh": "黑体辐射",
+   "definition": "Black-body radiation",
+   "syllabus": [
+    "S26-U4-SU-29",
+    "S27-U4-SU-29"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT8",
+   "name_en": "Photons and E = hf",
+   "name_zh": "光子与 E = hf",
+   "definition": "Photons and E = hf",
+   "syllabus": [
+    "S26-U4-SU-30",
+    "S27-U4-SU-30"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT9",
+   "name_en": "Photoelectric effect and Planck's constant",
+   "name_zh": "光电效应与普朗克常数",
+   "definition": "Photoelectric effect and Planck's constant",
+   "syllabus": [
+    "S26-U4-SU-31",
+    "S27-U4-SU-31"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT10",
+   "name_en": "Emission and absorption spectra",
+   "name_zh": "发射与吸收光谱",
+   "definition": "Emission and absorption spectra",
+   "syllabus": [
+    "S26-U4-SU-32",
+    "S27-U4-SU-32"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT11",
+   "name_en": "Bohr model of hydrogen",
+   "name_zh": "玻尔氢原子模型",
+   "definition": "Bohr model of hydrogen",
+   "syllabus": [
+    "S26-U4-SU-33",
+    "S27-U4-SU-33"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT12",
+   "name_en": "Wave–particle duality and de Broglie wavelength",
+   "name_zh": "波粒二象性与德布罗意波长",
+   "definition": "Wave–particle duality and de Broglie wavelength",
+   "syllabus": [
+    "S26-U4-SU-34",
+    "S27-U4-SU-34"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT13",
+   "name_en": "Fluorescence, phosphorescence and X-rays in use",
+   "name_zh": "荧光、磷光与X射线的应用",
+   "definition": "Fluorescence, phosphorescence and X-rays in use",
+   "syllabus": [
+    "S26-U4-SHE-02",
+    "S27-U4-SHE-02"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "QNT14",
+   "name_en": "Quantum devices: lasers, photovoltaic cells, LEDs",
+   "name_zh": "量子器件：激光、光伏电池、LED",
+   "definition": "Quantum devices: lasers, photovoltaic cells, LEDs",
+   "syllabus": [
+    "S26-U4-SHE-03",
+    "S27-U4-SHE-03"
+   ],
+   "topic_en": "Wave particle duality and the quantum theory",
+   "examined": true
+  },
+  {
+   "id": "COS1",
+   "name_en": "Astronomical distances: AU, light year, parsec",
+   "name_zh": "天文距离单位：天文单位、光年、秒差距",
+   "definition": "Astronomical distances: AU, light year, parsec",
+   "syllabus": [
+    "S26-U4-SU-35",
+    "S27-U4-SU-35"
+   ],
+   "topic_en": "Cosmology",
+   "examined": true
+  },
+  {
+   "id": "COS2",
+   "name_en": "The Big Bang and the early universe",
+   "name_zh": "大爆炸与早期宇宙",
+   "definition": "The Big Bang and the early universe",
+   "syllabus": [
+    "S26-U4-SU-36",
+    "S27-U4-SU-36"
+   ],
+   "topic_en": "Cosmology",
+   "examined": true
+  },
+  {
+   "id": "COS3",
+   "name_en": "Evidence for the Big Bang",
+   "name_zh": "大爆炸的证据",
+   "definition": "Evidence for the Big Bang",
+   "syllabus": [
+    "S26-U4-SU-37",
+    "S27-U4-SU-37"
+   ],
+   "topic_en": "Cosmology",
+   "examined": true
+  },
+  {
+   "id": "INQ1",
+   "name_en": "Questions, hypotheses and predictions",
+   "name_zh": "提出问题、假设与预测",
+   "definition": "Questions, hypotheses and predictions",
+   "syllabus": [
+    "S26-SIS-SIS-01",
+    "S27-SIS-SIS-01"
+   ],
+   "topic_en": "",
+   "examined": false
+  },
+  {
+   "id": "INQ2",
+   "name_en": "Designing investigations",
+   "name_zh": "设计实验",
+   "definition": "Designing investigations",
+   "syllabus": [
+    "S26-SIS-SIS-02",
+    "S27-SIS-SIS-02"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ3",
+   "name_en": "Conducting practical work",
+   "name_zh": "实验操作",
+   "definition": "Conducting practical work",
+   "syllabus": [
+    "S26-SIS-SIS-03",
+    "S27-SIS-SIS-03"
+   ],
+   "topic_en": "",
+   "examined": false
+  },
+  {
+   "id": "INQ4",
+   "name_en": "Representing data: SI units, symbols, significant figures",
+   "name_zh": "数据表示：SI 单位、符号与有效数字",
+   "definition": "Representing data: SI units, symbols, significant figures",
+   "syllabus": [
+    "S26-SIS-SIS-04",
+    "S27-SIS-SIS-04"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ5",
+   "name_en": "Trends, patterns and relationships in data",
+   "name_zh": "数据中的趋势与关系",
+   "definition": "Trends, patterns and relationships in data",
+   "syllabus": [
+    "S26-SIS-SIS-05",
+    "S27-SIS-SIS-05"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ6",
+   "name_en": "Random and systematic uncertainty",
+   "name_zh": "随机误差与系统误差",
+   "definition": "Random and systematic uncertainty",
+   "syllabus": [
+    "S26-SIS-SIS-06",
+    "S27-SIS-SIS-06"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ7",
+   "name_en": "Absolute and percentage uncertainty",
+   "name_zh": "绝对与百分比不确定度",
+   "definition": "Absolute and percentage uncertainty",
+   "syllabus": [
+    "S26-SIS-SIS-07",
+    "S27-SIS-SIS-07"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ8",
+   "name_en": "Combining uncertainties",
+   "name_zh": "不确定度的合成",
+   "definition": "Combining uncertainties",
+   "syllabus": [
+    "S26-SIS-SIS-08",
+    "S27-SIS-SIS-08"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ9",
+   "name_en": "Anomalous data and percentage difference",
+   "name_zh": "异常数据与百分比差异",
+   "definition": "Anomalous data and percentage difference",
+   "syllabus": [
+    "S26-SIS-SIS-09",
+    "S27-SIS-SIS-09"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ10",
+   "name_en": "Evidence-based conclusions",
+   "name_zh": "基于证据的结论",
+   "definition": "Evidence-based conclusions",
+   "syllabus": [
+    "S26-SIS-SIS-10",
+    "S27-SIS-SIS-10"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ11",
+   "name_en": "Interpreting texts and evaluating claims",
+   "name_zh": "阅读材料与评价结论",
+   "definition": "Interpreting texts and evaluating claims",
+   "syllabus": [
+    "S26-SIS-SIS-11",
+    "S27-SIS-SIS-11"
+   ],
+   "topic_en": "",
+   "examined": false
+  },
+  {
+   "id": "INQ12",
+   "name_en": "Representations that communicate and predict",
+   "name_zh": "用图文表示交流与预测",
+   "definition": "Representations that communicate and predict",
+   "syllabus": [
+    "S26-SIS-SIS-12",
+    "S27-SIS-SIS-12"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ13",
+   "name_en": "Linear and non-linear graphs and models",
+   "name_zh": "线性与非线性图像及数学模型",
+   "definition": "Linear and non-linear graphs and models",
+   "syllabus": [
+    "S26-SIS-SIS-13",
+    "S27-SIS-SIS-13"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ14",
+   "name_en": "Gradients and intercepts as physical quantities",
+   "name_zh": "斜率与截距的物理意义",
+   "definition": "Gradients and intercepts as physical quantities",
+   "syllabus": [
+    "S26-SIS-SIS-14",
+    "S27-SIS-SIS-14"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ15",
+   "name_en": "Dimensional analysis and units",
+   "name_zh": "量纲分析与单位",
+   "definition": "Dimensional analysis and units",
+   "syllabus": [
+    "S26-SIS-SIS-15",
+    "S27-SIS-SIS-15"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ16",
+   "name_en": "Error bars and lines of best fit",
+   "name_zh": "误差棒与最佳拟合线",
+   "definition": "Error bars and lines of best fit",
+   "syllabus": [
+    "S26-SIS-SIS-16",
+    "S27-SIS-SIS-16"
+   ],
+   "topic_en": "",
+   "examined": true
+  },
+  {
+   "id": "INQ17",
+   "name_en": "Communicating with scientific language",
+   "name_zh": "科学语言表达",
+   "definition": "Communicating with scientific language",
+   "syllabus": [
+    "S26-SIS-SIS-17",
+    "S27-SIS-SIS-17"
+   ],
+   "topic_en": "",
+   "examined": false
+  },
+  {
+   "id": "OUT1",
+   "name_en": "Standard Model and other content no longer in the syllabus",
+   "name_zh": "已移出大纲的内容（标准模型等）",
+   "definition": "Standard Model and other content no longer in the syllabus",
+   "syllabus": [],
+   "topic_en": "",
+   "examined": true
+  }
+ ],
+ "knowledge": [
+  {
+   "id": "SKL.K1",
+   "name_en": "Recall",
+   "name_zh": "知识回忆",
+   "definition": "Award skill KNOW"
+  },
+  {
+   "id": "SKL.K2",
+   "name_en": "Select the principle or relationship",
+   "name_zh": "选择原理或关系式",
+   "definition": "Award skill PRINCIPLE"
+  },
+  {
+   "id": "SKL.K3",
+   "name_en": "Substitution and working",
+   "name_zh": "代入与计算过程",
+   "definition": "Award skill CALC"
+  },
+  {
+   "id": "SKL.K4",
+   "name_en": "Final answer",
+   "name_zh": "最终答案",
+   "definition": "Award skill ANSWER"
+  },
+  {
+   "id": "SKL.K5",
+   "name_en": "Units, significant figures, direction",
+   "name_zh": "单位、有效数字与方向",
+   "definition": "Award skill PRESENT"
+  },
+  {
+   "id": "SKL.K6",
+   "name_en": "Diagram",
+   "name_zh": "作图",
+   "definition": "Award skill DIAGRAM"
+  },
+  {
+   "id": "SKL.K7",
+   "name_en": "Qualitative explanation",
+   "name_zh": "定性解释",
+   "definition": "Award skill EXPLAIN"
+  },
+  {
+   "id": "SKL.K8",
+   "name_en": "Graph work",
+   "name_zh": "图像处理",
+   "definition": "Award skill GRAPH"
+  },
+  {
+   "id": "SKL.K9",
+   "name_en": "Uncertainty and error",
+   "name_zh": "不确定度与误差",
+   "definition": "Award skill UNCERT"
+  },
+  {
+   "id": "SKL.K10",
+   "name_en": "Investigation design",
+   "name_zh": "实验设计",
+   "definition": "Award skill DESIGN"
+  },
+  {
+   "id": "SKL.K11",
+   "name_en": "Evaluate and conclude",
+   "name_zh": "评价与结论",
+   "definition": "Award skill EVALUATE"
+  }
+ ],
+ "axes": [
+  {
+   "id": "skill",
+   "prefix": "SKL",
+   "name_en": "Award skill",
+   "name_zh": "得分能力",
+   "codes": {
+    "SKL.K1": {
+     "key": "KNOW",
+     "group": "AO1"
+    },
+    "SKL.K2": {
+     "key": "PRINCIPLE",
+     "group": "AO2"
+    },
+    "SKL.K3": {
+     "key": "CALC",
+     "group": "AO2"
+    },
+    "SKL.K4": {
+     "key": "ANSWER",
+     "group": "AO2"
+    },
+    "SKL.K5": {
+     "key": "PRESENT",
+     "group": "AO2"
+    },
+    "SKL.K6": {
+     "key": "DIAGRAM",
+     "group": "AO2"
+    },
+    "SKL.K7": {
+     "key": "EXPLAIN",
+     "group": "AO2"
+    },
+    "SKL.K8": {
+     "key": "GRAPH",
+     "group": "AO3"
+    },
+    "SKL.K9": {
+     "key": "UNCERT",
+     "group": "AO3"
+    },
+    "SKL.K10": {
+     "key": "DESIGN",
+     "group": "AO3"
+    },
+    "SKL.K11": {
+     "key": "EVALUATE",
+     "group": "AO3"
+    }
+   }
+  }
+ ],
+ "classification": "Two axes: syllabus content (patterns) and award skill (SKL atoms); blind double labelling, see evidence/phy/syllabus_axes/README.md"
+}

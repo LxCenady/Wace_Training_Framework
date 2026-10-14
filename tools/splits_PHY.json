@@ -1,0 +1,2741 @@
+{
+ "2016P-14-a": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   }
+  ]
+ },
+ "2016P-14-d": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   }
+  ]
+ },
+ "2016P-17-ai": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2016P-17-aii": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2016P-19-c": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 3,
+    "kind": "award"
+   }
+  ]
+ },
+ "2016R-7-0": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 3,
+    "kind": "award"
+   }
+  ]
+ },
+ "2017R-13-a": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2017R-5-a": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2017R-5-b": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2017R-5-c": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2017R-5-d": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018C-19-f": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018C-19-h": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018P-12-b": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018P-13-a": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018P-13-b": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018P-13-d": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018P-16-a": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018P-16-b": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018P-16-c": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018P-16-d": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018R-2-a": {
+  "marks": 4,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 2,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018R-3-b": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018R-8-a": {
+  "marks": 2,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018R-9-a": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2018R-9-b": {
+  "marks": 3,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2019P-12-d": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2019P-14-c": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2019P-15-d": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2019R-9-0": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2020R-12-a": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2020R-12-b": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2020R-6-0": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2021C-20-fi": {
+  "marks": 1,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2021C-20-fii": {
+  "marks": 2,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2021P-14-b": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2021P-14-ci": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2021P-14-ciii": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2021R-3-0": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2021R-5-a": {
+  "marks": 2,
+  "structure": "any",
+  "take": 2,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "choice"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "choice"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "choice"
+   }
+  ]
+ },
+ "2021R-5-b": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2021R-8-0": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023C-19-f": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023C-20-eii": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023P-14-b": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023P-14-c": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023P-15-a": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023P-15-b": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023P-15-ci": {
+  "marks": 3,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023P-16-a": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023P-18-ai": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023P-18-b": {
+  "marks": 7,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 7,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023P-18-c": {
+  "marks": 6,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023R-12-0": {
+  "marks": 6,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2023R-4-0": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024C-18-ai": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024C-19-b": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024C-19-d": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-12-b": {
+  "marks": 7,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 7,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-12-c": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-13-bii": {
+  "marks": 6,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-13-ci": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-14-a": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-14-b": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-14-c": {
+  "marks": 6,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-14-d": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-15-a": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-15-b": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-16-c": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-16-d": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-17-a": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-17-b": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024P-17-c": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024R-1-b": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024R-3-0": {
+  "marks": 7,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 7,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024R-5-0": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024R-6-a": {
+  "marks": 1,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024R-7-0": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2024R-8-a": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025C-19-c": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025C-19-g": {
+  "marks": 6,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025C-20-c": {
+  "marks": 6,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025C-20-e": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-13-a": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-13-b": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-14-a": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-14-b": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-14-c": {
+  "marks": 6,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-15-a": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-15-b": {
+  "marks": 5,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-15-c": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-16-c": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-16-d": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-16-e": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-17-b": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-17-c": {
+  "marks": 6,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-17-d": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-18-a": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-18-b": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025P-18-d": {
+  "marks": 6,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-1-b": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-10-0": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-11-0": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-12-a": {
+  "marks": 2,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-12-b": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-2-0": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-3-0": {
+  "marks": 3,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-5-0": {
+  "marks": 6,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 6,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-6-0": {
+  "marks": 4,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-7-0": {
+  "marks": 6,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-8-0": {
+  "marks": 6,
+  "structure": "best",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 2,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ },
+ "2025R-9-0": {
+  "marks": 5,
+  "structure": "sum",
+  "take": null,
+  "awards": [
+   {
+    "n": 1,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 2,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 3,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 4,
+    "marks": 1,
+    "kind": "award"
+   },
+   {
+    "n": 5,
+    "marks": 1,
+    "kind": "award"
+   }
+  ]
+ }
+}
