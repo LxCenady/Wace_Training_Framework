@@ -39,6 +39,8 @@ Use `issues` for every unresolved required check or source ambiguity, including 
 
 At `needs_review`, report the exact affected IDs, source documents/pages, observed defect and proposed repair. The local operator may request a repair without approving the candidate. A resolved technical retry still requires new source checks. Only report build/export completion when those tool calls actually succeed and return the corresponding artifact.
 
+Inspect an award's complete source array before declaring a reference missing. Several references can jointly supply context, continuation and alternative routes; the first reference alone is not the evidence set. Distinguish a candidate transcription error from a contradiction already present in the original key. Preserve original and independently computed evidence privately. When the user elects human-only scoring for a source conflict, set `manual_only: true` on the affected awards; model credit, including zero, remains pending until teacher assessment.
+
 Follow the current task:
 
 - Pair exam/key PDFs from their contents; identify every section. Record each exam's printed question count and total marks in `coverage`, with original cover/structure-page references. Do not derive course structure from filenames or mathematics assumptions.

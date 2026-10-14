@@ -44,6 +44,8 @@ CLI 支持 `create/list/status/task/submit/review/bind/import/build/export`。`c
 
 ## 验证边界
 
+存在原始标准矛盾并经用户决定仅人工评分时，在受影响 award 设置 `manual_only: true`，原文与复算说明留在私有内容。模型对该项提议满分或零分都不能自动确认；教师模式可以明确录分。其余得分项与打印总分保留。
+
 MCP 的 `get_task` 随当前阶段返回 `verification_checklist`、证据约束与委派约束。制包 skill 要求按文档分别建立 PDF 索引、逐一渲染最终裁切、逐 award 定位原始给分行为、修订后复核连带答案；未完成的必要检查必须留在 `issues`，不能只报一个 confidence。约束不能证明模型实际看懂图形，所以自动结构验收后仍需要原件语义复核。
 
 `app/tests/test_compiler.py` 用自造 PDF 验证任务状态、换目录绑定、缓存、配方哈希、图像/文本读取、分档与 ECF、MCP 两种传输及范围限制。旧 `.wtfpack` v1 导入与数据库结构保持原路径。自动结构校验不能证明模型标注的语义正确；最终复核必须回看原始资料，疑难项留给人。测试不代表 Mac 实机已通过，也不代表任意真实学科已有质量保证。

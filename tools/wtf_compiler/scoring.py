@@ -19,6 +19,8 @@ def score(tree, proposal, evidence_count,manual=False):
         require(isinstance(row['reason'],str) and 0<len(row['reason'])<=1000, 'Missing criterion explanation')
         refs=row['evidence'];require(isinstance(refs,list) and (not refs if manual else refs and all(type(v)is int and 0<=v<evidence_count for v in refs)), 'Invalid student evidence')
         value=row['got'];node=awards[key]
+        if node.get('manual_only') and not manual:
+            pending.append(key);value=None
         if not manual and node.get('ecf',{}).get('policy') in ('unspecified','reviewed') and value is not None and number(value) and value>0:
             pending.append(key);value=None
         require(value is None or number(value) and value<=node['max_marks'], 'Credit out of range')

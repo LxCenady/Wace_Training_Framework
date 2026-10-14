@@ -155,6 +155,17 @@ class CompilerTest(unittest.TestCase):
         tree['children'][1]['credit_step']=.5
         self.assertEqual(scoring.score(tree,proposal,1)['score']['earned'],1.5)
 
+    def test_manual_only_criterion_cannot_be_confirmed_by_model(self):
+        tree=copy.deepcopy(self.tree);tree['children'][1].pop('ecf');tree['children'][1]['manual_only']=True
+        for got in (0,2):
+            proposal=dict(schema_version=2,awards=[dict(award_id='a1',got=0,reason='No method',evidence=[0]),
+                dict(award_id='a2',got=got,reason='Source conflict',evidence=[0])])
+            result=scoring.score(tree,proposal,1)
+            self.assertIn('a2',result['needs_review']);self.assertIsNone(result['score']['earned'])
+        for row in proposal['awards']:row['evidence']=[]
+        result=scoring.score(tree,proposal,0,manual=True)
+        self.assertFalse(result['needs_review']);self.assertEqual(result['score']['earned'],2)
+
     def test_tampering_sources_and_archive(self):
         self.ready();path=self.c.export(self.pid)
         with zipfile.ZipFile(path,'a') as z:z.writestr('../evil.py','print(1)')

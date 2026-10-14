@@ -15,39 +15,48 @@ def server(compiler,pid,active=lambda:True):
 
     @mcp.tool(name='compiler.get_task')
     def task()->dict:
+        """Fetch the active stage, current task_id/revision, exact output fields and source-verification checklist. If unavailable, report the state; no agent approval is allowed."""
         check();return compiler.projects.task(pid) or {'available':False,'status':compiler.status(pid),'instructions':'No agent task is active. Do not submit or approve; report the current state to the user.'}
 
     @mcp.tool(name='compiler.status')
     def status()->dict:
+        """Read this project's state, review issues and PDF bindings. Structural acceptance does not prove source or mathematical correctness."""
         check();return compiler.status(pid)
 
     @mcp.tool(name='compiler.read_text')
     def text(document:str,page:int,bbox:list[float])->str:
+        """Read a bound original's displayed-page rectangle. page is a ZERO-BASED PDF index, not its printed label. Empty text may require visual OCR; it does not mean the region is empty."""
         check();return compiler.projects.resource(pid,dict(document=document,page=page,bbox=bbox))
 
     @mcp.tool(name='compiler.read_image')
     def image(document:str,page:int,bbox:list[float],rotate:int=0)->Image:
+        """Visually inspect this exact final crop on a bound original, including diagrams and scoring behaviours. page is a ZERO-BASED PDF index; normalized bbox uses displayed-page coordinates. Identical references may reuse one observation."""
         check();return Image(data=compiler.projects.resource(pid,dict(document=document,page=page,bbox=bbox,rotate=rotate),True),format='png')
 
     @mcp.tool(name='compiler.submit_result')
     def submit(task_id:str,revision:int,result:dict)->dict:
+        """Submit the current stage's complete structured result. Follow get_task fields and checks; keep transcriptions private and list unresolved checks in issues. Inspect the returned state/issues; submission alone does not mean approval."""
         check();return compiler.projects.submit(pid,task_id,revision,result)
 
     @mcp.tool(name='compiler.validate')
     def validate()->dict:
+        """Validate a READY project's recipe, private content and original bindings. This checks structure, not whether the model correctly understood source diagrams or scoring behaviours."""
         check();recipe,_=compiler.projects.finalized(pid)
         return dict(valid=True,questions=len(recipe['questions']))
 
     @mcp.tool(name='compiler.submit_parse_chunk')
     def parse_chunk(task_id:str,revision:int,exam_id:str,result:dict)->dict:
+        """Checkpoint all questions of ONE paired exam after verifying exact final crops and award evidence. Printed count/marks must match coverage. Re-fetch task after each response; inspect issues and never retry stale IDs or bypass needs_review."""
         check();return compiler.projects.parse_chunk(pid,task_id,revision,exam_id,result)
 
     @mcp.tool(name='compiler.build')
     def build()->dict:
+        """Build and activate only this READY project in its independent local Compiler library. Never writes the official exam bank or invokes a model."""
         check();return compiler.library.build(pid)
 
     @mcp.tool(name='compiler.export')
     def export()->dict:
+        """Export a READY project as a recipe-only .wtfpack and return its actual path. Original PDFs and private question/answer/criterion text are excluded."""
         check();return {'path':compiler.export(pid)}
 
     return mcp

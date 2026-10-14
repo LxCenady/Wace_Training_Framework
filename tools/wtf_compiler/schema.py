@@ -56,16 +56,17 @@ def regions(values, sources, required=False):
 def validate_tree(tree, printed, sources, known_nodes=None):
     nodes, maxima = rubric.validate(tree, printed)
     allowed = {'id', 'kind', 'max_marks', 'positive_band', 'children', 'take', 'cap', 'requires', 'conditions',
-               'conditional_caps', 'knowledge', 'patterns', 'source', 'levels', 'ecf', 'credit_step'}
+               'conditional_caps', 'knowledge', 'patterns', 'source', 'levels', 'ecf', 'credit_step', 'manual_only'}
     for node in nodes.values():
         fields(node, allowed, ('id', 'kind'))
         identifier(node['id'])
         if node['kind']!='award':
-            require(not {'positive_band','levels','ecf','credit_step'}&set(node),'Award-only fields on scoring group')
+            require(not {'positive_band','levels','ecf','credit_step','manual_only'}&set(node),'Award-only fields on scoring group')
             if 'max_marks' in node:require(number(node['max_marks']) and math.isclose(node['max_marks'],maxima[node['id']],abs_tol=1e-9),'Group max_marks differs from computed maximum')
             if 'source' in node:regions(node['source'],sources,True)
         if node['kind']!='select':require('take' not in node,'take belongs only to select groups')
         if node['kind'] == 'award':
+            if 'manual_only' in node:require(type(node['manual_only']) is bool,'manual_only must be boolean')
             regions(node.get('source', []), sources, True)
             step=node.get('credit_step',1)
             if 'credit_step' in node or not node.get('levels'):require(number(step) and step>0 and step<=node['max_marks'],'Invalid credit step')

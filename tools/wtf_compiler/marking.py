@@ -20,7 +20,7 @@ def points(item):
             if node['kind']!='award':continue
             out.append(dict(point_id=node['id'],number=len(out)+1,label=part['label'],unit=unit,
                 text=snap['content']['criteria'][node['id']],max_marks=node['max_marks'],levels=node.get('levels'),credit_step=node.get('credit_step',1),
-                ecf_policy=node.get('ecf'),part_id=part['id'],schema_version=2,**({'rubric':copy.deepcopy(part['rubric'])} if unit==0 else {})))
+                ecf_policy=node.get('ecf'),manual_only=node.get('manual_only',False),part_id=part['id'],schema_version=2,**({'rubric':copy.deepcopy(part['rubric'])} if unit==0 else {})))
             unit+=1
     require(bool(out),'Missing rubric criteria')
     return out

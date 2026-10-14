@@ -93,7 +93,7 @@ class Projects:
                     question_fields=['id','label','section','marks','source','key_source','shared_source','parts'],
                     part_fields=['id','label','marks','rubric'],
                     rubric_kinds=['award','sum','best','select'],
-                    award_fields=['id','kind','max_marks','credit_step','source','knowledge','patterns','levels','ecf'],
+                    award_fields=['id','kind','max_marks','credit_step','source','knowledge','patterns','levels','ecf','manual_only'],
                     credit_step='Default 1 (whole marks). Declare e.g. 0.5 explicitly when the standard permits fractional credits; levels are discrete allowed scores.',
                     level={'score':2,'source':[]},ecf={'policy':'explicit|reviewed|unspecified','from':['award-id'],'source':[]},
                     group_fields=['id','kind','children','take','cap','requires','conditions','conditional_caps'],
