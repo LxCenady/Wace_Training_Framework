@@ -25,6 +25,8 @@ For every question, inventory all printed parts and their continuation pages bef
 
 Render **every final rectangle** with `read_image` using the exact reference that will be submitted. Check the crop contains the intended heading/continuation, the whole relevant stem/behaviour and all diagrams, and excludes adjacent questions. Reading a whole page earlier does not verify a newly edited crop. A textual page map does not prove a diagram was preserved.
 
+Deduplicate identical `(document,page,bbox,rotate)` references: one inspected image can support several awards when each behaviour is visibly present in that same crop. Work one exam at a time and checkpoint via parse chunks. Preserve each independently creditable scoring behaviour as its own award; keep genuinely holistic multi-mark criteria or bands intact. Do not merge independently scored behaviours to reduce tool calls or context usage.
+
 Cross-check stem, private solution, each criterion and its award together. Verify signs, modulus bars, conjugation, constants, units and diagram labels against the source; distinguish an intermediate expression from the final value. Recompute printed part/question/exam totals while preserving alternative routes and caps.
 
 When fixing an error, revisit dependent answers and award evidence, then render all changed crops again. Recovering earlier candidate JSON is allowed; retaining unchecked fields does not turn them into verified work.

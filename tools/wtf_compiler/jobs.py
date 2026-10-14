@@ -12,6 +12,7 @@ CHECKS = {
     'Locate every question and every part from originals, including final continuation pages and alternative key routes. Do not stop when the first page looks complete.',
     'For each final source/key rectangle, call read_image with that exact page and bbox and inspect the returned crop. Confirm correct heading/continuation, all parts and diagrams, no neighbouring question or blank/spare page.',
     'For each award, locate its actual behaviour/level in the paired key and bind that region. Never guess a page or use the first page of the question as a fallback.',
+    'Inspect identical final references once and reuse that observation only for behaviours actually present in the same crop. Preserve independently creditable behaviours as distinct awards and holistic criteria as holistic awards; do not merge scoring behaviours to save tool calls.',
     'Cross-check stem, solution, criterion and rubric together: signs, modulus/conjugation, units, constants, diagram labels, part maxima, caps and alternatives. Distinguish intermediate values from the final answer.',
     'Recompute per-part, per-question and per-exam totals against printed coverage. A correct total does not establish correct text or geometry.',
     'After any repair, recheck affected downstream answers, award evidence and the actual final crops; preserve unverified work as unresolved issues.'),
