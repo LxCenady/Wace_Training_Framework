@@ -26,7 +26,8 @@ def data_files():
     """Everything the running app reads from the data root (no code: that lives inside the exe)."""
     keep = []
     for f in tracked():
-        if f.startswith("app/") or (f.startswith("tools/") and not f.endswith(".txt")) or f.startswith("."):
+        tool_data = f.endswith('.txt') or (f.endswith('.json') and os.path.basename(f).startswith(('catalogue_', 'marktags_', 'splits_')))
+        if f.startswith("app/") or (f.startswith("tools/") and not tool_data) or f.startswith("."):
             continue
         if f in ("requirements.txt",):
             continue
