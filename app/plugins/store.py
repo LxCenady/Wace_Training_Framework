@@ -1,4 +1,8 @@
-"""Data access. One job: queries over wace.db (read-only past papers) and generated.db (AI items)."""
+"""Data access. One job: queries over the question bank (read-only) and generated.db (AI items).
+
+The bank is every installed pack: bank.db (packs built from the original papers) and compiler/bank.db (Compiler packs,
+wtf_compiler/bank.py), with the same tables. Both are attached to one connection and every table and view is read
+through a TEMP view of the same name that unites them, so each query below sees all subjects alike."""
 import json, os, sqlite3, threading, time
 
 import subjects
@@ -27,10 +31,46 @@ def day(offset):
     return time.strftime("%Y-%m-%d", time.localtime(time.time() + offset * 86400))
 
 
+BANK_TABLES = ("topics", "patterns", "questions", "parts", "part_patterns", "points", "knowledge", "award_tags",
+               "axis_codes", "pattern_flags", "rubrics", "pattern_marks", "q_patterns", "award_axes")
+
+
+def unite(db, root):
+    """Attach compiler/bank.db (projecting the installed Compiler packs first when it does not exist yet) and shadow
+    each bank table with a TEMP view over both files. -> the subjects it added (or [] when there are none)."""
+    home = os.path.join(root, "compiler")
+    path = os.path.join(home, "bank.db")
+    if os.path.isfile(os.path.join(home, "library.db")) and not os.path.isfile(path):
+        try:
+            from wtf_compiler.service import Compiler
+            from wtf_compiler import bank
+            bank.project_all(Compiler(home).library)
+        except Exception as e:  # an unbound original or an old recipe: the packs built from papers still work
+            print("compiler bank:", type(e).__name__, str(e)[:200])
+    if not os.path.isfile(path):
+        return []
+    db.execute("ATTACH DATABASE ? AS cb", (path,))
+    main = {r[0] for r in db.execute("SELECT name FROM main.sqlite_master WHERE type IN ('table', 'view')")}
+    extra = {r[0] for r in db.execute("SELECT name FROM cb.sqlite_master WHERE type IN ('table', 'view')")}
+    for table in BANK_TABLES:  # fixed names
+        if table not in extra:
+            continue
+        if table not in main:
+            db.execute(f"CREATE TEMP VIEW IF NOT EXISTS {table} AS SELECT * FROM cb.{table}")
+        elif ([r[1] for r in db.execute(f"PRAGMA main.table_info({table})")]
+              != [r[1] for r in db.execute(f"PRAGMA cb.table_info({table})")]):
+            print(f"compiler bank: {table} differs from this bank's columns (rebuild the bank); Compiler subjects hidden")
+        else:
+            db.execute(f"CREATE TEMP VIEW IF NOT EXISTS {table} AS SELECT * FROM main.{table} UNION ALL SELECT * FROM cb.{table}")
+    return [r[0] for r in db.execute("SELECT DISTINCT subject FROM cb.topics")]
+
+
 class Store:
     def __init__(self, root, lang="zh"):
         self.en = lang == "en"  # English names and method notes where translated (falls back to Chinese)
-        self.db = sqlite3.connect(os.path.join(root, "wace.db"), check_same_thread=False)
+        self.root = root
+        self.db = sqlite3.connect(subjects.bank_path(root), check_same_thread=False)
+        self.compiler = unite(self.db, root)
         cols = {r[1] for r in self.db.execute("PRAGMA table_info(patterns)")}
         self.title = "COALESCE(NULLIF(p.title_en, ''), p.title)" if self.en and "title_en" in cols else "p.title"
         self.method = "COALESCE(NULLIF(p.method_en, ''), p.method)" if self.en and "method_en" in cols else "p.method"
@@ -116,7 +156,7 @@ class Store:
             subj, year, sec, q, marks = r[0]
             pats = [p for (p,) in self.q("SELECT DISTINCT pattern FROM part_patterns WHERE qid = ?", ref)]
             return dict(subject=subj, section=sec, marks=marks, patterns=pats,
-                        label=f"{year} {subjects.section_name(subj, sec, 'short')} Q{q}")
+                        label=f"{year} {subjects.section_name(subj, sec, 'short', self.root)} Q{q}")
         r = self.q("SELECT patterns, section, marks FROM generated WHERE id = ?", int(ref), db=self.gen)
         if not r:
             return None
@@ -127,7 +167,7 @@ class Store:
     def paper_totals(self, subj, since=2020):
         """{section: marks of a real paper} — the median over recent years (what a full CF / CA paper is worth)."""
         out = {}
-        for section in subjects.sections(subj):
+        for section in subjects.sections(subj, self.root):
             sec = section['code']
             by_year = {}
             for year, marks in self.q("SELECT year, marks FROM questions WHERE subject = ? AND section = ? AND year >= ?",
@@ -161,7 +201,8 @@ class Store:
         """Past questions with at least one part tagged `code`, newest first; labels = matching parts."""
         return self.q("""SELECT q.id, q.year, q.section, q.q, q.marks, GROUP_CONCAT(pp.label, ',')
                          FROM part_patterns pp JOIN questions q ON q.id = pp.qid WHERE pp.pattern = ?
-                         GROUP BY q.id ORDER BY q.year DESC, q.section = ? DESC, q.q""", code, subjects.section_codes(code.split(".")[0])[0])
+                         GROUP BY q.id ORDER BY q.year DESC, q.section = ? DESC, q.q""", code,
+                      subjects.section_codes(code.split(".")[0], self.root)[0])
 
     # ---- one past question
     def question(self, qid):

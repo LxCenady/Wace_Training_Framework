@@ -3,7 +3,7 @@
 Built by tools/package_win.py into a single WTF-Setup-v<ver>.exe that carries the portable zip as payload.
 Installs per user (no administrator rights) into %LOCALAPPDATA%\\Programs\\WTF by default. Installing over an
 existing copy is an upgrade: the student's papers, generated.db (AI questions, mistakes, exams) and WTF.log
-are never in the payload, so they stay; wace.db is removed so the new version rebuilds the bank (≈1 min).
+are never in the payload, so they stay; the question bank (bank.db, wace.db before 2.1) is removed so the new version rebuilds it (≈1 min).
 """
 import os, subprocess, sys, threading, zipfile
 import tkinter as tk
@@ -50,8 +50,9 @@ def install(zip_path, folder, desktop, start_menu, progress):
                 out.write(src.read())
             if i % 25 == 0 or i == len(names):
                 progress(i / len(names))
-    if upgrade and os.path.exists(os.path.join(folder, "wace.db")):
-        os.remove(os.path.join(folder, "wace.db"))  # rebuilt on first start with the new tags and tools
+    for bank in ("bank.db", "wace.db"):  # rebuilt on first start with the new tags and tools
+        if upgrade and os.path.exists(os.path.join(folder, bank)):
+            os.remove(os.path.join(folder, bank))
     exe = os.path.join(folder, "WTF.exe")
     links = []
     if desktop:

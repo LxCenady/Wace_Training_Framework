@@ -1,6 +1,6 @@
 """Rebuild every derived file from the papers. One job: run the pipeline steps in order.
 
-papers -> questions.json -> topic PDFs + question banks -> wace.db (methods notes and tags are hand-written inputs)
+papers -> questions.json -> topic PDFs + question banks -> bank.db (methods notes and tags are hand-written inputs)
 Runs in-process (importable as build_all.run) so the packaged app can call it without a Python on PATH.
 """
 import os, sys
@@ -18,7 +18,7 @@ def run(subjects=None, log=print):
             log(f"{name}: {s}")
             step(s)
     log("database")
-    db, problems = build_db.build(os.path.join(build_db.ROOT, "wace.db"), subjects)
+    db, problems = build_db.build(os.path.join(build_db.ROOT, build_db.subject_registry.BANK), subjects)
     db.close()
     for p in problems:
         log("  " + p)

@@ -344,7 +344,7 @@ def write_skills(db):
 
 
 if __name__ == "__main__":
-    db = sqlite3.connect(os.path.join(ROOT, "wace.db"))
+    db = sqlite3.connect(subject_profiles.bank_path(ROOT))
     if sys.argv[1:] == ["--print"]:
         for subj in subjects(db):
             print(markdown(db, subj), "\n")

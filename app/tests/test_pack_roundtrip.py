@@ -28,11 +28,13 @@ with tempfile.TemporaryDirectory(prefix='wtf-pack-roundtrip-') as temporary:
     os.environ['WACE_MATHS_ROOT'] = str(data)
     import build_all
     build_all.run(['MAM', 'MAS', 'MAA'])
-    with sqlite3.connect((ROOT / 'wace.db').as_uri() + '?mode=ro', uri=True) as old, sqlite3.connect(data / 'wace.db') as new:
+    import subjects
+    with sqlite3.connect(Path(subjects.bank_path(ROOT)).as_uri() + '?mode=ro', uri=True) as old,             sqlite3.connect(subjects.bank_path(data)) as new:
         for subject in ('MAM', 'MAS', 'MAA'):
             for table in ('questions', 'parts', 'part_patterns', 'points', 'patterns'):
                 if table == 'questions':
-                    sql = 'SELECT * FROM questions WHERE subject=?'
+                    sql = ('SELECT id, subject, year, section, q, marks, exam, exam_regions, key, key_regions, stem, '
+                           'points_ok, figure FROM questions WHERE subject=?')  # a bank before 2.1 has no source column
                 elif table == 'patterns':
                     sql = 'SELECT p.* FROM patterns p JOIN topics t ON p.topic=t.code WHERE t.subject=?'
                 else:

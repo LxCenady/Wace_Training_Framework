@@ -1,4 +1,10 @@
-"""Installed subject profiles. One job: validate and read <subject>/pack.json."""
+"""Installed subject packs. One job: validate and read every installed pack's profile.
+
+WTF is the runtime of its packs: everything about a course (names, topics, sections, timing, recognition, scoring
+handlers, notes, skill) comes from its pack. A profile says how its bank is made (`engine`):
+  "flow"      <S>/pack.json — a data pack built locally from the original papers (tools/build_all.py)
+  "compiler"  compiler/profiles/<S>.json — generated when a Compiler recipe pack is activated (wtf_compiler/bank.py)
+"""
 import json
 import os
 from pathlib import Path
@@ -7,15 +13,30 @@ import scoring
 import handlers
 import paper_selection
 
+BANK = "bank.db"            # the local question bank every view reads
+LEGACY_BANK = "wace.db"     # its name before WTF 2.1 (read when no bank.db exists yet)
+CODE = re.compile(r"[A-Z][A-Z0-9]{1,11}")  # MAM, ACF, CAIE9709
 
-def profiles(root=None):
-    root = Path(root or os.environ.get('WACE_MATHS_ROOT') or Path(__file__).resolve().parent.parent)
+
+def data_root(root=None):
+    return Path(root or os.environ.get('WACE_MATHS_ROOT') or Path(__file__).resolve().parent.parent)
+
+
+def bank_path(root=None):
+    """The bank file of a data root: bank.db, or a bank built before 2.1 under its old name."""
+    root = data_root(root)
+    return str(root / LEGACY_BANK) if not (root / BANK).exists() and (root / LEGACY_BANK).exists() else str(root / BANK)
+
+
+def profiles(root=None, engine=None):
+    """{subject: profile} of every installed pack (or only those of one `engine`), in display order."""
+    root = data_root(root)
     out = {}
-    for path in root.glob('*/pack.json'):
+    for path, kind in [(p, "flow") for p in root.glob('*/pack.json')] +                       [(p, "compiler") for p in (root / 'compiler' / 'profiles').glob('*.json')]:
         data = json.loads(path.read_text(encoding='utf-8'))
-        validate_profile(data, path)
-        subject = data["subject"]
-        out[subject] = data
+        validate_profile(data, path, kind)
+        if engine in (None, kind):
+            out[data["subject"]] = dict(data, engine=kind)
     return dict(sorted(out.items(), key=lambda item: (item[1].get('order', 100), item[0])))
 
 
@@ -23,8 +44,8 @@ def info(subject, root=None):
     return profiles(root)[subject]
 
 
-def names(root=None, language='zh'):
-    return {s: p['name'][language] for s, p in profiles(root).items()}
+def names(root=None, language='zh', engine=None):
+    return {s: p['name'][language] for s, p in profiles(root, engine).items()}
 
 
 def topics(subject, root=None):
@@ -78,12 +99,13 @@ def section_options(subject=None, any_value='any', root=None):
     return {'任意': any_value, **{f'{name} ({shorts[code]})': code for code, name in labels.items()}}
 
 
-def validate_profile(data, path):
+def validate_profile(data, path, engine='flow'):
     path = Path(path)
     if not isinstance(data, dict):
         raise ValueError(f'Invalid profile: {path}')
     subject = data.get('subject', '')
-    if not isinstance(subject, str) or not re.fullmatch('[A-Z]{2,4}', subject) or path.parent.name != subject:
+    home = path.parent.name if engine == 'flow' else path.stem  # <S>/pack.json or compiler/profiles/<S>.json
+    if not isinstance(subject, str) or not CODE.fullmatch(subject) or home != subject:
         raise ValueError(f'Invalid subject identity: {path}')
     if data.get('wtf_pack') != 1:
         raise ValueError(f'Unsupported pack protocol: {path}')

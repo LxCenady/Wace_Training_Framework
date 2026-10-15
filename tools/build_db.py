@@ -1,4 +1,4 @@
-"""Build the indexable subject database. One job: sources -> wace.db (SQLite).
+"""Build the indexable subject database. One job: sources -> bank.db (SQLite).
 
 Sources (all under ROOT):
   <subj>/questions.json          question crops (exam + marking-key regions) and stem text
@@ -29,7 +29,7 @@ CREATE TABLE patterns (code TEXT PRIMARY KEY, topic TEXT, n INT, title TEXT, met
                        title_en TEXT DEFAULT '', method_en TEXT DEFAULT '');
 CREATE TABLE questions(id TEXT PRIMARY KEY, subject TEXT, year INT, section TEXT, q INT, marks INT,
                        exam TEXT, exam_regions TEXT, key TEXT, key_regions TEXT, stem TEXT, points_ok INT,
-                       figure INT);
+                       figure INT, source TEXT DEFAULT 'pack');
 CREATE TABLE parts    (qid TEXT, label TEXT, ord INT, marks INT, marks_src TEXT, sketch INT,
                        PRIMARY KEY (qid, label));
 CREATE TABLE part_patterns (qid TEXT, label TEXT, pattern TEXT);
@@ -38,6 +38,7 @@ CREATE TABLE knowledge (code TEXT PRIMARY KEY, topic TEXT, name_en TEXT, name_zh
 CREATE TABLE award_tags (qid TEXT, label TEXT, n INT, marks REAL, kind TEXT, code TEXT);
 CREATE TABLE axis_codes (code TEXT PRIMARY KEY, subject TEXT, axis TEXT, key TEXT, grp TEXT, name_en TEXT, name_zh TEXT);
 CREATE TABLE pattern_flags (code TEXT PRIMARY KEY, examined INT, historical INT, diagnostic INT);
+CREATE TABLE rubrics (qid TEXT, label TEXT, tree TEXT, PRIMARY KEY (qid, label));
 CREATE VIEW award_axes AS
   SELECT a.qid, a.label, a.n, a.marks, c.axis, c.code, c.key, c.grp
   FROM award_tags a JOIN axis_codes c ON c.code = a.code;
@@ -168,7 +169,7 @@ def award_level(db, subj, docs):
 
 
 def build(db_path, subjects=None):
-    """Everything -> a fresh wace.db for `subjects` (default: every subject build_docs knows)."""
+    """Everything -> a fresh bank.db for `subjects` (default: every subject build_docs knows)."""
     if os.path.exists(db_path):
         os.remove(db_path)
     db = sqlite3.connect(db_path)
@@ -224,9 +225,10 @@ def build(db_path, subjects=None):
             if q["exam"] not in docs:
                 docs[q["exam"]] = pymupdf.open(os.path.join(ROOT, q["exam"]))
             figure = int(has_figure(q["text"]) or images_in(docs[q["exam"]], q["exam_regions"]))
-            db.execute("INSERT INTO questions VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)",
+            db.execute("INSERT INTO questions VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                        (qid, subj, int(q["year"]), q["section"], q["q"], q["marks"], q["exam"],
-                        json.dumps(q["exam_regions"]), q["key"], json.dumps(q["key_regions"]), q["text"], ok, figure))
+                        json.dumps(q["exam_regions"]), q["key"], json.dumps(q["key_regions"]), q["text"], ok, figure,
+                        "pack"))
             for j, (label, text) in enumerate(pts):
                 db.execute("INSERT INTO points VALUES (?,?,?,?)", (qid, label, j, text.strip()))
             if printed and not paper:
@@ -247,12 +249,47 @@ def build(db_path, subjects=None):
                 problems.append(f"{qid}: part labels tags={[l for l, _ in parts]} key={sorted({p[0] for p in pts})}")
         problems += [f"{subj} {k}: tag line has no question" for k in tags]
         problems += award_level(db, subj, docs)
+    problems += rubrics(db)
     db.commit()
     return db, problems
 
 
+def rubrics(db):
+    """Every part as a scoring tree (the one scoring model; Compiler packs bring theirs): the pack's awards with their
+    codes when they add up to the part's marks, else one award per marking-key point, else the whole part as one
+    award (its key is shown as the original image). -> problems."""
+    import rubric
+    awards = {}
+    for qid, label, n, marks, kind, code in db.execute("SELECT * FROM award_tags ORDER BY qid, label, n"):
+        a = awards.setdefault((qid, label), {}).setdefault(n, dict(marks=marks, patterns=[], knowledge=[]))
+        a["patterns" if kind == "pattern" else "knowledge"].append(code)
+    points = {}
+    for qid, label in db.execute("SELECT qid, label FROM points"):
+        points[(qid, label)] = points.get((qid, label), 0) + 1
+    problems = []
+    for qid, label, marks in db.execute("SELECT qid, label, marks FROM parts WHERE marks IS NOT NULL").fetchall():
+        codes = [p for (p,) in db.execute("SELECT pattern FROM part_patterns WHERE qid = ? AND label = ?", (qid, label))]
+        base = f"{qid}.{label or '0'}"
+        tagged = awards.get((qid, label), {})
+        if tagged and all(float(a["marks"]).is_integer() for a in tagged.values()) and                 sum(a["marks"] for a in tagged.values()) == marks:
+            kids = [dict(id=f"{base}.{n}", kind="award", max_marks=int(a["marks"]), patterns=a["patterns"] or codes,
+                         knowledge=a["knowledge"]) for n, a in tagged.items()]
+        elif points.get((qid, label)) == marks:
+            kids = [dict(id=f"{base}.{n}", kind="award", max_marks=1, patterns=codes) for n in range(1, marks + 1)]
+        else:  # any-N lists, descriptor bands, a key the parser could not divide: the whole part, judged from the key
+            kids = [dict(id=f"{base}.all", kind="award", max_marks=marks, patterns=codes)]
+        tree = dict(id=f"{base}.r", kind="sum", children=kids)
+        try:
+            rubric.validate(tree, marks)
+        except ValueError as e:
+            problems.append(f"{qid} ({label}): scoring tree: {e}")
+            continue
+        db.execute("INSERT INTO rubrics VALUES (?,?,?)", (qid, label, json.dumps(tree, ensure_ascii=False)))
+    return problems
+
+
 if __name__ == "__main__":
-    db, problems = build(os.path.join(ROOT, "wace.db"))
+    db, problems = build(os.path.join(ROOT, subject_registry.BANK))
     for t in ("questions", "parts", "part_patterns", "points", "patterns"):
         print(t, db.execute(f"SELECT COUNT(*) FROM {t}").fetchone()[0])
     print("points_ok", db.execute("SELECT SUM(points_ok), COUNT(*) FROM questions").fetchone())

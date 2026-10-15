@@ -14,14 +14,14 @@ def isolate():
     _temp = tempfile.TemporaryDirectory(prefix="wtf-test-settings-")
     config.PATH = str(Path(_temp.name) / "config.json")
     original = sqlite3.connect
-    live_past = Path(__file__).resolve().parents[2] / "wace.db"
+    live_banks = {Path(__file__).resolve().parents[2] / name for name in ("bank.db", "wace.db")}  # the owner's bank
 
     def connect(database, *args, **kwargs):
         path = Path(str(database))
         if path.name in ("generated.db", "external.db"):
             database = ":memory:"
-        elif path.resolve() == live_past:
-            database = live_past.as_uri() + "?mode=ro"
+        elif path.resolve() in live_banks:
+            database = path.resolve().as_uri() + "?mode=ro"
             kwargs["uri"] = True
         return original(database, *args, **kwargs)
 

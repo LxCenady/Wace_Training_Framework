@@ -4,7 +4,7 @@ Check: the latest release of the repo (GitHub API, no account needed), at start-
 (config "update_check"), or from 帮助 → 检查更新. Install (packaged app only): download the Windows zip,
 check its SHA-256 when GitHub publishes one, make sure it really contains WTF.exe, then a small PowerShell
 script waits for the app to exit, copies the new files over this folder — never the student's papers,
-generated.db (AI questions, mistakes, exams) or WTF.log — removes wace.db and restarts; the first-run
+generated.db (AI questions, mistakes, exams) or WTF.log — removes the question bank (bank.db; wace.db before 2.1) and restarts; the first-run
 wizard then sees every paper present and rebuilds the bank by itself (tags or tools may have changed).
 A source checkout is only told about the new release (update it with git).
 """
@@ -22,7 +22,7 @@ Start-Sleep -Seconds 1
 robocopy $src $dst /E /R:5 /W:1 /XF generated.db WTF.log /XD papers /NFL /NDL /NJH /NJS | Out-Null
 $code = $LASTEXITCODE
 Add-Content -Path $log -Value ("`n--- update: copied new files (robocopy exit " + $code + ") ---")
-if ($code -lt 8) { Remove-Item -Force -ErrorAction SilentlyContinue (Join-Path $dst 'wace.db') }
+if ($code -lt 8) { foreach ($b in 'bank.db','wace.db') { Remove-Item -Force -ErrorAction SilentlyContinue (Join-Path $dst $b) } }
 Start-Process (Join-Path $dst 'WTF.exe')
 """
 

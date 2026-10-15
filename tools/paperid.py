@@ -56,7 +56,7 @@ def identify(path):
     except Exception:
         return None
     low = re.sub(r"\s+", " ", " ".join(pages)).lower()
-    matches = [s for s, p in subjects.profiles().items()
+    matches = [s for s, p in subjects.profiles(engine="flow").items()
                if any(title.lower() in low for title in p['recognise']['title'])]
     if len(matches) != 1:
         return None

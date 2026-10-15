@@ -177,7 +177,7 @@ def install(file, root, overwrite=False, app_version=APP_VERSION):
 
 def export(subject, root=ROOT, out=None, draft=False):
     root = Path(root)
-    profile = dict(subjects.info(subject, root))
+    profile = {k: v for k, v in subjects.info(subject, root).items() if k != 'engine'}  # runtime field, not pack data
     checker = ROOT / 'skills/wtf-subject-pack/scripts/pack_status.py'
     result = subprocess.run([os.sys.executable, str(checker), subject, '--root', str(root)],
                             capture_output=True, text=True, encoding='utf-8', env={**os.environ, 'PYTHONUTF8': '1'})

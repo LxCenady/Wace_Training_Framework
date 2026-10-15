@@ -7,7 +7,7 @@ import pymupdf
 
 ROOT = os.environ.get("WACE_MATHS_ROOT") or os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 import subjects
-TOPICS = {s: subjects.topics(s) for s in subjects.names()}
+TOPICS = {s: subjects.topics(s) for s in subjects.names(engine="flow")}
 A4 = pymupdf.paper_rect("a4")
 MARGIN, GAP = 28, 8
 FONT = pymupdf.Font("helv")

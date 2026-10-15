@@ -34,7 +34,14 @@ class Library:
                         json.dumps(recipe,ensure_ascii=False),json.dumps(content,ensure_ascii=False)))
             db.execute('INSERT OR REPLACE INTO active VALUES (?,?)',(recipe['pack_id'],recipe['version']))
             db.execute('INSERT OR REPLACE INTO content_cache VALUES (?,?)',(digest([recipe['sources'],recipe['questions']]),json.dumps(content,ensure_ascii=False)))
-        return dict(pack_id=recipe['pack_id'],version=recipe['version'],hash=fingerprint)
+        return dict(pack_id=recipe['pack_id'],version=recipe['version'],hash=fingerprint,bank=self.to_bank(recipe['pack_id']))
+
+    def to_bank(self,pack):
+        """The active version as a subject of the question bank (wtf_compiler/bank.py); a failure is reported, not raised:
+        the version itself is installed."""
+        from . import bank
+        try:return bank.project(self,pack)
+        except Exception as exc:return dict(error=f'{type(exc).__name__}: {exc}'[:300])
 
     def list(self):
         with self.connect() as db:
@@ -52,7 +59,7 @@ class Library:
     def activate(self,pack,version):
         self.load(pack,version)
         with self.connect() as db:db.execute('INSERT OR REPLACE INTO active VALUES (?,?)',(pack,version))
-        return dict(pack_id=pack,version=version)
+        return dict(pack_id=pack,version=version,bank=self.to_bank(pack))
 
     def import_pack(self,path):
         recipe=archive.inspect(path)

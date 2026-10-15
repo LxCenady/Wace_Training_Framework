@@ -66,8 +66,9 @@ def frozen_root(bundle):
                 dest = os.path.join(root, os.path.relpath(src, shipped))
                 os.makedirs(os.path.dirname(dest), exist_ok=True)
                 shutil.copyfile(src, dest)
-        if os.path.isfile(stamp) and os.path.isfile(os.path.join(root, "wace.db")):
-            os.remove(os.path.join(root, "wace.db"))  # rebuilt by the wizard with this version's tools and tags
+        for bank in ("bank.db", "wace.db"):  # rebuilt by the wizard with this version's tools and tags
+            if os.path.isfile(stamp) and os.path.isfile(os.path.join(root, bank)):
+                os.remove(os.path.join(root, bank))
         open(stamp, "w", encoding="utf-8").write(version)
     return root
 

@@ -80,7 +80,7 @@ def verify(path, rel, root=None):
 def subjects(root=None):
     """Registered subjects with manifest entries, in profile order."""
     available = {s[0].split("/", 1)[0] for s in sources(root)}
-    return [s for s in subject_registry.names(root) if s in available]
+    return [s for s in subject_registry.names(root, engine="flow") if s in available]
 
 
 def is_pdf(path):

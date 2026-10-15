@@ -7,6 +7,11 @@ HERE = getattr(sys, "_MEIPASS", None) or os.path.dirname(os.path.abspath(__file_
 sys.path.insert(0, HERE)
 from kernel import Kernel  # noqa: E402
 import plat  # noqa: E402
+
+
+def bank_path(root):
+    import subjects  # tools/ is on the path once main() has set the data root
+    return subjects.bank_path(root)
 plat.use_system_certificates()  # before any download: HTTPS trusts the system (school networks, VPNs, macOS)
 
 
@@ -39,7 +44,7 @@ def headless(root, args):
             sys.exit(2)
         if "--build" in args:
             problems = build_all.run(log=say)
-            say(f"built wace.db ({len(problems)} notes)")
+            say(f"built the question bank ({len(problems)} notes)")
 
 
 def log_errors(root):
@@ -82,7 +87,7 @@ def selftest(root):
     step("HTTPS", https)
     from wtf_compiler.check import run as compiler_check
     step("Compiler", compiler_check)
-    step("question bank", lambda: f"{sqlite3.connect(os.path.join(root, 'wace.db')).execute('SELECT COUNT(*) FROM questions').fetchone()[0]} questions")
+    step("question bank", lambda: f"{sqlite3.connect(bank_path(root)).execute('SELECT COUNT(*) FROM questions').fetchone()[0]} questions")
     with open(os.path.join(root, "WTF.log"), "a", encoding="utf-8") as f:
         f.write("\n--- selftest ---\n" + "\n".join(results) + "\n")
     print("\n".join(results))
@@ -105,7 +110,7 @@ def main():
             sys.exit(1)
     k = Kernel(root)
     # the import wizard runs before the bank exists, and on 题库 → 管理科目 (--setup: add / drop subjects)
-    ready = os.path.isfile(os.path.join(root, "wace.db")) and "--setup" not in sys.argv[1:]
+    ready = os.path.isfile(bank_path(root)) and "--setup" not in sys.argv[1:]
     k.load(plugin_names(None if ready else os.path.join(HERE, "setup.txt")))
     k.get("ui.run")()
 

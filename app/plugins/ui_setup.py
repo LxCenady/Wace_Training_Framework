@@ -46,7 +46,7 @@ def downloads_folder():
 
 
 import subjects
-SUBJECTS = subjects.names()
+SUBJECTS = subjects.names(engine="flow")  # the wizard fetches papers: built-from-papers packs only
 
 
 def restart(args=None):

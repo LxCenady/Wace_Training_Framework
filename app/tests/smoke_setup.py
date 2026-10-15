@@ -141,8 +141,8 @@ for _ in range(600):
     pump(0.5)
     if restarted:
         break
-assert restarted and os.path.isfile(os.path.join(data, "wace.db")), "build did not finish"
+assert restarted and os.path.isfile(os.path.join(data, "bank.db")), "build did not finish"
 import sqlite3  # noqa: E402
-db = sqlite3.connect(os.path.join(data, "wace.db"))
+db = sqlite3.connect(os.path.join(data, "bank.db"))
 print("built:", db.execute("SELECT COUNT(*) FROM questions").fetchone()[0], "questions,",
       db.execute("SELECT COUNT(*) FROM points").fetchone()[0], "mark points")

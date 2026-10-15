@@ -176,6 +176,20 @@ def worksheet(items, path, title, name, maths=None, figures=None, meta=None, fir
 CROP_X0, CROP_X1 = 28, 572  # the exam crops' horizontal extent (as plugins/render.py)
 
 
+def bands(doc, regs):
+    """Regions (see plugins/render.py) -> [(page, clip Rect in points, rotation)]."""
+    out = []
+    for r in regs:
+        if isinstance(r, dict):
+            rect = doc[r["page"]].rect
+            a, b, c, d = r["bbox"]
+            out.append((r["page"], pymupdf.Rect(a * rect.width, b * rect.height, c * rect.width, d * rect.height),
+                        r.get("rotate", 0) % 360))
+        else:
+            out.append((r[0], pymupdf.Rect(CROP_X0, r[1], CROP_X1, r[2]), 0))
+    return out
+
+
 def past_papers(items, root, path, title, name, first=None, header=True, numbered=True, meta=""):
     """items: store.question dicts. Writes <path> (the questions, cut from the papers as vectors, one question per
     page) and <path>_评分标准.pdf (the marking keys; a question moves whole to the next page when it does not fit).
@@ -207,7 +221,12 @@ def past_papers(items, root, path, title, name, first=None, header=True, numbere
 
         for n, d in enumerate(items):
             regs = d["exam_regions"] if kind == "exam" else d["key_regions"]
-            heights = [(y1 - y0) * scale for _, y0, y1 in regs]
+            file = d["exam"] if kind == "exam" else d["key"]
+            if regs and file not in src:
+                src[file] = pymupdf.open(os.path.join(root, file))
+            cuts = bands(src[file], regs) if regs else []
+            heights = [((c.width if rot in (90, 270) else c.height) * (R - L) /
+                        (c.height if rot in (90, 270) else c.width)) for _, c, rot in cuts]
             need = 24 + sum(h + 4 for h in heights)
             if state["page"] is None or own_page or (need > B - state["y"] and state["y"] > T + 40):
                 new_page()
@@ -215,17 +234,23 @@ def past_papers(items, root, path, title, name, first=None, header=True, numbere
                 write(title + ("" if kind == "exam" else " — 答案与评分标准"), 15, (0.12, 0.23, 0.45), 26)
                 if meta:
                     write(meta, 8.5, (0.4, 0.4, 0.4), 20)
-            sec = subjects.section_name(d["subject"], d["section"], "short")
+            sec = subjects.section_name(d["subject"], d["section"], "short", root)
             pats = "；".join(name(p) for p in dict.fromkeys(c for _, _, cs in d["parts"] for c in cs))
             origin = f"{d['year']} {d['subject']} {sec} Question {d['q']}"
             head = f"Question {first + n} · {d['marks']} 分 · 真题 {origin}" if first else f"{origin} · {d['marks']} 分"
             write(f"{head} · {pats}", 8.5, (0.12, 0.23, 0.45), 24)
             if not regs:
                 write("（本机没有这道题的评分标准）", 9, (0.6, 0.2, 0.2))
-            file = d["exam"] if kind == "exam" else d["key"]
-            if regs and file not in src:
-                src[file] = pymupdf.open(os.path.join(root, file))
-            for pg, y0, y1 in regs:
+            for (pg, clip, rot), h in zip(cuts, heights):
+                if isinstance(regs[0], dict):  # a Compiler crop (any width, maybe rotated): placed whole, fitted to a page
+                    h = min(h, B - T)
+                    if h > B - state["y"]:
+                        new_page()
+                    state["page"].show_pdf_page(pymupdf.Rect(L, state["y"], R, state["y"] + h), src[file], pg,
+                                                clip=clip, rotate=rot)
+                    state["y"] += h + 4
+                    continue
+                y0, y1 = clip.y0, clip.y1
                 while y1 - y0 > 0.5:  # a crop taller than what is left is cut at the page end and continued
                     room = (B - state["y"]) / scale
                     if room < min(60, y1 - y0):

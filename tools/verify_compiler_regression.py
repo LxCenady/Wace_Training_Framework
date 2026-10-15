@@ -12,8 +12,8 @@ sys.path.insert(0,str(ROOT/'tools'))
 
 def protected():
     paths=[Path(os.environ['APPDATA'])/name/'config.json' for name in ('wace-maths','wtf-studio')]
-    paths += [root/name for root in (ROOT,ROOT.parent/'WTF_Studio') for name in ('wace.db','generated.db','external.db')]
-    return {str(p):hashlib.sha256(p.read_bytes()).hexdigest() for p in paths if p.exists()}
+    paths += [root/name for root in (ROOT,ROOT.parent/'WTF_Studio') for name in ('bank.db','wace.db','generated.db','external.db','compiler/bank.db')]
+    return {str(p):hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None for p in paths}  # created counts too
 
 
 def main():

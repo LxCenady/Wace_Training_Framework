@@ -31,7 +31,8 @@ def main(argv=None):
         finally:
             store.close()
         return 0
-    db = sqlite3.connect((root / "wace.db").as_uri() + "?mode=ro", uri=True)
+    import subjects  # tools/ (this folder)
+    db = sqlite3.connect(Path(subjects.bank_path(root)).as_uri() + "?mode=ro", uri=True)
 
     class Catalogue:
         def q(self, query, *parameters):

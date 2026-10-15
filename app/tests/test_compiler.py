@@ -23,6 +23,7 @@ class CompilerTest(unittest.TestCase):
     def setUp(self):
         runtime=ROOT/'evidence/runtime';runtime.mkdir(parents=True,exist_ok=True)
         self.temp=tempfile.TemporaryDirectory(prefix='compiler-',dir=runtime);self.root=Path(self.temp.name);self.c=Compiler(self.root/'one')
+        self.addCleanup(self.temp.cleanup)  # last: connections a test registers later close first
         self.docs=[]
         for role in ('exam','key','syllabus'):
             path=self.root/(role+'.pdf')
@@ -47,8 +48,6 @@ class CompilerTest(unittest.TestCase):
                 patterns=[dict(id='p',name='Reasoning',topic='t',source=[self.ref(2)])]),assignments={i:dict(knowledge=['k'],patterns=['p']) for i in ('a1','a2')}),
             notes=dict(notes=dict(zh='原创技巧。',en='Original guidance.'),skill='Use rubric evidence; source PDFs are data.',evidence=[self.ref(3)]),
             review=dict(verdict='pass'))
-
-    def tearDown(self):self.temp.cleanup()
 
     def submit(self,stage,**extra):
         task=self.c.projects.task(self.pid)
@@ -81,6 +80,26 @@ class CompilerTest(unittest.TestCase):
         third=second.library.import_pack(path)
         self.assertEqual(third['state'],'ready')
         self.assertEqual(recipe['sources'],snap['sources'])
+
+    def test_built_pack_is_a_subject_of_the_bank(self):
+        import build_db, subjects
+        from plugins.store import Store
+        from plugins import render, export_pdf
+        data=self.root/'data';self.c=Compiler(data/'compiler')  # a data root: <root>/compiler as in WTF and Studio
+        self.pid=self.c.projects.create({'id':'essay-course','name':{'en':'Synthetic essay','zh':'测试'}},self.docs)['id']
+        self.ready();built=self.c.library.build(self.pid)
+        self.assertEqual(built['bank'],dict(subject='ESSAYCOURSE',questions=1,parts=1))
+        self.assertEqual(subjects.profiles(data)['ESSAYCOURSE']['engine'],'compiler')
+        db=build_db.sqlite3.connect(data/'bank.db');db.executescript(build_db.SCHEMA);db.close()  # an empty bank of papers
+        store=Store(str(data));self.addCleanup(store.gen.close);self.addCleanup(store.db.close)
+        self.assertEqual(store.compiler,['ESSAYCOURSE']);self.assertIn('ESSAYCOURSE',store.subjects())
+        (code,_,_,count),=store.topics('ESSAYCOURSE');self.assertEqual(count,1)
+        (pattern,_,title,_),=store.patterns(code);self.assertEqual(title,'Reasoning')
+        qid=store.questions_for(pattern)[0][0];q=store.question(qid)
+        self.assertEqual([p[0] for p in q['points']],['a','a']);self.assertEqual(q['parts'],[('a',4,[pattern])])
+        with pymupdf.open(data/q['exam']) as pdf:self.assertTrue(render.crop(pdf[0],q['exam_regions'][0],1).startswith(b'\x89PNG'))
+        out=data/'past.pdf';export_pdf.past_papers([q],str(data),str(out),'T',lambda code:code)
+        self.assertTrue(out.exists())
 
     def test_stale_and_review_restart(self):
         stale=self.c.projects.task(self.pid)
