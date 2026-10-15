@@ -8,35 +8,48 @@ import pymupdf
 import subjects
 
 
+def kind_of(low, profile):
+    """-> (kind, year match) from the lower-cased text, or None."""
+    # order matters: an exam's cover lists "Formula sheet" among materials; reports quote "marking key"
+    if "question/answer booklet" in low:
+        return "Exam", re.search(r"examination,? (20\d\d)", low)
+    if "examination report" in low or "summary report" in low:
+        return "ExamReport", re.search(r"(20\d\d) atar course examination report", low)
+    if "marking key" in low:
+        return "MarkingKey", re.search(r"examination,? (20\d\d)", low)
+    # the pack's reference sheets: {"FormulaSheet": ["formula sheet", …], "DataBooklet": ["data booklet"]}
+    kinds = [(k, words) for k, words in profile['recognise'].get('kinds', {}).items()
+             if any(w.lower() in low for w in words)]
+    if not kinds:
+        return None
+    kind, words = kinds[0]
+    m = re.search("(?:" + "|".join(re.escape(w.lower()) for w in words) + r"),? (20\d\d)", low)
+    return kind, m or re.search(r"examination,? (20\d\d)", low)  # "ATAR course examination, 2025 … booklet"
+
+
 def identify(path):
     """Return the canonical relative path, or None if this is not a recognisable MAM/MAS/MAA paper."""
     try:
         with pymupdf.open(path) as doc:
-            text = " ".join(doc[i].get_text() for i in range(min(2, doc.page_count)))
+            pages = [doc[i].get_text() for i in range(min(2, doc.page_count))]
     except Exception:
         return None
-    t = re.sub(r"\s+", " ", text)
-    low = t.lower()
+    low = re.sub(r"\s+", " ", " ".join(pages)).lower()
     matches = [s for s, p in subjects.profiles().items()
                if any(title.lower() in low for title in p['recognise']['title'])]
     if len(matches) != 1:
         return None
     subj = matches[0]
     profile = subjects.info(subj)
-    # order matters: an exam's cover lists "Formula sheet" among materials; reports quote "marking key"
-    if "question/answer booklet" in low:
-        kind, m = "Exam", re.search(r"examination,? (20\d\d)", low)
-    elif "examination report" in low or "summary report" in low:
-        kind, m = "ExamReport", re.search(r"(20\d\d) atar course examination report", low)
-    elif "marking key" in low:
-        kind, m = "MarkingKey", re.search(r"examination,? (20\d\d)", low)
-    else:  # the pack's reference sheets: {"FormulaSheet": ["formula sheet", …], "DataBooklet": ["data booklet"]}
-        kinds = [(k, words) for k, words in profile['recognise'].get('kinds', {}).items()
-                 if any(w.lower() in low for w in words)]
-        if not kinds:
-            return None
-        kind, words = kinds[0]
-        m = re.search("(?:" + "|".join(re.escape(w.lower()) for w in words) + r"),? (20\d\d)", low)
+    # the cover says what the document is; the second page only when the cover alone does not (a booklet's second
+    # page can mention the question/answer booklet it goes with)
+    for text in (re.sub(r"\s+", " ", pages[0]).lower(), low):
+        found = kind_of(text, profile)
+        if found:
+            kind, m = found
+            break
+    else:
+        return None
     if re.search(r"sample (wace )?examination", low) and kind in ("Exam", "MarkingKey"):
         year = "2016Sample"
     elif m:
