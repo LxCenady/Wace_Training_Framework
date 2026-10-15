@@ -1,0 +1,43 @@
+{
+  "wtf_pack": 1,
+  "subject": "ACF",
+  "version": "2026.10.1",
+  "order": 5,
+  "name": {"zh": "Accounting and Finance 会计与金融", "en": "Accounting and Finance ATAR"},
+  "course": "Accounting and Finance ATAR (Units 3–4; 2020–2025 past questions mapped to the 2026–2027 syllabus)",
+  "requires_wtf": ">=2.0.3",
+  "papers": {"years": [2020, 2021, 2022, 2023, 2024, 2025], "excluded": {}, "acknowledged": {"2021M-Q2": "The official key awards all candidates one mark because a date needed for weighted-average shares is missing. Preserve the official all-answer key; this question is unsuitable for diagnosing mastery from a correct answer."}},
+  "paper_layout": "shared",
+  "recognise": {
+    "title": ["accounting and finance"],
+    "kinds": {"InformationBooklet": ["information booklet"], "SpecificationBooklet": ["specifications booklet", "specification booklet"]}
+  },
+  "sections": [
+    {"code": "MC", "letter": "M", "zh": "选择题", "en": "Multiple-choice", "short": "MC", "minutes": null, "suggested_minutes": 25, "share": 0.15, "headings": ["Section One: Multiple-choice"], "question_mode": "mc"},
+    {"code": "SA", "letter": "S", "zh": "简答题", "en": "Short answer", "short": "SA", "minutes": null, "suggested_minutes": 120, "share": 0.70, "headings": ["Section Two: Short answer"], "key_headings": ["Section Two: Short answer"]},
+    {"code": "EA", "letter": "E", "zh": "论述题", "en": "Extended answer", "short": "EA", "minutes": null, "suggested_minutes": 35, "share": 0.15, "answer_count": 1, "headings": ["Section Three: Extended answer"], "key_headings": ["Section Three: Extended answer"]}
+  ],
+  "paper_minutes": [10, 180],
+  "topics": [
+    {"code": "FIN", "file": "01_Finance", "zh": "融资、金融产品与资产管理", "en": "Finance products and asset management"},
+    {"code": "CST", "file": "02_Costing", "zh": "成本核算与标准成本差异", "en": "Costing and standard-cost variances"},
+    {"code": "CVP", "file": "03_CVP", "zh": "本量利与经营决策", "en": "Cost–volume–profit and operating decisions"},
+    {"code": "BUD", "file": "04_Budgets", "zh": "预算与绩效控制", "en": "Budgets and performance control"},
+    {"code": "INV", "file": "05_Investment", "zh": "资本投资评价", "en": "Capital investment appraisal"},
+    {"code": "FRM", "file": "06_Framework", "zh": "公司与财务报告概念框架", "en": "Companies and the financial reporting framework"},
+    {"code": "EQT", "file": "07_Equity", "zh": "股本、股利与权益记录", "en": "Share capital, dividends and equity records"},
+    {"code": "STM", "file": "08_Statements", "zh": "财务报表、调整与附注", "en": "Financial statements, adjustments and notes"},
+    {"code": "CSH", "file": "09_Cash_Flow", "zh": "现金流量表", "en": "Statements of cash flows"},
+    {"code": "RAT", "file": "10_Ratios", "zh": "财务比率与报告分析", "en": "Financial ratios and reporting analysis"},
+    {"code": "GOV", "file": "11_Governance", "zh": "监管、审计、伦理与可持续性", "en": "Regulation, audit, ethics and sustainability"},
+    {"code": "OUT", "file": "12_Historical", "zh": "现行大纲外的历史内容", "en": "Historical content outside the current syllabus"}
+  ],
+  "key_style": "description-marks",
+  "key_band_continuation": true,
+  "nested_part_totals": true,
+  "checker": "none",
+  "sketch_mode": "words",
+  "sketch_words": ["draw", "sketch", "on the axes", "plot", "graph"],
+  "sheets": ["InformationBooklet", "SpecificationBooklet"],
+  "scoring": {"mode": "section-weighted", "valid_from": 2020, "valid_to": 2025, "source": "https://senior-secondary.scsa.wa.edu.au/further-resources/past-atar-course-exams/accounting-and-finance-past-atar-course-exams"}
+}

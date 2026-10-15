@@ -260,15 +260,22 @@ class Store:
     def mastery(self):
         """{pattern: {"attempted": marks, "lost": marks, "parts": n}} over everything the student has revealed."""
         out = {}
+        try:  # catalogue records without assessable knowledge (e.g. a cancelled item) are no evidence of mastery
+            silent = {c for (c,) in self.q("SELECT code FROM pattern_flags WHERE diagnostic = 0")}
+        except sqlite3.OperationalError:  # a wace.db built before pattern_flags
+            silent = set()
         # marked scripts (source "mark": a teacher marking students' papers) are not the user's own practice
         for marks, pats in self.gen.execute("SELECT marks, patterns FROM attempts WHERE source != 'mark'").fetchall():
             for c in json.loads(pats):
+                if c in silent:
+                    continue
                 g = out.setdefault(c, {"attempted": 0, "lost": 0, "parts": 0})
                 g["attempted"] += marks or 0
                 g["parts"] += 1
         for m in self.mistakes():
             for c in m["patterns"]:
-                out.setdefault(c, {"attempted": 0, "lost": 0, "parts": 0})["lost"] += m["lost"]
+                if c not in silent:
+                    out.setdefault(c, {"attempted": 0, "lost": 0, "parts": 0})["lost"] += m["lost"]
         return out
 
     def exam_weights(self, subj):

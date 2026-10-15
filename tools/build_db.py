@@ -37,6 +37,7 @@ CREATE TABLE points   (qid TEXT, label TEXT, ord INT, text TEXT);
 CREATE TABLE knowledge (code TEXT PRIMARY KEY, topic TEXT, name_en TEXT, name_zh TEXT, definition TEXT);
 CREATE TABLE award_tags (qid TEXT, label TEXT, n INT, marks REAL, kind TEXT, code TEXT);
 CREATE TABLE axis_codes (code TEXT PRIMARY KEY, subject TEXT, axis TEXT, key TEXT, grp TEXT, name_en TEXT, name_zh TEXT);
+CREATE TABLE pattern_flags (code TEXT PRIMARY KEY, examined INT, historical INT, diagnostic INT);
 CREATE VIEW award_axes AS
   SELECT a.qid, a.label, a.n, a.marks, c.axis, c.code, c.key, c.grp
   FROM award_tags a JOIN axis_codes c ON c.code = a.code;
@@ -140,6 +141,11 @@ def award_level(db, subj, docs):
         marktags.validate_marktags(tags, cat, subj)
     except ValueError as e:
         return [f"{subj}: marktags not used: {e}"]
+    for p in cat["patterns"]:  # catalogue flags the runtime reads (tools/blueprint.py, store.mastery); default: no row
+        flags = (int(p.get("examined") is not False), int(p.get("historical_only") is True),
+                 int(p.get("diagnostic") is not False))
+        if flags != (1, 0, 1):
+            db.execute("INSERT INTO pattern_flags VALUES (?,?,?,?)", (marktags.db_code(subj, p["id"]), *flags))
     axes = marktags.axes(cat)  # atoms that are another axis of the award (e.g. PHY's award skill), not knowledge
     for a in cat["knowledge"]:
         code = marktags.db_code(subj, a["id"])

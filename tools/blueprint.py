@@ -31,14 +31,27 @@ def round_split(own, total):
     return out
 
 
+def excluded(db):
+    """Patterns a new paper never draws: content removed from the current syllabus (historical_only) and records that
+    carry no assessable knowledge (diagnostic false, e.g. a cancelled item) — catalogue flags in pattern_flags.
+    A teacher or student can still ask for one of them by name; only the drawing leaves them out."""
+    try:
+        return {c for (c,) in db.execute("SELECT code FROM pattern_flags WHERE historical = 1 OR diagnostic = 0")}
+    except sqlite3.OperationalError:  # a database built before the flags existed
+        return set()
+
+
 def blueprint(db, subj, section, since=2020):
     q = lambda sql, *a: db.execute(sql, a).fetchall()  # noqa: E731
     share, pattern_share, cross = defaultdict(float), defaultdict(float), Counter()
     by_question, own = defaultdict(set), defaultdict(lambda: defaultdict(float))
     rows = q("""SELECT qid, pattern, topic, marks, question_marks FROM pattern_marks
                 WHERE subject = ? AND section = ?""", subj, section)  # wace.db: marks as printed on the paper
+    skip = excluded(db)
     q_marks = {}
     for qid, pattern, t, marks, qm in rows:
+        if pattern in skip:
+            continue
         share[t] += marks
         pattern_share[pattern] += marks
         own[qid][pattern] += marks
@@ -208,7 +221,9 @@ def attempt(bp, total, rng, swap):
     cap = max(bp["question_marks"])
     deficit = {t: share * total for t, share in bp["topic_share"].items()}
     left, used, qs, taken = total, set(), [], []
-    while left >= 3:
+    # the last few marks are absorbed inside the drawn questions, except where every question carries one mark
+    # (multiple choice): there nothing can grow, so questions are drawn down to the last mark
+    while left >= (1 if cap == 1 else 3):
         t = max(deficit, key=lambda t: deficit[t] + rng.uniform(0, 4))
         cands = ([sk for sk in bp["skeletons"] if sum(sk.values()) <= left and lead(sk) == t]
                  or [sk for sk in bp["skeletons"] if sum(sk.values()) <= left])

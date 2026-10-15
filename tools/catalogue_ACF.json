@@ -1,0 +1,3807 @@
+{
+ "schema_version": 2,
+ "course": "Accounting and Finance ATAR (Units 3–4; 2020–2025 past questions mapped to the 2026–2027 syllabus)",
+ "catalogue_status": "approved",
+ "topic_codes": {
+  "FIN": "Finance products and asset management",
+  "CST": "Costing and standard-cost variances",
+  "CVP": "Cost–volume–profit and operating decisions",
+  "BUD": "Budgets and performance control",
+  "INV": "Capital investment appraisal",
+  "FRM": "Companies and the financial reporting framework",
+  "EQT": "Share capital, dividends and equity records",
+  "STM": "Financial statements, adjustments and notes",
+  "CSH": "Statements of cash flows",
+  "RAT": "Financial ratios and reporting analysis",
+  "GOV": "Regulation, audit, ethics and sustainability",
+  "OUT": "Historical content outside the current syllabus"
+ },
+ "patterns": [
+  {
+   "id": "FIN1",
+   "name_en": "Compare management and financial accounting",
+   "name_zh": "比较管理会计与财务会计",
+   "definition": "Distinguish accounting for internal decisions from accounting for external reporting by purpose, users and outputs.",
+   "not": "Preparing a budget belongs to BUD; reporting-entity requirements belong to FRM.",
+   "operations": [
+    "identify",
+    "compare",
+    "describe"
+   ],
+   "examined": true,
+   "marks": 7,
+   "awards": 5,
+   "years": 3
+  },
+  {
+   "id": "FIN2",
+   "name_en": "Classify and select financing products",
+   "name_zh": "分类、说明与选择融资产品",
+   "definition": "Identify, describe or select a financial product using its maturity, security, ownership or purpose.",
+   "not": "Recording shares belongs to EQT; a capital-project appraisal belongs to INV. A superseded instrument name needs a historical note.",
+   "operations": [
+    "identify",
+    "describe",
+    "justify-choice"
+   ],
+   "examined": true,
+   "marks": 10,
+   "awards": 7,
+   "years": 4
+  },
+  {
+   "id": "FIN3",
+   "name_en": "Apply principles of asset and funding management",
+   "name_zh": "应用资产与资金管理原则",
+   "definition": "Relate non-current assets, receivables, inventory, cash, short- and long-term debt and appropriate equity capital to the resources and funding the business requires.",
+   "not": "Numerical profitability or gearing ratios belong to RAT; calculating asset cash flows belongs to CSH.",
+   "operations": [
+    "identify",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 3,
+   "awards": 3,
+   "years": 3
+  },
+  {
+   "id": "FIN4",
+   "name_en": "Explain cash requirements for business viability",
+   "name_zh": "解释现金对企业持续经营的意义",
+   "definition": "Explain how available cash supports payment obligations, ongoing operations and business development.",
+   "not": "A cash-budget calculation belongs to BUD; interpreting a prepared cash-flow statement belongs to CSH.",
+   "operations": [
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 4,
+   "awards": 1,
+   "years": 1
+  },
+  {
+   "id": "FIN5",
+   "name_en": "Recommend cash-management controls",
+   "name_zh": "提出现金管理控制措施",
+   "definition": "Describe a practical cash-management action and connect it to the business cash-management objective.",
+   "not": "Do not award this pattern merely for an arithmetic cash balance; budget construction is BUD.",
+   "operations": [
+    "describe",
+    "justify-choice"
+   ],
+   "examined": true,
+   "marks": 4,
+   "awards": 2,
+   "years": 1
+  },
+  {
+   "id": "CST1",
+   "name_en": "Classify direct, indirect, product and period costs",
+   "name_zh": "分类直接、间接、产品与期间成本",
+   "definition": "Identify or explain cost classification by traceability to a cost object or by manufacturing versus period function, with the requested example.",
+   "not": "Behaviour as activity changes belongs to CST2; total cost arithmetic belongs to CST4–CST8.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 8.0,
+   "awards": 4,
+   "years": 3
+  },
+  {
+   "id": "CST2",
+   "name_en": "Explain fixed and variable cost behaviour",
+   "name_zh": "解释固定与变动成本的性态",
+   "definition": "Identify or explain fixed, variable and mixed cost behaviour, including the behaviour of overheads in the specified activity range.",
+   "not": "A direct cost is not automatically variable. The profit or break-even effect of changing costs belongs to CVP9.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 9,
+   "awards": 5,
+   "years": 4
+  },
+  {
+   "id": "CST3",
+   "name_en": "Distinguish past and future costs",
+   "name_zh": "区分历史成本与未来成本",
+   "definition": "Explain the distinction between incurred past costs and future costs useful for planning and decision making.",
+   "not": "A relevant-cost comparison between specific alternatives belongs to CVP6–CVP8.",
+   "operations": [
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 3,
+   "awards": 1,
+   "years": 1
+  },
+  {
+   "id": "CST4",
+   "name_en": "Calculate direct materials cost",
+   "name_zh": "计算直接材料成本",
+   "definition": "Use material quantities and prices, packaging and the required production basis to calculate material cost for a batch or unit.",
+   "not": "Changes against standard input or price belong to CST10–CST11; allocating all manufacturing components belongs to CST8.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 24,
+   "awards": 24,
+   "years": 6
+  },
+  {
+   "id": "CST5",
+   "name_en": "Calculate direct labour cost",
+   "name_zh": "计算直接人工成本",
+   "definition": "Use labour time, rates and production basis, converting minutes or periods where required, to calculate labour cost.",
+   "not": "Labour used as the overhead allocation base belongs to CST6–CST7; rate and efficiency variances belong to CST12–CST13.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 20,
+   "awards": 20,
+   "years": 6
+  },
+  {
+   "id": "CST6",
+   "name_en": "Determine manufacturing overhead and recovery rate",
+   "name_zh": "确定制造费用与分配率",
+   "definition": "Select the manufacturing overhead pool and calculate the recovery rate from the specified allocation base; current tasks use predetermined rates at normal capacity.",
+   "not": "Follow the stated base: labour hours and machine hours are not interchangeable. Applying the rate to a job belongs to CST7.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 20,
+   "awards": 20,
+   "years": 6
+  },
+  {
+   "id": "CST7",
+   "name_en": "Apply overhead to a batch or unit",
+   "name_zh": "将制造费用分配至批次或单位",
+   "definition": "Use the relevant job or unit activity, in the same units as the recovery rate, to allocate manufacturing overhead.",
+   "not": "Deriving the recovery rate belongs to CST6; a business-region closure comparison belongs to CVP8.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 10,
+   "awards": 10,
+   "years": 6
+  },
+  {
+   "id": "CST8",
+   "name_en": "Calculate batch and unit manufacturing cost",
+   "name_zh": "计算批次与单位制造成本",
+   "definition": "Combine material, labour and overhead costs and use the batch or output count to calculate manufacturing cost per batch or unit.",
+   "not": "Calculating only one cost component belongs to CST4–CST7. Selling-price mark-up belongs to CST9. A component amount included inside a whole-unit cost task stays CST8.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 7,
+   "awards": 7,
+   "years": 4
+  },
+  {
+   "id": "CST9",
+   "name_en": "Use and explain cost mark-up pricing",
+   "name_zh": "应用与解释成本加成定价",
+   "definition": "Use the specified unit cost and mark-up on cost to calculate selling price or explain the pricing relationship with an example.",
+   "not": "Mark-up on cost is not margin on selling price. Solving a contribution-and-profit equation belongs to CVP10.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 11,
+   "awards": 8,
+   "years": 4
+  },
+  {
+   "id": "CST10",
+   "name_en": "Calculate materials price variance",
+   "name_zh": "计算材料价格差异",
+   "definition": "Compare actual and standard materials prices using actual quantity, and determine the favourable or unfavourable result.",
+   "not": "Quantity against standard input belongs to CST11; do not substitute standard quantity in the price variance.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 10,
+   "awards": 10,
+   "years": 4
+  },
+  {
+   "id": "CST11",
+   "name_en": "Calculate materials usage variance",
+   "name_zh": "计算材料用量差异",
+   "definition": "Compare actual input with the standard quantity allowed for actual output and apply the standard materials price.",
+   "not": "Actual output determines allowed input; a price difference belongs to CST10.",
+   "operations": [
+    "calculate",
+    "show-working",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 10,
+   "awards": 10,
+   "years": 3
+  },
+  {
+   "id": "CST12",
+   "name_en": "Calculate labour rate variance",
+   "name_zh": "计算人工工资率差异",
+   "definition": "Compare actual and standard labour rates using actual labour hours and interpret the variance direction.",
+   "not": "Time against allowed standard hours belongs to CST13.",
+   "operations": [
+    "calculate",
+    "show-working",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 8,
+   "awards": 8,
+   "years": 2
+  },
+  {
+   "id": "CST13",
+   "name_en": "Calculate labour efficiency variance",
+   "name_zh": "计算人工效率差异",
+   "definition": "Compare actual hours with the standard hours allowed for actual output and apply the standard labour rate, including deriving allowed hours when required.",
+   "not": "A rate difference belongs to CST12; budget-versus-actual performance reports belong to BUD8.",
+   "operations": [
+    "calculate",
+    "show-working",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 18,
+   "awards": 18,
+   "years": 4
+  },
+  {
+   "id": "CVP1",
+   "name_en": "Calculate total, unit contribution and contribution ratio",
+   "name_zh": "计算总边际贡献、单位贡献与贡献率",
+   "definition": "Select selling price, variable costs and activity to identify or calculate total or unit contribution or its ratio to sales.",
+   "not": "An allocated full-cost amount is not automatically variable cost; cost classification belongs to CST. Weighted multi-product contribution belongs to CVP3.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 8,
+   "awards": 8,
+   "years": 4
+  },
+  {
+   "id": "CVP2",
+   "name_en": "Calculate product or activity mix",
+   "name_zh": "计算产品或业务活动组合比例",
+   "definition": "Calculate a product or segment share of the specified total sales or activity base and apply that mix to a requested volume.",
+   "not": "Use the stated base: kilometres are not sales dollars. Applying overhead rates in manufacturing belongs to CST.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 10,
+   "awards": 10,
+   "years": 2
+  },
+  {
+   "id": "CVP3",
+   "name_en": "Calculate weighted average contribution",
+   "name_zh": "计算加权平均边际贡献",
+   "definition": "Combine each product contribution with its mix to calculate the weighted average contribution per composite unit.",
+   "not": "The mix alone belongs to CVP2; the subsequent break-even calculation belongs to CVP4.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 4,
+   "awards": 4,
+   "years": 1
+  },
+  {
+   "id": "CVP4",
+   "name_en": "Calculate break-even or target-profit sales",
+   "name_zh": "计算盈亏平衡或目标利润销量",
+   "definition": "Identify or calculate required sales using fixed costs, the applicable contribution and a target profit where specified.",
+   "not": "Margin of safety belongs to CVP5; interpreting a change in assumptions belongs to CVP9.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 5,
+   "awards": 5,
+   "years": 3
+  },
+  {
+   "id": "CVP5",
+   "name_en": "Calculate and explain margin of safety",
+   "name_zh": "计算与解释安全边际",
+   "definition": "Calculate or explain the excess of actual or planned sales over break-even sales, with the units or percentage requested.",
+   "not": "Do not confuse this sales cushion with the contribution earned on each unit in CVP1.",
+   "operations": [
+    "identify",
+    "calculate",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 3,
+   "awards": 2,
+   "years": 2
+  },
+  {
+   "id": "CVP6",
+   "name_en": "Evaluate a special order",
+   "name_zh": "评价特殊订单",
+   "definition": "Compare incremental revenue with relevant variable, additional fixed and opportunity costs and make the requested special-order decision.",
+   "not": "Allocated unavoidable costs are not automatically incremental; component sourcing belongs to CVP7.",
+   "operations": [
+    "calculate",
+    "show-working",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 11,
+   "awards": 11,
+   "years": 1
+  },
+  {
+   "id": "CVP7",
+   "name_en": "Evaluate make-or-buy alternatives",
+   "name_zh": "评价自制或外购方案",
+   "definition": "Compare relevant costs of making and buying, identify avoidable costs and recommend the financially preferable option.",
+   "not": "Do not count unchanged allocated costs as a saving. A new customer order belongs to CVP6.",
+   "operations": [
+    "calculate",
+    "show-working",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 9,
+   "awards": 9,
+   "years": 1
+  },
+  {
+   "id": "CVP8",
+   "name_en": "Evaluate segment profitability and closure",
+   "name_zh": "评价业务部门盈利与关闭决策",
+   "definition": "Prepare segment revenue and cost comparisons, distinguish retained and avoidable costs and assess the whole-business profit effect of closure.",
+   "not": "A segment accounting loss alone does not prove closure benefits the business. Activity-mix proportions belong to CVP2.",
+   "operations": [
+    "calculate",
+    "show-working",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 23,
+   "awards": 22,
+   "years": 1
+  },
+  {
+   "id": "CVP9",
+   "name_en": "Explain cost-volume-profit changes",
+   "name_zh": "解释成本、销量与利润的变化",
+   "definition": "Trace how changing prices, activity, variable costs or fixed costs affects profit or break-even and link the result to the business context.",
+   "not": "Merely computing the original break-even point belongs to CVP4; a formal financial-statement ratio effect belongs to RAT10.",
+   "operations": [
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 7,
+   "awards": 2,
+   "years": 2
+  },
+  {
+   "id": "CVP10",
+   "name_en": "Solve a cost-volume-profit relationship",
+   "name_zh": "求解本量利关系中的未知量",
+   "definition": "Use the profit relationship to solve for selling price, variable cost, fixed cost, profit or activity under the specified conditions.",
+   "not": "A prose explanation of a change belongs to CVP9; a specific break-even or target-profit sales calculation belongs to CVP4.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": false,
+   "marks": 0,
+   "awards": 0,
+   "years": 0
+  },
+  {
+   "id": "BUD1",
+   "name_en": "Explain master-budget components and purposes",
+   "name_zh": "解释全面预算的组成与作用",
+   "definition": "Identify operating, capital and financial budgets or explain how a budget supports planning, coordination and control.",
+   "not": "Individual forecast calculations belong to BUD2–BUD7; actual-versus-budget performance belongs to BUD8.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 23.0,
+   "awards": 14,
+   "years": 5
+  },
+  {
+   "id": "BUD2",
+   "name_en": "Prepare forecast customer collections",
+   "name_zh": "编制预计客户收款计划",
+   "definition": "Apply cash and credit sales proportions, collection lags and discounts to forecast customer receipts in the correct months.",
+   "not": "Historical debtor reconciliation for a cash-flow statement belongs to CSH; deriving accrual sales for forecast profit belongs to BUD7.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 34,
+   "awards": 34,
+   "years": 3
+  },
+  {
+   "id": "BUD3",
+   "name_en": "Prepare forecast creditor payments",
+   "name_zh": "编制预计供应商付款计划",
+   "definition": "Apply purchases and payment timing to forecast cash paid to trade creditors in each budget period.",
+   "not": "Do not treat purchase recognition as immediate cash payment without the timing data. Other expense payments belong to BUD4.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 9,
+   "awards": 9,
+   "years": 3
+  },
+  {
+   "id": "BUD4",
+   "name_en": "Calculate forecast operating cash payments",
+   "name_zh": "计算预计经营现金支出",
+   "definition": "Calculate forecast wages, interest and other operating payments using the relevant period and adjustments, removing non-cash items such as depreciation and loss on disposal.",
+   "not": "Budgeted accrual expenses belong to BUD7; capital purchases and financing movements belong to BUD5.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 28,
+   "awards": 28,
+   "years": 3
+  },
+  {
+   "id": "BUD5",
+   "name_en": "Record forecast capital and financing cash movements",
+   "name_zh": "列报预计投资与筹资现金变动",
+   "definition": "Include asset purchases or disposal receipts, owner contributions, borrowings, net share proceeds and drawings in the forecast period.",
+   "not": "Accounting disposal profit is not disposal cash proceeds. Company journal recording belongs to EQT rather than the cash budget.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 11,
+   "awards": 11,
+   "years": 3
+  },
+  {
+   "id": "BUD6",
+   "name_en": "Calculate and carry cash-budget balances",
+   "name_zh": "计算与结转现金预算余额",
+   "definition": "Use opening cash and the cash movements to obtain a closing balance and carry it correctly into the next period.",
+   "not": "A printed unmarked balance is not an additional award. Interpreting a forecast shortage belongs to BUD9.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 4,
+   "awards": 4,
+   "years": 3
+  },
+  {
+   "id": "BUD7",
+   "name_en": "Prepare a budgeted income statement",
+   "name_zh": "编制预计利润表",
+   "definition": "Estimate accrual sales, income, expenses and tax for the forecast reporting period and prepare the budgeted profit statement.",
+   "not": "Cash collection and payment timing alone belongs to BUD2–BUD5; historical external statements belong to STM.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 47,
+   "awards": 47,
+   "years": 2
+  },
+  {
+   "id": "BUD8",
+   "name_en": "Interpret performance reports and budget variances",
+   "name_zh": "解释业绩报告与预算差异",
+   "definition": "Compare actual and budget figures, distinguish favourable from unfavourable changes and explain causes or a management response.",
+   "not": "Standard material and labour variance calculations belong to CST; forecasting the original budget belongs to BUD2–BUD7.",
+   "operations": [
+    "identify",
+    "compare",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 12,
+   "awards": 7,
+   "years": 2
+  },
+  {
+   "id": "BUD9",
+   "name_en": "Interpret a cash budget and recommend action",
+   "name_zh": "解释现金预算并建议应对措施",
+   "definition": "Explain forecast shortages, surpluses or spending patterns and recommend a case-linked financing or cash-management response.",
+   "not": "Naming a financial product without a budget implication belongs to FIN2. Historic ratio interpretation belongs to RAT.",
+   "operations": [
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 12.0,
+   "awards": 9,
+   "years": 2
+  },
+  {
+   "id": "BUD10",
+   "name_en": "Evaluate business planning and stakeholder consequences",
+   "name_zh": "评价企业规划与利益相关者影响",
+   "definition": "Explain goals, resource allocation, costs, risks or stakeholder effects of the stated business decision using case evidence.",
+   "not": "Generic use of the word sustainability does not establish climate-disclosure coverage. Numerical segment-closure analysis belongs to CVP8.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 21.0,
+   "awards": 11,
+   "years": 3
+  },
+  {
+   "id": "BUD11",
+   "name_en": "Apply cost leadership and differentiation strategies",
+   "name_zh": "应用成本领先与差异化战略",
+   "definition": "Identify, explain or recommend cost leadership or differentiation in relation to the stated business case.",
+   "not": "A numerical cost saving alone is not a strategy explanation. Removed generic strategy lists are not assumed current requirements.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 10,
+   "awards": 7,
+   "years": 5
+  },
+  {
+   "id": "BUD12",
+   "name_en": "Prepare a budget performance report",
+   "name_zh": "编制预算业绩报告",
+   "definition": "Prepare a cash-budget or budgeted-income performance report comparing actual and budget figures and calculating the required variances.",
+   "not": "Explaining causes or management responses belongs to BUD8. The 2020–2025 selected award evidence does not establish a separate preparation award.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": false,
+   "marks": 0,
+   "awards": 0,
+   "years": 0
+  },
+  {
+   "id": "INV1",
+   "name_en": "Estimate relevant investment cash flows",
+   "name_zh": "估算相关投资现金流",
+   "definition": "Calculate project receipts, cash costs and capital outlays, removing non-cash depreciation and applying the specified income-tax effects to obtain relevant after-tax cash flows.",
+   "not": "Preparing a company-wide historical cash-flow statement belongs to CSH. Discounting identified amounts belongs to INV3.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 41,
+   "awards": 41,
+   "years": 4
+  },
+  {
+   "id": "INV2",
+   "name_en": "Calculate the payback period",
+   "name_zh": "计算投资回收期",
+   "definition": "Accumulate undiscounted project net cash flows, find unrecovered investment and convert the recovery fraction into the requested time units.",
+   "not": "The inputs themselves belong to INV1; investment acceptance or a comparison with a payback limit belongs to INV4.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 12,
+   "awards": 12,
+   "years": 4
+  },
+  {
+   "id": "INV3",
+   "name_en": "Discount project cash flows and calculate NPV",
+   "name_zh": "折现项目现金流并计算净现值",
+   "definition": "Apply appropriate single-sum or annuity factors to dated inflows and outflows and compare their present values to calculate net present value.",
+   "not": "Initial and residual cash-flow selection belongs to INV1. A positive-NPV recommendation belongs to INV4.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 27,
+   "awards": 27,
+   "years": 6
+  },
+  {
+   "id": "INV4",
+   "name_en": "Recommend an investment using appraisal results",
+   "name_zh": "依据评估结果提出投资建议",
+   "definition": "Choose or justify acceptance or a project alternative using NPV, payback and the decision constraints stated.",
+   "not": "The greatest undiscounted receipt is not automatically the preferred project. Non-financial factors belong to INV5.",
+   "operations": [
+    "identify",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 22,
+   "awards": 13,
+   "years": 6
+  },
+  {
+   "id": "INV5",
+   "name_en": "Evaluate non-financial investment factors",
+   "name_zh": "评价投资的非财务因素",
+   "definition": "Identify and explain relevant non-financial considerations such as consumer preferences, competition or regulation and connect them to the capital-investment case.",
+   "not": "A financial NPV or payback comparison belongs to INV4. Legal regulator identification belongs to GOV1.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 14,
+   "awards": 7,
+   "years": 4
+  },
+  {
+   "id": "INV6",
+   "name_en": "Explain capital investment and time value of money",
+   "name_zh": "解释资本投资与货币时间价值",
+   "definition": "Explain the nature and importance of long-term asset investment or why cash flows at different times have different present values.",
+   "not": "Numerical discounting belongs to INV3; choosing a project from calculated results belongs to INV4.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 13,
+   "awards": 5,
+   "years": 3
+  },
+  {
+   "id": "FRM1",
+   "name_en": "Explain company structures and capital-raising requirements",
+   "name_zh": "解释公司形式与筹资要求",
+   "definition": "Identify or compare company characteristics, ownership rights, liability and the capital-raising requirements asked for in the question.",
+   "not": "Journal entries and share-application ledgers belong to EQT. Prospectus requirements follow the course scenario rather than a universal legal obligation for every company.",
+   "operations": [
+    "identify",
+    "compare",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 31.0,
+   "awards": 16,
+   "years": 6
+  },
+  {
+   "id": "FRM2",
+   "name_en": "Explain company formation and internal rules",
+   "name_zh": "解释公司设立与内部规则",
+   "definition": "Explain the formation requirements or the purpose and use of a written constitution and replaceable rules.",
+   "not": "Identifying reporting regulators belongs to GOV. Insolvency procedures also belong to GOV.",
+   "operations": [
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 6,
+   "awards": 2,
+   "years": 1
+  },
+  {
+   "id": "FRM3",
+   "name_en": "Identify reporting entities and general-purpose reporting requirements",
+   "name_zh": "识别报告主体与通用财务报告要求",
+   "definition": "Identify the reporting entity, external users and reporting objective, or distinguish the reporting requirements applying to the entities in the task.",
+   "not": "The qualities of information belong to FRM4; preparing a particular statement belongs to STM or CSH.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain",
+    "compare"
+   ],
+   "examined": true,
+   "marks": 15,
+   "awards": 10,
+   "years": 5
+  },
+  {
+   "id": "FRM4",
+   "name_en": "Apply qualitative characteristics of financial information",
+   "name_zh": "应用财务信息的质量特征",
+   "definition": "Identify, describe or apply fundamental and enhancing qualitative characteristics to the information being reported.",
+   "not": "Do not replace an asset-definition or recognition argument with a list of qualities; that task is FRM5.",
+   "operations": [
+    "identify",
+    "describe",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 7,
+   "awards": 5,
+   "years": 3
+  },
+  {
+   "id": "FRM5",
+   "name_en": "Apply financial-element definitions and recognition",
+   "name_zh": "应用报表要素定义与确认条件",
+   "definition": "Use the applicable Conceptual Framework element definition and recognition reasoning to decide how the item should be reported.",
+   "not": "Routine balance-day arithmetic belongs to STM; historical terminology must be checked against the applicable framework.",
+   "operations": [
+    "identify",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 4,
+   "awards": 2,
+   "years": 2
+  },
+  {
+   "id": "FRM6",
+   "name_en": "Explain the purposes of accounting standards",
+   "name_zh": "解释会计准则的作用",
+   "definition": "Explain how accounting standards support external users, comparable reporting, confidence or reporting duties.",
+   "not": "A question asking which statutory body performs a role belongs to GOV. Calculating a statement item does not earn this pattern.",
+   "operations": [
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 23.0,
+   "awards": 9,
+   "years": 3
+  },
+  {
+   "id": "FRM7",
+   "name_en": "Explain the accountant role in business operations",
+   "name_zh": "解释会计人员在企业经营中的职责",
+   "definition": "Describe an accountant responsibility in information collection, analysis, control, advice or reporting compliance.",
+   "not": "An employee complying with regulation is not the regulator: identification of ASIC or other reporting bodies belongs to GOV.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 12,
+   "awards": 5,
+   "years": 2
+  },
+  {
+   "id": "FRM8",
+   "name_en": "Compare internal and external reporting",
+   "name_zh": "比较内部与外部报告要求",
+   "definition": "Compare internal and external reports by format, standards, timing, scope, users or audit requirements.",
+   "not": "A simple identification of management versus financial accounting is FIN1; a cash/accrual comparison is FRM9.",
+   "operations": [
+    "compare",
+    "describe"
+   ],
+   "examined": true,
+   "marks": 3.0,
+   "awards": 5,
+   "years": 1
+  },
+  {
+   "id": "FRM9",
+   "name_en": "Distinguish cash and accrual accounting",
+   "name_zh": "区分现金制与权责发生制",
+   "definition": "Explain or illustrate the difference between cash timing and accrual recognition of income or expenses.",
+   "not": "Applying an adjustment while preparing a budget is BUD; preparing a financial statement adjustment is STM.",
+   "operations": [
+    "identify",
+    "compare",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 5,
+   "awards": 3,
+   "years": 2
+  },
+  {
+   "id": "EQT1",
+   "name_en": "Journalise share applications and allotment",
+   "name_zh": "编制股份申请与配售分录",
+   "definition": "Calculate share receipts and journalise receipt and allotment through applications, bank and ordinary share capital, with required narration.",
+   "not": "Posting named ledger accounts belongs to EQT2. Payment and transfer of share issue costs belong to EQT3. Share-receipt calculations inside a named-ledger part belong to EQT2.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 13,
+   "awards": 13,
+   "years": 2
+  },
+  {
+   "id": "EQT2",
+   "name_en": "Post share receipts and allotment in ledgers",
+   "name_zh": "在总账中登记股份收款与配售",
+   "definition": "Complete the bank, applications and ordinary share capital ledgers for the share issue, preserving the account viewpoint and debit or credit side.",
+   "not": "An entry is described from the account being completed. Do not reverse it by using the counterpart account viewpoint; issue costs belong to EQT3.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 11,
+   "awards": 11,
+   "years": 2
+  },
+  {
+   "id": "EQT3",
+   "name_en": "Record and transfer share issue costs",
+   "name_zh": "登记与转销股份发行费用",
+   "definition": "Journalise or post the cash payment of share issue costs and their transfer against share capital where requested.",
+   "not": "An expense charge is not substituted for the specified equity treatment. Disclosure in statements or notes belongs to EQT7–EQT8.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 14,
+   "awards": 14,
+   "years": 5
+  },
+  {
+   "id": "EQT4",
+   "name_en": "Calculate and record a bonus share issue",
+   "name_zh": "计算与登记红股发行",
+   "definition": "Determine shares eligible for a bonus issue, apply its ratio and value, and record or explain the reserve funding of the issue.",
+   "not": "A bonus issue does not create cash receipts. Reporting a set of equity movements in a statement belongs to EQT7.",
+   "operations": [
+    "calculate",
+    "show-working",
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 12,
+   "awards": 10,
+   "years": 1
+  },
+  {
+   "id": "EQT5",
+   "name_en": "Calculate and record declared or paid dividends",
+   "name_zh": "计算与登记已宣告或已支付的股息",
+   "definition": "Calculate the dividend from eligible shares and the stated rate and record declaration or payment through retained earnings, payable and bank.",
+   "not": "Recommendation alone is not an active current journal requirement. Investor dividend-yield calculations belong to RAT5.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 12,
+   "awards": 10,
+   "years": 4
+  },
+  {
+   "id": "EQT6",
+   "name_en": "Complete the retained earnings ledger",
+   "name_zh": "完成留存收益总账",
+   "definition": "Post opening retained earnings, profit, dividends and reserve transfers and calculate the closing ledger balance.",
+   "not": "Disclosure across all equity columns belongs to EQT7; the original profit calculation belongs to STM.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 7,
+   "awards": 7,
+   "years": 2
+  },
+  {
+   "id": "EQT7",
+   "name_en": "Prepare the statement of changes in equity",
+   "name_zh": "编制权益变动表",
+   "definition": "Prepare the equity-column reconciliation for opening balances, profit, dividends, cash or bonus shares, issue costs, revaluation and reserve transfers.",
+   "not": "Transfers between equity components are not new income or new total equity. Stand-alone ledger recording belongs to EQT1–EQT6.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 41,
+   "awards": 41,
+   "years": 4
+  },
+  {
+   "id": "EQT8",
+   "name_en": "Prepare equity and dividend disclosures",
+   "name_zh": "编制权益与股息披露",
+   "definition": "Present share counts, issue prices, net share capital, reserves and dividend amounts or rates in the requested financial-statement notes.",
+   "not": "Notes are distinct from ledger postings and do not automatically award every unmarked balance. Non-equity asset disclosures belong to STM8.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 16,
+   "awards": 16,
+   "years": 2
+  },
+  {
+   "id": "STM1",
+   "name_en": "Prepare profit and comprehensive income",
+   "name_zh": "编制利润及综合收益报表",
+   "definition": "Present net sales, cost of sales, income and expense components in the required single-statement format for the reporting period.",
+   "not": "Depreciation, allowance, tax and revaluation calculations belong to STM3–STM6. Forecast profit belongs to BUD7; the 2027 statement-title discrepancy is documented.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 27,
+   "awards": 27,
+   "years": 3
+  },
+  {
+   "id": "STM2",
+   "name_en": "Prepare and classify the financial position",
+   "name_zh": "编制财务状况表并分类列报",
+   "definition": "Select and calculate current or non-current assets, liabilities and equity for the statement of financial position, including net balances.",
+   "not": "Element definitions and recognition arguments belong to FRM5. Separate asset notes belong to STM8.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 20,
+   "awards": 20,
+   "years": 2
+  },
+  {
+   "id": "STM3",
+   "name_en": "Calculate depreciation for the reporting period",
+   "name_zh": "计算报告期折旧",
+   "definition": "Apply straight-line or reducing-balance depreciation to the correct cost or carrying amount and the required fraction of the reporting period.",
+   "not": "Merely displaying an already calculated accumulated balance belongs to STM8 or STM2. Removing non-cash expense for cash flow belongs to INV1 or CSH.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 16,
+   "awards": 16,
+   "years": 3
+  },
+  {
+   "id": "STM4",
+   "name_en": "Calculate doubtful debts through the allowance",
+   "name_zh": "通过备抵账户计算坏账费用",
+   "definition": "Reconcile opening allowance, bad debt write-offs and closing required allowance to determine doubtful debts expense.",
+   "not": "Deducting an already supplied allowance from receivables belongs to STM2; do not equate write-offs with the full period expense.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 3,
+   "awards": 3,
+   "years": 1
+  },
+  {
+   "id": "STM5",
+   "name_en": "Calculate income tax and after-tax profit",
+   "name_zh": "计算所得税与税后利润",
+   "definition": "Use the relevant profit-before-tax amount and rate to calculate income tax and after-tax profit where required.",
+   "not": "A source arithmetic typo is recorded rather than reproduced as a new mark; historical cash tax payment belongs to CSH6.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 5,
+   "awards": 5,
+   "years": 3
+  },
+  {
+   "id": "STM6",
+   "name_en": "Calculate and present revaluation gains",
+   "name_zh": "计算与列报重估增值",
+   "definition": "Use the specified asset value and carrying amount to calculate or present a revaluation gain in the asset or comprehensive-income report.",
+   "not": "An equity-reserve movement belongs to EQT7; routine cost and accumulated-depreciation notes belong to STM8.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 5,
+   "awards": 5,
+   "years": 3
+  },
+  {
+   "id": "STM7",
+   "name_en": "Identify and explain financial statements",
+   "name_zh": "识别与解释财务报表",
+   "definition": "Identify a company statement and explain the information it communicates to the user specified.",
+   "not": "A detailed ratio argument belongs to RAT; a statement calculation belongs to the applicable preparation pattern.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 4,
+   "awards": 2,
+   "years": 1
+  },
+  {
+   "id": "STM8",
+   "name_en": "Prepare property, plant and equipment notes",
+   "name_zh": "编制不动产、厂房与设备附注",
+   "definition": "Present asset cost or revalued amount and accumulated depreciation in the requested asset disclosures.",
+   "not": "New depreciation calculations belong to STM3; share, reserve and dividend disclosures belong to EQT8.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 12,
+   "awards": 12,
+   "years": 2
+  },
+  {
+   "id": "STM9",
+   "name_en": "Apply balance-day and expense classifications",
+   "name_zh": "应用期末调整与费用分类",
+   "definition": "Identify or apply the accrual, prepayment, income-in-advance or expense classification required by a balance-day adjustment.",
+   "not": "Historical cost of a preliminary item is not automatically an asset. Element-recognition reasoning belongs to FRM5; forecast adjustments belong to BUD7.",
+   "operations": [
+    "identify",
+    "calculate",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 2,
+   "awards": 2,
+   "years": 2
+  },
+  {
+   "id": "CSH1",
+   "name_en": "Explain cash and cash equivalents",
+   "name_zh": "解释现金与现金等价物",
+   "definition": "Identify or explain cash and qualifying cash equivalents and provide an example consistent with the liquidity, maturity and risk conditions.",
+   "not": "Physical notes and coins are cash rather than removed finance-product notes. A deposit or overdraft is not universally a cash equivalent without the relevant conditions.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 13,
+   "awards": 9,
+   "years": 4
+  },
+  {
+   "id": "CSH2",
+   "name_en": "Reconcile cash received from customers",
+   "name_zh": "调节客户现金收款",
+   "definition": "Reconcile opening and closing receivables with credit sales, returns, discounts and write-offs as given, then include cash sales where required.",
+   "not": "Forecast collection-lag schedules belong to BUD2; calculating an efficiency ratio belongs to RAT2.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 13,
+   "awards": 13,
+   "years": 3
+  },
+  {
+   "id": "CSH3",
+   "name_en": "Reconcile cash paid to suppliers",
+   "name_zh": "调节供应商现金付款",
+   "definition": "Derive purchases from inventory and cost of sales, then reconcile opening and closing payables to determine supplier cash payments.",
+   "not": "A purchase amount alone is not necessarily cash paid. Forecast payment schedules belong to BUD3.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 15,
+   "awards": 15,
+   "years": 3
+  },
+  {
+   "id": "CSH4",
+   "name_en": "Reconcile other operating cash payments",
+   "name_zh": "调节其他经营现金付款",
+   "definition": "Adjust operating expenses for opening and closing prepayments or accruals and remove relevant non-cash items to obtain cash payments.",
+   "not": "Interest and tax have their own reconciliation patterns CSH5–CSH6. Forecast expense payments belong to BUD4.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 24,
+   "awards": 24,
+   "years": 3
+  },
+  {
+   "id": "CSH5",
+   "name_en": "Calculate interest received and paid",
+   "name_zh": "计算利息收款与付款",
+   "definition": "Determine cash interest receipts or payments using principal and rate or reconcile interest income or expense with accrued balances.",
+   "not": "Accrual interest classification alone belongs to STM1; forecast interest cash belongs to BUD4.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 18,
+   "awards": 18,
+   "years": 5
+  },
+  {
+   "id": "CSH6",
+   "name_en": "Determine cash income tax paid",
+   "name_zh": "确定现金所得税付款",
+   "definition": "Identify or reconcile the cash tax payment reported for the period rather than simply using income tax expense.",
+   "not": "Profit-based income tax calculation belongs to STM5. The accrual and cash values need not agree.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 2,
+   "awards": 2,
+   "years": 2
+  },
+  {
+   "id": "CSH7",
+   "name_en": "Reconcile asset and investment purchase payments",
+   "name_zh": "调节资产与投资购买付款",
+   "definition": "Reconcile relevant asset accounts and exclude revaluations or other non-cash movements to determine cash paid for assets or investments.",
+   "not": "An increase in carrying amount is not automatically a cash purchase. Disposal proceeds belong to CSH8; project appraisal belongs to INV.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 22,
+   "awards": 22,
+   "years": 4
+  },
+  {
+   "id": "CSH8",
+   "name_en": "Determine asset disposal cash proceeds",
+   "name_zh": "确定资产处置现金收入",
+   "definition": "Use asset cost, accumulated depreciation and gain or loss on disposal to determine actual disposal proceeds.",
+   "not": "Disposal gain or loss is not itself the cash receipt; acquiring an asset belongs to CSH7.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 13,
+   "awards": 13,
+   "years": 4
+  },
+  {
+   "id": "CSH9",
+   "name_en": "Reconcile financing cash movements",
+   "name_zh": "调节筹资现金变动",
+   "definition": "Determine cash share proceeds, issue costs, borrowing movements and dividends paid using relevant account reconciliations.",
+   "not": "Bonus issues and reserve transfers do not create cash receipts. Equity statement recording belongs to EQT7.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 16,
+   "awards": 16,
+   "years": 3
+  },
+  {
+   "id": "CSH10",
+   "name_en": "Reconcile opening and closing cash totals",
+   "name_zh": "调节期初与期末现金总额",
+   "definition": "Combine the relevant cash and qualifying equivalent balances for the statement cash reconciliation at each reporting date.",
+   "not": "The examples must satisfy CSH1 conditions rather than treating every term deposit as qualifying.",
+   "operations": [
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 5,
+   "awards": 5,
+   "years": 1
+  },
+  {
+   "id": "CSH11",
+   "name_en": "Explain the benefits of cash-flow information",
+   "name_zh": "解释现金流量信息的用途",
+   "definition": "Identify and explain how cash-flow information helps the specified user evaluate cash generation, obligations, activity or profit-versus-cash differences.",
+   "not": "An actual case-based assessment of reported movements belongs to CSH12; alternative any-N key responses are not extra attainable marks.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 12.0,
+   "awards": 14,
+   "years": 2
+  },
+  {
+   "id": "CSH12",
+   "name_en": "Interpret cash-flow categories and business implications",
+   "name_zh": "解释现金流类别与企业影响",
+   "definition": "Classify or analyse operating, investing and financing cash-flow evidence and explain the business implications of the reported movements.",
+   "not": "Dividend classifications follow the applicable course booklet; do not infer the company generates sufficient cash from profit alone.",
+   "operations": [
+    "identify",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 10,
+   "awards": 3,
+   "years": 1
+  },
+  {
+   "id": "RAT1",
+   "name_en": "Calculate and identify liquidity ratios",
+   "name_zh": "计算与识别流动性比率",
+   "definition": "Identify the formula or what the current or quick asset ratio expresses, or select inputs and calculate it.",
+   "not": "Explaining debt-paying capacity from the results belongs to RAT6; insolvency is GOV6.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 4,
+   "awards": 4,
+   "years": 1
+  },
+  {
+   "id": "RAT2",
+   "name_en": "Calculate and identify efficiency ratios",
+   "name_zh": "计算与识别效率比率",
+   "definition": "Identify what the debtor collection period or inventory turnover measures, or calculate the ratio with suitable average balances and sales or cost inputs.",
+   "not": "Benchmark comparisons and management responses belong to RAT7. A budget collection schedule belongs to BUD.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 10,
+   "awards": 10,
+   "years": 3
+  },
+  {
+   "id": "RAT3",
+   "name_en": "Calculate and identify profitability ratios",
+   "name_zh": "计算与识别盈利能力比率",
+   "definition": "Identify or calculate profit ratio, return on assets or times interest earned using the course formula and required balances.",
+   "not": "Preparing statement profit belongs to STM; predicting a transaction effect on a ratio belongs to RAT10.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 7,
+   "awards": 7,
+   "years": 2
+  },
+  {
+   "id": "RAT4",
+   "name_en": "Calculate and identify financial stability ratios",
+   "name_zh": "计算与识别财务稳健性比率",
+   "definition": "Identify or calculate the debt-to-equity leverage ratio with the course definition.",
+   "not": "Explaining debt exposure and financing consequences belongs to RAT8. Legal creditor priority belongs to GOV6.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 11,
+   "awards": 11,
+   "years": 5
+  },
+  {
+   "id": "RAT5",
+   "name_en": "Calculate and identify market ratios",
+   "name_zh": "计算与识别市场比率",
+   "definition": "Identify or calculate earnings per share, price earnings ratio or dividend yield, including weighted average shares and consistent money units.",
+   "not": "Investor attractiveness belongs to RAT9. The cancelled all-answer item is isolated in RAT12 rather than EPS evidence.",
+   "operations": [
+    "identify",
+    "calculate",
+    "show-working"
+   ],
+   "examined": true,
+   "marks": 23,
+   "awards": 23,
+   "years": 3
+  },
+  {
+   "id": "RAT6",
+   "name_en": "Interpret liquidity and cash constraints",
+   "name_zh": "解释流动性与现金约束",
+   "definition": "Interpret current and quick ratios or supplied cash-position evidence to explain debt-paying capacity and a business financial constraint.",
+   "not": "This is financial analysis, not a legal insolvency determination. Preparing cash movements belongs to CSH or BUD.",
+   "operations": [
+    "identify",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 8,
+   "awards": 3,
+   "years": 2
+  },
+  {
+   "id": "RAT7",
+   "name_en": "Interpret efficiency and recommend management action",
+   "name_zh": "解释效率并提出管理改进",
+   "definition": "Compare debtor collection or inventory turnover with trends or benchmarks, explain the implication and propose an evidence-linked improvement where requested.",
+   "not": "A ratio comparison remains current even when an old question calls the benchmark a KPI; stand-alone obsolete KPI disclosure purposes belong to OUT3.",
+   "operations": [
+    "compare",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 28,
+   "awards": 10,
+   "years": 4
+  },
+  {
+   "id": "RAT8",
+   "name_en": "Interpret financial stability and financing risk",
+   "name_zh": "解释财务稳健性与筹资风险",
+   "definition": "Use debt, leverage or interest-coverage evidence to explain the company financing risk or ability to support a business decision.",
+   "not": "A formula or numerical input alone belongs to RAT4; insolvency procedures belong to GOV.",
+   "operations": [
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 6,
+   "awards": 2,
+   "years": 1
+  },
+  {
+   "id": "RAT9",
+   "name_en": "Evaluate investor appeal and profitability",
+   "name_zh": "评价投资吸引力与盈利表现",
+   "definition": "Interpret market or profitability ratios across periods or benchmarks and explain what they suggest to the decision maker.",
+   "not": "A single ratio result is not a complete investment recommendation. Capital-project appraisal belongs to INV.",
+   "operations": [
+    "compare",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 4,
+   "awards": 1,
+   "years": 1
+  },
+  {
+   "id": "RAT10",
+   "name_en": "Predict transaction effects on financial ratios",
+   "name_zh": "预测交易对财务比率的影响",
+   "definition": "Trace how a specified transaction changes numerator, denominator or both to determine the direction of a ratio change.",
+   "not": "Do not infer direction from a numerator alone when the denominator also changes. Routine ledger recording belongs to EQT or STM.",
+   "operations": [
+    "identify",
+    "calculate",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 2,
+   "awards": 2,
+   "years": 2
+  },
+  {
+   "id": "RAT11",
+   "name_en": "Explain limitations of financial analysis",
+   "name_zh": "解释财务分析的局限",
+   "definition": "Explain a limitation of financial information, ratios or comparisons and connect it to the decision being made.",
+   "not": "Merely stating an adverse ratio is interpretation in RAT6–RAT9 rather than a limitation of the method.",
+   "operations": [
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 21.0,
+   "awards": 7,
+   "years": 3
+  },
+  {
+   "id": "RAT12",
+   "name_en": "Historical cancelled item: administrative credit",
+   "name_zh": "历史取消题：行政给分",
+   "definition": "Retain the official all-answer record for the cancelled 2021 item, whose missing date prevents an EPS calculation.",
+   "not": "This carries no assessable EPS knowledge or mastery evidence and must be excluded from question generation and diagnostic statistics.",
+   "operations": [
+    "identify"
+   ],
+   "examined": false,
+   "diagnostic": false,
+   "historical_only": true,
+   "marks": 1,
+   "awards": 1,
+   "years": 1
+  },
+  {
+   "id": "GOV1",
+   "name_en": "Identify and explain reporting bodies",
+   "name_zh": "识别并解释财务报告机构的职责",
+   "definition": "Identify or explain the role and importance of ASIC, ASX, AASB, IASB or ISSB in the reporting system.",
+   "not": "The general benefits of standards belong to FRM6; removed FRC or lobby-group requirements belong to OUT4.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 20,
+   "awards": 11,
+   "years": 5
+  },
+  {
+   "id": "GOV2",
+   "name_en": "Apply director duties and shareholder rights",
+   "name_zh": "应用董事义务与股东权利",
+   "definition": "Identify or explain a director duty, shareholder right or the application of company internal rules to a governance situation.",
+   "not": "Company formation and the purpose of constitutions belong to FRM2. Recording shares or dividends belongs to EQT.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 31.0,
+   "awards": 22,
+   "years": 4
+  },
+  {
+   "id": "GOV3",
+   "name_en": "Explain internal audit and control responses",
+   "name_zh": "解释内部审计与控制改进",
+   "definition": "Explain internal audit or identify and describe controls, weaknesses and a business response to an audit finding.",
+   "not": "Cash-management controls specifically assessed for cash liquidity belong to FIN5; external assurance belongs to GOV4.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 19.0,
+   "awards": 12,
+   "years": 3
+  },
+  {
+   "id": "GOV4",
+   "name_en": "Explain external audit and stakeholder assurance",
+   "name_zh": "解释外部审计与利益相关者的鉴证需求",
+   "definition": "Explain the independent external auditor role, report reliability and confidence for external users or capital markets.",
+   "not": "Internal process review belongs to GOV3. Historical appointment mechanics are not assumed current syllabus requirements.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 16.0,
+   "awards": 7,
+   "years": 4
+  },
+  {
+   "id": "GOV5",
+   "name_en": "Evaluate ethical financial conduct",
+   "name_zh": "评价财务活动中的伦理行为",
+   "definition": "Identify and explain an ethical issue in financial dealings, linking conduct to affected people and consequences.",
+   "not": "Do not classify a numerical variance as an ethical issue without an assessed conduct argument. Old CSR disclosure requirements belong to OUT1.",
+   "operations": [
+    "identify",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 14,
+   "awards": 4,
+   "years": 2
+  },
+  {
+   "id": "GOV6",
+   "name_en": "Explain insolvency and creditor priority",
+   "name_zh": "解释无力偿债与债权受偿顺序",
+   "definition": "Identify insolvency as inability to pay debts when due or explain the priority of claims in the course scenario.",
+   "not": "A poor liquidity ratio alone does not establish legal insolvency. The specific recovery procedures belong to GOV7–GOV9.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "marks": 4,
+   "awards": 3,
+   "years": 3
+  },
+  {
+   "id": "GOV7",
+   "name_en": "Explain voluntary administration",
+   "name_zh": "解释自愿托管",
+   "definition": "Explain the administration process and its purpose in investigating and resolving company financial difficulties.",
+   "not": "Secured-asset recovery belongs to GOV8; winding up belongs to GOV9.",
+   "operations": [
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 7,
+   "awards": 2,
+   "years": 2
+  },
+  {
+   "id": "GOV8",
+   "name_en": "Explain receivership",
+   "name_zh": "解释接管",
+   "definition": "Explain a receiver realising secured assets for repayment to the secured creditor under the scenario.",
+   "not": "Do not treat receivership as an automatic whole-company liquidation, which belongs to GOV9.",
+   "operations": [
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 7,
+   "awards": 2,
+   "years": 2
+  },
+  {
+   "id": "GOV9",
+   "name_en": "Explain liquidation",
+   "name_zh": "解释清算",
+   "definition": "Explain winding up a company, realising assets and addressing creditor claims under the stated procedure.",
+   "not": "The rescue or investigation purpose of administration belongs to GOV7; a stand-alone ranking of claims belongs to GOV6.",
+   "operations": [
+    "describe",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "marks": 7,
+   "awards": 2,
+   "years": 2
+  },
+  {
+   "id": "GOV10",
+   "name_en": "Recognise climate risks, opportunities and emissions scopes",
+   "name_zh": "识别气候风险、机会与排放范围",
+   "definition": "Identify or explain the current syllabus climate-related risks and opportunities and distinguish its emissions scopes.",
+   "not": "Historical generic CSR discussion is not evidence that a climate-scope award was examined. Disclosure pillars belong to GOV11.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain",
+    "compare"
+   ],
+   "examined": false,
+   "marks": 0,
+   "awards": 0,
+   "years": 0
+  },
+  {
+   "id": "GOV11",
+   "name_en": "Explain AASB S2 disclosure pillars",
+   "name_zh": "解释 AASB S2 的披露支柱",
+   "definition": "Explain or classify governance, strategy, risk management and metrics and targets in the syllabus climate-related disclosure framework.",
+   "not": "Do not invent emissions calculations or infer current AASB S2 coverage from old CSR requirements in OUT1.",
+   "operations": [
+    "identify",
+    "describe",
+    "explain"
+   ],
+   "examined": false,
+   "marks": 0,
+   "awards": 0,
+   "years": 0
+  },
+  {
+   "id": "GOV12",
+   "name_en": "Evaluate sustainability reporting claims",
+   "name_zh": "评价可持续性报告声明",
+   "definition": "Interpret a reporting entity sustainability disclosures and evaluate evidence of greenwashing or bluewashing.",
+   "not": "The superseded list of difficulties producing generic CSR disclosures belongs to OUT1; disclosure-pillar identification belongs to GOV11.",
+   "operations": [
+    "identify",
+    "explain",
+    "evaluate"
+   ],
+   "examined": false,
+   "marks": 0,
+   "awards": 0,
+   "years": 0
+  },
+  {
+   "id": "OUT1",
+   "name_en": "Explain historical corporate social-disclosure requirements",
+   "name_zh": "解释旧大纲的企业社会披露要求",
+   "definition": "Answer a standalone historical requirement on corporate social-disclosure examples, users, purposes or preparation difficulties that the current syllabus has removed or replaced.",
+   "not": "Current climate-risk, AASB S2 or sustainability-report interpretation belongs to GOV. A social context alone does not make an award historical.",
+   "operations": [
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "historical_only": true,
+   "marks": 18.0,
+   "awards": 10,
+   "years": 3
+  },
+  {
+   "id": "OUT2",
+   "name_en": "Evaluate historical responsible-practice costs and income",
+   "name_zh": "评价旧大纲的责任实践成本与收入",
+   "definition": "Answer the historical standalone requirement about costs and potential income from socially or environmentally responsible business practices.",
+   "not": "Do not classify ordinary cost calculations or current climate-related opportunity analysis here solely because a responsible-business context is present.",
+   "operations": [
+    "identify",
+    "explain",
+    "evaluate"
+   ],
+   "examined": true,
+   "historical_only": true,
+   "marks": 8,
+   "awards": 3,
+   "years": 2
+  },
+  {
+   "id": "OUT3",
+   "name_en": "Explain historical annual-report and standalone KPI purposes",
+   "name_zh": "解释旧大纲的年报与独立KPI用途",
+   "definition": "Explain the superseded standalone annual-report or KPI-purpose requirement, including generic accountability and decision-making roles.",
+   "not": "Interpreting an actual efficiency ratio against a benchmark remains RAT; master-budget control remains BUD even when an old question uses the term KPI.",
+   "operations": [
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "historical_only": true,
+   "marks": 8,
+   "awards": 3,
+   "years": 1
+  },
+  {
+   "id": "OUT4",
+   "name_en": "Explain historical reporting institutions",
+   "name_zh": "解释旧大纲的报告机构",
+   "definition": "Explain a reporting institution or lobby-group requirement explicitly removed from the current reporting-body list.",
+   "not": "ASIC, IASB, ISSB, AASB and ASX roles listed in the current syllabus belong to GOV.",
+   "operations": [
+    "describe",
+    "explain"
+   ],
+   "examined": true,
+   "historical_only": true,
+   "marks": 4,
+   "awards": 1,
+   "years": 1
+  },
+  {
+   "id": "OUT5",
+   "name_en": "Recognise superseded named financing products",
+   "name_zh": "识别已被替换的融资产品",
+   "definition": "Recognise specifically superseded financing notes or trust products when historical practice is requested.",
+   "not": "Underlying unsecured borrowing may remain FIN; physical notes and coins are cash, and notes to financial statements remain STM.",
+   "operations": [
+    "identify",
+    "describe"
+   ],
+   "examined": false,
+   "historical_only": true,
+   "marks": 0,
+   "awards": 0,
+   "years": 0
+  },
+  {
+   "id": "OUT6",
+   "name_en": "Recognise historical recommended-dividend treatment",
+   "name_zh": "识别历史建议股利处理",
+   "definition": "Recognise the historical recommendation-only dividend requirement when explicitly practising superseded content.",
+   "not": "Declared or paid dividends remain EQT; a recommendation alone is not a current dividend declaration entry.",
+   "operations": [
+    "identify",
+    "describe"
+   ],
+   "examined": false,
+   "historical_only": true,
+   "marks": 0,
+   "awards": 0,
+   "years": 0
+  }
+ ],
+ "knowledge": [
+  {
+   "id": "FIN.K1",
+   "name_en": "Management accounting",
+   "name_zh": "管理会计",
+   "definition": "Accounting information prepared to support internal planning, control and decisions.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K2",
+   "name_en": "Financial accounting",
+   "name_zh": "财务会计",
+   "definition": "Accounting information prepared for external financial reporting.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K3",
+   "name_en": "Short-term financing",
+   "name_zh": "短期融资",
+   "definition": "Funding intended to meet needs over a short financing period.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K4",
+   "name_en": "Long-term financing",
+   "name_zh": "长期融资",
+   "definition": "Funding intended to support needs extending beyond the short financing period.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K5",
+   "name_en": "Secured borrowing",
+   "name_zh": "有担保借款",
+   "definition": "Borrowing backed by specified security over assets.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K6",
+   "name_en": "Unsecured borrowing",
+   "name_zh": "无担保借款",
+   "definition": "Borrowing without specified asset security; a historic product name need not remain a current syllabus item.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K7",
+   "name_en": "Equity financing",
+   "name_zh": "权益融资",
+   "definition": "Funding supplied through owners or shareholders rather than a repayment obligation to lenders.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K8",
+   "name_en": "Debentures",
+   "name_zh": "债券融资产品",
+   "definition": "A named long-term debt-financing product in the current course product list.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K9",
+   "name_en": "Money-market products",
+   "name_zh": "货币市场产品",
+   "definition": "The current syllabus category of short-term money-market investment products.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K10",
+   "name_en": "Cash management accounts",
+   "name_zh": "现金管理账户",
+   "definition": "Accounts used for short-term cash management in the current syllabus product list.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K11",
+   "name_en": "Term deposits",
+   "name_zh": "定期存款",
+   "definition": "Deposits held for an agreed term; maturity affects short-term or long-term classification.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K12",
+   "name_en": "Asset and finance matching",
+   "name_zh": "资产与融资期限匹配",
+   "definition": "Match the funding structure and period to the assets and operations being supported.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K13",
+   "name_en": "Capital structure",
+   "name_zh": "资本结构",
+   "definition": "The business mix of equity and debt capital required to support its activities.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K14",
+   "name_en": "Liquidity",
+   "name_zh": "流动性",
+   "definition": "Capacity to meet short-term payment obligations from available resources.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K15",
+   "name_en": "Cash-management controls",
+   "name_zh": "现金管理控制",
+   "definition": "Procedures that support reliable recording, protection and planned availability of cash.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K16",
+   "name_en": "Receivables management",
+   "name_zh": "应收款管理",
+   "definition": "Management of customer credit and collection to support business operations and cash availability.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K17",
+   "name_en": "Inventory management",
+   "name_zh": "存货管理",
+   "definition": "Management of stock levels in relation to operating needs and funds committed to inventory.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K18",
+   "name_en": "Debt management",
+   "name_zh": "债务管理",
+   "definition": "Management of short- and long-term debt obligations in relation to the business funding and repayment needs.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K19",
+   "name_en": "Non-current asset management",
+   "name_zh": "非流动资产管理",
+   "definition": "Appropriate investment in longer-term assets for the business operating requirements.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K20",
+   "name_en": "Undercapitalisation",
+   "name_zh": "资本不足",
+   "definition": "Insufficient equity capital for the business resource needs and the associated financing or operational risk.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "FIN.K21",
+   "name_en": "Overcapitalisation",
+   "name_zh": "资本过剩",
+   "definition": "An excessive level of capital relative to the business resource requirements under the course scenario.",
+   "syllabus": "2026 syllabus Unit 3, printed pp.8–9; corresponding 2027 Unit 3 content. Use the applicable-year specifications."
+  },
+  {
+   "id": "CST.K1",
+   "name_en": "Cost object",
+   "name_zh": "成本对象",
+   "definition": "The product, batch, department or other object to which costs are related.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K2",
+   "name_en": "Direct costs",
+   "name_zh": "直接成本",
+   "definition": "Costs traceable to the specified cost object under the course scenario.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K3",
+   "name_en": "Indirect costs",
+   "name_zh": "间接成本",
+   "definition": "Costs requiring allocation to the specified cost object.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K4",
+   "name_en": "Product costs",
+   "name_zh": "产品成本",
+   "definition": "Manufacturing costs assigned to products under the course classification.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K5",
+   "name_en": "Period costs",
+   "name_zh": "期间成本",
+   "definition": "Costs treated as expenses of the period rather than manufacturing product costs.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K6",
+   "name_en": "Fixed cost behaviour",
+   "name_zh": "固定成本性态",
+   "definition": "Total cost remaining fixed within the stated relevant activity range.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K7",
+   "name_en": "Variable cost behaviour",
+   "name_zh": "变动成本性态",
+   "definition": "Total cost varying with activity under the stated relationship.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K8",
+   "name_en": "Mixed cost behaviour",
+   "name_zh": "混合成本性态",
+   "definition": "A cost containing fixed and activity-dependent variable components within the stated range.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K9",
+   "name_en": "Past costs",
+   "name_zh": "历史成本",
+   "definition": "Costs already incurred rather than future decision consequences.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K10",
+   "name_en": "Future costs",
+   "name_zh": "未来成本",
+   "definition": "Costs expected in future activity and relevant to planning under the task.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K11",
+   "name_en": "Direct materials cost",
+   "name_zh": "直接材料成本",
+   "definition": "Material quantity multiplied by the applicable price and allocated to the required production basis.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K12",
+   "name_en": "Direct labour cost",
+   "name_zh": "直接人工成本",
+   "definition": "Labour time multiplied by the applicable rate and allocated to the required production basis.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K13",
+   "name_en": "Manufacturing overhead pool",
+   "name_zh": "制造费用归集",
+   "definition": "Indirect manufacturing costs included in the specified allocation pool.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K14",
+   "name_en": "Overhead allocation base",
+   "name_zh": "制造费用分配基础",
+   "definition": "The hours or other activity measure used to derive and apply the rate.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K15",
+   "name_en": "Overhead recovery rate",
+   "name_zh": "制造费用分配率",
+   "definition": "The overhead pool relative to the specified total allocation base.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K16",
+   "name_en": "Overhead application",
+   "name_zh": "制造费用分配",
+   "definition": "The relevant job or unit activity multiplied by the compatible recovery rate.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K17",
+   "name_en": "Batch and unit costing",
+   "name_zh": "批次与单位成本核算",
+   "definition": "Conversion between total production costs, batches and individual output units.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K18",
+   "name_en": "Actual material price",
+   "name_zh": "实际材料价格",
+   "definition": "The observed price per material input unit.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K19",
+   "name_en": "Standard material price",
+   "name_zh": "标准材料价格",
+   "definition": "The specified benchmark price per material input unit.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K20",
+   "name_en": "Actual material quantity",
+   "name_zh": "实际材料数量",
+   "definition": "The observed input quantity used in the variance comparison.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K21",
+   "name_en": "Standard quantity allowed",
+   "name_zh": "允许标准用量",
+   "definition": "The benchmark input quantity for the actual output produced.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K22",
+   "name_en": "Actual labour rate",
+   "name_zh": "实际人工工资率",
+   "definition": "The observed labour cost per hour.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K23",
+   "name_en": "Standard labour rate",
+   "name_zh": "标准人工工资率",
+   "definition": "The specified benchmark labour cost per hour.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K24",
+   "name_en": "Actual labour hours",
+   "name_zh": "实际人工工时",
+   "definition": "The observed labour time used in the variance comparison.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K25",
+   "name_en": "Standard hours allowed",
+   "name_zh": "允许标准工时",
+   "definition": "The benchmark labour time for actual output, possibly derived from standard labour cost.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K26",
+   "name_en": "Variance favourability",
+   "name_zh": "差异有利性",
+   "definition": "Whether the stated cost difference is favourable or unfavourable under the course convention.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K27",
+   "name_en": "Production-time units",
+   "name_zh": "生产时间单位",
+   "definition": "Consistent conversion between minutes, hours and periods in cost calculations.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CST.K28",
+   "name_en": "Mark-up on cost",
+   "name_zh": "成本加成",
+   "definition": "An increment expressed relative to the stated cost base when determining selling price, distinguished from margin on sales.",
+   "syllabus": "2026 syllabus Unit 3 cost accounting, printed pp.8–9; corresponding 2027 pp.7–8. Historical rate bases and price/variance conventions follow the original question and booklet."
+  },
+  {
+   "id": "CVP.K1",
+   "name_en": "Unit contribution margin",
+   "name_zh": "单位边际贡献",
+   "definition": "Selling price less the relevant variable cost per unit.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K2",
+   "name_en": "Contribution margin ratio",
+   "name_zh": "边际贡献率",
+   "definition": "Contribution relative to sales under the stated units and basis.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K3",
+   "name_en": "Sales or activity mix",
+   "name_zh": "销售或活动组合",
+   "definition": "The product or segment proportion of the specified common activity base.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K4",
+   "name_en": "Weighted contribution margin",
+   "name_zh": "加权边际贡献",
+   "definition": "The sum of product contribution multiplied by the corresponding product mix.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K5",
+   "name_en": "Break-even point",
+   "name_zh": "盈亏平衡点",
+   "definition": "The sales level at which contribution exactly covers the relevant fixed costs.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K6",
+   "name_en": "Target-profit sales",
+   "name_zh": "目标利润销量",
+   "definition": "The sales level needed for contribution to cover fixed costs and the specified target profit.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K7",
+   "name_en": "Margin of safety",
+   "name_zh": "安全边际",
+   "definition": "Actual or planned sales exceeding the break-even level in the required units or percentage.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K8",
+   "name_en": "Relevant costs",
+   "name_zh": "相关成本",
+   "definition": "Future costs that differ between the alternatives being assessed.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K9",
+   "name_en": "Incremental revenue",
+   "name_zh": "增量收入",
+   "definition": "The additional revenue attributable to the decision being assessed.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K10",
+   "name_en": "Incremental fixed costs",
+   "name_zh": "增量固定成本",
+   "definition": "Fixed costs that change because of the decision rather than merely being allocated differently.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K11",
+   "name_en": "Opportunity cost",
+   "name_zh": "机会成本",
+   "definition": "The contribution or other benefit sacrificed by selecting an alternative.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K12",
+   "name_en": "Avoidable costs",
+   "name_zh": "可避免成本",
+   "definition": "Costs that cease or fall under the proposed alternative.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K13",
+   "name_en": "Unavoidable allocated costs",
+   "name_zh": "不可避免的分摊成本",
+   "definition": "Assigned costs that remain for the business despite the proposed decision.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K14",
+   "name_en": "Special-order decision",
+   "name_zh": "特殊订单决策",
+   "definition": "Comparison of the order incremental benefit and relevant costs under the capacity conditions.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K15",
+   "name_en": "Make-or-buy decision",
+   "name_zh": "自制或外购决策",
+   "definition": "Comparison of relevant component production and purchase alternatives.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K16",
+   "name_en": "Segment contribution",
+   "name_zh": "部门边际贡献",
+   "definition": "The revenue and relevant costs of the identified business segment.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K17",
+   "name_en": "Closure decision",
+   "name_zh": "关闭部门决策",
+   "definition": "The whole-business profit consequences of removing a segment and its avoidable costs.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K18",
+   "name_en": "Cost-volume-profit relationships",
+   "name_zh": "本量利关系",
+   "definition": "The relationship between activity, selling prices, cost behaviour and profit.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K19",
+   "name_en": "Total contribution",
+   "name_zh": "总边际贡献",
+   "definition": "Total sales revenue less total variable costs, or unit contribution multiplied by activity under the stated conditions.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "CVP.K20",
+   "name_en": "Cost-volume-profit equation",
+   "name_zh": "本量利方程",
+   "definition": "Profit equals activity multiplied by selling price less unit variable cost, less total fixed costs, under the model assumptions.",
+   "syllabus": "2026 syllabus Unit 3 cost-volume-profit analysis, printed pp.8–10; corresponding 2027 printed pp.7–9. Relevant-cost decisions include special orders, make-or-buy and closure."
+  },
+  {
+   "id": "BUD.K1",
+   "name_en": "Master budget",
+   "name_zh": "全面预算",
+   "definition": "The coordinated set of operating, capital expenditure and financial budgets.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K2",
+   "name_en": "Operating budget",
+   "name_zh": "经营预算",
+   "definition": "Forecasts of operating activity supporting the master budget.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K3",
+   "name_en": "Capital expenditure budget",
+   "name_zh": "资本支出预算",
+   "definition": "Forecasts of planned asset acquisition and related capital payments.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K4",
+   "name_en": "Financial budget",
+   "name_zh": "财务预算",
+   "definition": "Forecast financial statements and financing or cash positions in the master budget.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K5",
+   "name_en": "Budgeted income statement",
+   "name_zh": "预计利润表",
+   "definition": "The forecast accrual income and expenses of the reporting period.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K6",
+   "name_en": "Cash budget",
+   "name_zh": "现金预算",
+   "definition": "Forecast cash receipts and payments and the resulting cash positions.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K7",
+   "name_en": "Customer collection schedule",
+   "name_zh": "客户收款计划",
+   "definition": "The application of credit-sales collection percentages, delays and discounts to forecast periods.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K8",
+   "name_en": "Creditor payment schedule",
+   "name_zh": "供应商付款计划",
+   "definition": "The application of purchase payment terms to forecast cash payments.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K9",
+   "name_en": "Forecast period alignment",
+   "name_zh": "预测期间匹配",
+   "definition": "The allocation of amounts to the specified months or other budget period.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K10",
+   "name_en": "Opening and closing budget cash",
+   "name_zh": "现金预算期初与期末余额",
+   "definition": "The relationship between opening cash, net forecast movements and the next period opening balance.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K11",
+   "name_en": "Forecast cash shortfall",
+   "name_zh": "预计现金短缺",
+   "definition": "A forecast cash position requiring an appropriate timing or funding response.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K12",
+   "name_en": "Forecast cash surplus",
+   "name_zh": "预计现金盈余",
+   "definition": "A forecast excess cash position with implications for management decisions.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K13",
+   "name_en": "Budgetary control",
+   "name_zh": "预算控制",
+   "definition": "Use of budgets and actual outcomes to investigate deviations and manage performance.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K14",
+   "name_en": "Favourable and unfavourable variances",
+   "name_zh": "有利与不利差异",
+   "definition": "The direction of an actual-versus-budget change in relation to its business effect.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K15",
+   "name_en": "Variance explanations",
+   "name_zh": "差异原因解释",
+   "definition": "A context-supported reason for the observed performance-report difference.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K16",
+   "name_en": "Planning and coordination",
+   "name_zh": "规划与协调",
+   "definition": "Use of forecasts and goals to align resources and business activities.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K17",
+   "name_en": "Risk planning",
+   "name_zh": "风险规划",
+   "definition": "Anticipating business risks and preparing a relevant operational or financial response.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K18",
+   "name_en": "Stakeholder effects of plans",
+   "name_zh": "规划对利益相关者的影响",
+   "definition": "The consequences of a business decision for the identified customers, employees, owners or other stakeholders.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K19",
+   "name_en": "Cost leadership",
+   "name_zh": "成本领先",
+   "definition": "A strategy using cost reduction and efficiency to support competitive lower pricing.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K20",
+   "name_en": "Differentiation",
+   "name_zh": "差异化",
+   "definition": "A strategy using valued distinctions in the product or service to compete.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "BUD.K21",
+   "name_en": "Performance-report preparation",
+   "name_zh": "业绩报告编制",
+   "definition": "The tabulation of actual and budget amounts with the corresponding numerical variances for the specified reporting basis.",
+   "syllabus": "2026 syllabus Unit 3 budgets, performance reports and business planning, printed pp.9–11; corresponding 2027 pp.8–10. Cash/accrual and asset knowledge may be assigned from FRM, STM or CSH atoms."
+  },
+  {
+   "id": "INV.K1",
+   "name_en": "Capital investment",
+   "name_zh": "资本投资",
+   "definition": "Commitment of resources to longer-term assets supporting future business operations.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K2",
+   "name_en": "Time value of money",
+   "name_zh": "货币时间价值",
+   "definition": "The difference in value between money available at different times.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K3",
+   "name_en": "Initial project outlay",
+   "name_zh": "项目初始支出",
+   "definition": "Relevant acquisition and installation cash outflows at the specified payment dates.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K4",
+   "name_en": "Project operating cash inflows",
+   "name_zh": "项目经营现金流入",
+   "definition": "Cash receipts and savings attributable to the project in the specified periods.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K5",
+   "name_en": "Project operating cash outflows",
+   "name_zh": "项目经营现金流出",
+   "definition": "Cash costs attributable to the project in the specified periods.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K6",
+   "name_en": "Residual cash flow",
+   "name_zh": "残值现金流",
+   "definition": "The terminal disposal receipt at the end of the stated project life.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K7",
+   "name_en": "Non-cash depreciation adjustment",
+   "name_zh": "非现金折旧调整",
+   "definition": "Removal of depreciation from an accounting expense total to determine cash costs.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K8",
+   "name_en": "Depreciable project cost",
+   "name_zh": "项目折旧成本",
+   "definition": "The acquisition and installation cost less any specified residual amount used with the asset life.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K9",
+   "name_en": "Cumulative cash recovery",
+   "name_zh": "累计现金回收",
+   "definition": "Accumulation of undiscounted cash inflows to recover the project outlay.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K10",
+   "name_en": "Unrecovered investment",
+   "name_zh": "尚未回收的投资",
+   "definition": "The remaining outlay before the period in which payback occurs.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K11",
+   "name_en": "Fractional payback time",
+   "name_zh": "部分年度回收时间",
+   "definition": "The unrecovered amount relative to the cash flow of the recovery period.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K12",
+   "name_en": "Payback rounding",
+   "name_zh": "回收期舍入",
+   "definition": "Conversion and rounding of the recovery fraction under the question instructions.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K13",
+   "name_en": "Single-sum discount factor",
+   "name_zh": "单笔折现因子",
+   "definition": "The factor matching the stated rate and cash-flow date.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K14",
+   "name_en": "Annuity discount factor",
+   "name_zh": "年金折现因子",
+   "definition": "The present-value factor for the specified repeated equal periodic cash flows.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K15",
+   "name_en": "Payment timing",
+   "name_zh": "付款时点",
+   "definition": "The timing of a cash outflow that determines its discounting treatment.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K16",
+   "name_en": "Net present value",
+   "name_zh": "净现值",
+   "definition": "Present value of relevant project inflows less present value of relevant outflows.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K17",
+   "name_en": "Investment acceptance criteria",
+   "name_zh": "投资接受标准",
+   "definition": "Use of the stated NPV, payback or other appraisal constraint in the recommendation.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K18",
+   "name_en": "Comparison of projects",
+   "name_zh": "项目比较",
+   "definition": "Reasoned comparison of alternative project appraisal results under the task conditions.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K19",
+   "name_en": "Competition in investment decisions",
+   "name_zh": "投资决策中的竞争",
+   "definition": "The relevance of competitors and market conditions to the project scenario.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K20",
+   "name_en": "Regulation in investment decisions",
+   "name_zh": "投资决策中的监管",
+   "definition": "The relevance of regulatory requirements to the project scenario.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K21",
+   "name_en": "Consumer preferences in investment decisions",
+   "name_zh": "投资决策中的消费者偏好",
+   "definition": "The relevance of customer needs and preferences to a project investment decision.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K22",
+   "name_en": "Other non-financial investment factors",
+   "name_zh": "其他非财务投资因素",
+   "definition": "Relevant qualitative considerations beyond the numerical appraisal outputs.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K23",
+   "name_en": "After-tax project cash flows",
+   "name_zh": "税后项目现金流",
+   "definition": "The project cash flows after the specified tax treatment, distinguished from accounting profit and non-cash depreciation.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "INV.K24",
+   "name_en": "Tax effects in investment cash flows",
+   "name_zh": "投资现金流中的税收影响",
+   "definition": "The cash tax consequence of the relevant project income and deductions under the specified course assumptions.",
+   "syllabus": "2026 syllabus Unit 3 capital investment, printed pp.9–10; corresponding 2027 pp.8–9. Original information booklets provide the historical discount factors."
+  },
+  {
+   "id": "FRM.K1",
+   "name_en": "Public companies",
+   "name_zh": "公众公司",
+   "definition": "The company form whose ownership and governance characteristics are compared with proprietary companies in the course.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K2",
+   "name_en": "Large proprietary companies",
+   "name_zh": "大型专有公司",
+   "definition": "The proprietary-company category considered alongside public companies in the course reporting requirements.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K3",
+   "name_en": "Separate legal entity",
+   "name_zh": "独立法人",
+   "definition": "The company is treated as an entity distinct from its owners for the company-characteristic argument.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K4",
+   "name_en": "Limited liability",
+   "name_zh": "有限责任",
+   "definition": "The company-characteristic principle distinguishing owners liabilities from the company obligations under the stated circumstances.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K5",
+   "name_en": "Transferability of shares",
+   "name_zh": "股份转让性",
+   "definition": "The ownership-transfer characteristic used when comparing company forms.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K6",
+   "name_en": "Written constitution",
+   "name_zh": "书面公司章程",
+   "definition": "A written set of rules used for the company internal management.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K7",
+   "name_en": "Replaceable rules",
+   "name_zh": "可替代规则",
+   "definition": "The rules referred to by the course when explaining an alternative or supplement to a company constitution.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K8",
+   "name_en": "Company formation",
+   "name_zh": "公司设立",
+   "definition": "The formation requirements and decisions specified by the course question.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K9",
+   "name_en": "Prospectus",
+   "name_zh": "招股说明书",
+   "definition": "The offer-disclosure document named in the current Unit 4 company-formation and operation content; its requirements follow the course scenario.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K10",
+   "name_en": "Reporting entity",
+   "name_zh": "报告主体",
+   "definition": "An entity whose financial information is needed by users for the reporting objective described in the applicable framework.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K11",
+   "name_en": "General-purpose financial reporting",
+   "name_zh": "通用财务报告",
+   "definition": "Financial reporting intended to meet the needs of external users rather than a customised internal report.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K12",
+   "name_en": "External financial-report users",
+   "name_zh": "外部财务报告使用者",
+   "definition": "Users outside the entity who rely on the financial information described in the question.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K13",
+   "name_en": "Conceptual Framework",
+   "name_zh": "财务报告概念框架",
+   "definition": "The framework used to organise reporting objectives, information qualities and financial-element definitions.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K14",
+   "name_en": "Relevance",
+   "name_zh": "相关性",
+   "definition": "Financial information can influence the decisions for which it is provided.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K15",
+   "name_en": "Faithful representation",
+   "name_zh": "如实反映",
+   "definition": "The information represents the economic matter it purports to describe.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K16",
+   "name_en": "Comparability",
+   "name_zh": "可比性",
+   "definition": "Users can compare information across entities or reporting periods.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K17",
+   "name_en": "Verifiability",
+   "name_zh": "可验证性",
+   "definition": "Evidence permits checking the information being represented.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K18",
+   "name_en": "Timeliness",
+   "name_zh": "及时性",
+   "definition": "Information is available in time to contribute to the relevant decision.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K19",
+   "name_en": "Understandability",
+   "name_zh": "可理解性",
+   "definition": "Information is classified and presented so its meaning can be understood.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K20",
+   "name_en": "Asset definition",
+   "name_zh": "资产定义",
+   "definition": "The applicable framework definition identifies the economic resource and control required for an asset.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K21",
+   "name_en": "Liability definition",
+   "name_zh": "负债定义",
+   "definition": "The applicable framework definition identifies a present obligation to transfer an economic resource.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K22",
+   "name_en": "Equity definition",
+   "name_zh": "权益定义",
+   "definition": "The residual interest after deducting liabilities from assets.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K23",
+   "name_en": "Income definition",
+   "name_zh": "收入定义",
+   "definition": "The applicable framework identifies increases in economic benefits that meet the income definition.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K24",
+   "name_en": "Expense definition",
+   "name_zh": "费用定义",
+   "definition": "The applicable framework identifies decreases in economic benefits that meet the expense definition.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K25",
+   "name_en": "Element recognition",
+   "name_zh": "要素确认",
+   "definition": "The conditions for including the defined element in the report under the applicable framework.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K26",
+   "name_en": "Accounting standards",
+   "name_zh": "会计准则",
+   "definition": "The standards governing the reporting treatment and presentation required in the course.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K27",
+   "name_en": "Internal reporting",
+   "name_zh": "内部报告",
+   "definition": "Reports prepared for the internal planning, control or information needs of management.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K28",
+   "name_en": "External reporting",
+   "name_zh": "外部报告",
+   "definition": "Reports prepared for users outside the business under the relevant reporting requirements.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K29",
+   "name_en": "Cash basis",
+   "name_zh": "现金制",
+   "definition": "Recognition in the comparison follows cash receipt or payment timing.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K30",
+   "name_en": "Accrual basis",
+   "name_zh": "权责发生制",
+   "definition": "Recognition in the comparison follows earning income or incurring expenses rather than cash timing alone.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K31",
+   "name_en": "Accountant operational responsibilities",
+   "name_zh": "会计人员的经营管理职责",
+   "definition": "The accountant information, advice, control and reporting responsibilities described by the task.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K32",
+   "name_en": "Company continuity",
+   "name_zh": "公司存续",
+   "definition": "The continuity characteristic of a company compared with its individual owners under the course scenario.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K33",
+   "name_en": "Ownership and management separation",
+   "name_zh": "所有权与经营权分离",
+   "definition": "The distinction between company ownership and the directors or managers responsible for operations.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "FRM.K34",
+   "name_en": "Company membership and director requirements",
+   "name_zh": "公司成员与董事要求",
+   "definition": "The member and director requirements compared for the company forms specified by the syllabus.",
+   "syllabus": "2026 syllabus Unit 4, printed pp.12–15; corresponding 2027 Unit 4 content. Historic legal examples retain their original-year scope."
+  },
+  {
+   "id": "EQT.K1",
+   "name_en": "Ordinary share capital",
+   "name_zh": "普通股股本",
+   "definition": "The ordinary share equity account and issue amounts described by the task.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K2",
+   "name_en": "Share applications account",
+   "name_zh": "股份申请账户",
+   "definition": "The account holding application receipts before their allotment transfer.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K3",
+   "name_en": "Share allotment",
+   "name_zh": "股份配售",
+   "definition": "Transfer of application funds into issued share capital under the stated allocation.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K4",
+   "name_en": "Share issue proceeds",
+   "name_zh": "股份发行收入",
+   "definition": "The number of shares multiplied by their stated issue price.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K5",
+   "name_en": "Share issue costs",
+   "name_zh": "股份发行费用",
+   "definition": "Issue costs paid and transferred against share capital under the course treatment.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K6",
+   "name_en": "Bonus share ratio",
+   "name_zh": "红股比例",
+   "definition": "The issue ratio applied to eligible existing ordinary shares.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K7",
+   "name_en": "Bonus issue value",
+   "name_zh": "红股发行价值",
+   "definition": "The number of bonus shares multiplied by the stated issue value.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K8",
+   "name_en": "Reserve-funded bonus issue",
+   "name_zh": "储备转增股本",
+   "definition": "The transfer from an eligible equity reserve into share capital without cash proceeds.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K9",
+   "name_en": "Retained earnings",
+   "name_zh": "留存收益",
+   "definition": "Accumulated profits adjusted for dividends and the specified reserve movements.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K10",
+   "name_en": "General reserve",
+   "name_zh": "一般储备",
+   "definition": "The equity reserve created and used through the stated transfers.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K11",
+   "name_en": "Asset revaluation reserve",
+   "name_zh": "资产重估储备",
+   "definition": "The equity component recording the specified revaluation gains and transfers.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K12",
+   "name_en": "Dividend declaration",
+   "name_zh": "股息宣告",
+   "definition": "The creation of the dividend payable and corresponding retained-earnings reduction.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K13",
+   "name_en": "Dividend payment",
+   "name_zh": "股息支付",
+   "definition": "Settlement of the declared dividend payable through bank.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K14",
+   "name_en": "Eligible dividend shares",
+   "name_zh": "可获股息股数",
+   "definition": "The shares entitled under the issue timing and dividend conditions stated.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K15",
+   "name_en": "Dividend rate",
+   "name_zh": "股息率额",
+   "definition": "The stated per-share amount used to calculate the dividend liability or payment.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K16",
+   "name_en": "Equity reconciliation",
+   "name_zh": "权益调节",
+   "definition": "Opening equity components reconciled to closing components through the specified movements.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K17",
+   "name_en": "Equity transfers",
+   "name_zh": "权益内部转移",
+   "definition": "Movements between equity components distinguished from changes in total equity.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K18",
+   "name_en": "Equity disclosures",
+   "name_zh": "权益披露",
+   "definition": "Share counts, issue prices and reserves required in the specified notes.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K19",
+   "name_en": "Dividend disclosures",
+   "name_zh": "股息披露",
+   "definition": "Declared or paid dividend quantities, rates and amounts required in the specified notes.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K20",
+   "name_en": "Account viewpoint and posting side",
+   "name_zh": "账户视角与借贷方向",
+   "definition": "The debit or credit from the viewpoint of the named ledger account rather than its counterpart.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "EQT.K21",
+   "name_en": "Journal narration",
+   "name_zh": "分录摘要",
+   "definition": "The requested explanation identifying the transaction recorded by the journal entry.",
+   "syllabus": "2026 syllabus Unit 4 journals, ledgers, changes in equity and notes, printed pp.12–13; corresponding 2027 pp.11–12. Only declared or paid dividends are treated as active transaction requirements."
+  },
+  {
+   "id": "STM.K1",
+   "name_en": "Net sales",
+   "name_zh": "净销售额",
+   "definition": "Sales adjusted for the returns and discounts specified by the task.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K2",
+   "name_en": "Cost of sales",
+   "name_zh": "销售成本",
+   "definition": "The cost assigned to the sales of the period under the course statement.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K3",
+   "name_en": "Gross profit",
+   "name_zh": "毛利",
+   "definition": "Net sales less cost of sales.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K4",
+   "name_en": "Other income",
+   "name_zh": "其他收入",
+   "definition": "The non-sales income items presented in the course profit statement.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K5",
+   "name_en": "Operating expenses",
+   "name_zh": "经营费用",
+   "definition": "The period expense items distinguished from finance costs under the stated presentation.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K6",
+   "name_en": "Finance expenses",
+   "name_zh": "财务费用",
+   "definition": "The borrowing and other finance costs classified under the task presentation.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K7",
+   "name_en": "Profit before tax",
+   "name_zh": "税前利润",
+   "definition": "The period profit before deducting income tax.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K8",
+   "name_en": "Income tax expense",
+   "name_zh": "所得税费用",
+   "definition": "The period tax determined from the relevant profit and tax rate.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K9",
+   "name_en": "Profit after tax",
+   "name_zh": "税后利润",
+   "definition": "Profit before tax less the period income tax expense.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K10",
+   "name_en": "Other comprehensive income",
+   "name_zh": "其他综合收益",
+   "definition": "The separately presented comprehensive-income component specified by the course, including the relevant revaluation gain.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K11",
+   "name_en": "Current and non-current classification",
+   "name_zh": "流动与非流动分类",
+   "definition": "The presentation classification of the specified asset or liability under the reporting context.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K12",
+   "name_en": "Net receivables",
+   "name_zh": "应收款净额",
+   "definition": "The debtor balance adjusted for the specified allowance and associated receivable items.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K13",
+   "name_en": "Prepaid expenses",
+   "name_zh": "预付费用",
+   "definition": "Amounts paid that relate to a future reporting period rather than the current expense.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K14",
+   "name_en": "Accrued expenses",
+   "name_zh": "应计费用",
+   "definition": "Expenses incurred in the reporting period but not yet settled in cash.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K15",
+   "name_en": "Accrued income",
+   "name_zh": "应计收入",
+   "definition": "Income earned in the reporting period but not yet received in cash.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K16",
+   "name_en": "Income received in advance",
+   "name_zh": "预收收入",
+   "definition": "Receipts relating to income not yet earned at the reporting date.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K17",
+   "name_en": "Straight-line depreciation",
+   "name_zh": "直线法折旧",
+   "definition": "Allocation of the depreciable amount over the specified useful life or at the stated straight-line rate.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K18",
+   "name_en": "Reducing-balance depreciation",
+   "name_zh": "余额递减法折旧",
+   "definition": "Application of the stated depreciation rate to the relevant carrying amount.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K19",
+   "name_en": "Accumulated depreciation",
+   "name_zh": "累计折旧",
+   "definition": "Depreciation recorded to date and deducted from the asset cost or applicable amount.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K20",
+   "name_en": "Carrying amount",
+   "name_zh": "账面价值",
+   "definition": "The recorded asset amount after the adjustments specified by the task.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K21",
+   "name_en": "Bad debt write-off",
+   "name_zh": "坏账核销",
+   "definition": "The removal of the specified uncollectible debtor amount under the allowance treatment.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K22",
+   "name_en": "Allowance for doubtful debts",
+   "name_zh": "坏账备抵",
+   "definition": "The allowance balance reconciled to determine doubtful debt expense or net receivables.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K23",
+   "name_en": "Land revaluation",
+   "name_zh": "土地重估",
+   "definition": "The comparison of the specified revalued amount with its prior carrying amount.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K24",
+   "name_en": "Property plant and equipment disclosures",
+   "name_zh": "不动产厂房与设备披露",
+   "definition": "The asset amounts and depreciation presented in the requested asset note.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K25",
+   "name_en": "Intangible assets",
+   "name_zh": "无形资产",
+   "definition": "Goodwill and other intangible items classified as required by the reporting task.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K26",
+   "name_en": "Financial statement purposes",
+   "name_zh": "财务报表用途",
+   "definition": "The information and reporting period or date communicated by each company statement.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "STM.K27",
+   "name_en": "Preliminary expense treatment",
+   "name_zh": "开办费用处理",
+   "definition": "The expense classification requested for preliminary costs in the applicable course context.",
+   "syllabus": "2026 syllabus Unit 4 financial statements, adjustments and notes, printed pp.12–13; corresponding 2027 pp.11–12. The official 2027 minor-change statement label differs from the main syllabus label; calculation scope remains single-statement."
+  },
+  {
+   "id": "CSH.K1",
+   "name_en": "Cash",
+   "name_zh": "现金",
+   "definition": "Cash on hand and demand balances qualifying under the course definition.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K2",
+   "name_en": "Cash equivalents",
+   "name_zh": "现金等价物",
+   "definition": "Highly liquid investments readily convertible to known cash with insignificant value risk; normally acquired with no more than three months to maturity.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K3",
+   "name_en": "Customer cash reconciliation",
+   "name_zh": "客户现金调节",
+   "definition": "The relationship between receivable changes, sales and actual customer receipts.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K4",
+   "name_en": "Inventory and purchases reconciliation",
+   "name_zh": "存货与采购调节",
+   "definition": "The relationship between inventory movement, cost of sales and purchases.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K5",
+   "name_en": "Supplier cash reconciliation",
+   "name_zh": "供应商现金调节",
+   "definition": "The relationship between payable changes, purchases and supplier payments.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K6",
+   "name_en": "Expense cash reconciliation",
+   "name_zh": "费用现金调节",
+   "definition": "The effect of opening and closing accruals or prepayments on actual expense payments.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K7",
+   "name_en": "Non-cash cash-flow adjustments",
+   "name_zh": "现金流中的非现金调整",
+   "definition": "Removal of non-cash components from account changes used to determine cash movements.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K8",
+   "name_en": "Interest cash reconciliation",
+   "name_zh": "利息现金调节",
+   "definition": "The effect of interest accruals or income timing on interest actually received or paid.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K9",
+   "name_en": "Tax cash reconciliation",
+   "name_zh": "税款现金调节",
+   "definition": "The distinction and reconciliation between tax expense, tax liability and tax paid.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K10",
+   "name_en": "Asset acquisition cash reconciliation",
+   "name_zh": "资产购买现金调节",
+   "definition": "Use of relevant asset accounts to determine cash purchases while excluding non-cash movements.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K11",
+   "name_en": "Disposal proceeds reconciliation",
+   "name_zh": "处置收入调节",
+   "definition": "The relationship between carrying amount, disposal gain or loss and cash proceeds.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K12",
+   "name_en": "Financing cash reconciliation",
+   "name_zh": "筹资现金调节",
+   "definition": "Use of share, debt and relevant equity accounts to identify actual financing cash movements.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K13",
+   "name_en": "Dividend cash reconciliation",
+   "name_zh": "股息现金调节",
+   "definition": "The connection between retained earnings or payable movements and the actual dividend payment.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K14",
+   "name_en": "Opening and closing cash reconciliation",
+   "name_zh": "期初期末现金调节",
+   "definition": "The connection between reported net cash movements and qualifying cash totals at the two dates.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K15",
+   "name_en": "Operating cash activities",
+   "name_zh": "经营现金活动",
+   "definition": "The cash flows classified as operating under the applicable course treatment.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K16",
+   "name_en": "Investing cash activities",
+   "name_zh": "投资现金活动",
+   "definition": "The cash flows classified as investing under the applicable course treatment.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K17",
+   "name_en": "Financing cash activities",
+   "name_zh": "筹资现金活动",
+   "definition": "The cash flows classified as financing under the applicable course treatment.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K18",
+   "name_en": "Profit versus cash flow",
+   "name_zh": "利润与现金流的区别",
+   "definition": "Differences arising because income and expenses are not necessarily recognised when cash moves.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K19",
+   "name_en": "Cash-flow information use",
+   "name_zh": "现金流量信息用途",
+   "definition": "Use of the statement to assess cash generation, obligations and the business funding position.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "CSH.K20",
+   "name_en": "Cash-management overdrafts",
+   "name_zh": "现金管理透支",
+   "definition": "An overdraft repayable on demand and integral to cash management may be included in the cash-and-cash-equivalents total, rather than classified as an investment.",
+   "syllabus": "2026 syllabus Unit 4 statement of cash flows and interpretation, printed pp.12–14; corresponding 2027 pp.11–13. Classifications and equivalent examples use applicable course/booklet conditions."
+  },
+  {
+   "id": "RAT.K1",
+   "name_en": "Current ratio",
+   "name_zh": "流动比率",
+   "definition": "Current assets relative to current liabilities under the applicable course formula.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K2",
+   "name_en": "Quick asset ratio",
+   "name_zh": "速动资产比率",
+   "definition": "For 2026, divide current assets less inventory and prepayments by current liabilities less bank overdraft.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K3",
+   "name_en": "Debtor collection period",
+   "name_zh": "应收账款回收期",
+   "definition": "For 2026, divide average debtors by net credit sales and multiply by 365 to obtain days.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K4",
+   "name_en": "Inventory turnover",
+   "name_zh": "存货周转率",
+   "definition": "Cost of sales relative to average inventory under the booklet formula.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K5",
+   "name_en": "Profit ratio",
+   "name_zh": "利润率",
+   "definition": "For 2026, profit after income tax relative to total revenue, expressed in the requested percentage form.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K6",
+   "name_en": "Return on assets",
+   "name_zh": "资产回报率",
+   "definition": "For 2026, profit before income tax plus interest expense relative to average total assets.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K7",
+   "name_en": "Debt-to-equity leverage ratio",
+   "name_zh": "债务权益杠杆比率",
+   "definition": "For 2026, total liabilities relative to equity at the end of the reporting period.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K8",
+   "name_en": "Times interest earned",
+   "name_zh": "利息保障倍数",
+   "definition": "For 2026, divide profit before income tax plus interest expense by interest expense.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K9",
+   "name_en": "Earnings per share",
+   "name_zh": "每股收益",
+   "definition": "Profit after income tax divided by the weighted average number of ordinary shares issued under the course formula.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K10",
+   "name_en": "Weighted average shares",
+   "name_zh": "加权平均股数",
+   "definition": "The share count weighted by the portion of the reporting period during which shares were outstanding.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K11",
+   "name_en": "Price earnings ratio",
+   "name_zh": "市盈率",
+   "definition": "Market price per share relative to earnings per share in consistent units.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K12",
+   "name_en": "Dividend yield",
+   "name_zh": "股息收益率",
+   "definition": "Dividend per share relative to market price per share under the course percentage formula.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K13",
+   "name_en": "Average balances",
+   "name_zh": "平均余额",
+   "definition": "The required combination of opening and closing balances for the relevant ratio.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K14",
+   "name_en": "Ratio money units",
+   "name_zh": "比率中的货币单位",
+   "definition": "Consistent dollar or cent units in ratio numerators and denominators.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K15",
+   "name_en": "Liquidity interpretation",
+   "name_zh": "流动性解释",
+   "definition": "The connection between short-term resources, debt-paying capacity and the limitations of the evidence.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K16",
+   "name_en": "Efficiency interpretation",
+   "name_zh": "效率解释",
+   "definition": "The meaning of receivable collection or inventory movement for management performance.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K17",
+   "name_en": "Profitability interpretation",
+   "name_zh": "盈利能力解释",
+   "definition": "The meaning of the reported profit or return ratio for the stated decision.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K18",
+   "name_en": "Financial stability interpretation",
+   "name_zh": "财务稳健性解释",
+   "definition": "The connection between debt exposure, interest coverage and financing risk.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K19",
+   "name_en": "Market ratio interpretation",
+   "name_zh": "市场比率解释",
+   "definition": "The investor-facing meaning of earnings, market-price and dividend relationships.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K20",
+   "name_en": "Benchmarks and trends",
+   "name_zh": "基准与趋势",
+   "definition": "Comparison against suitable targets, prior periods or industry information without treating a single number as conclusive.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K21",
+   "name_en": "Transaction effect on ratios",
+   "name_zh": "交易对比率的影响",
+   "definition": "Tracing simultaneous changes in a ratio numerator and denominator.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K22",
+   "name_en": "Analysis limitations",
+   "name_zh": "分析局限",
+   "definition": "Limits from historical measurement, estimates, comparison differences or omitted information relevant to the decision.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "RAT.K23",
+   "name_en": "Administrative credit for a cancelled item",
+   "name_zh": "取消题行政给分",
+   "definition": "The official credit granted for an invalid historical item, representing no successful knowledge performance.",
+   "syllabus": "2026 syllabus Unit 4 ratio calculation and interpretation, printed pp.13–14; corresponding 2027 printed pp.12–13. Use the original-year booklet formulas for historical questions."
+  },
+  {
+   "id": "GOV.K1",
+   "name_en": "ASIC role",
+   "name_zh": "ASIC 的职责",
+   "definition": "The course reporting and company-regulation role of the Australian Securities and Investments Commission.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K2",
+   "name_en": "ASX role",
+   "name_zh": "ASX 的职责",
+   "definition": "The market listing and disclosure role of the Australian Securities Exchange in the course.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K3",
+   "name_en": "AASB role",
+   "name_zh": "AASB 的职责",
+   "definition": "The Australian standard-setting role distinguished from enforcement and international standard setting.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K4",
+   "name_en": "IASB role",
+   "name_zh": "IASB 的职责",
+   "definition": "The international financial-reporting standard-setting role described in the syllabus.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K5",
+   "name_en": "ISSB role",
+   "name_zh": "ISSB 的职责",
+   "definition": "The international sustainability-disclosure standard-setting role described in the current syllabus.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K6",
+   "name_en": "Director duties",
+   "name_zh": "董事义务",
+   "definition": "The course duties governing care, honesty, misuse of position, conflicts, records and insolvent trading.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K7",
+   "name_en": "Shareholder rights",
+   "name_zh": "股东权利",
+   "definition": "The rights assessed under the company-law context, subject to the company and circumstances stated.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K8",
+   "name_en": "Governance rules",
+   "name_zh": "公司治理规则",
+   "definition": "The application of a constitution or replaceable rules to the specific company governance question.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K9",
+   "name_en": "Internal audit",
+   "name_zh": "内部审计",
+   "definition": "Review of internal records, procedures and systems to identify weaknesses and support improvement.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K10",
+   "name_en": "Internal controls",
+   "name_zh": "内部控制",
+   "definition": "Procedures such as authorisation, reconciliations and separation of duties used to address specified risks.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K11",
+   "name_en": "Audit-led planning",
+   "name_zh": "基于审计结果的规划",
+   "definition": "The link from a particular audit finding to a suitable operational or planning response.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K12",
+   "name_en": "External audit",
+   "name_zh": "外部审计",
+   "definition": "Independent examination and assurance on financial reports for external users.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K13",
+   "name_en": "Stakeholder confidence",
+   "name_zh": "利益相关者信心",
+   "definition": "The connection between credible audited reports and informed capital-market decisions.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K14",
+   "name_en": "Financial ethics",
+   "name_zh": "财务伦理",
+   "definition": "Reasoning about responsible financial conduct and the interests of affected stakeholders.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K15",
+   "name_en": "Insolvency",
+   "name_zh": "无力偿债",
+   "definition": "Inability to pay debts when due, distinguished from a mere accounting loss or adverse ratio.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K16",
+   "name_en": "Creditor priority",
+   "name_zh": "债权受偿顺序",
+   "definition": "The ordering of claims considered under the stated insolvency scenario.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K17",
+   "name_en": "Voluntary administration",
+   "name_zh": "自愿托管",
+   "definition": "The investigation and resolution procedure for a company in financial difficulty described by the syllabus.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K18",
+   "name_en": "Receivership",
+   "name_zh": "接管",
+   "definition": "Recovery of secured assets by a receiver on behalf of the secured creditor under the stated arrangement.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K19",
+   "name_en": "Liquidation",
+   "name_zh": "清算",
+   "definition": "Winding up the company and realising assets to address claims.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K20",
+   "name_en": "Physical climate risks",
+   "name_zh": "气候物理风险",
+   "definition": "Climate-related physical events or changes that may affect business operations and assets.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K21",
+   "name_en": "Transition climate risks",
+   "name_zh": "气候转型风险",
+   "definition": "Business risks arising from the transition toward a lower-emission economy.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K22",
+   "name_en": "Climate opportunities",
+   "name_zh": "气候相关机会",
+   "definition": "Business opportunities associated with adapting to or mitigating climate change.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K23",
+   "name_en": "Scope 1 emissions",
+   "name_zh": "范围一排放",
+   "definition": "Direct greenhouse-gas emissions from sources owned or controlled by the reporting entity.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K24",
+   "name_en": "Climate disclosure governance",
+   "name_zh": "气候披露治理",
+   "definition": "Oversight and governance of climate-related risks and opportunities in the disclosure framework.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K25",
+   "name_en": "Climate disclosure strategy",
+   "name_zh": "气候披露战略",
+   "definition": "The strategic implications of climate-related risks and opportunities in the disclosure framework.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K26",
+   "name_en": "Climate risk management",
+   "name_zh": "气候风险管理",
+   "definition": "Processes for identifying, assessing and managing climate-related risks in the disclosure framework.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K27",
+   "name_en": "Climate metrics and targets",
+   "name_zh": "气候指标与目标",
+   "definition": "Metrics and targets used to describe climate-related performance in the disclosure framework.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K28",
+   "name_en": "Sustainability reporting",
+   "name_zh": "可持续性报告",
+   "definition": "Reporting evidence about sustainability matters by the Australian reporting entity in the task.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K29",
+   "name_en": "Greenwashing",
+   "name_zh": "漂绿",
+   "definition": "An environmental reporting claim whose presentation is misleading in relation to the supporting evidence.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K30",
+   "name_en": "Bluewashing",
+   "name_zh": "漂蓝",
+   "definition": "A social-responsibility reporting claim whose presentation is misleading in relation to the supporting evidence.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K31",
+   "name_en": "Scope 2 emissions",
+   "name_zh": "范围二排放",
+   "definition": "Indirect greenhouse-gas emissions from purchased energy used by the reporting entity.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "GOV.K32",
+   "name_en": "Scope 3 emissions",
+   "name_zh": "范围三排放",
+   "definition": "Other indirect greenhouse-gas emissions in the reporting entity value chain.",
+   "syllabus": "2026 syllabus Unit 3 printed pp.10–11 and Unit 4 printed pp.14–15; corresponding 2027 pages are one earlier. Climate-related items are current syllabus content without observed 2020–2025 awards."
+  },
+  {
+   "id": "OUT.K1",
+   "name_en": "Historical social-disclosure examples",
+   "name_zh": "历史社会披露示例",
+   "definition": "Examples required by the former standalone corporate social-disclosure content.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K2",
+   "name_en": "Historical social-disclosure users",
+   "name_zh": "历史社会披露使用者",
+   "definition": "The user purposes assessed under the former standalone corporate social-disclosure requirement.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K3",
+   "name_en": "Historical social-disclosure difficulties",
+   "name_zh": "历史社会披露编制困难",
+   "definition": "Preparation and measurement difficulties assessed under the former corporate social-disclosure requirement.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K4",
+   "name_en": "Historical responsible-practice costs",
+   "name_zh": "历史责任实践成本",
+   "definition": "The former standalone requirement on costs of responsible business practices.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K5",
+   "name_en": "Historical responsible-practice income",
+   "name_zh": "历史责任实践收入",
+   "definition": "The former standalone requirement on potential income associated with responsible practices.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K6",
+   "name_en": "Historical annual-report purpose",
+   "name_zh": "历史年报用途",
+   "definition": "The superseded standalone annual-report-purpose requirement rather than current financial-information interpretation.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K7",
+   "name_en": "Historical standalone KPI purposes",
+   "name_zh": "历史独立KPI用途",
+   "definition": "Generic accountability and decision-making roles of KPIs assessed as a former standalone reporting requirement.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K8",
+   "name_en": "Historical FRC role",
+   "name_zh": "历史FRC职责",
+   "definition": "The Financial Reporting Council role assessed before removal from the course reporting-body list.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K9",
+   "name_en": "Historical lobby-group role",
+   "name_zh": "历史游说团体职责",
+   "definition": "The lobby-group reporting influence formerly included in the course body list.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K10",
+   "name_en": "Historical financing notes",
+   "name_zh": "历史融资票据",
+   "definition": "The financing notes removed from the named product list; these are not currency notes or financial-statement notes.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K11",
+   "name_en": "Historical recommended dividends",
+   "name_zh": "历史建议股利",
+   "definition": "Recommendation-only dividend requirements distinguished from currently listed declared or paid dividends.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  },
+  {
+   "id": "OUT.K12",
+   "name_en": "Historical trust products",
+   "name_zh": "历史信托产品",
+   "definition": "The trust finance products removed or replaced in the current named product list.",
+   "syllabus": "SCSA 2026 minor-syllabus-changes summary, PDF pp.1–3; checked against the 2026 and 2027 Unit 3/4 bodies. Historical only, not a current-content frequency claim."
+  }
+ ],
+ "unplaced": [],
+ "approved": "2026-10-15"
+}

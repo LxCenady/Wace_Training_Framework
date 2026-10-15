@@ -106,7 +106,18 @@ if os.path.isfile(db_path):
     db = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     n, ok = db.execute("SELECT COUNT(*), SUM(points_ok) FROM questions WHERE subject=?", (S,)).fetchone()
     check("wace.db questions", bool(n) and n == len(qs), f"{n} in db, {len(qs)} in questions.json")
-    check("mark points ≥95% points_ok", bool(n) and (ok or 0) >= 0.95 * n, f"{ok}/{n}")
+    # a key that accepts "any N of" a list cannot become one point row per mark: such questions show the key as its
+    # image and count apart (tools/splits_<S>.json awards of kind "choice"), not as failures
+    try:
+        sp = json.load(open(os.path.join(R, "tools", f"splits_{S}.json"), encoding="utf-8"))
+    except OSError:
+        sp = {}
+    anyn = {pid.rsplit("-", 1)[0] for pid, v in sp.items() if isinstance(v, dict)
+            and any(a.get("kind") == "choice" for a in v.get("awards", []))}  # '2021S-21-b' -> '2021S-21'
+    choice = sum(1 for (qid,) in db.execute("SELECT id FROM questions WHERE subject=? AND points_ok=0", (S,))
+                 if "-".join(qid.split("-")[1:]).replace("-Q", "-") in anyn)
+    check("mark points ≥95% points_ok", bool(n) and (ok or 0) + choice >= 0.95 * n,
+          f"{ok}/{n}" + (f" + {choice} any-N keys shown as images" if choice else ""))
     pn, pe = db.execute("SELECT COUNT(*), SUM(method_en != '') FROM patterns WHERE topic LIKE ?", (S + ".%",)).fetchone()
     check("db patterns with zh+en notes", bool(pn) and pn == pe, f"{pe}/{pn}")
 else:

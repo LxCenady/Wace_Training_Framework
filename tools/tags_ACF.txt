@@ -1,0 +1,20 @@
+# year section(M/S/E) Q: topics (first = primary), derived from award codes
+# FIN=Finance products and asset management CST=Costing and standard-cost variances CVP=Cost–volume–profit and operating decisions BUD=Budgets and performance control INV=Capital investment appraisal FRM=Companies and the financial reporting framework EQT=Share capital, dividends and equity records STM=Financial statements, adjustments and notes CSH=Statements of cash flows RAT=Financial ratios and reporting analysis GOV=Regulation, audit, ethics and sustainability OUT=Historical content outside the current syllabus
+2020M 1:GOV 2:FRM 3:CST 4:RAT 5:GOV 6:CVP 7:FRM 8:GOV 9:CSH 10:BUD 11:GOV 12:FIN 13:FRM 14:FIN 15:CVP
+2020S 16:INV 17:RAT 18:CST 19:EQT,STM,FRM 20:CSH
+2020E 21:CVP,BUD,GOV,FRM 22:BUD,RAT,FRM,GOV
+2021M 1:FRM 2:RAT 3:RAT 4:RAT 5:FRM 6:FRM 7:STM 8:BUD 9:FIN 10:FIN 11:GOV 12:CST 13:GOV 14:CSH 15:GOV
+2021S 16:CST 17:BUD,STM 18:CVP 19:EQT,STM,FRM 20:INV 21:CSH
+2021E 22:CST,BUD,GOV,OUT 23:CST,OUT,FRM,GOV
+2022M 1:RAT 2:BUD 3:EQT 4:GOV 5:INV 6:EQT 7:CVP 8:GOV 9:INV 10:CST 11:BUD 12:FRM 13:EQT 14:BUD 15:EQT
+2022S 16:CVP 17:CST 18:BUD 19:CSH,STM,RAT 20:STM,FRM,OUT
+2022E 21:BUD,GOV,FRM 22:INV,FIN,RAT,CSH
+2023M 1:FRM 2:GOV 3:RAT 4:FIN 5:CST 6:CST 7:GOV 8:FRM 9:BUD 10:FRM 11:FRM 12:FIN 13:FIN 14:CSH 15:RAT
+2023S 16:INV 17:BUD 18:CST,CVP,FRM 19:EQT,GOV 20:CSH,RAT
+2023E 21:CST,CVP,BUD,GOV 22:OUT,RAT,FRM
+2024M 1:CST 2:BUD 3:FIN 4:BUD 5:INV 6:RAT 7:FRM 8:FIN 9:CVP 10:INV 11:RAT 12:RAT 13:RAT 14:CSH 15:STM
+2024S 16:BUD 17:INV 18:CST 19:STM,EQT,FRM 20:CVP 21:EQT,FRM,GOV
+2024E 22:BUD,GOV,FRM,OUT 23:RAT,OUT,CSH
+2025M 1:CST 2:CVP 3:FRM 4:FRM 5:CST 6:GOV 7:RAT 8:GOV 9:RAT 10:FIN 11:FIN 12:CVP 13:RAT 14:RAT 15:FRM
+2025S 16:EQT 17:EQT,RAT 18:CSH 19:CST 20:BUD 21:INV,FIN
+2025E 22:FIN,GOV,STM 23:INV,FRM
