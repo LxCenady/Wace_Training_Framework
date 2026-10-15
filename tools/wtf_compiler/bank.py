@@ -155,7 +155,8 @@ def project(library, pack):
                              "short": sec["id"], "minutes": [0, int(sec.get("minutes") or 0)]} for sec in course["sections"]],
                "recognise": {"title": [names.get("en")]}, "key_style": "ticks", "checker": "none",
                "sketch_words": ["sketch", "draw", "plot", "shade"], "sheets": [],
-               "notes": recipe.get("notes") or {}, "compiler": {"pack_id": pack, "version": recipe["version"],
+               "notes": recipe.get("notes") or {}, "skill": recipe.get("skill") or "",
+               "compiler": {"pack_id": pack, "version": recipe["version"],
                                                                 "recipe_hash": fingerprint}}
     folder = home / "profiles"
     folder.mkdir(exist_ok=True)

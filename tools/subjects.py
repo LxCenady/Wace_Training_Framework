@@ -48,6 +48,19 @@ def names(root=None, language='zh', engine=None):
     return {s: p['name'][language] for s, p in profiles(root, engine).items()}
 
 
+def exam_of(subject, root=None):
+    """{board, exam, course}: who sets the papers and what the exam is called, as the pack says ("SCSA", "WACE",
+    "Mathematics Methods ATAR"); a pack that does not say has only its course name."""
+    p = info(subject, root)
+    return dict(board=p.get('board', ''), exam=p.get('exam', ''), course=p['course'])
+
+
+def exam_title(subject, root=None):
+    """'WACE Mathematics Methods ATAR' / 'Cambridge International AS & A Level Mathematics (9709)'."""
+    e = exam_of(subject, root)
+    return f"{e['exam']} {e['course']}".strip()
+
+
 def topics(subject, root=None):
     return {t['code']: (t['file'], t['zh'], t['en']) for t in info(subject, root)['topics']}
 

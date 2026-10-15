@@ -12,13 +12,13 @@ HEADINGS = {"zh": ("这一问考什么", "你丢的分", "正确做法", "下次
             "en": ("What this part tests", "The marks you lost", "The correct working", "How to avoid it next time")}
 
 
-def system(lang="zh"):
+def system(lang="zh", exam="WACE"):
     h = HEADINGS.get(lang, HEADINGS["zh"])
     language = ("Write in English." if lang == "en" else
                 "Write in Simplified Chinese, keeping mathematical terms and exam wording in English where the exam "
                 "uses them.")
-    return ("[STAGE:EXPLAIN]\nYou are a patient WACE mathematics tutor explaining a marked mistake to a Year 12 "
-            f"student in Western Australia. {language} Write mathematics in LaTeX between $...$ (inline) or $$...$$ "
+    return (f"[STAGE:EXPLAIN]\nYou are a patient {exam} tutor explaining a marked mistake to a student preparing "
+            f"for that exam. {language} Write mathematics in LaTeX between $...$ (inline) or $$...$$ "
             "(a displayed line); write money as \\$5. No Markdown tables.\nStructure, with these headings:\n"
             f"1. {h[0]} — the pattern and what the examiner is checking.\n"
             f"2. {h[1]} — for each missed mark point: what the marker wanted and the likely reason it was missed "
@@ -44,7 +44,7 @@ def material(store, m):
         d = store.question(m["ref"])
         key = "\n".join(f"- {t}" for l, t in d["points"] if l == m["label"]) if d["points_ok"] else \
             "(official key not split cleanly — infer the marks from the question)"
-        body = (f"Question (WACE {d['year']} {d['subject']}, "
+        body = (f"Question ({subjects.exam_title(d['subject'])} {d['year']}, "
                 f"{subjects.section_name(d['subject'], d['section'], 'en').lower()}, Q{d['q']}):\n"
                 f"{d['stem']}\n\nPart ({m['label'] or 'whole question'}) — {m['part_marks']} marks.\n"
                 f"Official marking points for this part:\n{key}")
@@ -101,7 +101,8 @@ def setup(k):
 
         def work():
             try:
-                text = k.get("llm.chat")(system(k.get("i18n.lang", "zh")), material(store, m)).strip()
+                exam = subjects.exam_title(m["patterns"][0].split(".")[0]) if m["patterns"] else "exam"
+                text = k.get("llm.chat")(system(k.get("i18n.lang", "zh"), exam), material(store, m)).strip()
                 store.set_explanation(m["id"], text)
 
                 def done():

@@ -76,6 +76,8 @@ def blueprint(db, subj, section, since=2020):
         if len(ts) > 1:
             crossed.update(ts)
             pair.update((a, b) for a in ts for b in ts if a != b)
+    if not q("SELECT 1 FROM questions WHERE subject = ? AND section = ? AND year >= ? LIMIT 1", subj, section, since):
+        since = 0  # no recent paper (or none with a known year, as a Compiler pack may have): every paper counts
     profile = next(s for s in subject_profiles.sections(subj) if s['code'] == section)
     answer_count = profile.get('answer_count')
     return {

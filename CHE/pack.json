@@ -7,6 +7,8 @@
     "zh": "Chemistry 化学",
     "en": "Chemistry ATAR"
   },
+  "board": "SCSA",
+  "exam": "WACE",
   "course": "Chemistry ATAR (Units 3-4)",
   "requires_wtf": ">=2.0.0",
   "papers": {

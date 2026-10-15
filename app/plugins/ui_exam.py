@@ -1,6 +1,6 @@
 """模拟考试. One job: sit a timed paper (a real past paper or an AI-assembled one), then mark it.
 
-Timing follows WACE: calculator-free 5 min reading + 50 min working; calculator-assumed 10 + 100.
+Timing follows the pack's sections (reading + working minutes; WACE calculator-free is 5 + 50).
 AI papers follow tools/blueprint.py: the median total, every question built on the shape of a real question
 (its patterns and the marks each carried, with patterns swapped and marks moved by one inside what real
 questions show), topics in proportion to their real share of marks, cross-topic questions as in real papers,
@@ -122,9 +122,9 @@ def setup(k):
             path = k.get("export.target")(name + ".pdf", "导出模拟卷")
             if not path:
                 return
-            title = f"WACE {e['subject']} 模拟卷 · {subjects.section_name(e['subject'], e['section'])}"
+            title = f"{subjects.exam_title(e['subject'])} 模拟卷 · {subjects.section_name(e['subject'], e['section'])}"
             meta = (f"{len(e['refs'])} 题 · 共 {e['total']} 分 · 阅读时间 {reading} 分钟 + 作答时间 {working} 分钟 · "
-                    f"{e['created'][:10]} · WTF — WACE Training Framework")
+                    f"{e['created'][:10]} · WTF")
             q, a = k.get("export.worksheet")([int(r) for _, r in e["refs"]], path, title, meta)
             k.get("ui.status")(f"已导出：{os.path.basename(q)} + {os.path.basename(a)}")
             plat.open_file(q)

@@ -4,6 +4,8 @@
   "version": "2026.10.2",
   "order": 5,
   "name": {"zh": "Accounting and Finance 会计与金融", "en": "Accounting and Finance ATAR"},
+  "board": "SCSA",
+  "exam": "WACE",
   "course": "Accounting and Finance ATAR (Units 3–4; 2020–2025 past questions mapped to the 2026–2027 syllabus)",
   "requires_wtf": ">=2.0.4",
   "papers": {"years": [2020, 2021, 2022, 2023, 2024, 2025], "excluded": {}, "acknowledged": {"2021M-Q2": "The official key awards all candidates one mark because a date needed for weighted-average shares is missing. Preserve the official all-answer key; this question is unsuitable for diagnosing mastery from a correct answer."}},

@@ -100,6 +100,14 @@ class CompilerTest(unittest.TestCase):
         with pymupdf.open(data/q['exam']) as pdf:self.assertTrue(render.crop(pdf[0],q['exam_regions'][0],1).startswith(b'\x89PNG'))
         out=data/'past.pdf';export_pdf.past_papers([q],str(data),str(out),'T',lambda code:code)
         self.assertTrue(out.exists())
+        import blueprint, random, os  # P2: the same paper assembly, mistakes and mastery as any subject
+        from unittest import mock
+        with mock.patch.dict(os.environ,{'WACE_MATHS_ROOT':str(data)}):  # the app runs with its data root set
+            bp=blueprint.blueprint(store.db,'ESSAYCOURSE','writing')
+        self.assertEqual(sum(m for _,m,_,_ in blueprint.plan(bp,4,random.Random(0))),4)
+        store.save_mistake('past',qid,'a',4,1,[pattern],['Method'])
+        self.assertEqual(store.mastery()[pattern],dict(attempted=4,lost=1,parts=1))
+        self.assertEqual(subjects.exam_title('ESSAYCOURSE',data),'Synthetic essay')
 
     def test_stale_and_review_restart(self):
         stale=self.c.projects.task(self.pid)

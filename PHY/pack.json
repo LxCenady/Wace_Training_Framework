@@ -7,6 +7,8 @@
   "zh": "Physics 物理",
   "en": "Physics ATAR"
  },
+ "board": "SCSA",
+ "exam": "WACE",
  "course": "Physics ATAR (Units 3-4; tagged to the 2026 and 2027 Year 12 syllabus content)",
  "requires_wtf": ">=2.0.2",
  "papers": {
