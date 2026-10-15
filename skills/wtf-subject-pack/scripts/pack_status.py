@@ -2,7 +2,7 @@
 
   python pack_status.py MAA [--root E:\\WACE_Maths]
 
-Read-only: opens wace.db read-only, never writes anything. Exit code 0 when every item passes.
+Read-only: opens the bank (bank.db; wace.db before 2.1) read-only, never writes anything. Exit code 0 when every item passes.
 """
 import argparse, glob, json, os, re, sqlite3, sys
 
@@ -41,7 +41,12 @@ check("every question has marks + key", bool(qs) and all(q.get("marks") and q.ge
 cat_path = os.path.join(R, "tools", f"catalogue_{S}.json")
 cat = json.load(open(cat_path, encoding="utf-8")) if os.path.isfile(cat_path) else None
 codes = {x["id"] for x in cat["patterns"]} if cat else set()
-check("pattern catalogue", bool(codes), f"{len(codes)} patterns" if cat else "tools/catalogue_%s.json (MAM/MAS predate catalogues)" % S)
+# a pack built before catalogues (MAM, MAS) defines its patterns by its method notes' headings, part by part; only
+# an award-level pack (marktags) needs the catalogue its codes come from
+legacy = cat is None and not os.path.isfile(os.path.join(R, "tools", f"marktags_{S}.json")) \
+    and os.path.isfile(os.path.join(R, "tools", f"parttags_{S}.txt"))
+check("pattern catalogue", bool(codes) or legacy, f"{len(codes)} patterns" if cat else
+      "patterns from the method notes (no award-level catalogue)" if legacy else f"tools/catalogue_{S}.json missing")
 sys.path.insert(0, os.path.join(R, "tools"))
 os.environ["WACE_MATHS_ROOT"] = R
 try:
@@ -101,11 +106,11 @@ for f, what in (("app/plugins/store.py", "SUBJECT_NAMES"), ("app/plugins/ui_setu
     check(f"app hook {what} ({f})", S in subjects.names(R) and 'subjects' in text(os.path.join(R, f)))
 
 # 8 database
-db_path = os.path.join(R, "wace.db")
+db_path = subjects.bank_path(R)
 if os.path.isfile(db_path):
     db = sqlite3.connect(f"file:{db_path}?mode=ro", uri=True)
     n, ok = db.execute("SELECT COUNT(*), SUM(points_ok) FROM questions WHERE subject=?", (S,)).fetchone()
-    check("wace.db questions", bool(n) and n == len(qs), f"{n} in db, {len(qs)} in questions.json")
+    check("bank questions", bool(n) and n == len(qs), f"{n} in db, {len(qs)} in questions.json")
     # a key that accepts "any N of" a list cannot become one point row per mark: such questions show the key as its
     # image and count apart (tools/splits_<S>.json awards of kind "choice"), not as failures
     try:
@@ -116,12 +121,17 @@ if os.path.isfile(db_path):
             and any(a.get("kind") == "choice" for a in v.get("awards", []))}  # '2021S-21-b' -> '2021S-21'
     choice = sum(1 for (qid,) in db.execute("SELECT id FROM questions WHERE subject=? AND points_ok=0", (S,))
                  if "-".join(qid.split("-")[1:]).replace("-Q", "-") in anyn)
-    check("mark points ≥95% points_ok", bool(n) and (ok or 0) + choice >= 0.95 * n,
-          f"{ok}/{n}" + (f" + {choice} any-N keys shown as images" if choice else ""))
+    # keys acknowledged in pack.json papers.acknowledged ("2017A-Q12": why) are known exceptions, shown as images
+    known = set(json.load(open(os.path.join(R, S, "pack.json"), encoding="utf-8")).get("papers", {}).get("acknowledged", {}))
+    shown = sum(1 for (qid,) in db.execute("SELECT id FROM questions WHERE subject=? AND points_ok=0", (S,))
+                if qid.split("-", 1)[1] in known)
+    check("mark points ≥95% points_ok", bool(n) and (ok or 0) + choice + shown >= 0.95 * n,
+          f"{ok}/{n}" + (f" + {choice} any-N keys shown as images" if choice else "")
+          + (f" + {shown} acknowledged keys shown as images" if shown else ""))
     pn, pe = db.execute("SELECT COUNT(*), SUM(method_en != '') FROM patterns WHERE topic LIKE ?", (S + ".%",)).fetchone()
     check("db patterns with zh+en notes", bool(pn) and pn == pe, f"{pe}/{pn}")
 else:
-    check("wace.db", False, "not built")
+    check("bank", False, "not built")
 
 # 12 pack
 check("pack.json (subject profile)", os.path.isfile(os.path.join(R, S, "pack.json")), "see references/pack-format.md")

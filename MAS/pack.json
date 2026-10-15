@@ -1,7 +1,7 @@
 {
   "wtf_pack": 1,
   "subject": "MAS",
-  "version": "2026.10.1",
+  "version": "2026.10.2",
   "order": 1,
   "name": {
     "zh": "Mathematics Specialist 专业数学",
@@ -26,6 +26,21 @@
     ],
     "excluded": {
       "2016Sample": "sample papers: optional, not in the bank (scanned keys)"
+    },
+    "acknowledged": {
+      "2017A-Q12": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2017A-Q18": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2017A-Q19": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2017F-Q1": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2018A-Q14": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2019A-Q11": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2019A-Q13": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2019A-Q17": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2020F-Q4": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2020F-Q5": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2020F-Q6": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2023A-Q10": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole.",
+      "2024A-Q12": "The official key's rows do not reconcile into one row per printed mark; the key is shown as its original image and the part is scored whole."
     }
   },
   "paper_layout": "separate-sections",
