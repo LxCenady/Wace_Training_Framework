@@ -1,34 +1,55 @@
-"""Recognise an SCSA paper from its content. One job: PDF path -> canonical name like 'MAM/papers/2024_MAM_Exam_CalcFree.pdf'.
+"""Recognise a past paper from its content. One job: PDF path -> canonical name like 'MAM/papers/2024_MAM_Exam_CalcFree.pdf'.
 
 Browsers rename downloads ("(1)", case, the student's own name), so imports match on what the
-first page says — subject, document type, section, year — not on the file name.
+first page says — subject, document type, section, year — not on the file name. What each document says is the
+subject pack's business (pack.json "recognise"); a pack that says nothing gets SCSA's wording (DEFAULTS).
 """
 import re
 import pymupdf
 import subjects
 
+# SCSA's covers. A pack for another exam board names its own phrases in pack.json "recognise" (same keys).
+DEFAULTS = {
+    "exam": ["question/answer booklet"],              # the paper students write in
+    "report": ["examination report", "summary report"],
+    "key": ["marking key"],
+    "year": [r"(20\d\d) atar course examination report", r"examination,? (20\d\d)"],  # first group = the year
+    "sample": [r"sample (wace )?examination"],         # a sample paper: year "<sample_year>"
+    "sample_year": "2016Sample",
+}
+
+
+def rule(profile, name):
+    return profile["recognise"].get(name, DEFAULTS[name])
+
+
+def year_of(low, profile, words=()):
+    """The year printed next to the document's own name (a reference sheet's), else by the pack's year patterns."""
+    patterns = ["(?:" + "|".join(re.escape(w.lower()) for w in words) + r"),? (20\d\d)"] if words else []
+    for pattern in patterns + rule(profile, "year"):
+        m = re.search(pattern, low)
+        if m:
+            return m
+    return None
+
 
 def kind_of(low, profile):
     """-> (kind, year match) from the lower-cased text, or None."""
     # order matters: an exam's cover lists "Formula sheet" among materials; reports quote "marking key"
-    if "question/answer booklet" in low:
-        return "Exam", re.search(r"examination,? (20\d\d)", low)
-    if "examination report" in low or "summary report" in low:
-        return "ExamReport", re.search(r"(20\d\d) atar course examination report", low)
-    if "marking key" in low:
-        return "MarkingKey", re.search(r"examination,? (20\d\d)", low)
+    for kind, name in (("Exam", "exam"), ("ExamReport", "report"), ("MarkingKey", "key")):
+        if any(w.lower() in low for w in rule(profile, name)):
+            return kind, year_of(low, profile)
     # the pack's reference sheets: {"FormulaSheet": ["formula sheet", …], "DataBooklet": ["data booklet"]}
     kinds = [(k, words) for k, words in profile['recognise'].get('kinds', {}).items()
              if any(w.lower() in low for w in words)]
     if not kinds:
         return None
     kind, words = kinds[0]
-    m = re.search("(?:" + "|".join(re.escape(w.lower()) for w in words) + r"),? (20\d\d)", low)
-    return kind, m or re.search(r"examination,? (20\d\d)", low)  # "ATAR course examination, 2025 … booklet"
+    return kind, year_of(low, profile, words)  # "ATAR course examination, 2025 … booklet" too
 
 
 def identify(path):
-    """Return the canonical relative path, or None if this is not a recognisable MAM/MAS/MAA paper."""
+    """Return the canonical relative path, or None if this is not a recognisable paper of an installed subject."""
     try:
         with pymupdf.open(path) as doc:
             pages = [doc[i].get_text() for i in range(min(2, doc.page_count))]
@@ -50,8 +71,8 @@ def identify(path):
             break
     else:
         return None
-    if re.search(r"sample (wace )?examination", low) and kind in ("Exam", "MarkingKey"):
-        year = "2016Sample"
+    if any(re.search(p, low) for p in rule(profile, "sample")) and kind in ("Exam", "MarkingKey"):
+        year = rule(profile, "sample_year")
     elif m:
         year = m.group(1)
     else:

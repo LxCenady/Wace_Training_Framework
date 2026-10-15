@@ -97,6 +97,21 @@ def validate_profile(data, path):
     titles = data['recognise'].get('title')
     if not isinstance(titles, list) or not titles or any(not isinstance(t, str) or not t.strip() for t in titles):
         raise ValueError(f'Invalid recognition titles: {path}')
+    # optional: another exam board's wording for its covers (tools/paperid.py DEFAULTS are SCSA's)
+    for field in ('exam', 'report', 'key', 'year', 'sample'):
+        words = data['recognise'].get(field)
+        if words is not None and (not isinstance(words, list) or not words
+                                  or any(not isinstance(w, str) or not w.strip() for w in words)):
+            raise ValueError(f'Invalid recognise.{field}: {path}')
+    for pattern in data['recognise'].get('year', []) + data['recognise'].get('sample', []):
+        try:
+            groups = re.compile(pattern).groups
+        except re.error:
+            raise ValueError(f'Invalid recognition pattern {pattern!r}: {path}')
+        if pattern in data['recognise'].get('year', []) and groups != 1:
+            raise ValueError(f'A year pattern needs exactly one group (the year): {path}')
+    if not isinstance(data['recognise'].get('sample_year', ''), str):
+        raise ValueError(f'Invalid recognise.sample_year: {path}')
     for field in ('sections', 'topics'):
         if not isinstance(data[field], list) or any(not isinstance(item, dict) for item in data[field]):
             raise ValueError(f'Invalid {field}: {path}')

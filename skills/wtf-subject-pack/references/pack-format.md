@@ -109,6 +109,14 @@ Field rules:
   (MAA 2019: keys unobtainable). Shown to people, never used to skip files (that is `sources.tsv` `need`).
 - `quality`: written by export — `ready` when `pack_status.py` passes, `draft` for `--draft` exports.
 - `sections[].short`: compact label (maths CF/CA); defaults to `code`. `recognise` lists section title words used to distinguish separate source files. `minutes: null` means use whole-paper `paper_minutes`; advisory per-section time belongs in `suggested_minutes`.
+- `recognise` (top level): how a downloaded PDF is recognised from its first pages, whatever the browser named it.
+  `title` (required): words only this course's covers carry. `kinds`: reference documents, `{"DataBooklet": ["data booklet"]}`.
+  Optional for another exam board (SCSA's wording is the default, `tools/paperid.py` `DEFAULTS`): `exam`, `key`,
+  `report` (phrases naming the question paper, the marking key and the examiners' report), `year` (regular
+  expressions whose single group is the year, tried in order), `sample` (expressions marking a sample/specimen
+  paper) and `sample_year` (the year label such a paper gets, e.g. `"2020Specimen"`). Example for Cambridge 9709:
+  `{"title": ["9709"], "exam": ["question paper"], "key": ["mark scheme"], "report": ["principal examiner report"],
+  "year": ["(?:may/june|october/november|february/march) (20\d\d)"], "sample": ["specimen"], "sample_year": "2020Specimen"}`.
 - Sections are subject metadata, never a framework-wide CA/CF enum. Use stable `code`/`letter` identifiers and localized display names. Maths keeps CF/CA; a shared science paper can display Section One/Two/Three with its question-type name. Verify each subject's official structure before creating its profile.
 - `paper_layout`: `separate-sections` (maths) or `shared` (one exam/key containing multiple sections, Chemistry). This describes source files, not the number of sections or their timers.
 - `sections[].key_headings`: optional heading prefixes printed in a shared marking key. When provided, answer crops stop before the next key section heading, retaining the answer and excluding the next section's instructions. Omitting this field preserves existing crop boundaries. Physics uses the same prefixes as its exam `headings`.
