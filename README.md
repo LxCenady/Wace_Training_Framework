@@ -20,18 +20,34 @@ The Mac version is new: if something looks off, a screenshot in an [issue](https
 > **老师、同学们：请不要试图通过阅读代码来运行 WTF。** 读代码它是不会跑起来的，我们认真试过了。点上面的链接下载安装包，双击即可（Mac：打开 dmg，把 WTF 拖进「应用程序」，第一次在「应用程序」里右键 WTF →「打开」）。
 
 **Only here for the notes?** Read the PDFs, not the `.md` files — GitHub's Markdown preview and maths are not on speaking terms:
-method notes [MAM](MAM/methods) · [MAS](MAS/methods) · [MAA](MAA/methods) · [Chemistry](CHE/methods) (English: [MAM](MAM/methods_en) · [MAS](MAS/methods_en) · [MAA](MAA/methods_en) · [Chemistry](CHE/methods_en)), cheat sheets [MAM](cheatsheet/MAM_CheatSheet.pdf) · [MAS](cheatsheet/MAS_CheatSheet.pdf) · [MAA](cheatsheet/MAA_CheatSheet.pdf) · [Chemistry](cheatsheet/CHE_CheatSheet.pdf) (English: [MAM](cheatsheet/MAM_CheatSheet_EN.pdf) · [MAS](cheatsheet/MAS_CheatSheet_EN.pdf) · [MAA](cheatsheet/MAA_CheatSheet_EN.pdf) · [Chemistry](cheatsheet/CHE_CheatSheet_EN.pdf)).
+method notes [MAM](MAM/methods) · [MAS](MAS/methods) · [MAA](MAA/methods) · [Chemistry](CHE/methods) · [Physics](PHY/methods) · [Accounting and Finance](ACF/methods) (English: [MAM](MAM/methods_en) · [MAS](MAS/methods_en) · [MAA](MAA/methods_en) · [Chemistry](CHE/methods_en) · [Physics](PHY/methods_en) · [Accounting and Finance](ACF/methods_en)), cheat sheets [MAM](cheatsheet/MAM_CheatSheet.pdf) · [MAS](cheatsheet/MAS_CheatSheet.pdf) · [MAA](cheatsheet/MAA_CheatSheet.pdf) · [Chemistry](cheatsheet/CHE_CheatSheet.pdf) · [Accounting and Finance](cheatsheet/ACF_CheatSheet.pdf) (English: [MAM](cheatsheet/MAM_CheatSheet_EN.pdf) · [MAS](cheatsheet/MAS_CheatSheet_EN.pdf) · [MAA](cheatsheet/MAA_CheatSheet_EN.pdf) · [Chemistry](cheatsheet/CHE_CheatSheet_EN.pdf) · [Accounting and Finance](cheatsheet/ACF_CheatSheet_EN.pdf)).
 The past papers themselves are not here (see *Copyright* below): the app fetches them for you on its first run, which is why there is no question bank in this repository and never will be.
 
-WTF is a desktop study framework for Western Australian ATAR courses, built on the 2016–2025 SCSA past exams. Its five bundled **subject packs** are **Mathematics Methods (MAM)**, **Mathematics Specialist (MAS)**, **Mathematics Applications (MAA)**, **Chemistry (CHE)** and **Physics (PHY)**. The framework supplies the tools; the packs supply the subjects to feel bad about. It exists because the average student's revision strategy — "open a past paper, feel bad, close the past paper" — has a measured completion rate of approximately zero.
+WTF is a desktop study framework that reverse-engineers past exams. It reads each past paper and its marking key **mark by mark**, tags every awarded mark with the question pattern and the knowledge it rewards, and turns the result into a searchable bank with method notes, statistics, AI practice questions and mock papers. The framework does not know any course. Courses arrive as **subject packs**: data-only `.wtfpack` files anyone can download, import or build. The first packs are Western Australian ATAR courses built on SCSA past exams. It exists because the average student's revision strategy — "open a past paper, feel bad, close the past paper" — has a measured completion rate of approximately zero.
 
-**New in 2.0: subjects are packs.** Chemistry brings 400 past questions — 250 multiple choice and 150 written — 64 patterns, bilingual notes and year-specific data booklets. Its marking keys are split where the parser can reconcile the marks; the remaining 14 written questions show the original key. The framework was generalised to support shared papers and Description/Marks keys. Future packs can reuse those capabilities; a genuinely new marking format still needs a framework handler. JSON has many talents. Inventing a parser is not one of them.
+## Subject packs — download, import, or build your own
+
+| Course | Pack | Past papers | Questions | Classified by |
+|---|---|---|---:|---|
+| Mathematics Methods (MAM) | built in | 2016–2025 | 174 | 51 patterns |
+| Mathematics Specialist (MAS) | built in | 2016–2025 | 193 | 45 patterns |
+| Mathematics Applications (MAA) | built in | 2016–2025 | 138 | 67 patterns |
+| Chemistry (CHE) | built in · [**CHE-2026.10.1.wtfpack**](https://github.com/LxCenady/Wace_Training_Framework/raw/main/packs/CHE-2026.10.1.wtfpack) | 2016–2025 | 400 | 64 patterns |
+| Physics (PHY) | built in · [**PHY-2026.10.1.wtfpack**](https://github.com/LxCenady/Wace_Training_Framework/raw/main/packs/PHY-2026.10.1.wtfpack) | 2016–2025 | 203 | 79 syllabus content nodes × 11 award skills |
+| Accounting and Finance (ACF) | built in · [**ACF-2026.10.1.wtfpack**](https://github.com/LxCenady/Wace_Training_Framework/raw/main/packs/ACF-2026.10.1.wtfpack) | 2020–2025 | 135 | 114 patterns, 283 knowledge atoms |
+
+**Importing a pack:** 题库 → 管理科目 → 导入学科包… (Subjects → Manage subjects → Import subject pack) → choose the `.wtfpack`. WTF checks the format, the minimum framework version, the handlers it needs, safe file paths and every payload hash. Then the paper wizard asks you for that course's original PDFs, recognises each one from its first page, checks it against the pack's SHA-256 manifest and builds the bank on your computer. The same packs are also on every [release](https://github.com/LxCenady/Wace_Training_Framework/releases/latest) and in [`packs/`](packs). Physics and Chemistry need WTF 2.0.2 or newer; Accounting and Finance needs 2.0.4.
+
+**What a pack carries:** the course profile (sections, timing, weights, reference sheets, which built-in marking parser to use), the pattern and knowledge catalogue, a code for every awarded mark of every past question, the shapes of keys the parser cannot divide by itself, bilingual method notes, a cheat sheet, a question-generation skill and the source manifest (official URLs, Wayback captures, SHA-256). **What a pack never carries:** exam papers, marking keys, examiners' reports or any text cut from them. The pack is a recipe; your own copies of the papers are the ingredients. That is how a pack can be shared freely without sharing anything that is not ours. The format is documented in [pack-format.md](skills/wtf-subject-pack/references/pack-format.md).
+
+**Building a pack for another course** — the protocol is general; the only course-specific input is the papers:
+
+- **WTF Compiler** (in the app, free): bring the exam PDFs, marking keys and a syllabus, connect your own AI agent through **MCP**, and the Compiler walks it through parsing, a pattern catalogue, per-mark codes, notes, review, validation, build and export, checking every stage's JSON before accepting it. PDFs stay on your computer and are rebound by SHA-256. Essay levels, alternatives and follow-through remain scoring structures rather than invented one-mark rows. Your agent does the thinking; the Compiler checks whether the thinking arrived in valid JSON. [Workflow and protocol](docs/compiler.md).
+- **The pack flow** used for the packs above ([skills/wtf-subject-pack](skills/wtf-subject-pack/SKILL.md)): pair papers with keys, cut questions and marks, label every awarded mark bottom-up, cluster the labels into a catalogue that a person approves, assign every mark, then run a blind second assignment on a sample, which must agree on at least 90% of patterns before notes, a cheat sheet and a skill are written and the pack is exported. The Physics, Chemistry and Accounting packs record their review numbers in their notes.
+
+A course whose marking keys use a layout WTF has no parser for still needs framework work: packs cannot ship executable code. JSON has many talents. Inventing a parser is not one of them.
 
 What it actually does, stated with a straight face:
-
-**Physics is available as a separate pack in the source tree:** [PHY-2026.10.1.wtfpack](packs/PHY-2026.10.1.wtfpack), with [Chinese notes](PHY/methods), [English notes](PHY/methods_en) and a [pack overview](PHY/README.md). It covers 203 past questions from 2016–2025, classified by 79 current syllabus content nodes and 11 award skills. Older content outside the 2026/2027 syllabus is labelled separately; eight new content nodes have no past question yet. Even the question bank cannot revise an exam that has not happened. The pack requires WTF 2.0.2 or newer; the current source includes the necessary handlers. Import it through **题库 → 管理科目 → 导入学科包** and obtain the original PDFs locally. The archive contains no exam PDFs or extracted question text. Review limitations are recorded in the pack's notes; the legacy Physics cheat sheets are not included.
-
-**New in 2.0.3: WTF Compiler.** Bring written exam PDFs, marking keys and a syllabus, connect your own agent through MCP, and compile a recipe pack. WTF and Studio use the same open-source Compiler core. PDFs stay local and are rebound by SHA256; essay levels, alternatives and follow-through remain scoring structures rather than invented one-mark rows. Compiler is free and uses your own agent, not WTF subscription credits. Your agent does the thinking; the Compiler checks whether the thinking arrived in valid JSON. [Workflow and protocol](docs/compiler.md).
 
 - every past question is split by **topic**, and every **sub-question** is tagged with the specific **题型 (question pattern)** it uses. Per part, not per question, because examiners enjoy putting three topics into one question and calling it "(c)";
 - marking keys are split into **one row per mark** where their structure reconciles with the printed marks; otherwise the original key crop stays visible, because inventing a missing mark is the examiner's job;
@@ -39,7 +55,7 @@ What it actually does, stated with a straight face:
 - a desktop **GUI** (knowledge tree → pattern → past questions, marking key hidden until you are brave enough) that can ask an LLM of your choice to **write a similar question, solve it independently, check it, and split the answer into mark points before showing you anything**. Maths packs also request SymPy recomputation; Chemistry currently relies on the model checks and structural validation, without a dedicated chemical verifier. Trust issues are a feature. A universal correctness certificate is not;
 - Claude Code **skills** for generating topic quizzes, for when one AI is not enough.
 
-> 中文简介：WTF 是 WACE ATAR 刷题框架，内置数学方法、专业数学、数学应用和化学四个学科包，名字缩写纯属巧合（并不是）。框架负责界面、题库、AI 流程和导出；学科包提供课程结构、题型标注、讲义和真题来源。真题在本机下载、切分并建库，评分拆分不可靠时保留官方 key 原图。AI 经出题、独立解题、核对和得分点整理；数学额外做 SymPy 复算，化学目前没有专用化学验算器。AI 不被信任，这是设计；不代表它终于值得信任了。
+> 中文简介：WTF 是一个把历年真题「逆向工程」的学习框架：逐个评分点读懂真卷和评分标准，把每一分标上题型和知识点，变成可检索的题库、讲义、统计、AI 练习题和模拟卷。名字缩写纯属巧合（并不是）。框架本身不认识任何课程，课程以**学科包**（只含数据的 `.wtfpack`）的形式提供，可以自由下载、导入，也可以自己制作。目前有数学方法、专业数学、数学应用、化学、物理、会计与金融六个 WACE 学科包；化学、物理、会计的包可单独下载（见上表），在「题库 → 管理科目 → 导入学科包」导入，再按提示提供本机原卷即可建库。学科包只带「配方」（课程结构、目录、逐分代码、讲义、出题 skill、真题来源和 SHA-256），绝不包含试卷、评分标准或其中的文字。要给别的课程做包：在应用里用 WTF Compiler，通过 MCP 接入你自己的 AI 代理；或者按 `skills/wtf-subject-pack` 的流程制作。AI 经出题、独立解题、核对和得分点整理；数学额外做 SymPy 复算。AI 不被信任，这是设计；不代表它终于值得信任了。
 
 ## Subject packs — the syllabus has moved out of the engine
 
@@ -69,9 +85,11 @@ recognise → segment → read marks + apply tags → build wace.db
 the same UI, search, practice, AI workflow and PDF export
 ```
 
-**Current boundary:** local pack import/export is implemented; an online pack catalogue and one-click online installation are not. Adding a course that uses supported layouts and handlers is data work. A new parser or independent verifier is framework work, registered centrally; packs cannot ship executable code. The five bundled subjects use this same mechanism. There is no secret sixth subject hidden in `main.py`, waiting for its own `if` statement.
+**Current boundary:** packs are downloaded as files and imported locally; there is no in-app online catalogue or one-click online installation yet. Adding a course that uses supported layouts and handlers is data work. A new parser or independent verifier is framework work, registered centrally; packs cannot ship executable code. The built-in subjects use this same mechanism. There is no secret seventh subject hidden in `main.py`, waiting for its own `if` statement.
 
-> 中文架构说明：框架的功能插件是 Python 代码，由微内核加载；学科包是数据，由注册表读取。两者共用界面与建库流程，但学科包不能带可执行代码，也不包含 SCSA 原卷或衍生题库。新增学科若能复用已有卷型和处理器，制作包即可；新的评分格式或验算能力仍需扩展框架。现在支持本地 `.wtfpack` 导入，尚无在线包商店。外源卷库继续独立存放，不混入 SCSA 真题统计。
+A catalogue can also flag patterns: `examined: false` (current syllabus content without a past question yet), `historical_only` (content removed from the current syllabus: kept for history, never drawn into AI papers) and `diagnostic: false` (a record that shows no knowledge, such as a cancelled question: also left out of mastery). The flags live in the database table `pattern_flags`; asking for a historical pattern by name still works.
+
+> 中文架构说明：框架的功能插件是 Python 代码，由微内核加载；学科包是数据，由注册表读取。两者共用界面与建库流程，但学科包不能带可执行代码，也不包含 SCSA 原卷或衍生题库。新增学科若能复用已有卷型和处理器，制作包即可；新的评分格式或验算能力仍需扩展框架。现在学科包以文件形式下载、本地导入，应用内还没有在线包商店。目录可以标记题型：现行未考、已删除的历史内容（AI 组卷不抽）、无诊断意义的记录（如取消题，也不计入掌握度）。外源卷库继续独立存放，不混入 SCSA 真题统计。
 
 ## Copyright — the exams are not in this repo (this part is not a joke)
 
@@ -85,7 +103,7 @@ On a Mac, step 1 is the .dmg above (drag to Applications, right-click → Open t
 
 1. Download **[WTF-Setup.exe](https://github.com/LxCenady/Wace_Training_Framework/releases/latest/download/WTF-Setup.exe)** (always the newest version) and double-click it. It installs for you only (no administrator rights, default `%LOCALAPPDATA%\Programs\WTF`), adds desktop and Start-menu shortcuts and starts the app. Running a newer setup over an old install upgrades it and keeps your papers, AI questions and mistakes, because deleting a student's 错题本 is how wars start. (Allergic to installers? `WTF-Windows-vX.Y.Z.zip` is the same app — extract anywhere, a USB stick works.)
    Windows SmartScreen will warn you because the app is not code-signed. Code signing costs money; this README is free. *More info → Run anyway.*
-2. The first run opens the **import wizard**. Tick the subjects you actually take (MAM, MAS, MAA, CHE — the wizard knows which packs are installed, not why you chose them); only their papers are fetched. Then it starts working before you have finished reading this:
+2. The first run opens the **import wizard**. Tick the subjects you actually take (MAM, MAS, MAA, CHE, PHY, ACF — the wizard knows which packs are installed, not why you chose them); only their papers are fetched. Then it starts working before you have finished reading this:
    - ① the 2016–2019 papers download by themselves from the Wayback Machine, three at a time, with an ETA. The Internet Archive is a national treasure running on what appears to be a single hamster; please be patient with the hamster;
    - ② 2020–2025: click 「打开下一批」 to open 6 official links at a time in your browser, press Ctrl+S on each PDF and just click Save — the browser's default, the Downloads folder, is the only place the wizard looks. Then click 「我存好了，检查下载文件夹」. File names do not matter: each paper is recognised from its first page. Name them `asdf (3).pdf` if you must; we have seen worse;
    - ③ the bank is built only when **every required file** is in — then by itself — and the app restarts into the full interface. Sample papers and examination reports are optional and do not block it. There is no half-built bank to wonder about. A banner at the top always says what to do next, in case reading this README did not go well either.
@@ -195,23 +213,26 @@ app\WACE学习系统.bat
 ## English edition
 
 - **App**: 设置 (Settings) → 模型与 API key → 界面语言 / Language → English, then restart (the first-run wizard has the same switch). Pattern names, method notes and AI explanations switch to English too.
-- **Notes**: `MAM/methods_en/`, `MAS/methods_en/`, `MAA/methods_en/`, `CHE/methods_en/` (method notes + review logs, md + pdf) and `cheatsheet/*_CheatSheet_EN.*`.
+- **Notes**: `<S>/methods_en/` for every subject (method notes + review logs, md + pdf) and `cheatsheet/*_CheatSheet_EN.*`.
 - **How it is made**: `tools/translate.py docs <S>` translates one subject's Chinese notes chunk by chunk with the configured model (DeepSeek by default — outsourcing, essentially); choose the subject deliberately, because rebuilding every translation can overwrite hand edits. `tools/translate.py ui` builds `app/i18n/en.json` from the Chinese fragments in the code plus any fragment the running app reported missing. The interface code stays single-language: the `i18n` plugin translates text at the exact moment it reaches Tk, which is either elegant or unhinged depending on who you ask. Glossary: 题型 = pattern, 知识点 = topic, 错题本 = mistake book, 得分点 = mark points, 评分标准 = marking key.
 - `app/tests/smoke_en.py` opens every main view in English and lists any Chinese still on screen (currently none; it was very thorough about this).
 
 ## Layout
 
 ```
-MAM/ MAS/ MAA/ CHE/                       installed subject data
+MAM/ MAS/ MAA/ CHE/ PHY/ ACF/             installed subject data
   pack.json      course profile: topics, sections, layout, timing, weights, built-in handlers and sheets
   sources.tsv    paper URLs + download method + archive capture + hashes + required/optional status
   methods/       NN_Topic_解题思路.md/.pdf   题型 patterns: how to recognise, steps, where the marks are,
                                              examiners'-report warnings, cited past questions; 审校记录 = review log
   methods_en/    English editions
   papers/ topics/ 题库/ questions.json      (built locally, not in git)
-cheatsheet/      MAM / MAS / MAA / CHE cheat sheets (md + pdf, 3 pages each)
-skills/          wace-{mam,mas,maa,che}-questions: question-generation instructions
-                 wtf-subject-pack: authoring and reviewing a subject pack
+cheatsheet/      per-subject cheat sheets (md + pdf)
+skills/          wace-<s>-questions: question-generation instructions, one per subject
+                 wtf-subject-pack: authoring and reviewing a subject pack (the pack flow)
+                 wtf-compiler: the agent side of the WTF Compiler (MCP)
+packs/           downloadable subject packs (.wtfpack)
+docs/            compiler.md (Compiler workflow and protocol), account_api.md
                  (paths resolve live: $WACE_MATHS_ROOT, else the folder above skills/)
 tools/
   subjects.py      validates and reads installed profiles; the shared subject registry
