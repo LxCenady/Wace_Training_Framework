@@ -265,7 +265,8 @@ class Projects:
                 self.validate_output(state,state['outputs'][state['stage']]);self.advance(state)
             else:
                 state['outputs'].pop(state['stage'],None);state.update(state='waiting_agent',issues=[],attempts=0,revision=state['revision']+1,task_id=uuid.uuid4().hex)
-                if state['stage']=='parse':state.pop('chunks',None)
+                # parse chunks that already passed stay: a rejected attempt was never stored, and the agent resubmits an
+                # exam to replace its chunk (parsed_documents tells it which are done)
             state['audit'].append(dict(action='human_'+decision,note=note[:2000]))
             return self.summary(state)
 

@@ -123,6 +123,18 @@ class CompilerTest(unittest.TestCase):
             self.assertNotEqual(result['revision'],task['revision'])
         self.assertFalse(self.c.projects.get(self.pid).get('chunks'))
 
+    def test_retry_keeps_parse_chunks_that_passed(self):
+        self.submit('pair')
+        with self.c.projects.transaction(self.pid) as state:  # an exam already parsed and accepted
+            state['chunks']={'d1':{'questions':[],'content':{},'confidence':1,'issues':[]}}
+        for attempt in (1,2):
+            task=self.c.projects.task(self.pid)
+            self.c.projects.parse_chunk(self.pid,task['task_id'],task['revision'],'d1',dict(questions=[],content={},confidence=1,issues=[]))
+        self.assertEqual(self.c.status(self.pid)['state'],'needs_review')
+        self.c.projects.resolve(self.pid,'retry','Fix the rubric maximum of one question')
+        self.assertEqual(self.c.status(self.pid)['state'],'waiting_agent')
+        self.assertIn('d1',self.c.projects.get(self.pid)['chunks'])
+
     def test_levels_ecf_and_fractional_credit(self):
         proposal=dict(schema_version=2,awards=[dict(award_id='a1',got=0,reason='Student used wrong value',evidence=[0]),
             dict(award_id='a2',got=2,reason='Valid reasoning with earlier wrong value',evidence=[0],ecf=dict(**{'from':['a1']},used_value='7',reason='Carried their 7 forward',evidence=[0]))])
