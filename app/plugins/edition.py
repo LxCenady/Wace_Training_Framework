@@ -6,7 +6,7 @@ WTF Studio ships its own edition.json instead of patching plugins, so it can kee
 """
 import json, os
 
-DEFAULT = {"name": "WACE Maths 学习系统", "short": "WTF", "repo": "LxCenady/Wace_Training_Framework",
+DEFAULT = {"name": "WTF — Worldwide Teachers Friend", "short": "WTF", "repo": "LxCenady/worldwide-teachers-friend",
            "providers": None, "default_provider": None}
 
 

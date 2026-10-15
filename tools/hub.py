@@ -11,7 +11,7 @@ wtf_compiler for recipe packs); the Hub adds nothing a local .wtfpack file does 
 import hashlib, json, os, re, tempfile, urllib.request
 from pathlib import Path
 
-DEFAULT = "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/hub/index.json"
+DEFAULT = "https://raw.githubusercontent.com/LxCenady/worldwide-teachers-friend/main/hub/index.json"
 AGENT = "WTF-Hub (+https://wtf-academy.org)"  # a named client (Cloudflare turns away anonymous scripts)
 MAX_INDEX = 2 * 1024 * 1024
 MAX_PACK = 256 * 1024 * 1024

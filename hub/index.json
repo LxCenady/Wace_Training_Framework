@@ -12,7 +12,7 @@
    "requires_wtf": ">=2.0.4",
    "board": "SCSA",
    "exam": "WACE",
-   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/ACF-2026.10.2.wtfpack",
+   "url": "https://raw.githubusercontent.com/LxCenady/worldwide-teachers-friend/main/packs/ACF-2026.10.2.wtfpack",
    "sha256": "1f22c3d5273a0d23bd6e7e9dec3d436f2f1cadba0732f1265747104d71b0c5b5",
    "size": 4026256,
    "tier": "official"
@@ -28,7 +28,7 @@
    "requires_wtf": ">=2.0.0",
    "board": "SCSA",
    "exam": "WACE",
-   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/CHE-2026.10.2.wtfpack",
+   "url": "https://raw.githubusercontent.com/LxCenady/worldwide-teachers-friend/main/packs/CHE-2026.10.2.wtfpack",
    "sha256": "a8248c1f716e3cdfd5426a9fc44337375eb40b8498359258682f033974b7b68f",
    "size": 5756025,
    "tier": "official"
@@ -44,7 +44,7 @@
    "requires_wtf": ">=2.0.0",
    "board": "SCSA",
    "exam": "WACE",
-   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/MAA-2026.10.2.wtfpack",
+   "url": "https://raw.githubusercontent.com/LxCenady/worldwide-teachers-friend/main/packs/MAA-2026.10.2.wtfpack",
    "sha256": "28033ce628afeb4320cefe44798695c075aecf5c88fc83aba1bf9b269a31fab4",
    "size": 3184151,
    "tier": "official"
@@ -60,7 +60,7 @@
    "requires_wtf": ">=2.0.0",
    "board": "SCSA",
    "exam": "WACE",
-   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/MAM-2026.10.2.wtfpack",
+   "url": "https://raw.githubusercontent.com/LxCenady/worldwide-teachers-friend/main/packs/MAM-2026.10.2.wtfpack",
    "sha256": "c2b4f76e578342da79aa7fe02164c6b1869b143ce0a2037f2d3a574501b9f6fe",
    "size": 4545300,
    "tier": "official"
@@ -76,7 +76,7 @@
    "requires_wtf": ">=2.0.0",
    "board": "SCSA",
    "exam": "WACE",
-   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/MAS-2026.10.2.wtfpack",
+   "url": "https://raw.githubusercontent.com/LxCenady/worldwide-teachers-friend/main/packs/MAS-2026.10.2.wtfpack",
    "sha256": "518a5d6b19574333861bde6ddecb35f10f3cb16d69a204a1385a59362bca027e",
    "size": 4299344,
    "tier": "official"
@@ -92,7 +92,7 @@
    "requires_wtf": ">=2.0.2",
    "board": "SCSA",
    "exam": "WACE",
-   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/PHY-2026.10.2.wtfpack",
+   "url": "https://raw.githubusercontent.com/LxCenady/worldwide-teachers-friend/main/packs/PHY-2026.10.2.wtfpack",
    "sha256": "0f21a7b3c39d744f846a3a96f33928d6201cb43a9098fe63aec5a0a8b828833d",
    "size": 4314379,
    "tier": "official"
@@ -108,7 +108,7 @@
    "requires_wtf": ">=2.1.0",
    "board": "",
    "exam": "",
-   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/CAIE9709-1.0.0.wtfpack",
+   "url": "https://raw.githubusercontent.com/LxCenady/worldwide-teachers-friend/main/packs/CAIE9709-1.0.0.wtfpack",
    "sha256": "26383482e514e2a0739f1c4d74ad3caec858150270480c1227ad2d72cce02254",
    "size": 56139,
    "tier": "experimental"

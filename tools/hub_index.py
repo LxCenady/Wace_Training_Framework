@@ -3,7 +3,7 @@
 Each pack is described by its own manifest (name, version, minimum WTF) plus where it is downloaded, its size and its
 SHA-256 (tools/hub.py entry_for). Newer versions of the same pack replace older ones in the index.
 
-  python tools/hub_index.py packs --base https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs
+  python tools/hub_index.py packs --base https://raw.githubusercontent.com/LxCenady/worldwide-teachers-friend/main/packs
                             [--tier CAIE9709=experimental] [--out hub/index.json]
 """
 import argparse, json, sys

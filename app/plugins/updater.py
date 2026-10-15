@@ -13,7 +13,7 @@ import tkinter as tk
 import plat
 from tkinter import ttk
 
-REPO = "LxCenady/Wace_Training_Framework"
+REPO = "LxCenady/worldwide-teachers-friend"  # renamed from Wace_Training_Framework (GitHub redirects the old name)
 API = f"https://api.github.com/repos/{REPO}/releases/latest"
 FROZEN = getattr(sys, "frozen", False)
 SCRIPT = r"""param($procId, $src, $dst, $log)
