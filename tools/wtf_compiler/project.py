@@ -256,8 +256,11 @@ class Projects:
             state['stage']=STAGES[STAGES.index(state['stage'])+1];state['state']='waiting_agent'
         state['revision']+=1;state['task_id']=uuid.uuid4().hex;state['attempts']=0;state['issues']=[]
 
-    def resolve(self,pid,decision,note):
+    def resolve(self,pid,decision,note,reopen=()):
+        """The local operator's decision. `reopen` (parse retry only): exams whose chunks go back to the agent; the
+        parse is assembled again only when every exam has a chunk, so repairs of several exams are not judged one by one."""
         schema.require(decision in ('accept','retry') and isinstance(note,str) and note.strip(),'Review decision and explanation required')
+        schema.require(not reopen or decision=='retry','Only a retry can reopen exams')
         with self.transaction(pid) as state:
             schema.require(state['state']=='needs_review','Project is not awaiting human review')
             if decision=='accept':
@@ -267,7 +270,10 @@ class Projects:
                 state['outputs'].pop(state['stage'],None);state.update(state='waiting_agent',issues=[],attempts=0,revision=state['revision']+1,task_id=uuid.uuid4().hex)
                 # parse chunks that already passed stay: a rejected attempt was never stored, and the agent resubmits an
                 # exam to replace its chunk (parsed_documents tells it which are done)
-            state['audit'].append(dict(action='human_'+decision,note=note[:2000]))
+                if reopen:
+                    schema.require(state['stage']=='parse' and set(reopen)<=set(state.get('chunks',{})),'Only parsed exams can be reopened')
+                    for exam in reopen:state['chunks'].pop(exam)
+            state['audit'].append(dict(action='human_'+decision,note=note[:2000],**({'reopen':sorted(reopen)} if reopen else {})))
             return self.summary(state)
 
     def resource(self,pid,ref,image=False):

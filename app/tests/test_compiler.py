@@ -134,6 +134,11 @@ class CompilerTest(unittest.TestCase):
         self.c.projects.resolve(self.pid,'retry','Fix the rubric maximum of one question')
         self.assertEqual(self.c.status(self.pid)['state'],'waiting_agent')
         self.assertIn('d1',self.c.projects.get(self.pid)['chunks'])
+        state=self.c.status(self.pid);self.assertEqual(state['state'],'waiting_agent')
+        with self.c.projects.transaction(self.pid) as s:s.update(state='needs_review')
+        self.c.projects.resolve(self.pid,'retry','Repair d1',['d1'])
+        self.assertNotIn('d1',self.c.projects.get(self.pid)['chunks'])
+        with self.assertRaises(ValueError):self.c.projects.resolve(self.pid,'accept','x',['d1'])
 
     def test_levels_ecf_and_fractional_credit(self):
         proposal=dict(schema_version=2,awards=[dict(award_id='a1',got=0,reason='Student used wrong value',evidence=[0]),

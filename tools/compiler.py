@@ -11,7 +11,8 @@ def main():
     parser.add_argument('--root',required=True,help='Independent Compiler data directory')
     parser.add_argument('action',choices=['list','create','status','task','submit','review','bind','import','build','export','mcp'])
     parser.add_argument('--project');parser.add_argument('--file');parser.add_argument('--decision',choices=['accept','retry'])
-    parser.add_argument('--note');args=parser.parse_args();c=Compiler(args.root)
+    parser.add_argument('--note');parser.add_argument('--reopen',default='',help='parse retry: comma-separated exam IDs to send back')
+    args=parser.parse_args();c=Compiler(args.root)
     def payload():
         return json.loads(Path(args.file).read_text(encoding='utf-8') if args.file else sys.stdin.read())
     if args.action=='mcp':
@@ -20,7 +21,7 @@ def main():
     actions={'list':c.projects.list,'create':lambda:c.projects.create(**payload()),
              'status':lambda:c.status(args.project),'task':lambda:c.projects.task(args.project),
              'submit':lambda:c.projects.submit(args.project,**payload()),
-             'review':lambda:c.projects.resolve(args.project,args.decision,args.note),
+             'review':lambda:c.projects.resolve(args.project,args.decision,args.note,[x for x in args.reopen.split(',') if x]),
              'bind':lambda:c.bind(args.project,args.file),'import':lambda:c.library.import_pack(args.file),
              'build':lambda:c.library.build(args.project),'export':lambda:c.export(args.project,args.file)}
     print(json.dumps(actions[args.action](),ensure_ascii=False,indent=2))
