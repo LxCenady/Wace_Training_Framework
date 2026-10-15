@@ -29,7 +29,8 @@ with tempfile.TemporaryDirectory(prefix='wtf-pack-roundtrip-') as temporary:
     import build_all
     build_all.run(['MAM', 'MAS', 'MAA'])
     import subjects
-    with sqlite3.connect(Path(subjects.bank_path(ROOT)).as_uri() + '?mode=ro', uri=True) as old,             sqlite3.connect(subjects.bank_path(data)) as new:
+    old_bank = Path(subjects.bank_path(ROOT)).as_uri() + '?mode=ro'
+    with sqlite3.connect(old_bank, uri=True) as old, sqlite3.connect(subjects.bank_path(data)) as new:
         for subject in ('MAM', 'MAS', 'MAA'):
             for table in ('questions', 'parts', 'part_patterns', 'points', 'patterns'):
                 if table == 'questions':
