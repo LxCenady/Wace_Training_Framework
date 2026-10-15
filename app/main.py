@@ -93,7 +93,7 @@ def main():
     root = find_root()
     write = log_errors(root)
     os.environ["WACE_MATHS_ROOT"] = root  # tools/*.py read it at import time
-    sys.path.insert(0, os.path.join(HERE, "tools") if FROZEN else os.path.join(root, "tools"))
+    sys.path.insert(0, os.path.join(HERE, "tools") if FROZEN else os.path.join(os.path.dirname(HERE), "tools"))  # the code beside this file, whatever the data root
     if "--selftest" in sys.argv[1:]:
         return selftest(root)
     if any(a in ("--import", "--build") for a in sys.argv[1:]):
