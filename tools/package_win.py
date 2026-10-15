@@ -7,12 +7,18 @@ Layout of the zip (the folder next to WTF.exe is the data root):
   WTF/<S>/pack.json + sources.tsv, tools/*.txt, MAM/ MAS/ MAA/ methods, skills/, cheatsheet/, README.md, LICENSE
 SCSA papers are NOT included; the first-run wizard fetches/imports them and builds the question bank.
 """
-import glob, os, shutil, subprocess, sys, zipfile
+import glob, json, os, shutil, subprocess, sys, zipfile
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP, TOOLS = os.path.join(ROOT, "app"), os.path.join(ROOT, "tools")
 EXCLUDE = ["scipy", "numpy", "matplotlib", "pandas", "IPython", "PIL", "pytest", "setuptools"]
 TOOL_MODULES = ["subjects", "scoring", "rubric", "handlers", "pack", "fetch", "paperid", "blueprint", "build_all", "segment", "segment_mc", "build_docs", "build_bank", "build_db", "markpoints", "partmarks", "awards", "marktags"]
+# a product built on this core (app/edition.json, e.g. WTF Studio) names the extra tools/ modules its plugins import
+try:
+    with open(os.path.join(APP, "edition.json"), encoding="utf-8") as _f:
+        TOOL_MODULES += json.load(_f).get("tool_modules", [])
+except FileNotFoundError:
+    pass
 
 
 def tracked():

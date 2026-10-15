@@ -123,6 +123,15 @@ def setup(k):
             box.configure(text=name + "（整理中，暂不可选）")
         picks[subj] = var
 
+    # already have the papers (another computer, a USB stick, a colleague): one step, any folder or any files
+    s_have = ttk.LabelFrame(page, text="我已有资源？一键导入（选一个文件夹，或框选文件；认出的真题复制到建库位置，原文件不动）", padding=10)
+    s_have.pack(fill="x", padx=16, pady=6)
+    b_have_dir = ttk.Button(s_have, text="选择文件夹…", style="Accent.TButton")
+    b_have_dir.pack(side="left")
+    b_have_files = ttk.Button(s_have, text="选择文件…（可框选多个）")
+    b_have_files.pack(side="left", padx=8)
+    ttk.Label(s_have, style="Muted.TLabel", text="包括子文件夹；不认识的文件会跳过并列出原因").pack(side="left", padx=6)
+
     # ① archived years
     s1 = ttk.LabelFrame(page, text="① 2016–2019：自动下载（Wayback Machine 存档）", padding=10)
     s1.pack(fill="x", padx=16, pady=6)
@@ -256,6 +265,33 @@ def setup(k):
         if paths:
             import_paths(paths)
 
+    def have_folder():
+        """Every PDF in a folder the user already has, subfolders included."""
+        if state["busy"]:
+            return
+        folder = filedialog.askdirectory(parent=k.get("ui.root"), title="选择存有真题 PDF 的文件夹")
+        if folder:
+            import_folder(folder)
+
+    def import_folder(folder):
+        paths = [os.path.join(base, n) for base, _, names in os.walk(folder) for n in sorted(names) if n.lower().endswith(".pdf")]
+        if not paths:
+            say(f"「{folder}」里没有 PDF。", "warn")
+            return
+        say(f"在「{folder}」里找到 {len(paths)} 个 PDF，开始识别并导入…", "sub")
+        wrong, skipped = [], []
+        got = fetch.import_files(paths, root, wrong, skipped)
+        skipped = [x for x in skipped if x[1] != "not-listed"] +             ([(f"另有 {sum(1 for x in skipped if x[1] == 'not-listed')} 个 PDF", "not-listed")] if any(x[1] == "not-listed" for x in skipped) else [])
+        imported(got, wrong, skipped, False, "这个文件夹", picked=len(paths))
+
+    def have_files():
+        if state["busy"]:
+            return
+        paths = filedialog.askopenfilenames(parent=k.get("ui.root"), title="选择已有的真题 PDF（可以框选多个）",
+                                            filetypes=[("PDF", "*.pdf *.PDF"), ("全部文件", "*")])
+        if paths:
+            import_paths(paths)
+
     def import_paths(paths):
         wrong, skipped = [], []
         got = fetch.import_files(paths, root, wrong, skipped)
@@ -375,6 +411,8 @@ def setup(k):
     b3.configure(command=build)
     b_check.configure(command=check)
     b_pick.configure(command=pick)
+    b_have_dir.configure(command=have_folder)
+    b_have_files.configure(command=have_files)
     table.bind("<Double-1>", lambda e: table.focus() and webbrowser.open(
         next(s[2] for s in all_sources() if s[0] == table.focus())))
     if managing:
@@ -414,6 +452,7 @@ def setup(k):
     k.provide("setup.folder", lambda folder: (state.update(folder=folder), refresh()))  # tests: a stand-in Downloads
     k.provide("setup.check", check)
     k.provide("setup.import_paths", import_paths)  # tests: what 选择已下载的文件… does after the dialog
+    k.provide("setup.import_folder", import_folder)  # tests: what 我已有资源 → 选择文件夹… does after the dialog
     k.provide("setup.choose", lambda subjects: [picks[s].set(s in subjects) or toggle(s) for s in SUBJECTS
                                                 if s in offered])  # tests
     k.provide("setup.refresh", refresh)

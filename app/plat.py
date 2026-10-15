@@ -3,7 +3,7 @@
 Fonts (Tk and PDF), where a packaged app keeps its data, opening a file, the right mouse button and the
 shortcut modifier. Plugins call these instead of testing the platform themselves.
 """
-import os, shutil, subprocess, sys
+import os, re, shutil, subprocess, sys
 
 MAC = sys.platform == "darwin"
 WINDOWS = os.name == "nt"
@@ -93,12 +93,78 @@ def shortcut(root, key, handler):
     root.bind_all(f"<Control-{key}>", handler)
     if MAC:
         root.bind_all(f"<Command-{key}>", handler)
-def pick_files(kind='pdf',save=False):
-    """Compiler's explicit user file selection; does not read any file itself."""
+
+
+_ILLEGAL = re.compile(r'[<>:"/\|?*\x00-\x1f]')
+_RESERVED = re.compile(r"^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(\..*)?$", re.I)
+
+
+def safe_filename(name, limit=150):
+    """A file name every system accepts: illegal characters become "_", no trailing dot or space, no reserved
+    Windows device name, at most `limit` characters (Chinese names are kept)."""
+    name = _ILLEGAL.sub("_", str(name)).strip().rstrip(". ") or "_"
+    if _RESERVED.match(name):
+        name = "_" + name
+    return name[:limit].rstrip(". ") or "_"
+
+
+def same_file(a, b):
+    """Two paths naming the same file (case-insensitive on Windows and macOS)."""
+    return os.path.normcase(os.path.abspath(a)) == os.path.normcase(os.path.abspath(b))
+
+
+def inside(path, folder):
+    """`path` is `folder` or lies inside it (after resolving "..", case as the system compares names)."""
+    p, f = os.path.normcase(os.path.realpath(path)), os.path.normcase(os.path.realpath(folder))
+    return p == f or p.startswith(f.rstrip(os.sep) + os.sep)
+
+
+def _webview():
+    """The desktop web window (WTF Studio), or None in a Tk app or a browser preview."""
+    try:
+        import webview
+    except ImportError:
+        return None
+    return webview if webview.windows else None
+
+
+def _tk_dialog(ask):
+    """Run a Tk file dialog: on the app's own Tk window when there is one (WTF), else on a hidden one (preview)."""
+    import tkinter as tk
+    if tk._default_root is not None:
+        return ask(tk._default_root)
+    root = tk.Tk()
+    root.withdraw()
+    root.attributes("-topmost", True)
+    try:
+        return ask(root)
+    finally:
+        root.destroy()
+
+
+def pick_folder(title="Choose a folder"):
+    """A native folder dialog -> path or None."""
+    wv = _webview()
+    if wv:
+        got = wv.windows[0].create_file_dialog(wv.FOLDER_DIALOG)
+        return (got[0] if isinstance(got, (list, tuple)) else got) if got else None
     from tkinter import filedialog
-    extension='.wtfpack' if kind=='pack' else '.pdf'
-    types=[('WTF recipe' if kind=='pack' else 'PDF','*'+extension)]
+    return _tk_dialog(lambda root: filedialog.askdirectory(parent=root, title=title)) or None
+
+
+def pick_files(kind="pdf", save=False):
+    """Compiler's explicit user file selection (PDFs or a .wtfpack); does not read any file itself -> [paths]."""
+    extension = ".wtfpack" if kind == "pack" else ".pdf"
+    label = "WTF recipe" if kind == "pack" else "PDF"
+    wv = _webview()
+    if wv:
+        got = wv.windows[0].create_file_dialog(wv.SAVE_DIALOG if save else wv.OPEN_DIALOG, allow_multiple=not save,
+                                               file_types=(f"{label} (*{extension})",))
+        return list(got) if isinstance(got, (list, tuple)) else [got] if got else []
+    from tkinter import filedialog
+    types = [(label, "*" + extension)]
     if save:
-        path=filedialog.asksaveasfilename(title='WTF Compiler',defaultextension=extension,filetypes=types)
+        path = _tk_dialog(lambda root: filedialog.asksaveasfilename(parent=root, title="WTF Compiler",
+                                                                     defaultextension=extension, filetypes=types))
         return [path] if path else []
-    return list(filedialog.askopenfilenames(title='WTF Compiler',filetypes=types))
+    return list(_tk_dialog(lambda root: filedialog.askopenfilenames(parent=root, title="WTF Compiler", filetypes=types)))
