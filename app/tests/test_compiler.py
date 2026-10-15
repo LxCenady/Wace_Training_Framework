@@ -81,6 +81,18 @@ class CompilerTest(unittest.TestCase):
         self.assertEqual(third['state'],'ready')
         self.assertEqual(recipe['sources'],snap['sources'])
 
+    def test_install_from_originals_without_an_agent(self):
+        self.ready();self.c.library.build(self.pid);path=self.c.export(self.pid)
+        fresh=Compiler(self.root/'fresh'/'compiler')  # another computer: no transcription cached
+        result=fresh.install(path,self.root)  # the folder holding the original PDFs, names irrelevant
+        self.assertEqual((result['state'],result['missing']),('ready',[]))
+        self.assertEqual(result['built']['bank'],dict(subject='ESSAYCOURSE',questions=1,parts=1))
+        content=fresh.library.load(result['built']['pack_id'])[1]['essay-A']
+        self.assertIn('exam synthetic',content['stem'])  # read from the original's text layer
+        self.assertEqual(content['criteria'],{'a1':'a1 (1 mark)','a2':'a2 (3 marks)'})
+        missing=Compiler(self.root/'other'/'compiler').install(path,self.root/'nowhere')
+        self.assertEqual((missing['built'],len(missing['missing'])),(None,3))
+
     def test_built_pack_is_a_subject_of_the_bank(self):
         import build_db, subjects
         from plugins.store import Store

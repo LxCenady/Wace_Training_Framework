@@ -20,6 +20,49 @@ class Compiler:
                        'PDF does not match any project source hash')
         return self.status(pid)
 
+    def bind_folder(self,pid,folder):
+        """Every PDF under `folder` (sub-folders too) whose SHA-256 is one of the project's unbound originals is bound;
+        file names do not matter. -> status."""
+        import hashlib
+        state=self.projects.get(pid)
+        need={d['sha256'] for d in state['sources'] if not self.projects.assets.bound(d)}
+        for path in sorted(Path(folder).rglob('*')):
+            if not need:break
+            if path.is_file() and path.suffix.lower()=='.pdf' and path.stat().st_size<=128*1024*1024:
+                with path.open('rb') as stream:sha=hashlib.file_digest(stream,'sha256').hexdigest()
+                if sha in need:
+                    self.projects.assets.register(path);need.discard(sha)
+        return self.status(pid)
+
+    def local_content(self,pid):
+        """Private content read from the bound originals themselves, without an agent: each question's text and its
+        key's text from their text layers; criteria named by their award ID and marks (the key image shows them).
+        Search and examples then work as for papers built from their PDFs; an agent may transcribe better later."""
+        import rubric
+        state=self.projects.get(pid);recipe=state['recipe'];sources={d['id']:d for d in recipe['sources']}
+        text=lambda refs:' '.join(self.projects.assets.extract(sources[r['document']],r) for r in refs).strip()  # noqa: E731
+        content={}
+        for q in recipe['questions']:
+            awards={i:n for p in q['parts'] for i,n in rubric.validate(p['rubric'])[0].items() if n['kind']=='award'}
+            content[q['id']]=dict(stem=text(q['source']) or '(see the question image)',
+                solution=text(q.get('key_source',[])) or '(see the marking key image)',
+                criteria={i:f"{i} ({n.get('max_marks',1)} mark{'s' if n.get('max_marks',1)!=1 else ''})" for i,n in awards.items()})
+        return content
+
+    def install(self,path,folder=None):
+        """A recipe pack as a subject, the way a pack built from papers is installed: import it, bind its originals
+        from `folder`, fill the private content from those originals when no transcription is cached, build, and
+        project it into the question bank. -> {project, state, missing (unbound document IDs), built}."""
+        pid=self.library.import_pack(path)['id']
+        if folder:self.bind_folder(pid,folder)
+        status=self.status(pid);missing=[d for d,ok in status['bindings'].items() if not ok]
+        if status['state']=='waiting_agent' and status['stage']=='hydrate' and not missing:
+            task=self.projects.task(pid)
+            self.projects.submit(pid,task['task_id'],task['revision'],dict(content=self.local_content(pid),confidence=1,issues=[]))
+            status=self.status(pid)
+        built=self.library.build(pid) if status['state']=='ready' else None
+        return dict(project=pid,state=status['state'],missing=missing,built=built)
+
     def download(self,pid,document):
         from .download import bind
         state=self.projects.get(pid);doc=next((d for d in state['sources'] if d['id']==document),None)

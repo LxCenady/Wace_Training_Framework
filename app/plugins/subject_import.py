@@ -13,9 +13,16 @@ def setup(k):
             version = Path(__file__).resolve().parents[1] / 'version.txt'
             app_version = version.read_text(encoding='utf-8').strip() if version.exists() else '1.8.0'
             profile, _ = pack.inspect(file, app_version)
-            if profile.get('wtf_pack')==2:
-                k.get('compiler.calls')['compiler_import'](file)
-                k.get('compiler.open')()
+            if profile.get('wtf_pack')==2:  # a recipe pack: installed from the originals the user points at
+                import plat
+                folder = plat.pick_folder('选择这门课原卷 PDF 所在的文件夹')
+                result = k.get('compiler.calls')['compiler_install'](file, folder)
+                built = result.get('built') or {}
+                if built.get('subject') and not built.get('error'):
+                    messagebox.showinfo('学科包已安装', f"{built['subject']} 已安装：{built['questions']} 道题。重启 WTF 后出现在知识树。")
+                else:
+                    messagebox.showwarning('还缺原卷', f"那个文件夹里没有找到 {len(result.get('missing', []))} 份原卷：请在 WTF Compiler 里绑定。")
+                    k.get('compiler.open')()
                 return
             subject = profile['subject']
             current = Path(k.root) / subject / 'pack.json'
