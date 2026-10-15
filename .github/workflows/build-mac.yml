@@ -36,7 +36,8 @@ jobs:
           cat "$LOG"
           grep -q "ok    LaTeX" "$LOG" && grep -q "ok    figure" "$LOG" && grep -q "ok    SymPy" "$LOG" && grep -q "ok    HTTPS" "$LOG"
           grep -q "ok    Compiler" "$LOG"
-          test -f "$HOME/Library/Application Support/WTF/MAM/sources.tsv" && test -f "$HOME/Library/Application Support/WTF/MAM/pack.json"
+          # WTF ships no subject (every course is a pack from WTF Hub): its own files are there, no subject pack is
+          test -f "$HOME/Library/Application Support/WTF/skills/wtf-compiler/SKILL.md" && test ! -e "$HOME/Library/Application Support/WTF/MAM"
       - uses: actions/upload-artifact@v4
         with:
           name: WTF-macOS-${{ matrix.os }}

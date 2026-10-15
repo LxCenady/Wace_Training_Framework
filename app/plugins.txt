@@ -41,4 +41,6 @@ ui_settings     # provider / base_url / model / API key dialog
 ui_account      # 设置 → 账号…
 subject_import
 compiler
+hub_install     # WTF Hub: list the packs, download, verify and install one (tools/hub.py)
+ui_hub          # 管理科目 → WTF Hub 学科包…: the Hub window
 ui_compiler

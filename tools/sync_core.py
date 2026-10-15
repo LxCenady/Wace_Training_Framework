@@ -16,7 +16,7 @@ CORE = ["app/kernel.py", "app/main.py", "app/plat.py", "app/i18n/en.json", "app/
         "tools/*.py", "tools/wtf_compiler/*.py", "app/plugins/*.py",
         "app/tests/__init__.py", "app/tests/safe_runtime.py", "app/tests/test_*.py", "app/tests/smoke_setup.py",
         "app/tests/smoke_compiler.py", "docs/compiler.md", "skills/wtf-compiler/SKILL.md"]
-TK_SHARED = {"ui_shell", "ui_subjects", "ui_setup", "ui_compiler"}  # the Tk wizard and Compiler window Studio opens
+TK_SHARED = {"ui_shell", "ui_subjects", "ui_setup", "ui_compiler", "ui_hub"}  # the Tk wizard, Compiler and Hub windows Studio opens
 NOT_CORE = ["app/plugins/ui_*.py", "app/tests/smoke_gui.py", "app/tests/smoke_en.py", "app/tests/smoke_che.py",
             "app/tests/smoke_external.py", "tools/sync_core.py", "tools/sync_compiler.py"]
 

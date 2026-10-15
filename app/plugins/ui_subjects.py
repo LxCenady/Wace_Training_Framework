@@ -18,6 +18,7 @@ def setup(k):
         menu.add_separator()
         group = tk.Menu(menu, tearoff=False)
         group.add_command(label="选择科目（添加或移除）…", command=manage)
+        group.add_command(label="WTF Hub 学科包…", command=lambda: k.get('hub.open')())
         group.add_command(label="导入学科包…", command=lambda: k.get('subjects.import')())
         menu.add_cascade(label="管理科目", menu=group)
     k.provide("subjects.manage", manage)

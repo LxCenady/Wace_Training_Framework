@@ -102,6 +102,7 @@ def setup(k):
     head = ttk.Frame(page)
     head.pack(fill="x", padx=16, pady=(14, 4))
     ttk.Button(head, text='导入学科包…', command=lambda: k.get('subjects.import')()).pack(side='right')
+    ttk.Button(head, text='WTF Hub：选择学科…', command=lambda: k.get('hub.open')()).pack(side='right', padx=6)
     count = ttk.Label(head, style="H.TLabel")
     count.pack(side="left")
     bar = ttk.Progressbar(head, length=320, maximum=1)  # set in refresh(): the chosen subjects
@@ -114,6 +115,10 @@ def setup(k):
     s0 = ttk.LabelFrame(page, text="选择科目（只下载你选的科目；之后可以在「题库 → 管理科目」随时增减）", padding=10)
     s0.pack(fill="x", padx=16, pady=6)
     picks = {}
+    if not SUBJECTS:  # WTF ships no subject: every course is a pack from WTF Hub (or a local .wtfpack)
+        ttk.Label(s0, text="还没有安装学科。打开 WTF Hub 选择你要学的科目，装好后在这里提供原卷并建库。").pack(side="left")
+        ttk.Button(s0, text="WTF Hub：选择学科…", style="Accent.TButton",
+                   command=lambda: k.get('hub.open')()).pack(side="left", padx=12)
     for subj, name in SUBJECTS.items():
         var = tk.BooleanVar(value=subj in chosen)
         box = ttk.Checkbutton(s0, text=name, variable=var, command=lambda s=subj: toggle(s))

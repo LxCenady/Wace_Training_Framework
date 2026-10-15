@@ -1,0 +1,117 @@
+{
+ "hub": 1,
+ "packs": [
+  {
+   "id": "ACF",
+   "kind": "data",
+   "name": {
+    "zh": "Accounting and Finance 会计与金融",
+    "en": "Accounting and Finance ATAR"
+   },
+   "version": "2026.10.2",
+   "requires_wtf": ">=2.0.4",
+   "board": "SCSA",
+   "exam": "WACE",
+   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/ACF-2026.10.2.wtfpack",
+   "sha256": "1f22c3d5273a0d23bd6e7e9dec3d436f2f1cadba0732f1265747104d71b0c5b5",
+   "size": 4026256,
+   "tier": "official"
+  },
+  {
+   "id": "CHE",
+   "kind": "data",
+   "name": {
+    "zh": "Chemistry 化学",
+    "en": "Chemistry ATAR"
+   },
+   "version": "2026.10.2",
+   "requires_wtf": ">=2.0.0",
+   "board": "SCSA",
+   "exam": "WACE",
+   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/CHE-2026.10.2.wtfpack",
+   "sha256": "a8248c1f716e3cdfd5426a9fc44337375eb40b8498359258682f033974b7b68f",
+   "size": 5756025,
+   "tier": "official"
+  },
+  {
+   "id": "MAA",
+   "kind": "data",
+   "name": {
+    "zh": "Mathematics Applications 数学应用",
+    "en": "Mathematics Applications ATAR"
+   },
+   "version": "2026.10.2",
+   "requires_wtf": ">=2.0.0",
+   "board": "SCSA",
+   "exam": "WACE",
+   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/MAA-2026.10.2.wtfpack",
+   "sha256": "28033ce628afeb4320cefe44798695c075aecf5c88fc83aba1bf9b269a31fab4",
+   "size": 3184151,
+   "tier": "official"
+  },
+  {
+   "id": "MAM",
+   "kind": "data",
+   "name": {
+    "zh": "Mathematics Methods 数学方法",
+    "en": "Mathematics Methods ATAR"
+   },
+   "version": "2026.10.2",
+   "requires_wtf": ">=2.0.0",
+   "board": "SCSA",
+   "exam": "WACE",
+   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/MAM-2026.10.2.wtfpack",
+   "sha256": "c2b4f76e578342da79aa7fe02164c6b1869b143ce0a2037f2d3a574501b9f6fe",
+   "size": 4545300,
+   "tier": "official"
+  },
+  {
+   "id": "MAS",
+   "kind": "data",
+   "name": {
+    "zh": "Mathematics Specialist 专业数学",
+    "en": "Mathematics Specialist ATAR"
+   },
+   "version": "2026.10.2",
+   "requires_wtf": ">=2.0.0",
+   "board": "SCSA",
+   "exam": "WACE",
+   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/MAS-2026.10.2.wtfpack",
+   "sha256": "518a5d6b19574333861bde6ddecb35f10f3cb16d69a204a1385a59362bca027e",
+   "size": 4299344,
+   "tier": "official"
+  },
+  {
+   "id": "PHY",
+   "kind": "data",
+   "name": {
+    "zh": "Physics 物理",
+    "en": "Physics ATAR"
+   },
+   "version": "2026.10.2",
+   "requires_wtf": ">=2.0.2",
+   "board": "SCSA",
+   "exam": "WACE",
+   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/PHY-2026.10.2.wtfpack",
+   "sha256": "0f21a7b3c39d744f846a3a96f33928d6201cb43a9098fe63aec5a0a8b828833d",
+   "size": 4314379,
+   "tier": "official"
+  },
+  {
+   "id": "CAIE9709",
+   "kind": "recipe",
+   "name": {
+    "en": "Cambridge International AS & A Level Mathematics (9709)",
+    "zh": "剑桥国际 AS & A Level 数学 (9709)"
+   },
+   "version": "1.0.0",
+   "requires_wtf": ">=2.1.0",
+   "board": "",
+   "exam": "",
+   "url": "https://raw.githubusercontent.com/LxCenady/Wace_Training_Framework/main/packs/CAIE9709-1.0.0.wtfpack",
+   "sha256": "26383482e514e2a0739f1c4d74ad3caec858150270480c1227ad2d72cce02254",
+   "size": 56139,
+   "tier": "experimental"
+  }
+ ]
+}

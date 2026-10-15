@@ -12,7 +12,7 @@ import glob, json, os, shutil, subprocess, sys, zipfile
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APP, TOOLS = os.path.join(ROOT, "app"), os.path.join(ROOT, "tools")
 EXCLUDE = ["scipy", "numpy", "matplotlib", "pandas", "IPython", "PIL", "pytest", "setuptools"]
-TOOL_MODULES = ["subjects", "scoring", "rubric", "handlers", "pack", "fetch", "paperid", "blueprint", "build_all", "segment", "segment_mc", "build_docs", "build_bank", "build_db", "markpoints", "partmarks", "awards", "marktags"]
+TOOL_MODULES = ["subjects", "scoring", "rubric", "handlers", "pack", "hub", "fetch", "paperid", "blueprint", "build_all", "segment", "segment_mc", "build_docs", "build_bank", "build_db", "markpoints", "partmarks", "awards", "marktags"]
 # a product built on this core (app/edition.json, e.g. WTF Studio) names the extra tools/ modules its plugins import
 try:
     with open(os.path.join(APP, "edition.json"), encoding="utf-8") as _f:
@@ -28,10 +28,26 @@ def tracked():
     return [f for f in out.stdout.split("\0") if f]
 
 
+def subject_data(f, packs):
+    """A file that belongs to a subject pack: WTF ships no subject; every course comes from WTF Hub."""
+    first, name = f.split("/", 1)[0], os.path.basename(f)
+    if first in packs or first in ("cheatsheet", "packs", "hub"):
+        return True
+    if f.startswith("skills/wace-") and f.split("/")[1][5:-10].upper() in packs:  # skills/wace-<s>-questions/
+        return True
+    stem = os.path.splitext(name)[0]
+    return f.startswith("tools/") and any(stem == f"{kind}_{s}" for s in packs
+                                          for kind in ("tags", "parttags", "catalogue", "marktags", "splits"))
+
+
 def data_files():
-    """Everything the running app reads from the data root (no code: that lives inside the exe)."""
+    """Everything the running app reads from the data root (no code: that lives inside the exe), and no subject."""
     keep = []
-    for f in tracked():
+    tracked_files = tracked()
+    packs = {f.split("/", 1)[0] for f in tracked_files if f.count("/") == 1 and f.endswith("/pack.json")}
+    for f in tracked_files:
+        if subject_data(f, packs):
+            continue
         tool_data = f.endswith('.txt') or (f.endswith('.json') and os.path.basename(f).startswith(('catalogue_', 'marktags_', 'splits_')))
         if f.startswith("app/") or (f.startswith("tools/") and not tool_data) or f.startswith("."):
             continue

@@ -6,5 +6,7 @@ ui_shell
 ui_subjects
 subject_import
 compiler
+hub_install     # WTF Hub: list the packs, download, verify and install one (tools/hub.py)
+ui_hub          # 管理科目 → WTF Hub 学科包…: the Hub window
 ui_compiler
 ui_setup        # import the SCSA papers, build the question bank, restart into the full app
