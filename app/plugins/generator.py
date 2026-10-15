@@ -275,7 +275,8 @@ class Pipeline:
             raise Failed(f"verification failed (parts {bad or '—'}): {v.get('feedback', '')}")
 
         # 3b SYMBOLIC CHECK — SymPy recomputes each numeric part; a disagreement sends the question back
-        checks = self.symbolic(parts, solved) if subjects.info(subj)['checker'] == 'sympy' else {}
+        profile = subjects.info(subj)
+        checks = self.symbolic(parts, solved, profile.get('checker_tolerance', 5e-3)) if profile['checker'] == 'sympy' else {}
 
         # 4 MARKS — split the verified solution into one-mark behaviours
         total = sum(p["marks"] for p in parts)
@@ -325,7 +326,7 @@ class Pipeline:
         except Exception as e:
             return [f"{type(e).__name__}: {str(e)[:100]}"]
 
-    def symbolic(self, parts, solved):
+    def symbolic(self, parts, solved, rel=5e-3):
         check = self.k.get("symcheck", None)
         if not check:
             return {}
@@ -337,7 +338,7 @@ class Pipeline:
             if expr and claims:
                 pairs.append((p["label"], str(expr), claims))
         self.log("progress", f"SYMPY 验算 {len(pairs)} 个小问 …")
-        result = check(pairs)
+        result = check(pairs, rel=rel)
         bad = {l: d for l, (status, d) in result.items() if status == "mismatch"}
         if bad:
             raise Failed("symbolic check failed: " + "; ".join(f"({l}) {d}" for l, d in bad.items()))

@@ -1,7 +1,7 @@
 {
   "wtf_pack": 1,
   "subject": "ACF",
-  "version": "2026.10.1",
+  "version": "2026.10.2",
   "order": 5,
   "name": {"zh": "Accounting and Finance 会计与金融", "en": "Accounting and Finance ATAR"},
   "course": "Accounting and Finance ATAR (Units 3–4; 2020–2025 past questions mapped to the 2026–2027 syllabus)",
@@ -35,7 +35,7 @@
   "key_style": "description-marks",
   "key_band_continuation": true,
   "nested_part_totals": true,
-  "checker": "none",
+  "checker": "sympy", "checker_tolerance": 0,
   "sketch_mode": "words",
   "sketch_words": ["draw", "sketch", "on the axes", "plot", "graph"],
   "sheets": ["InformationBooklet", "SpecificationBooklet"],

@@ -10,6 +10,9 @@ def validate(profile):
     for field, available in (('key_style', KEY_PARSERS), ('checker', CHECKERS)):
         if not isinstance(profile.get(field), str) or profile[field] not in available:
             raise ValueError(f'Unsupported {field}: {profile.get(field)}')
+    tolerance = profile.get('checker_tolerance', 5e-3)  # relative; 0 = only correctly rounded answers (money)
+    if type(tolerance) not in (int, float) or not 0 <= tolerance <= 0.05:
+        raise ValueError('checker_tolerance must be a number from 0 to 0.05')
     if not isinstance(profile.get('key_band_continuation', False), bool):
         raise ValueError('key_band_continuation must be boolean')
     if profile.get('key_band_continuation') and profile.get('key_style') != 'description-marks':

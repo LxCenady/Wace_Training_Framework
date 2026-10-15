@@ -7,7 +7,7 @@ of node types and names — numbers, arithmetic, calls to known maths functions,
 no attributes, imports, dunders, lambdas or comprehensions — and (2) evaluated in a separate process with a
 time limit. Parts that cannot be evaluated are reported as unchecked, never as wrong.
 """
-import ast, json, os, random, subprocess, sys
+import ast, json, os, random, re, subprocess, sys
 
 ALLOWED_NODES = (ast.Expression, ast.BinOp, ast.UnaryOp, ast.Call, ast.Name, ast.Load, ast.Constant, ast.List,
                  ast.Tuple, ast.keyword, ast.Compare, ast.Subscript, ast.Slice,
@@ -68,8 +68,9 @@ def numbers(value, subs):
     return [complex(sympy.N(v, 15))]
 
 
-def evaluate(pairs):
-    """Worker-process entry: [(label, expr, [claims…])] -> {label: (status, detail)}."""
+def evaluate(pairs, rel=5e-3):
+    """Worker-process entry: [(label, expr, [claims…])] -> {label: (status, detail)}. `rel`: the relative tolerance
+    the subject allows (pack.json checker_tolerance; 0 = only a correctly rounded claim, as money is)."""
     out = {}
     for label, expr, claims in pairs:
         try:
@@ -80,9 +81,10 @@ def evaluate(pairs):
                 out[label] = ("skip", "expression gave no value")
                 continue
             for who, claim in claims:
+                claim = money(claim)
                 ctree = safe(claim)
                 want = numbers(eval(compile(ctree, "<claim>", "eval"), namespace(ctree)), subs)
-                miss = [w for w in want if not any(close(w, g) for g in got)]
+                miss = [w for w in want if not any(close(w, g, rel) or rounds_to(claim, w, g) for g in got)]
                 if miss:
                     out[label] = ("mismatch", f"SymPy gives {fmt(got)} but the {who} says {fmt(want)}")
                     break
@@ -97,17 +99,38 @@ def close(a, b, rel=5e-3, absolute=1e-6):
     return abs(a - b) <= max(absolute, rel * max(abs(a), abs(b)))
 
 
+DECIMAL = re.compile(r"-?\d+(?:\.(\d+))?")
+
+
+MONEY = re.compile(r"\$?\s?(-?\d{1,3}(?:,\d{3})+|-?\d+)(\.\d+)?")
+
+
+def money(claim):
+    """'$1,250' / '1,250.50' -> '1250' / '1250.50' (accounting answers); anything else unchanged."""
+    m = MONEY.fullmatch(str(claim).strip())
+    return m.group(1).replace(",", "") + (m.group(2) or "") if m else claim
+
+
+def rounds_to(claim, want, got):
+    """A claim written as a plain decimal is right when the computed value rounds to it at its own decimal places
+    (physics and chemistry state 2-3 significant figures: 3.16 is correctly given as 3.2)."""
+    m = DECIMAL.fullmatch(str(claim).strip())
+    places = len(m.group(1) or "") if m else 0
+    return bool(m) and abs(got.imag) < 1e-9 and round(got.real, places) == round(want.real, places)
+
+
 def fmt(vals):
     return ", ".join(f"{v.real:.6g}" if abs(v.imag) < 1e-9 else f"{v.real:.4g}{v.imag:+.4g}i" for v in vals[:6])
 
 
 def worker():
     """`WTF --symcheck` / `python main.py --symcheck`: JSON pairs on stdin -> JSON results on stdout."""
-    pairs = json.load(sys.stdin)
-    json.dump(evaluate([(l, e, [tuple(c) for c in cs]) for l, e, cs in pairs]), sys.stdout)
+    data = json.load(sys.stdin)
+    pairs, rel = (data["pairs"], data["rel"]) if isinstance(data, dict) else (data, 5e-3)
+    json.dump(evaluate([(l, e, [tuple(c) for c in cs]) for l, e, cs in pairs], rel), sys.stdout)
 
 
-def check(pairs, timeout=40):
+def check(pairs, timeout=40, rel=5e-3):
     """Evaluate in a child process of this same program; anything not finished in time is reported as unchecked."""
     if not pairs:
         return {}
@@ -115,7 +138,7 @@ def check(pairs, timeout=40):
     main = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "main.py")
     cmd = [sys.executable] + ([] if frozen else [main]) + ["--symcheck"]
     try:
-        out = subprocess.run(cmd, input=json.dumps(pairs), capture_output=True, text=True, encoding="utf-8",
+        out = subprocess.run(cmd, input=json.dumps({"pairs": pairs, "rel": rel}), capture_output=True, text=True, encoding="utf-8",
                              timeout=timeout, creationflags=getattr(subprocess, "CREATE_NO_WINDOW", 0))
         return {label: tuple(v) for label, v in json.loads(out.stdout).items()}
     except subprocess.TimeoutExpired:
